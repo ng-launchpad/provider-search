@@ -1,0 +1,15 @@
+watch:
+  directories:
+    - app
+    - config
+    - database
+    - routes
+    - tests
+  fileMask: '*.php'
+notifications:
+  passingTests: false
+  failingTests: false
+phpunit:
+  binaryPath: vendor/bin/phpunit
+  arguments: '--stop-on-failure'
+  timeout: 180
