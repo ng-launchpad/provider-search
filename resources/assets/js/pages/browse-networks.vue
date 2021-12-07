@@ -8,7 +8,7 @@
                         to="/provider-search/"
                         class="page-header__back-link"
                     >
-                        <img src="../../images/arrow-left.svg" alt="" class="page-header__back-icon">
+                        <img src="../../img/arrow-left.svg" alt="" class="page-header__back-icon">
                         <span>Back to doctor and provider search</span>
                     </router-link>
                 </div>
@@ -38,19 +38,19 @@
                                     <li>
                                         <a href="https://www.mynatgen.com/CignaPPO" target="_blank" class="text--network-link">
                                             <span>Cigna® PPO network</span>
-                                            <img src="../../images/link.svg" alt="">
+                                            <img src="../../img/link.svg" alt="">
                                         </a>
                                     </li>
                                     <li>
                                         <a href="https://www.goperspecta.com/PDN/nhic/public/ProviderSearch/Main" target="_blank" class="text--network-link">
                                             <span>Aetna® Open Choice PPO network</span>
-                                            <img src="../../images/link.svg" alt="">
+                                            <img src="../../img/link.svg" alt="">
                                         </a>
                                     </li>
                                     <li>
                                         <a href="https://MyNatGen.com/CignaLocalPlus" target="_blank" class="text--network-link">
                                             <span>Arizona only - Local Plus</span>
-                                            <img src="../../images/link.svg" alt="">
+                                            <img src="../../img/link.svg" alt="">
                                         </a>
                                     </li>
                                     <!-- <li>
@@ -68,7 +68,7 @@
                                     <li>
                                         <a href="https://www1.careington.com/(S(q02cnphkhkrmixll0wgzlfyb))/NGAHDSavings/search.aspx" target="_blank" class="text--network-link">
                                             <span>Careington network</span>
-                                            <img src="../../images/link.svg" alt="">
+                                            <img src="../../img/link.svg" alt="">
                                         </a>
                                     </li>
                                 </ul>
@@ -83,7 +83,7 @@
                                     <li>
                                         <a href="https://www.firsthealthlbp.com/LocateProvider/SelectNetworkType" target="_blank" class="text--network-link">
                                             <span>First Health® network</span>
-                                            <img src="../../images/link.svg" alt="">
+                                            <img src="../../img/link.svg" alt="">
                                         </a>
                                     </li>
                                 </ul>
@@ -96,7 +96,7 @@
                                     <li>
                                         <a href="https://www1.careington.com/(S(gu0qyt0zebqec31z3mb1qei1))/NGAHDSavings/search.aspx" target="_blank" class="text--network-link">
                                             <span>Careington network (indemnity)</span>
-                                            <img src="../../images/link.svg" alt="">
+                                            <img src="../../img/link.svg" alt="">
                                         </a>
                                     </li>
                                 </ul>
@@ -111,7 +111,7 @@
                                     <li>
                                         <a href="https://www.goperspecta.com/VPD/ngicdental/public/ProviderSearch/Main" target="_blank" class="text--network-link">
                                             <span>Aetna® Dental Administrators network</span>
-                                            <img src="../../images/link.svg" alt="">
+                                            <img src="../../img/link.svg" alt="">
                                         </a>
                                     </li>
                                 </ul>
@@ -124,7 +124,7 @@
                                     <li>
                                         <a href="https://www.avesis.com/Commercial3/ProviderSearch_Gen.aspx" target="_blank" class="text--network-link">
                                             <span>Avesis Vision</span>
-                                            <img src="../../images/link.svg" alt="">
+                                            <img src="../../img/link.svg" alt="">
                                         </a>
                                     </li>
                                 </ul>
@@ -139,7 +139,7 @@
                                     <li>
                                         <a href="https://www.goperspecta.com/VPD/ngicdental/public/ProviderSearch/Main" target="_blank" class="text--network-link">
                                             <span>Aetna® Dental Administrators network</span>
-                                            <img src="../../images/link.svg" alt="">
+                                            <img src="../../img/link.svg" alt="">
                                         </a>
                                     </li>
                                 </ul>
@@ -152,7 +152,7 @@
                                     <li>
                                         <a href="https://www.amplifonusa.com/NGIC" target="_blank" class="text--network-link">
                                             <span>Amplifon Hearing Health Care®</span>
-                                            <img src="../../images/link.svg" alt="">
+                                            <img src="../../img/link.svg" alt="">
                                         </a>
                                     </li>
                                 </ul>
@@ -171,13 +171,13 @@
                                     <li>
                                         <a href="#" target="_blank" class="text--network-link">
                                             <span>Allied Benefits System</span>
-                                            <img src="../../images/link.svg" alt="">
+                                            <img src="../../img/link.svg" alt="">
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#" class="text--network-link">
                                             <span>Ascension St. Vincent's Physician Alliance network</span>
-                                            <img src="../../images/link.svg" alt="">
+                                            <img src="../../img/link.svg" alt="">
                                         </a>
                                     </li>
                                 </ul>
@@ -188,7 +188,7 @@
                                     <li>
                                         <a href="#" target="_blank" class="text--network-link">
                                             <span>Meritain Health</span>
-                                            <img src="../../images/link.svg" alt="">
+                                            <img src="../../img/link.svg" alt="">
                                         </a>
                                     </li>
                                 </ul>
@@ -209,7 +209,7 @@
                                     <li>
                                         <a href="https://www.aetna.com/dsepublic/#/contentPage?page=providerSearchLanding&site_id=mymeritain" target="_blank" class="text--network-link">
                                             <span>Aetna® Open Choice PPO network</span>
-                                            <img src="../../images/link.svg" alt="">
+                                            <img src="../../img/link.svg" alt="">
                                         </a>
                                     </li>
                                     <li>
@@ -220,7 +220,7 @@
                                     <li>
                                         <a href="https://natgenhealth.com/Consumer%20Friendly%20Formulary_0119.pdf" target="_blank" class="text--network-link">
                                             <span>Drug Formulary</span>
-                                            <img src="../../images/link.svg" alt="">
+                                            <img src="../../img/link.svg" alt="">
                                         </a>
                                     </li>
                                 </ul>
@@ -230,7 +230,7 @@
                                     <li>
                                         <a href="https://natgenhealth.com/2020%20Nation%20Care%20Std%20RX%20Drug%20Formular1.pdf" target="_blank" class="text--network-link">
                                             <span>Drug Formulary 2020</span>
-                                            <img src="../../images/link.svg" alt="">
+                                            <img src="../../img/link.svg" alt="">
                                         </a>
                                     </li>
                                     <li>

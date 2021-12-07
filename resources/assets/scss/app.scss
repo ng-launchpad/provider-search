@@ -2,9 +2,14 @@
 
 @import 'helpers/helpers';
 
+@import 'fonts/fonts';
+
 @import 'variables/variables';
 
 @import 'utilities/utilities';
 
 @import 'base/typography';
 @import 'base/base';
+
+@import 'components/header';
+@import 'components/hero';

@@ -17,7 +17,7 @@
                         v-bind:to="backLink"
                         class="search-block__back-link"
                     >
-                        <img src="../../images/arrow-left.svg" alt="" class="search-block__back-icon">
+                        <img src="../../img/arrow-left.svg" alt="" class="search-block__back-icon">
                         <span>
                             {{ backLinkText }}
                         </span>
@@ -38,7 +38,7 @@
                 <div class="search-block__form-wrap">
                     <div class="search-block__form-header">
                         <div class="search-block__form-logo">
-                            <img src="../../images/asce_st_vincents_logo.png" alt="">
+                            <img src="../../img/asce_st_vincents_logo.png" alt="">
                         </div>
                         <div class="search-block__form-header-right">
                             <p class="search-block__form-title">
@@ -221,7 +221,7 @@
 </template>
 
 <script>
-import api from '../api/mock/index';
+import api from '../api/mock';
 import chunk from '../utility/chunk';
 import mock from "../api/mock";
 

@@ -22,7 +22,7 @@
                     <div class="col-md-6">
                         <div class="search-offer__item">
                             <div class="search-offer__item-img">
-                                <img src="../../images/already-customer.svg" />
+                                <img src="../../img/already-customer.svg" />
                             </div>
                             <p class="search-offer__item-title heading">
                                 Are you already a customer?
@@ -82,7 +82,7 @@
                                             <span>
                                                 {{ link.label }}
                                             </span>
-                                            <img v-if="link.external" src="../../images/link.svg" alt="">
+                                            <img v-if="link.external" src="../../img/link.svg" alt="">
                                         </a>
                                     </li>
                                 </ul>
@@ -92,7 +92,7 @@
                     <div class="col-md-6 mt-5 mt-md-0">
                         <div class="search-offer__item">
                             <div class="search-offer__item-img">
-                                <img src="../../images/browse-networks.svg" />
+                                <img src="../../img/browse-networks.svg" />
                             </div>
                             <p class="search-offer__item-title heading">
                                 Curious about our networks?

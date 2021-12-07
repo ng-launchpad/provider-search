@@ -1,0 +1,84 @@
+// Variables: Typography
+// =====================
+// Base font size
+$base-font-size: 16px;
+
+$color-text: $black;
+
+// Font families
+$font-family-karma: 'Karma', serif;
+$font-family-roboto: 'Roboto', sans-serif;
+$font-family-lora: 'Lora', serif;
+
+// Default and display(heading) font
+$font-family-default: $font-family-roboto;
+$font-family-display: $font-family-lora;
+$font-family-heading: $font-family-karma;
+
+// Global font sizes
+$font-size-xxl:  48px;
+$font-size-xl:   32px;
+$font-size-lg:   24px;
+$font-size-slg:  22px;
+$font-size-md:   18px;
+$font-size-sm:   16px;
+$font-size-xs:   14px;
+
+// Global font weights
+$font-weights: (
+    light     : 300,
+    regular   : 400,
+    semi-bold : 600,
+    bold      : 700
+);
+
+// Font sizes map to use with modifier mixin
+$font-sizes: (
+    xxl:  $font-size-xxl,
+    xl:   $font-size-xl,
+    lg:   $font-size-lg,
+    slg:  $font-size-slg,
+    md:   $font-size-md,
+    sm:   $font-size-sm,
+    xs:   $font-size-xs,
+);
+
+$headings: (
+    h1: $font-size-xxl,
+    h2: $font-size-xl,
+    h3: $font-size-lg,
+    h4: $font-size-md,
+    h5: $font-size-sm,
+    h6: $font-size-xs
+);
+
+$alignment: (
+    left,
+    center,
+    right
+);
+
+$default-line-height: 1.2;
+
+$typefaces: (
+    heading: (
+        font-family: $font-family-heading,
+        font-weight: map-get($font-weights, semi-bold),
+        line-height: $default-line-height,
+    ),
+    default: (
+        font-family: $font-family-default,
+        font-weight: map-get($font-weights, regular),
+        line-height: $default-line-height,
+    ),
+    default-alt: (
+        font-family: $font-family-default,
+        font-weight: map-get($font-weights, regular),
+        text-transform: uppercase,
+    ),
+    display: (
+        font-family: $font-family-display,
+        font-style: italic,
+        line-height: normal,
+    ),
+);

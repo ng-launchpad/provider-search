@@ -8,7 +8,7 @@
                         v-on:click.prevent="goBack"
                         class="page-header__back-link"
                     >
-                        <img src="../../images/arrow-left.svg" alt="" class="page-header__back-icon">
+                        <img src="../../img/arrow-left.svg" alt="" class="page-header__back-icon">
                         <span>Back to results</span>
                     </a>
                 </div>
@@ -26,19 +26,19 @@
                 <div class="row mb-3 d-lg-flex d-none">
                     <div class="col-lg-6">
                         <div class="provider-content__char provider-content__char--head provider-content__char--location text--regular">
-                            <img class="d-lg-inline-block d-none mr-2" src="../../images/map-pin.svg" alt="">
+                            <img class="d-lg-inline-block d-none mr-2" src="../../img/map-pin.svg" alt="">
                             Address
                         </div>
                     </div>
                     <div class="col-lg-2">
                         <div class="provider-content__char provider-content__char--head provider-content__char--location text--regular">
-                            <img class="d-lg-inline-block d-none mr-2" src="../../images/phone-icon.svg" alt="">
+                            <img class="d-lg-inline-block d-none mr-2" src="../../img/phone-icon.svg" alt="">
                             Phone number
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="provider-content__char provider-content__char--head provider-content__char--location text--regular">
-                            <img class="d-lg-inline-block d-none mr-2" src="../../images/facility.svg" alt="">
+                            <img class="d-lg-inline-block d-none mr-2" src="../../img/facility.svg" alt="">
                             Services
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                     <div class="col-lg-6 mb-2 mb-lg-0">
                         <div class="provider-content__item">
                             <div class="provider-content__char provider-content__char--location provider-content__char--facility">
-                                <img class="d-inline-block d-lg-none" src="../../images/map-pin.svg" alt="">
+                                <img class="d-inline-block d-lg-none" src="../../img/map-pin.svg" alt="">
                                 <span class="provider-content__char-text text--light flex-xl-row flex-column">
                                     <span>
                                         {{ item.addr_line_1 }}, {{ item.addr_line_2 ? item.addr_line_2+',' : '' }} {{ item.city }}, {{ item.state }}, {{ item.zip }}
@@ -63,7 +63,7 @@
                                         target="_blank"
                                     >
                                         <span>View on a map</span>
-                                        <img src="../../images/arrow-right.svg" alt="">
+                                        <img src="../../img/arrow-right.svg" alt="">
                                     </a>
                                 </span>
                             </div>
@@ -74,7 +74,7 @@
                             v-if="item.phone_number"
                             class="provider-content__item">
                             <div class="provider-content__char provider-content__char--phone text--light provider-content__char--facility">
-                                <img class="d-inline-block d-lg-none" src="../../images/phone-icon.svg" alt="">
+                                <img class="d-inline-block d-lg-none" src="../../img/phone-icon.svg" alt="">
                                 <a
                                     v-bind:href="`tel:${item.phone_number}`"
                                 >
@@ -89,7 +89,7 @@
                             class="provider-content__item"
                         >
                             <div class="provider-content__char text--light provider-content__char--facility provider-content__char--facility-serv">
-                                <img class="d-inline-block d-lg-none" src="../../images/facility.svg" alt="">
+                                <img class="d-inline-block d-lg-none" src="../../img/facility.svg" alt="">
                                 {{ item.services }}
                             </div>
                         </div>

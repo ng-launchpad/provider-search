@@ -1,0 +1,43 @@
+// Base
+// ====
+
+* {
+    box-sizing: border-box;
+
+    &:before,
+    &:after {
+        box-sizing: border-box;
+        margin: 0;
+    }
+
+    @media print {
+        overflow: visible !important;
+    }
+}
+
+html {
+    height: 100%;
+    font-size: $base-font-size;
+}
+
+body:not(.no-body) {
+    @include typeface(default);
+    -moz-osx-font-smoothing: grayscale; // optimize font in firefox
+    -webkit-font-smoothing: antialiased; // apply font anti-aliasing
+    text-rendering: optimizeLegibility; // firefox counts readability more than display speed
+    display: flex;
+    flex-direction: column;
+    color: $color-text;
+    line-height: $default-line-height;
+    font-size: inherit;
+    font-style: normal;
+    font-family: $font-family-roboto;
+}
+
+.separator {
+    width: 100%;
+    height: 2px;
+    background: #D8D8D8;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
