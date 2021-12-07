@@ -2,6 +2,10 @@
     height: 352px;
     display: flex;
     background-color: $blue-zodiac;
+    background-image: url('../../img/hero-bg.png');
+    background-size: cover;
+    background-position: right center;
+    background-repeat: no-repeat;
 
     &__inner {
         position: relative;
@@ -12,7 +16,7 @@
     &__img {
         position: absolute;
         height: 100%;
-        right: -50px;
+        right: -10%;
         top: 0;
     }
 
