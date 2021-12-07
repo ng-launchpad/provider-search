@@ -15,6 +15,8 @@ class CreateProvidersTable extends Migration
     {
         Schema::create('providers', function (Blueprint $table) {
             $table->id();
+            $table->string('label', 150);
+            //  @todo (Pablo 2021-12-07) - All the other provider fields
             $table->timestamps();
         });
     }
