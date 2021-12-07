@@ -1,0 +1,52 @@
+// Libraries: Bootstrap Variables
+// ==============================
+
+// Options
+// ----------
+// line 108 of ~bootstrap/scss/variables.scss
+// Quickly modify global styling by enabling or disabling optional features.
+
+$enable-grid-classes: true !default;
+
+// Grid breakpoints
+// ----------
+// line 180 of Bootstrap variables.scss
+// Define the minimum dimensions at which your layout will change,
+// adapting to different screen sizes, for use in media queries.
+
+// These variables are also used in helpers/breakpoints.scss
+$screen-sm: 576px !default;
+$screen-md: 768px !default;
+$screen-lg: 992px !default;
+$screen-xl: 1140px !default;
+$screen-xxl: 1280px !default;
+
+$grid-breakpoints: (
+    xs: 0,
+    sm: $screen-sm,
+    md: $screen-md,
+    lg: $screen-lg,
+    xl: $screen-xl,
+    xxl: $screen-xxl,
+);
+
+// Grid containers
+// ----------
+// line 197 of ~bootstrap/scss/variables.scss
+// Define the maximum width of `.container` for different screen sizes.
+
+$container-max-widths: (
+    sm: $screen-sm,
+    md: $screen-md,
+    lg: $screen-lg,
+    xl: $screen-xl,
+    xxl: $screen-xxl
+);
+
+// Grid columns
+// ----------
+// line 211 of ~bootstrap/scss/variables.scss
+// Set the number of columns and specify the width of the gutters.
+
+$grid-columns: 12 !default;
+$grid-gutter-width: 30px !default;

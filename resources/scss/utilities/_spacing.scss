@@ -6,21 +6,21 @@ $sides: (top, bottom, left, right); // Leave this variable alone
 
 @each $space in $spaceamounts {
     @each $side in $sides {
-        .m#{str-slice($side, 0, 1)}-#{$space} {
+        .u-m#{str-slice($side, 0, 1)}-#{$space} {
             margin-#{$side}: #{$space}rem;
         }
 
-        .p#{str-slice($side, 0, 1)}-#{$space} {
+        .u-p#{str-slice($side, 0, 1)}-#{$space} {
             padding-#{$side}: #{$space}rem;
         }
 
-        @each $modifier, $breakpoint in $map-grid-props {
+        @each $modifier, $breakpoint in $grid-breakpoints {
             @include create-mq($breakpoint, 'min') {
-                .m#{str-slice($side, 0, 1)}-#{$modifier}-#{$space} {
+                .u-m#{str-slice($side, 0, 1)}-#{$modifier}-#{$space} {
                     margin-#{$side}: #{$space}rem !important;
                 }
 
-                .p#{str-slice($side, 0, 1)}-#{$modifier}-#{$space} {
+                .u-p#{str-slice($side, 0, 1)}-#{$modifier}-#{$space} {
                     padding-#{$side}: #{$space}rem !important;
                 }
             }
