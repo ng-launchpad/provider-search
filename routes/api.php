@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProviderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/providers', [ProviderController::class, 'index']);
+Route::get('/providers/{id}', [ProviderController::class, 'single']);
