@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Provider;
 use Illuminate\Http\Request;
 
 class ProviderController extends Controller
@@ -18,12 +19,12 @@ class ProviderController extends Controller
         ]);
     }
 
-    public function single(int $id)
+    public function single(Provider $provider)
     {
         return json_encode([
             'data' => [
-                'id'    => $id,
-                'label' => 'Provider ' . $id,
+                'id'    => $provider->id,
+                'label' => $provider->label,
             ],
         ]);
     }
