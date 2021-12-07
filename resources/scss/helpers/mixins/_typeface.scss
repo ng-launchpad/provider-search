@@ -1,0 +1,57 @@
+// -----------------------------------------------------------------------------
+// Mixins: Typeface
+// -----------------------------------------------------------------------------
+
+@mixin typeface($typeface) {
+
+    $typeface: map-get($typefaces, $typeface);
+
+    $font-family: false;
+    $letter-spacing: false;
+    $font-weight: false;
+    $case: false;
+    $line-height: false;
+
+    @if type-of($typeface) == "map" {
+
+        @if map-has-key($typeface, font-family) {
+            $font-family: map-get($typeface, font-family);
+        }
+
+        @if map-has-key($typeface, letter-spacing) {
+            $letter-spacing: map-get($typeface, letter-spacing);
+        }
+
+        @if map-has-key($typeface, font-weight) {
+            $font-weight: map-get($typeface, font-weight);
+        }
+
+        @if map-has-key($typeface, text-transform) {
+            $case: map-get($typeface, text-transform);
+        }
+
+        @if map-has-key($typeface, line-height) {
+            $line-height: map-get($typeface, line-height);
+        }
+    }
+
+    @if $font-family {
+        font-family: $font-family;
+    }
+
+    @if $letter-spacing {
+        letter-spacing: $letter-spacing;
+    }
+
+    @if $font-weight {
+        font-weight: $font-weight;
+    }
+
+    @if $case {
+        text-transform: $case;
+    }
+
+    @if $line-height {
+        line-height: $line-height;
+    }
+}
