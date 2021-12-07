@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProviderResource;
 use App\Models\Provider;
 use Illuminate\Http\Request;
 
@@ -9,23 +10,13 @@ class ProviderController extends Controller
 {
     public function index()
     {
-        return json_encode([
-            'data' => [
-                [
-                    'id'    => 1,
-                    'label' => 'Provider 1',
-                ],
-            ],
-        ]);
+        $providers = Provider::all();
+
+        return ProviderResource::collection($providers);
     }
 
     public function single(Provider $provider)
     {
-        return json_encode([
-            'data' => [
-                'id'    => $provider->id,
-                'label' => $provider->label,
-            ],
-        ]);
+        return new ProviderResource($provider);
     }
 }
