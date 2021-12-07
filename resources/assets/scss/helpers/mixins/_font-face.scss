@@ -8,10 +8,7 @@
     font-weight: $weight;
     font-style: $style;
 
-    src: url('#{$file-path}#{$file-name}.eot');
-    src: url('#{$file-path}#{$file-name}.eot?#iefix')              format('embedded-opentype'),
-        url('#{$file-path}#{$file-name}.woff')                     format('woff'),
-        url('#{$file-path}#{$file-name}.ttf')                      format('truetype'),
-        url('#{$file-path}#{$file-name}.svg##{$font-family}')      format('svg');
+    src: url('#{$file-path}#{$file-name}.woff')                     format('woff'),
+        url('#{$file-path}#{$file-name}.woff2')                     format('woff2')
     }
 }

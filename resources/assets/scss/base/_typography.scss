@@ -100,10 +100,6 @@ strong {
     &--line-height-big {
         line-height: 1.5;
     }
-
-    &--display {
-        @include typeface(display);
-    }
 }
 
 .list {
@@ -115,7 +111,6 @@ strong {
 }
 
 .telephone-link {
-    @include typeface(display);
     color: $primary;
     text-decoration: none;
     line-height: 1.5;
@@ -144,7 +139,6 @@ strong {
 }
 
 .location-line {
-    @include typeface(display);
     color: $primary;
     text-decoration: none;
     line-height: 1.5;
