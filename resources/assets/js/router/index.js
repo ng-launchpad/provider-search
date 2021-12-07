@@ -17,7 +17,7 @@ const routes = new Router({
             component: BrowseNetworksPage,
         },
         {
-            path: '/provider-search/',
+            path: '/',
             component: SearchPage
         },
         {

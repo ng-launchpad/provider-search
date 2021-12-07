@@ -1,112 +1,16 @@
 <template>
     <div>
-        <div class="search-hero" v-bind:style="{backgroundImage: 'url(\'../assets/images/search-bg.jpg\')'}">
-            <div class="search-hero__bg" v-bind:style="{backgroundImage: 'url(\'../assets/images/search-bg.jpg\')'}"></div>
+        <div class="hero">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-7 col-md-10">
-                        <p class="heading search-hero__title">Doctor and facility search</p>
-                        <p class="search-hero__subtitle color-weak">
-                            Browse or search our wide range of providers and facilities.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="search-offer">
-            <div class="container">
-                <div class="search-offer__title heading align-center">
-                    We offer a wide range of providers and facilities based on your coverage choice.
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="search-offer__item">
-                            <div class="search-offer__item-img">
-                                <img src="../../img/svg/already-customer.svg" />
+                <div class="hero__inner">
+                    <img class="hero__img" src="images/hero-woman.png" alt="">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="hero__title">
+                                group health fully-insured <span>provider search</span>
                             </div>
-                            <p class="search-offer__item-title heading">
-                                Are you already a customer?
-                            </p>
-                            <p class="search-offer__item-descr color-weak">
-                                To find providers in your network, check your plan ID card and select the matching Provider Network or TPA.
-                            </p>
-                            <div class="search-offer__item-action">
-                                <multiselect
-                                    class="custom-select"
-                                    v-model="customerOption"
-                                    placeholder="Coverage type"
-                                    v-bind:options="networkItems"
-                                    group-label="label"
-                                    group-values="products"
-                                    label="label"
-                                    selectGroupLabel=""
-                                    selectLabel=""
-                                    deselectLabel=""
-                                    v-bind:group-select="true"
-                                    v-bind:clearable="false"
-                                    v-bind:searchable="false"
-                                    v-on:input="fakeLoading"
-                                />
-                            </div>
-                            <div
-                                v-if="loading"
-                                class="search-offer__links is-loading"
-                            >
-                                <div class="search-offer__loader">
-                                    <div
-                                        class="spinner-border text-warning"
-                                        role="status"
-                                    >
-                                        <span
-                                            class="sr-only"
-                                            role="status"
-                                        >
-                                            Loading...
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                v-if="customerOption && !loading"
-                                class="search-offer__links"
-                            >
-                                <ul
-                                    class="search-offer__links-list"
-                                    v-if="customerOption.links.length"
-                                >
-                                    <li v-for="(link, key) in customerOption.links" v-bind:key="key">
-                                        <a
-                                            v-bind:href="link.url"
-                                            v-bind:target="link.external ? '_blank' : ''"
-                                        >
-                                            <span>
-                                                {{ link.label }}
-                                            </span>
-                                            <img v-if="link.external" src="../../img/svg/link.svg" alt="">
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mt-5 mt-md-0">
-                        <div class="search-offer__item">
-                            <div class="search-offer__item-img">
-                                <img src="../../img/svg/browse-networks.svg" />
-                            </div>
-                            <p class="search-offer__item-title heading">
-                                Curious about our networks?
-                            </p>
-                            <p class="search-offer__item-descr color-weak">
-                                Our networks vary based on the coverage you choose. Browse our different networks now.
-                            </p>
-                            <div class="search-offer__item-action">
-                                <router-link
-                                    to="/provider-search/browse-networks"
-                                    class="button button--secondary"
-                                >
-                                    Browse networks
-                                </router-link>
+                            <div class="hero__sub-title">
+                                Locate participating providers, facilities, and pharmacies.
                             </div>
                         </div>
                     </div>
@@ -114,10 +18,12 @@
             </div>
         </div>
 
-        <search-block
-            title="Search our newest network"
-            caption="The St Vincent's Network is based around Alabama only."
-        />
+        <div class="container">
+            <search-block
+                title="Start your search"
+                caption="The St Vincent's Network is based around Alabama only."
+            />
+        </div>
     </div>
 </template>
 
