@@ -14,7 +14,7 @@ class ProviderFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'label' => $this->faker->company(),
         ];
     }
 }
