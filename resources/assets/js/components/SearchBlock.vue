@@ -17,7 +17,7 @@
                         v-bind:to="backLink"
                         class="search-block__back-link"
                     >
-                        <img src="../../img/arrow-left.svg" alt="" class="search-block__back-icon">
+                        <img src="../../img/svg/arrow-left.svg" alt="" class="search-block__back-icon">
                         <span>
                             {{ backLinkText }}
                         </span>
@@ -38,7 +38,7 @@
                 <div class="search-block__form-wrap">
                     <div class="search-block__form-header">
                         <div class="search-block__form-logo">
-                            <img src="../../img/asce_st_vincents_logo.png" alt="">
+                            <img src="../../img/svg/asce_st_vincents_logo.png" alt="">
                         </div>
                         <div class="search-block__form-header-right">
                             <p class="search-block__form-title">

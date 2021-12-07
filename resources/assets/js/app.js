@@ -1,24 +1,21 @@
 // import 'core-js/es/promise';
 
-// // import SCSS
-// import './scss/main.scss';
-
 // // import JS
 // import './js/main';
 
 // import Vue from 'vue';
-// import router from './js/router';
+import router from './router';
 
-// // vue plugins
-// import './js/vue-plugins';
+// vue plugins
+import './vue-plugins';
 
 // // Import Vue Components
-// import App from './js/App';
+import App from './App.vue';
 
-// // Mount Vue
-// if (document.getElementById('vue-app')) {
-//     new Vue({
-//         router: router,
-//         ...App
-//     }).$mount('#vue-app');
-// }
+// Mount Vue
+if (document.getElementById('vue-app')) {
+    new Vue({
+        router: router,
+        ...App
+    }).$mount('#vue-app');
+}

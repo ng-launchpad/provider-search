@@ -8,7 +8,7 @@
                         v-on:click.prevent="goBack"
                         class="page-header__back-link"
                     >
-                        <img src="../../img/arrow-left.svg" alt="" class="page-header__back-icon">
+                        <img src="../../img/svg/arrow-left.svg" alt="" class="page-header__back-icon">
                         <span>Back to results</span>
                     </a>
                 </div>
@@ -21,12 +21,12 @@
                     {{ provider.accepting_new_patients ? 'Accepting new patients' : 'Not accepting new patients' }}
                     <img
                         v-if="provider.accepting_new_patients === 'Yes'"
-                        src="../../img/check-circle-white.svg"
+                        src="../../img/svg/check-circle-white.svg"
                         class="page-header__header-icon"
                     >
                     <img
                         v-if="provider.accepting_new_patients === 'No'"
-                        src="../../img/x-circle-white.svg"
+                        src="../../img/svg/x-circle-white.svg"
                         class="page-header__header-icon"
                     >
                 </p>
@@ -53,7 +53,7 @@
                                 v-if="provider.locations && provider.locations.length"
                                 class="provider-content__char provider-content__char--location"
                             >
-                                <img src="../../img/map-pin.svg" alt="">
+                                <img src="../../img/svg/map-pin.svg" alt="">
                                 <span class="provider-content__char-text">
                                     <span class="text--light">
                                         {{ provider.locations[0].addr_line_1 }}, {{ provider.locations[0].addr_line_2 ? provider.locations[0].addr_line_2 + ', ' : '' }} {{ provider.locations[0].city }}, {{ provider.locations[0].state }}, {{ provider.locations[0].zip }}
@@ -65,7 +65,7 @@
                                         target="_blank"
                                     >
                                         <span>View on a map</span>
-                                        <img src="../../img/arrow-right.svg" alt="">
+                                        <img src="../../img/svg/arrow-right.svg" alt="">
                                     </a>
                                 </span>
                             </div>
@@ -78,7 +78,7 @@
                                     Phone number
                                 </div>
                                 <div class="provider-content__char provider-content__char--phone text--light">
-                                    <img src="../../img/phone-icon.svg" alt="">
+                                    <img src="../../img/svg/phone-icon.svg" alt="">
                                     <a
                                         v-bind:href="`tel:${provider.locations[0].practice_phone}`"
                                     >
@@ -161,7 +161,7 @@
                                         Phone number
                                     </div>
                                     <div class="provider-content__char provider-content__char--phone text--light">
-                                        <img src="../../img/phone-icon.svg" alt="">
+                                        <img src="../../img/svg/phone-icon.svg" alt="">
                                         <a
                                             v-bind:href="`tel:${provider.locations[0].practice_phone}`"
                                         >
@@ -246,14 +246,14 @@
                                     target="_blank"
                                 >
                                     <span>View on a map</span>
-                                    <img src="../../img/arrow-right.svg" alt="">
+                                    <img src="../../img/svg/arrow-right.svg" alt="">
                                 </a>
                             </div>
                             <div class="col-lg-2 mt-lg-0 mt-2">
                                 <div
                                     v-if="item.practice_phone"
                                     class="provider-content__char provider-content__char--phone provider-content__char--icon-small text--light">
-                                    <img src="../../img/phone-icon.svg" alt="">
+                                    <img src="../../img/svg/phone-icon.svg" alt="">
                                     <a
                                         v-bind:href="`tel: ${item.practice_phone}`"
                                     >

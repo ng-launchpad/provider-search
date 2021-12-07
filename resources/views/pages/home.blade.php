@@ -17,4 +17,9 @@
             </div>
         </div>
     </div>
+    <div class="home-search">
+        <div class="container">
+            <div class="vue-app"></div>
+        </div>
+    </div>
 @endsection
