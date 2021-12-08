@@ -20,10 +20,6 @@
                         </div>
                     </div>
                     <div class="results-container__right">
-                        <div class="results-container__select-label">
-                            Matching your search to:
-                        </div>
-
                         <div class="results-container__select">
                             <v-select
                                 class="custom-select"

@@ -15,12 +15,12 @@
 
                 <img
                     v-if="item.accepting_new_patients === 'Yes'"
-                    src="../../../img/svg/check-circle.svg"
+                    src="images/check-circle.svg"
                     class="results-item__header-icon"
                 >
                 <img
                     v-if="item.accepting_new_patients === 'No'"
-                    src="../../../img/svg/x-circle.svg"
+                    src="images/x-circle.svg"
                     class="results-item__header-icon"
                 >
             </div>
@@ -31,7 +31,7 @@
             >
                 <span>View {{ item.first_name }} {{ item.last_name }}'s details</span>
                 <img
-                    src="../../../img/svg/arrow-right.svg"
+                    src="images/arrow-right.svg"
                     class="results-item__detail-icon"
                 >
             </router-link>
@@ -39,7 +39,7 @@
         <div class="results-item__info">
             <div class="results-item__info-col">
                 <div class="results-item__char results-item__char--location">
-                    <img src="../../../img/svg/map-pin.svg" alt="">
+                    <img src="images/map-pin.svg" alt="">
                     <span>
                         Primary address: <br>
                         {{ item.locations[0].addr_line_1 }}, {{ item.locations[0].city }}, {{ item.locations[0].state }}, {{ item.locations[0].zip }} <br>
@@ -53,7 +53,7 @@
                 <div
                     v-if="item.locations[0].practice_phone"
                     class="results-item__char results-item__char--phone">
-                    <img src="../../../img/svg/phone-icon.svg" alt="">
+                    <img src="images/phone-icon.svg" alt="">
                     <a v-bind:href="`tel:${item.locations[0].practice_phone}`">
                         {{ item.locations[0].practice_phone }}
                     </a>
@@ -78,7 +78,7 @@
             >
                 <span>View {{ item.first_name }} {{ item.last_name }}'s details</span>
                 <img
-                    src="../../../img/svg/arrow-right.svg"
+                    src="images/arrow-right.svg"
                     class="results-item__detail-icon"
                 >
             </router-link>
