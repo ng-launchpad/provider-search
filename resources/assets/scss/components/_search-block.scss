@@ -55,6 +55,13 @@
         width: (100% / 4);
         padding-left: 15px;
         padding-right: 15px;
+        cursor: pointer;
+
+        &:hover {
+            .search-block__network-item-head {
+                border-color: $primary;
+            }
+        }
     }
 
     &__network-item-head {
@@ -62,6 +69,8 @@
         background-color: $white;
         display: flex;
         align-items: center;
+        border: 3px solid $white;
+        transition: border-color .3s;
     }
 
     &__network-row {
