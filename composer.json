@@ -22,6 +22,7 @@
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
+        "nunomaduro/larastan": "^1.0",
         "phpunit/phpunit": "^9.5.8",
         "spatie/phpunit-watcher": "^1.23"
     },
@@ -50,7 +51,9 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ]
+        ],
+        "test": "./vendor/bin/phpunit",
+        "analyse": "./vendor/bin/phpstan analyse -c .phpstan/config.neon"
     },
     "extra": {
         "laravel": {

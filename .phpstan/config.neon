@@ -1,0 +1,11 @@
+parameters:
+    level: 0
+    paths:
+        - ../app
+        - ../bootstrap
+        - ../config
+        - ../database
+        - ../public
+        - ../resources
+        - ../routes
+        - ../tests
