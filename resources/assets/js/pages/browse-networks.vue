@@ -5,7 +5,7 @@
             <div class="container">
                 <div class="page-header__back">
                     <router-link
-                        to="/provider-search/"
+                        to="/"
                         class="page-header__back-link"
                     >
                         <img src="../../img/svg/arrow-left.svg" alt="" class="page-header__back-icon">

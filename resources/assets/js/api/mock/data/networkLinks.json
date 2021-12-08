@@ -127,7 +127,7 @@
                 "links": [
                     {
                         "label": "St Vincent's provider search",
-                        "url": "/provider-search/st-vincents",
+                        "url": "/st-vincents",
                         "external": false
                     }
                 ]

@@ -13,7 +13,7 @@ const routes = new Router({
     mode: 'history',
     routes: [
         {
-            path: '/provider-search/browse-networks',
+            path: '/browse-networks',
             component: BrowseNetworksPage,
         },
         {
@@ -21,20 +21,20 @@ const routes = new Router({
             component: SearchPage
         },
         {
-            path: '/provider-search/results',
+            path: '/results',
             component: ResultsPage,
             props: route => ({ query: route.query })
         },
         {
-            path: '/provider-search/st-vincents',
+            path: '/st-vincents',
             component: BrowsingPage,
         },
         {
-            path: '/provider-search/provider/:id',
+            path: '/provider/:id',
             component: ProviderPage,
         },
         {
-            path: '/provider-search/facility/:id',
+            path: '/facility/:id',
             component: FacilityPage,
         }
     ],

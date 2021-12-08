@@ -2,7 +2,7 @@
     <div class="pb-4">
         <search-block
             is-header
-            back-link="/provider-search/st-vincents"
+            back-link="/st-vincents"
             back-link-text="Start over"
             v-bind:match-query="matchQuery"
             v-on:query-changed="searchQuery = $event"

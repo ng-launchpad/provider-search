@@ -3,7 +3,7 @@
         <search-block
             browsing-filters
             is-header
-            back-link="/provider-search/"
+            back-link="/"
             back-link-text="Back to doctor and facility search"
             caption="The St Vincent's Network is based around Alabama only."
         />

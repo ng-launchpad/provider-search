@@ -2,7 +2,7 @@
     <div class="results-item">
         <div class="results-item__header">
             <router-link
-                v-bind:to="`/provider-search/provider/${item.npi}`"
+                v-bind:to="`/provider/${item.npi}`"
                 class="results-item__title"
             >
                 {{ item.first_name }} {{ item.middle_name }} {{ item.last_name }}<template v-if="item.credentials">, {{ item.credentials }}</template>
@@ -26,7 +26,7 @@
             </div>
 
             <router-link
-                v-bind:to="`/provider-search/provider/${item.npi}`"
+                v-bind:to="`/provider/${item.npi}`"
                 class="results-item__detail results-item__detail--desktop"
             >
                 <span>View {{ item.first_name }} {{ item.last_name }}'s details</span>
@@ -45,7 +45,7 @@
                         {{ item.locations[0].addr_line_1 }}, {{ item.locations[0].city }}, {{ item.locations[0].state }}, {{ item.locations[0].zip }} <br>
                         <router-link
                             v-if="item.locations.length > 1"
-                            v-bind:to="`/provider-search/provider/${item.npi}`"
+                            v-bind:to="`/provider/${item.npi}`"
                             class="text--styled-link text--bold"
                         >+ {{ item.locations.length - 1 }} location{{ item.locations.length - 1 > 1 ? 's' : '' }}</router-link>
                     </span>
@@ -73,7 +73,7 @@
         </div>
         <div class="align-right">
             <router-link
-                v-bind:to="`/provider-search/provider/${item.npi}`"
+                v-bind:to="`/provider/${item.npi}`"
                 class="results-item__detail results-item__detail--mobile"
             >
                 <span>View {{ item.first_name }} {{ item.last_name }}'s details</span>

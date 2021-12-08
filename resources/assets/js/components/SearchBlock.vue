@@ -9,7 +9,7 @@
         <div class="search-block__form">
             <input type="text" class="search-block__input" placeholder="Search by doctor or facility name, specialty or address" v-model="searchQuery">
             <div class="search-block__form-descr">
-                <span>Not sure what to search for?<br><router-link to="/provider-search/st-vincents">Browse providers & facilities</router-link></span>
+                <span>Not sure what to search for?<br><router-link to="/st-vincents">Browse providers & facilities</router-link></span>
             </div>
         </div>
 
@@ -216,7 +216,7 @@ export default {
 
     methods: {
         newSearch: async function() {
-            if (this.searchQuery) this.$router.push({path: '/provider-search/results', query: {search: this.searchQuery}}).catch(()=>{});
+            if (this.searchQuery) this.$router.push({path: '/results', query: {search: this.searchQuery}}).catch(()=>{});
         },
 
         searchProviders: async function(query) {

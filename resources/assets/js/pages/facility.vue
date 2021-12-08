@@ -125,7 +125,7 @@ export default {
 
     methods: {
         goBack: function() {
-            this.prevRoute.fullPath !== '/' ? this.$router.push(this.prevRoute) : this.$router.push('/provider-search/');
+            this.prevRoute.fullPath !== '/' ? this.$router.push(this.prevRoute) : this.$router.push('/');
         }
     }
 }
