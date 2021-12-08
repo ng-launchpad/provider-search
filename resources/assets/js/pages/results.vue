@@ -47,9 +47,7 @@
                         v-bind:key="index"
                         v-bind:is="getItemTypeComponent(provider.type)"
                         v-bind:item="provider"
-                        v-bind:class="{
-                            'is-odd': index%2 !== 0
-                        }"
+                        v-bind:is-even="index%2 !== 0"
                     />
 
                     <div

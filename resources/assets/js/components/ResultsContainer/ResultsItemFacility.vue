@@ -14,7 +14,13 @@
             >
                 <span>View facility details</span>
                 <img
+                    v-if="!isEven"
                     src="images/arrow-right.svg"
+                    class="results-item__detail-icon"
+                >
+                <img
+                    v-else
+                    src="images/arrow-right-white.svg"
                     class="results-item__detail-icon"
                 >
             </router-link>
@@ -22,7 +28,16 @@
         <div class="results-item__info">
             <div class="results-item__info-col">
                 <div class="results-item__char results-item__char--location">
-                    <img src="images/map-pin.svg" alt="">
+                    <img
+                        v-if="!isEven"
+                        src="images/map-pin.svg"
+                        alt=""
+                    >
+                    <img
+                        v-else
+                        src="images/map-pin-white.svg"
+                        alt=""
+                    >
                     <span>
                         <template v-if="item.locations.length > 1">
                             <router-link
@@ -34,7 +49,16 @@
                     </span>
                 </div>
                 <div class="results-item__char results-item__char--phone">
-                    <img src="images/phone-icon.svg" alt="">
+                    <img
+                        v-if="!isEven"
+                        src="images/phone-icon.svg"
+                        alt=""
+                    >
+                    <img
+                        v-else
+                        src="images/phone-icon-white.svg"
+                        alt=""
+                    >
                     <a v-bind:href="`tel:${item.locations[0].phone_number}`">{{ item.locations[0].phone_number }}</a>
                 </div>
             </div>
@@ -57,7 +81,13 @@
             >
                 <span>View facility details</span>
                 <img
+                    v-if="!isEven"
                     src="images/arrow-right.svg"
+                    class="results-item__detail-icon"
+                >
+                <img
+                    v-else
+                    src="images/arrow-right-white.svg"
                     class="results-item__detail-icon"
                 >
             </router-link>
@@ -72,6 +102,11 @@ export default {
     props: {
         item: {
             type: Object,
+            required: false,
+            default: false
+        },
+        isEven: {
+            type: Boolean,
             required: false,
             default: false
         }
