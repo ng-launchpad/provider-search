@@ -14,7 +14,7 @@
     <div class="header__bottom">
         <div class="container">
             <div class="header__logo">
-                <a href="#" class="header__logo-link">
+                <a href="{{ url('/') }}" class="header__logo-link">
                     <img src="images/logo.png" alt="">
                 </a>
             </div>
