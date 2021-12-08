@@ -3,6 +3,7 @@
 namespace Tests\Feature\Endpoints\Provider;
 
 use App\Models\Provider;
+use App\Models\State;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -15,13 +16,25 @@ class ProviderSingleTest extends TestCase
     public function it_returns_list_of_providers()
     {
         // arrange
-        $provider = Provider::factory()->create();
+        $state = State::factory()
+            ->create([
+                'label' => 'Texas',
+                'code'  => 'TX',
+            ]);
+
+        $provider = Provider::factory()
+            ->for($state)
+            ->create([
+                'label' => 'FizzBuzz Inc',
+            ]);
 
         // act
         $response = $this->withoutExceptionHandling()
             ->getJson(route('api.providers.single', $provider));
 
         // assert
-        $response->assertOk();
+        $response
+            ->assertOk()
+            ->assertJsonPath('data.label', $provider->label);
     }
 }
