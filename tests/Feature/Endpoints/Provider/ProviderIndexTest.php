@@ -12,8 +12,8 @@ class ProviderIndexTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $stateTexas;
-    private $stateCalifornia;
+    private $state1;
+    private $state2;
     private $provider1;
     private $provider2;
 
@@ -21,29 +21,10 @@ class ProviderIndexTest extends TestCase
     {
         parent::setUp();
 
-        $this->stateTexas = State::factory()
-            ->create([
-                'label' => 'Texas',
-                'code'  => 'TX',
-            ]);
-
-        $this->stateCalifornia = State::factory()
-            ->create([
-                'label' => 'California',
-                'code'  => 'CA',
-            ]);
-
-        $this->provider1 = Provider::factory()
-            ->for($this->stateTexas)
-            ->create([
-                'label' => 'FizzBuzz Inc',
-            ]);
-
-        $this->provider2 = Provider::factory()
-            ->for($this->stateCalifornia)
-            ->create([
-                'label' => 'FooBar Ltd.',
-            ]);
+        $this->state1    = State::factory()->create();
+        $this->state2    = State::factory()->create();
+        $this->provider1 = Provider::factory()->for($this->state1)->create();
+        $this->provider2 = Provider::factory()->for($this->state2)->create();
     }
 
     /** @test */
@@ -69,7 +50,7 @@ class ProviderIndexTest extends TestCase
     {
         // arrange
         $provider = $this->provider1;
-        $state    = $this->stateTexas;
+        $state    = $this->state1;
 
         // act
         $response = $this

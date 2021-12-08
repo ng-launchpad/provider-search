@@ -16,17 +16,8 @@ class ProviderSingleTest extends TestCase
     public function it_returns_list_of_providers()
     {
         // arrange
-        $state = State::factory()
-            ->create([
-                'label' => 'Texas',
-                'code'  => 'TX',
-            ]);
-
-        $provider = Provider::factory()
-            ->for($state)
-            ->create([
-                'label' => 'FizzBuzz Inc',
-            ]);
+        $state    = State::factory()->create();
+        $provider = Provider::factory()->for($state)->create();
 
         // act
         $response = $this->withoutExceptionHandling()
