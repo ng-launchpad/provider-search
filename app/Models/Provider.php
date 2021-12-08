@@ -51,4 +51,12 @@ class Provider extends Model
             $query->where('state_id', $state->id);
         });
     }
+
+    /**
+     * Get providers which match keywords
+     */
+    public function scopeWithKeywords(Builder $query, string $keywords)
+    {
+        $query->where('label', 'like' , "%$keywords%");
+    }
 }
