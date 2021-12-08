@@ -40,6 +40,7 @@
 
     &__more {
         @include font-size(20px);
+        font-weight: 500;
     }
 
     &__bottom-left {
