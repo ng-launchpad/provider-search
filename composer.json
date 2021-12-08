@@ -52,6 +52,7 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
+        "test": "./vendor/bin/phpunit",
         "analyse": "./vendor/bin/phpstan analyse -c .phpstan/config.neon"
     },
     "extra": {
