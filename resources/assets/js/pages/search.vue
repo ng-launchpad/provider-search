@@ -18,13 +18,11 @@
             </div>
         </div>
 
-        <div class="container">
-            <search-block
-                class="mt-5 mb-5"
-                title="Start your search"
-                caption="The St Vincent's Network is based around Alabama only."
-            />
-        </div>
+        <search-block
+            class="mt-5 mb-5"
+            title="Start your search"
+            caption="The St Vincent's Network is based around Alabama only."
+        />
 
         <div class="pt-2 pb-5">
             <div class="container">

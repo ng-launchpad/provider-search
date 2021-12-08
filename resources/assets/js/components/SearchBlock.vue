@@ -1,83 +1,121 @@
 <template>
     <div
         class="search-block"
+        v-bind:class="{
+            'search-block--header': isResults
+        }"
     >
-        <div class="search-block__title">
-            {{ title }}
-        </div>
+        <div class="container">
+            <div class="search-block__inner">
+                <div class="search-block__title">
+                    {{ title }}
+                </div>
 
-        <div class="search-block__form">
-            <input type="text" class="search-block__input" placeholder="Search by doctor or facility name, specialty or address" v-model="searchQuery">
-            <div class="search-block__form-descr">
-                <span>Not sure what to search for?<br><router-link to="/allstate">Browse providers & facilities</router-link></span>
-            </div>
-        </div>
+                <div class="search-block__form">
+                    <div v-if="isResults" class="search-block__network-label">
+                        Searching: Medical & dental providers
+                    </div>
+                    <div class="search-block__form-inner">
+                        <input type="text" class="search-block__input" placeholder="Search by doctor or facility name, specialty or address" v-model="searchQuery">
+                        <div
+                            v-if="!isResults"
+                            class="search-block__form-descr"
+                        >
+                            <span>Not sure what to search for?<br><router-link to="/allstate">Browse providers & facilities</router-link></span>
+                        </div>
+                        <div
+                            v-if="isResults"
+                            class="search-block__submit"
+                        >
+                            <button
+                                type="submit"
+                                v-bind:disabled="!canSearch"
+                                class="button button--primary"
+                                v-on:click="newSearch"
+                            >Search</button>
+                        </div>
+                        <router-link
+                            to="/allstates"
+                            class="text--styled-link search-block__browse-all"
+                        >
+                            Browse all
+                        </router-link>
+                    </div>
+                </div>
 
-        <div class="search-block__network">
-            <div class="search-block__network-title heading heading--lg">
-                Select your network
-            </div>
-            <div class="search-block__network-container">
-                <div class="search-block__network-row">
-                    <div class="search-block__network-item">
-                        <div class="search-block__network-item-head">
-                            <div class="search-block__network-item-logo"></div>
-                            <div class="search-block__network-item-text">
-                                Secure choice <br>
-                                <strong>Broad</strong>
-                            </div>
-                        </div>
-                        <div class="search-block__network-item-label">
-                            Medical & dental providers
-                        </div>
+                <div
+                    v-if="!isResults"
+                    class="search-block__network"
+                >
+                    <div class="search-block__network-title heading heading--lg">
+                        Select your network
                     </div>
-                    <div class="search-block__network-item">
-                        <div class="search-block__network-item-head">
-                            <div class="search-block__network-item-logo"></div>
-                            <div class="search-block__network-item-text">
-                                Secure choice <br>
-                                <strong>Select</strong>
+                    <div class="search-block__network-container">
+                        <div class="search-block__network-row">
+                            <div class="search-block__network-item">
+                                <div class="search-block__network-item-head">
+                                    <div class="search-block__network-item-logo"></div>
+                                    <div class="search-block__network-item-text">
+                                        Secure choice <br>
+                                        <strong>Broad</strong>
+                                    </div>
+                                </div>
+                                <div class="search-block__network-item-label">
+                                    Medical & dental providers
+                                </div>
                             </div>
-                        </div>
-                        <div class="search-block__network-item-label">
-                            Medical providers
-                        </div>
-                    </div>
-                    <div class="search-block__network-item">
-                        <div class="search-block__network-item-head">
-                            <div class="search-block__network-item-logo"></div>
-                            <div class="search-block__network-item-text">
-                                Secure choice <br>
-                                <strong>Broad & Select</strong>
+                            <div class="search-block__network-item">
+                                <div class="search-block__network-item-head">
+                                    <div class="search-block__network-item-logo"></div>
+                                    <div class="search-block__network-item-text">
+                                        Secure choice <br>
+                                        <strong>Select</strong>
+                                    </div>
+                                </div>
+                                <div class="search-block__network-item-label">
+                                    Medical providers
+                                </div>
                             </div>
-                        </div>
-                        <div class="search-block__network-item-label">
-                            Vision providers
-                        </div>
-                    </div>
-                    <div class="search-block__network-item">
-                        <div class="search-block__network-item-head">
-                            <div class="search-block__network-item-logo"></div>
-                            <div class="search-block__network-item-text">
-                                Secure choice <br>
-                                <strong>Broad & Select</strong>
+                            <div class="search-block__network-item">
+                                <div class="search-block__network-item-head">
+                                    <div class="search-block__network-item-logo"></div>
+                                    <div class="search-block__network-item-text">
+                                        Secure choice <br>
+                                        <strong>Broad & Select</strong>
+                                    </div>
+                                </div>
+                                <div class="search-block__network-item-label">
+                                    Vision providers
+                                </div>
                             </div>
-                        </div>
-                        <div class="search-block__network-item-label">
-                            Pharmacy directory
+                            <div class="search-block__network-item">
+                                <div class="search-block__network-item-head">
+                                    <div class="search-block__network-item-logo"></div>
+                                    <div class="search-block__network-item-text">
+                                        Secure choice <br>
+                                        <strong>Broad & Select</strong>
+                                    </div>
+                                </div>
+                                <div class="search-block__network-item-label">
+                                    Pharmacy directory
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="search-block__submit">
-            <button
-                type="submit"
-                v-bind:disabled="!canSearch"
-                class="button button--primary"
-                v-on:click="newSearch"
-            >Search</button>
+                <div
+                    v-if="!isResults"
+                    class="search-block__submit"
+                >
+                    <button
+                        type="submit"
+                        v-bind:disabled="!canSearch"
+                        class="button button--primary"
+                        v-on:click="newSearch"
+                    >Search</button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -121,7 +159,7 @@ export default {
             default: ''
         },
 
-        isHeader: {
+        isResults: {
             type: Boolean,
             required: false,
             default: false

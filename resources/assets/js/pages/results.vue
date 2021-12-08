@@ -1,11 +1,12 @@
 <template>
     <div class="pb-4">
         <search-block
-            is-header
+            is-results
             back-link="/allstate"
             back-link-text="Start over"
             v-bind:match-query="matchQuery"
             v-on:query-changed="searchQuery = $event"
+            title="Search results"
         />
 
         <div class="container">
