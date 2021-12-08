@@ -19,7 +19,7 @@ class ProviderIndexTest extends TestCase
 
         // act
         $response = $this->withoutExceptionHandling()
-            ->getJson(route('providers.index'));
+            ->getJson(route('api.providers.index'));
 
         // assert
         $response->assertOk();

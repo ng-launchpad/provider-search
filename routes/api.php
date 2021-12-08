@@ -15,5 +15,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/providers', [ProviderController::class, 'index'])->name('providers.index');
-Route::get('/providers/{provider}', [ProviderController::class, 'single'])->name('providers.single');
+Route::get('/providers', [ProviderController::class, 'index'])->name('api.providers.index');
+Route::get('/providers/{provider}', [ProviderController::class, 'single'])->name('api.providers.single');

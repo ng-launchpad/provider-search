@@ -19,7 +19,7 @@ class ProviderSingleTest extends TestCase
 
         // act
         $response = $this->withoutExceptionHandling()
-            ->getJson(route('providers.single', $provider));
+            ->getJson(route('api.providers.single', $provider));
 
         // assert
         $response->assertOk();
