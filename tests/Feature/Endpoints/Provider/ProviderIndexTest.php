@@ -66,4 +66,24 @@ class ProviderIndexTest extends TestCase
             ->assertJsonPath('data.0.label', $provider->label)
             ->assertJsonPath('data.0.state.code', $state->code);
     }
+
+    /** @test */
+    public function it_returns_providers_filtered_by_keyword()
+    {
+        // arrange
+        $provider = $this->provider1;
+
+        // act
+        $response = $this
+            ->withoutExceptionHandling()
+            ->getJson(route('api.providers.index', [
+                'keywords' => $provider->label,
+            ]));
+
+        // assert
+        $response
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.label', $provider->label);
+    }
 }

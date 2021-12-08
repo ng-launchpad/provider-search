@@ -15,4 +15,12 @@ class ProviderFilter extends ModelFilter
         $state = State::findOrFail($id);
         $this->withState($state);
     }
+
+    /**
+     * Filter Providers by ?keywords attribute
+     */
+    public function keywords($keywords)
+    {
+        $this->withKeywords($keywords);
+    }
 }
