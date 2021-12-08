@@ -76,6 +76,7 @@
                 type="submit"
                 v-bind:disabled="!canSearch"
                 class="button button--primary"
+                v-on:click="newSearch"
             >Search</button>
         </div>
     </div>
