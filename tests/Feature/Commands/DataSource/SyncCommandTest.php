@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Commands\DataSouce;
+namespace Tests\Feature\Commands\DataSource;
 
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Testing\RefreshDatabase;
