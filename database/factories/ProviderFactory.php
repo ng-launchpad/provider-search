@@ -16,7 +16,7 @@ class ProviderFactory extends Factory
     {
         return [
             'label'    => $this->faker->company(),
-            'state_id' => State::query()->inRandomOrder()->first()->id,
+            'state_id' => State::query()->inRandomOrder()->first(),
         ];
     }
 }
