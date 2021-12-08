@@ -2,6 +2,9 @@
 
 namespace App\Console\Commands\DataSource;
 
+use App\Services\DataSource\Connection;
+use App\Services\DataSource\Mapper;
+use App\Services\DataSource\Parser;
 use App\Services\DataSourceService;
 use Illuminate\Console\Command;
 
@@ -38,6 +41,20 @@ class SyncCommand extends Command
      */
     public function handle()
     {
+        DataSourceService::factory()
+            ->sync(
+                'filename.xlsx',
+                new Connection\Sftp(),
+                new Mapper\SourceOne(),
+                new Parser\Xls()
+            )
+            ->sync(
+                'filename.csv',
+                new Connection\Sftp(),
+                new Mapper\SourceTwo(),
+                new Parser\Csv()
+            );
+
         return Command::SUCCESS;
     }
 }
