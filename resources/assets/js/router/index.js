@@ -26,7 +26,7 @@ const routes = new Router({
             props: route => ({ query: route.query })
         },
         {
-            path: '/st-vincents',
+            path: '/allstate',
             component: BrowsingPage,
         },
         {

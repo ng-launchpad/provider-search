@@ -9,7 +9,7 @@
         <div class="search-block__form">
             <input type="text" class="search-block__input" placeholder="Search by doctor or facility name, specialty or address" v-model="searchQuery">
             <div class="search-block__form-descr">
-                <span>Not sure what to search for?<br><router-link to="/st-vincents">Browse providers & facilities</router-link></span>
+                <span>Not sure what to search for?<br><router-link to="/allstate">Browse providers & facilities</router-link></span>
             </div>
         </div>
 
