@@ -22,6 +22,7 @@
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
+        "phpstan/phpstan": "^1.2",
         "phpunit/phpunit": "^9.5.8",
         "spatie/phpunit-watcher": "^1.23"
     },
