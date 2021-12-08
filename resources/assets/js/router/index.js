@@ -2,40 +2,33 @@ import Vue from 'vue';
 import Router from 'vue-router';
 Vue.use(Router);
 
-import BrowseNetworksPage from '../pages/browse-networks';
-import SearchPage from '../pages/search';
-import ResultsPage from '../pages/results';
-import ProviderPage from '../pages/provider';
-import FacilityPage from '../pages/facility';
-import BrowsingPage from '../pages/browsing';
-
 const routes = new Router({
     mode: 'history',
     routes: [
         {
             path: '/browse-networks',
-            component: BrowseNetworksPage,
+            component: () => import('../pages/browse-networks'),
         },
         {
             path: '/',
-            component: SearchPage
+            component: () => import('../pages/search')
         },
         {
             path: '/results',
-            component: ResultsPage,
+            component: () => import('../pages/results'),
             props: route => ({ query: route.query })
         },
         {
             path: '/allstate',
-            component: BrowsingPage,
+            component: import('../pages/browsing'),
         },
         {
             path: '/provider/:id',
-            component: ProviderPage,
+            component: import('../pages/provider'),
         },
         {
             path: '/facility/:id',
-            component: FacilityPage,
+            component: import('../pages/facility'),
         }
     ],
     scrollBehavior (to, from, savedPosition) {
