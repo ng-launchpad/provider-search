@@ -25,6 +25,12 @@
                 caption="The St Vincent's Network is based around Alabama only."
             />
         </div>
+
+        <div class="pt-2 pb-5">
+            <div class="container">
+                Insert any legal disclaimers here.
+            </div>
+        </div>
     </div>
 </template>
 

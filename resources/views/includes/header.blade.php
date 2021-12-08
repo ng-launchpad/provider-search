@@ -15,7 +15,7 @@
         <div class="container">
             <div class="header__logo">
                 <a href="#" class="header__logo-link">
-                    LOGO TEST
+                    <img src="images/logo.png" alt="">
                 </a>
             </div>
         </div>
