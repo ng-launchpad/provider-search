@@ -1,0 +1,77 @@
+.home-about {
+    max-width: 1440px;
+    margin: 0 auto;
+
+    &__top,
+    &__bottom {
+        display: flex;
+    }
+
+    &__top-left {
+        background-color: $mystic;
+        width: 64%;
+        padding: 3rem 5rem;
+    }
+
+    &__top-right {
+        background-color: $blue-zodiac;
+        width: 36%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__top-logo {
+        max-width: 184px;
+    }
+
+    &__title {
+        @include font-size(48px);
+
+        span {
+            color: $primary;
+        }
+    }
+
+    &__text {
+        @include font-size(20px);
+        margin-top: 8px;
+    }
+
+    &__more {
+        @include font-size(20px);
+    }
+
+    &__bottom-left {
+        background-color: $picton-blue;
+        width: 36%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px
+    }
+
+    &__bottom-right {
+        background-color: $primary;
+        width: 64%;
+        display: flex;
+        align-items: center;
+        padding: 40px;
+    }
+
+    &__bottom-logo {
+        max-width: 300px;
+    }
+
+    &__bottom-text {
+        @include font-size(36px);
+        font-weight: 500;
+        width: 100%;
+        text-align: right;
+        color: $white;
+
+        span {
+            color: $picton-blue;
+        }
+    }
+}

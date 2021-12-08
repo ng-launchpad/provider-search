@@ -34,14 +34,12 @@ strong {
     }
 
     &--styled-link {
-        @include typeface('heading');
-        color: $secondary;
+        color: $primary;
         text-decoration: none;
         font-size: inherit;
         background-image: linear-gradient(transparent calc(100% - 1px), black 1px);
         background-repeat: no-repeat;
-        background-size: 100% 100%;;
-        background-position-y: -5px;
+        background-size: 100% 100%;
         background-position-x: right;
         transition: background-size 0.3s;
 

@@ -1,3 +1,3 @@
 <footer class="footer">
-    HEADER
+    FOOTER
 </footer>
