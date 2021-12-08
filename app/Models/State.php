@@ -27,4 +27,13 @@ use Illuminate\Database\Eloquent\Model;
 class State extends Model
 {
     use HasFactory;
+
+    /**
+     * Gets all Providers associated with the state
+     */
+    public function providers()
+    {
+        return $this->hasMany(Provider::class);
+    }
+
 }
