@@ -2,10 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\State;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ProviderFactory extends Factory
+class StateFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -15,8 +14,8 @@ class ProviderFactory extends Factory
     public function definition()
     {
         return [
-            'label'    => $this->faker->company(),
-            'state_id' => State::query()->inRandomOrder()->first(),
+            'label' => $this->faker->state(),
+            'code'  => $this->faker->stateAbbr(),
         ];
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProviderResource extends JsonResource
+class StateResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,7 +18,7 @@ class ProviderResource extends JsonResource
         return [
             'id'    => $this->id,
             'label' => $this->label,
-            'state' => new StateResource($this->whenLoaded('state')),
+            'code'  => $this->code,
         ];
     }
 }
