@@ -33,6 +33,57 @@
 
         a {
             font-weight: bold;
+            color: $primary;
         }
+    }
+
+    &__network {
+        margin-top: 64px;
+    }
+
+    &__network-container {
+        margin-top: 16px;
+        overflow: hidden;
+    }
+
+    &__network-row {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+
+    &__network-item {
+        width: (100% / 4);
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    &__network-item-head {
+        height: 128px;
+        background-color: $white;
+        display: flex;
+        align-items: center;
+    }
+
+    &__network-row {
+        display: flex;
+    }
+
+    &__network-item-label {
+        @include font-size(16px);
+        margin-top: 8px;
+    }
+
+    &__network-item-logo {
+        width: 80px;
+        flex-shrink: 0;
+    }
+
+    &__network-item-text {
+        text-align: center;
+        flex: 1 0 0;
+    }
+
+    &__submit {
+        margin-top: 46px;
     }
 }
