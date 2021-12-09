@@ -35,6 +35,7 @@
                             >Search</button>
                         </div>
                         <router-link
+                            v-if="isResults"
                             to="/allstate"
                             class="text--styled-link search-block__browse-all"
                         >
@@ -54,50 +55,58 @@
                         <div class="search-block__network-row">
                             <div class="search-block__network-item">
                                 <div class="search-block__network-item-head">
-                                    <div class="search-block__network-item-logo"></div>
-                                    <div class="search-block__network-item-text">
-                                        Secure choice <br>
-                                        <strong>Broad</strong>
+                                    <div class="search-block__network-item-label">
+                                        Medical & dental providers
                                     </div>
-                                </div>
-                                <div class="search-block__network-item-label">
-                                    Medical & dental providers
+                                    <div class="search-block__network-item-head-inner">
+                                        <div class="search-block__network-item-logo"></div>
+                                        <div class="search-block__network-item-text">
+                                            Secure choice <br>
+                                            <i>Broad</i>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="search-block__network-item">
                                 <div class="search-block__network-item-head">
-                                    <div class="search-block__network-item-logo"></div>
-                                    <div class="search-block__network-item-text">
-                                        Secure choice <br>
-                                        <strong>Select</strong>
+                                    <div class="search-block__network-item-label">
+                                        Medical providers
                                     </div>
-                                </div>
-                                <div class="search-block__network-item-label">
-                                    Medical providers
+                                    <div class="search-block__network-item-head-inner">
+                                        <div class="search-block__network-item-logo"></div>
+                                        <div class="search-block__network-item-text">
+                                            Secure choice <br>
+                                            <i>Select</i>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="search-block__network-item">
                                 <div class="search-block__network-item-head">
-                                    <div class="search-block__network-item-logo"></div>
-                                    <div class="search-block__network-item-text">
-                                        Secure choice <br>
-                                        <strong>Broad & Select</strong>
+                                    <div class="search-block__network-item-label">
+                                        Vision providers
                                     </div>
-                                </div>
-                                <div class="search-block__network-item-label">
-                                    Vision providers
+                                    <div class="search-block__network-item-head-inner">
+                                        <div class="search-block__network-item-logo"></div>
+                                        <div class="search-block__network-item-text">
+                                            Secure choice <br>
+                                            <i>Broad & Select</i>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="search-block__network-item">
                                 <div class="search-block__network-item-head">
-                                    <div class="search-block__network-item-logo"></div>
-                                    <div class="search-block__network-item-text">
-                                        Secure choice <br>
-                                        <strong>Broad & Select</strong>
+                                    <div class="search-block__network-item-label">
+                                        Pharmacy directory
                                     </div>
-                                </div>
-                                <div class="search-block__network-item-label">
-                                    Pharmacy directory
+                                    <div class="search-block__network-item-head-inner">
+                                        <div class="search-block__network-item-logo"></div>
+                                        <div class="search-block__network-item-text">
+                                            Secure choice <br>
+                                            <i>Broad & Select</i>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

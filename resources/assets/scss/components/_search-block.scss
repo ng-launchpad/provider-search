@@ -103,10 +103,15 @@
     &__network-item-head {
         height: 128px;
         background-color: $white;
-        display: flex;
-        align-items: center;
         border: 3px solid $white;
         transition: border-color .3s;
+        flex-wrap: wrap;
+        padding: 16px 21px;
+    }
+
+    &__network-item-head-inner {
+        display: flex;
+        align-items: center;
     }
 
     &__network-row {
@@ -115,7 +120,10 @@
 
     &__network-item-label {
         @include font-size(16px);
-        margin-top: 8px;
+        width: 100%;
+        font-weight: bold;
+        margin-bottom: 16px;
+        text-align: center;
     }
 
     &__network-item-logo {
@@ -124,6 +132,7 @@
     }
 
     &__network-item-text {
+        @include font-size(16px);
         text-align: center;
         flex: 1 0 0;
     }
