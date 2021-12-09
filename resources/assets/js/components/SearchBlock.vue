@@ -35,7 +35,7 @@
                             >Search</button>
                         </div>
                         <router-link
-                            to="/allstates"
+                            to="/allstate"
                             class="text--styled-link search-block__browse-all"
                         >
                             Browse all

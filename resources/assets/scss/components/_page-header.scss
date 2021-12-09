@@ -1,0 +1,14 @@
+.page-header {
+    background-color: $blue-zodiac;
+    padding: 80px 0 96px;
+
+    &__title {
+        @include font-size(60px);
+        font-weight: 500;
+        color: $white;
+    }
+
+    &--browsing {
+        padding: 40px 0 55px;
+    }
+}

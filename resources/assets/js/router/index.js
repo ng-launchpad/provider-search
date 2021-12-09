@@ -20,7 +20,7 @@ const routes = new Router({
         },
         {
             path: '/allstate',
-            component: import('../pages/browsing'),
+            component: () => import('../pages/browsing'),
         },
         {
             path: '/provider/:id',
