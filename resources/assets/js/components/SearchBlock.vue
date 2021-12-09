@@ -59,7 +59,9 @@
                                         Medical & dental providers
                                     </div>
                                     <div class="search-block__network-item-head-inner">
-                                        <div class="search-block__network-item-logo"></div>
+                                        <div class="search-block__network-item-logo">
+                                            <img v-bind:src="'/images/logo_vertical.png'" alt="">
+                                        </div>
                                         <div class="search-block__network-item-text">
                                             Secure choice <br>
                                             <i>Broad</i>
@@ -73,7 +75,9 @@
                                         Medical providers
                                     </div>
                                     <div class="search-block__network-item-head-inner">
-                                        <div class="search-block__network-item-logo"></div>
+                                        <div class="search-block__network-item-logo">
+                                            <img v-bind:src="'/images/logo_vertical.png'" alt="">
+                                        </div>
                                         <div class="search-block__network-item-text">
                                             Secure choice <br>
                                             <i>Select</i>
@@ -87,7 +91,9 @@
                                         Vision providers
                                     </div>
                                     <div class="search-block__network-item-head-inner">
-                                        <div class="search-block__network-item-logo"></div>
+                                        <div class="search-block__network-item-logo">
+                                            <img v-bind:src="'/images/logo_vertical.png'" alt="">
+                                        </div>
                                         <div class="search-block__network-item-text">
                                             Secure choice <br>
                                             <i>Broad & Select</i>
@@ -101,7 +107,9 @@
                                         Pharmacy directory
                                     </div>
                                     <div class="search-block__network-item-head-inner">
-                                        <div class="search-block__network-item-logo"></div>
+                                        <div class="search-block__network-item-logo">
+                                            <img v-bind:src="'/images/logo_vertical.png'" alt="">
+                                        </div>
                                         <div class="search-block__network-item-text">
                                             Secure choice <br>
                                             <i>Broad & Select</i>

@@ -129,6 +129,10 @@
     &__network-item-logo {
         width: 80px;
         flex-shrink: 0;
+
+        img {
+            max-width: 100%;
+        }
     }
 
     &__network-item-text {
