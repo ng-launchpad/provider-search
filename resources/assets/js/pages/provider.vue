@@ -2,42 +2,46 @@
     <div>
         <div class="page-header page-header--bg-color">
             <div class="container">
-                <div class="page-header__back">
-                    <a
-                        href="#"
-                        v-on:click.prevent="goBack"
-                        class="page-header__back-link"
-                    >
-                        <img src="../../img/svg/arrow-left.svg" alt="" class="page-header__back-icon">
-                        <span>Back to results</span>
-                    </a>
-                </div>
                 <p class="page-header__title heading">
                     {{ provider.first_name }} {{ provider.middle_name }} {{ provider.last_name }}, {{ provider.credentials }}
                 </p>
                 <p
-                    v-if="provider.accepting_new_patients === 'Yes' || provider.accepting_new_patients === 'No'"
                     class="page-header__sub-title">
-                    {{ provider.accepting_new_patients ? 'Accepting new patients' : 'Not accepting new patients' }}
-                    <img
-                        v-if="provider.accepting_new_patients === 'Yes'"
-                        src="../../img/svg/check-circle-white.svg"
-                        class="page-header__header-icon"
-                    >
-                    <img
-                        v-if="provider.accepting_new_patients === 'No'"
-                        src="../../img/svg/x-circle-white.svg"
-                        class="page-header__header-icon"
-                    >
+                    Accepting new patients
                 </p>
-                <div
-                    v-if="provider.locations && provider.locations.length"
-                    class="page-header__text">
-                    Here’s the information we have for {{ provider.first_name }} {{ provider.middle_name }}
-                    {{ provider.last_name }}.
-                    Provider information and availability change frequently, so we advise you to call
-                    <a v-bind:href="`tel:${provider.locations[0].practice_phone}`">{{ provider.locations[0].practice_phone }}</a> to confirm availability for
-                    your plan.
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <div class="page-header__char">
+                            <img src="../../img/svg/map-pin.svg" alt="">
+                            <div class="page-header__char-title">
+                                <strong>Primary address</strong>
+                                <br>
+                                {{ provider.locations[0].addr_line_1 }}, {{ provider.locations[0].addr_line_2 ? provider.locations[0].addr_line_2 + ', ' : '' }} {{ provider.locations[0].city }}, {{ provider.locations[0].state }}, {{ provider.locations[0].zip }}
+                                <br>
+                                <a href="#" class="mt-2 d-inline-block text--styled-link">View on a map</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="page-header__char">
+                            <img src="../../img/svg/map-pin.svg" alt="">
+                            <div class="page-header__char-title">
+                                <strong>Phone number</strong>
+                                <br>
+                                <a href="#">813-926-5454</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="page-header__char">
+                            <img src="../../img/svg/map-pin.svg" alt="">
+                            <div class="page-header__char-title">
+                                <strong>Specialties</strong>
+                                <br>
+                                {{ provider.specialty }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

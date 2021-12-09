@@ -8,6 +8,36 @@
         color: $white;
     }
 
+    &__sub-title {
+        @include font-size(24px);
+        font-weight: 500;
+        color: $white;
+        margin: 0;
+    }
+
+    &__char {
+        @include font-size(18px);
+        color: $white;
+        display: flex;
+        align-items: flex-start;
+        line-height: 1.56;
+
+        img {
+            display: inline-block;
+            margin-right: 12px;
+        }
+
+        a.text--styled-link {
+            color: $white;
+            background-image: linear-gradient(transparent calc(100% - 1px), white 1px);
+        }
+
+        a {
+            color: $white;
+            text-decoration: none;
+        }
+    }
+
     &--browsing {
         padding: 40px 0 55px;
     }
