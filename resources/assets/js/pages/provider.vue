@@ -12,19 +12,24 @@
                 <div class="row mt-4">
                     <div class="col-md-4">
                         <div class="page-header__char">
-                            <img src="../../img/svg/map-pin.svg" alt="">
+                            <img v-bind:src="'/images/map-pin-white.svg'" alt="">
                             <div class="page-header__char-title">
                                 <strong>Primary address</strong>
                                 <br>
                                 {{ provider.locations[0].addr_line_1 }}, {{ provider.locations[0].addr_line_2 ? provider.locations[0].addr_line_2 + ', ' : '' }} {{ provider.locations[0].city }}, {{ provider.locations[0].state }}, {{ provider.locations[0].zip }}
                                 <br>
-                                <a href="#" class="mt-2 d-inline-block text--styled-link">View on a map</a>
+                                <a
+                                    v-bind:href="`https://maps.google.com/?q=${provider.locations[0].addr_line_1},${provider.locations[0].city},${provider.locations[0].state},${provider.locations[0].zip}`"
+                                    class="mt-2 d-inline-block text--styled-link"
+                                >
+                                    View on a map
+                                </a>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="page-header__char">
-                            <img src="../../img/svg/map-pin.svg" alt="">
+                            <img v-bind:src="'/images/phone-icon-white.svg'" alt="">
                             <div class="page-header__char-title">
                                 <strong>Phone number</strong>
                                 <br>
@@ -34,7 +39,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="page-header__char">
-                            <img src="../../img/svg/map-pin.svg" alt="">
+                            <img v-bind:src="'/images/check-white.svg'" alt="">
                             <div class="page-header__char-title">
                                 <strong>Specialties</strong>
                                 <br>
