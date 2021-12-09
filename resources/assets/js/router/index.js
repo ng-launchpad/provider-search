@@ -24,11 +24,11 @@ const routes = new Router({
         },
         {
             path: '/provider/:id',
-            component: import('../pages/provider'),
+            component: () => import('../pages/provider'),
         },
         {
             path: '/facility/:id',
-            component: import('../pages/facility'),
+            component: () => import('../pages/facility'),
         }
     ],
     scrollBehavior (to, from, savedPosition) {
