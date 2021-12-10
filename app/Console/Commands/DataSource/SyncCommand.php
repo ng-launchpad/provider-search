@@ -51,7 +51,7 @@ class SyncCommand extends Command
             ->sync(
                 'filename.csv',
                 $this->getSftpConnection(),
-                new Mapper\SourceTwo(),
+                new Mapper\Vsp(),
                 new Parser\Csv()
             );
 

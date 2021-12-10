@@ -5,7 +5,7 @@ namespace App\Services\DataSource\Mapper;
 use App\Interfaces\DataSource\Mapper;
 use App\Models\Provider;
 
-class SourceTwo implements Mapper
+class Vsp implements Mapper
 {
     public function transform(array $item): Provider
     {
