@@ -7,7 +7,7 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\Sftp\SftpAdapter;
 
-class Sftp implements Connection
+final class Sftp implements Connection
 {
     private FilesystemInterface $filesystem;
 
@@ -20,7 +20,7 @@ class Sftp implements Connection
         string $root = '~/',
         int $timeout = 10
     ) {
-        return new static(
+        return new self(
             new Filesystem(
                 new SftpAdapter([
                     'host'       => $host,

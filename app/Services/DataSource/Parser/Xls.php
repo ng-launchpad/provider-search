@@ -6,7 +6,7 @@ use App\Interfaces\DataSource\Parser;
 use Illuminate\Support\Collection;
 use PhpOffice\PhpSpreadsheet;
 
-class Xls implements Parser
+final class Xls implements Parser
 {
     const MIMES = [
         'application/vnd.ms-excel',
@@ -15,7 +15,7 @@ class Xls implements Parser
 
     public static function factory(): self
     {
-        return new static();
+        return new self();
     }
 
     public function parse($resource): Collection

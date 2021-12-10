@@ -6,11 +6,11 @@ use App\Interfaces\DataSource\Connection;
 use App\Interfaces\DataSource\Mapper;
 use App\Interfaces\DataSource\Parser;
 
-class DataSourceService
+final class DataSourceService
 {
     public static function factory()
     {
-        return new static();
+        return new self();
     }
 
     /**

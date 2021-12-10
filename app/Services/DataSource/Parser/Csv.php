@@ -5,13 +5,13 @@ namespace App\Services\DataSource\Parser;
 use App\Interfaces\DataSource\Parser;
 use Illuminate\Support\Collection;
 
-class Csv implements Parser
+final class Csv implements Parser
 {
     const MIMES = ['text/csv', 'text/plain'];
 
     public static function factory(): self
     {
-        return new static();
+        return new self();
     }
 
     public function parse($resource): Collection
