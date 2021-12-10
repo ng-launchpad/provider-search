@@ -24,7 +24,15 @@ class Csv implements Parser
             ));
         }
 
-        //  @todo (Pablo 2021-12-08) - parse into a collection
+        $collection = new Collection();
+
+        rewind($resource);
+
+        while (($data = fgetcsv($resource)) !== false) {
+            $collection->add($data);
+        }
+
+        return $collection;
     }
 
     protected function isValidMime($resource): bool
