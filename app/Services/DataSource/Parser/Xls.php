@@ -4,6 +4,7 @@ namespace App\Services\DataSource\Parser;
 
 use App\Interfaces\DataSource\Parser;
 use Illuminate\Support\Collection;
+use PhpOffice\PhpSpreadsheet;
 
 class Xls implements Parser
 {
@@ -27,7 +28,15 @@ class Xls implements Parser
             ));
         }
 
-        //  @todo (Pablo 2021-12-08) - parse into a collection
+        $file = stream_get_meta_data($resource)['uri'];
+
+        $reader = PhpSpreadsheet\IOFactory::createReaderForFile($file);
+        $reader->setReadDataOnly(true);
+
+        $spreadsheet = $reader->load($file);
+        $worksheet   = $spreadsheet->getSheet(0);
+
+        return new Collection($worksheet->toArray());
     }
 
     protected function isValidMime($resource): bool
