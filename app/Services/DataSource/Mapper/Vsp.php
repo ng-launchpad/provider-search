@@ -2,22 +2,14 @@
 
 namespace App\Services\DataSource\Mapper;
 
-use App\Services\DataSource\Interfaces\Mapper;
-use App\Models\Provider;
+use App\Services\DataSource\Mapper;
 
-final class Vsp implements Mapper
+final class Vsp extends Mapper
 {
-    public static function factory(): self
+    protected function getMap(): array
     {
-        return new self();
-    }
-
-    public function transform(array $item): Provider
-    {
-        $provider = new Provider();
-
-        $provider->label = $item['PRACTICE NAME'];
-
-        return $provider;
+        return [
+            'PRACTICE NAME' => 'label',
+        ];
     }
 }

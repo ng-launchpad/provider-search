@@ -2,22 +2,14 @@
 
 namespace App\Services\DataSource\Mapper;
 
-use App\Services\DataSource\Interfaces\Mapper;
-use App\Models\Provider;
+use App\Services\DataSource\Mapper;
 
-final class Aenta implements Mapper
+final class Aenta extends Mapper
 {
-    public static function factory(): self
+    protected function getMap(): array
     {
-        return new self();
-    }
-
-    public function transform(array $item): Provider
-    {
-        $provider = new Provider();
-
-        $provider->label = $item['COLUMN NAME'];
-
-        return $provider;
+        return [
+            'COLUMN NAME' => 'label',
+        ];
     }
 }
