@@ -44,17 +44,28 @@ class SyncCommand extends Command
         DataSourceService::factory()
             ->sync(
                 'filename.xlsx',
-                new Connection\Sftp(),
+                $this->getSftpConnection(),
                 new Mapper\SourceOne(),
                 new Parser\Xls()
             )
             ->sync(
                 'filename.csv',
-                new Connection\Sftp(),
+                $this->getSftpConnection(),
                 new Mapper\SourceTwo(),
                 new Parser\Csv()
             );
 
         return Command::SUCCESS;
+    }
+
+    // --------------------------------------------------------------------------
+
+    private function getSftpConnection(): Connection\Sftp
+    {
+        return Connection\Sftp::factory(
+            env('DATASOURCE_SFTP_HOST'),
+            env('DATASOURCE_SFTP_USERNAME'),
+            env('DATASOURCE_SFTP_PASSWORD')
+        );
     }
 }
