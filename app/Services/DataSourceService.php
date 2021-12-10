@@ -26,24 +26,19 @@ final class DataSourceService
      */
     public function sync(string $filename, Connection $connection, Mapper $mapper, Parser $parser): self
     {
-        try {
-            $file = tmpfile();
+        $file = tmpfile();
 
-            $connection->download($filename, $file);
+        $connection->download($filename, $file);
 
-            $collection = $parser->parse($file);
+        $collection = $parser->parse($file);
 
-            $collection = $collection->map(fn(array $item) => $mapper->transform($item));
+        $collection = $collection->map(fn(array $item) => $mapper->transform($item));
 
-            //  @todo (Pablo 2021-12-10) - ensure we handle updates properly
+        //  @todo (Pablo 2021-12-10) - ensure we handle updates properly
 
-            $collection->each(fn(Provider $provider) => $provider->save());
+        $collection->each(fn(Provider $provider) => $provider->save());
 
-            //  @todo (Pablo 2021-12-08) - delete untouched items from the database
-
-        } catch (\Throwable $e) {
-            //  @todo (Pablo 2021-12-08) - handle failure
-        }
+        //  @todo (Pablo 2021-12-08) - delete untouched items from the database
 
         return $this;
     }
