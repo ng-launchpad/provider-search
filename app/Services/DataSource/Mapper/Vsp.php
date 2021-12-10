@@ -14,6 +14,10 @@ final class Vsp implements Mapper
 
     public function transform(array $item): Provider
     {
-        //  @todo (Pablo 2021-12-08) - take the item and transform into a provider
+        $provider = new Provider();
+
+        $provider->label = $item['PRACTICE NAME'];
+
+        return $provider;
     }
 }
