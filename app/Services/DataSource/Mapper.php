@@ -6,6 +6,12 @@ use App\Models\Provider;
 
 abstract class Mapper implements Interfaces\Mapper
 {
+    // `final` prevents PHPStan from reporting an unsafe usage of static() in factory()
+    // https://phpstan.org/blog/solving-phpstan-error-unsafe-usage-of-new-static
+    final public function __construct()
+    {
+    }
+
     public static function factory(): self
     {
         return new static();
