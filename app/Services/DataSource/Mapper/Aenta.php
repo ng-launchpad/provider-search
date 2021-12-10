@@ -5,7 +5,7 @@ namespace App\Services\DataSource\Mapper;
 use App\Interfaces\DataSource\Mapper;
 use App\Models\Provider;
 
-class SourceOne implements Mapper
+class Aenta implements Mapper
 {
     public function transform(array $item): Provider
     {

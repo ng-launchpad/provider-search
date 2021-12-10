@@ -45,7 +45,7 @@ class SyncCommand extends Command
             ->sync(
                 'filename.xlsx',
                 $this->getSftpConnection(),
-                new Mapper\SourceOne(),
+                new Mapper\Aenta(),
                 new Parser\Xls()
             )
             ->sync(
