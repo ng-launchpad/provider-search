@@ -30,9 +30,6 @@ class DataSourceService
             //  @todo (Pablo 2021-12-08) - get a temporary file resource
             //  $file = tmpfile();
 
-            //  @todo (Pablo 2021-12-08) - open the connection
-            //  $connection->connect();
-
             //  @todo (Pablo 2021-12-08) - download the file
             //  $connection->download($filename, $file);
 

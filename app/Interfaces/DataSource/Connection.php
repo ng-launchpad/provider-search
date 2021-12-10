@@ -5,13 +5,6 @@ namespace App\Interfaces\DataSource;
 interface Connection
 {
     /**
-     * Opens the connection
-     *
-     * @return $this
-     */
-    public function connect(): self;
-
-    /**
      * Downloads the file to the given resource
      *
      * @param string   $file
