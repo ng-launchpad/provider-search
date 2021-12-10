@@ -12,7 +12,7 @@ class Xls implements Parser
     public function parse($resource): Collection
     {
         if (!$this->isValidMime($resource)) {
-            throw new \RuntimeException(sprintf(
+            throw new \InvalidArgumentException(sprintf(
                 'invalid file type, expected `%s`, got %s',
                 static::MIME,
                 $this->getMime($resource)

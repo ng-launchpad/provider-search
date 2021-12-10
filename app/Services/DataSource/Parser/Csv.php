@@ -12,7 +12,7 @@ class Csv implements Parser
     public function parse($resource): Collection
     {
         if (!$this->isValidMime($resource)) {
-            throw new \RuntimeException(sprintf(
+            throw new \InvalidArgumentException(sprintf(
                 'Invalid file type, expected `%s`, got `%s`',
                 implode(', ', static::MIMES),
                 $this->getMime($resource)
