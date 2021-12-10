@@ -2,7 +2,7 @@
 
 namespace App\Services\DataSource\Mapper;
 
-use App\Interfaces\DataSource\Mapper;
+use App\Services\DataSource\Interfaces\Mapper;
 use App\Models\Provider;
 
 class Vsp implements Mapper

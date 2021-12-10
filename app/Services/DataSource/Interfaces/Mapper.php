@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Interfaces\DataSource;
+namespace App\Services\DataSource\Interfaces;
 
 use App\Models\Provider;
 

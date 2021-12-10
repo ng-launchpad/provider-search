@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Interfaces\DataSource\Connection;
-use App\Interfaces\DataSource\Mapper;
-use App\Interfaces\DataSource\Parser;
+use App\Services\DataSource\Interfaces\Connection;
+use App\Services\DataSource\Interfaces\Mapper;
+use App\Services\DataSource\Interfaces\Parser;
 
 final class DataSourceService
 {

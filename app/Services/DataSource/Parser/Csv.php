@@ -2,7 +2,7 @@
 
 namespace App\Services\DataSource\Parser;
 
-use App\Interfaces\DataSource\Parser;
+use App\Services\DataSource\Interfaces\Parser;
 use Illuminate\Support\Collection;
 
 final class Csv implements Parser

@@ -2,7 +2,7 @@
 
 namespace App\Services\DataSource\Connection;
 
-use App\Interfaces\DataSource\Connection;
+use App\Services\DataSource\Interfaces\Connection;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\Sftp\SftpAdapter;
