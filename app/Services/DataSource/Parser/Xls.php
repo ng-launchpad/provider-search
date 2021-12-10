@@ -7,7 +7,10 @@ use Illuminate\Support\Collection;
 
 class Xls implements Parser
 {
-    const MIME = 'application/vnd.ms-excel';
+    const MIMES = [
+        'application/vnd.ms-excel',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    ];
 
     public static function factory(): self
     {
@@ -19,7 +22,7 @@ class Xls implements Parser
         if (!$this->isValidMime($resource)) {
             throw new \InvalidArgumentException(sprintf(
                 'invalid file type, expected `%s`, got %s',
-                static::MIME,
+                implode(', ', static::MIMES),
                 $this->getMime($resource)
             ));
         }
@@ -29,7 +32,7 @@ class Xls implements Parser
 
     protected function isValidMime($resource): bool
     {
-        return $this->getMime($resource) === static::MIME;
+        return in_array($this->getMime($resource), static::MIMES);
     }
 
     protected function getMime($resource): ?string
