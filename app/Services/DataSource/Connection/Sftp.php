@@ -39,9 +39,11 @@ class Sftp implements Connection
     {
         $this->filesystem = $filesystem;
     }
+    
     public function download(string $file, $resource): Connection
     {
-        //  @todo (Pablo 2021-12-08) - stream $file into $resource
+        $response = $this->filesystem->read($file);
+        fwrite($resource, $response);
         return $this;
     }
 }
