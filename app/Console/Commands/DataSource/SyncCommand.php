@@ -41,24 +41,26 @@ class SyncCommand extends Command
      */
     public function handle()
     {
-        DataSourceService::factory()
-            ->sync(
+        $service = DataSourceService::factory();
+
+        $this
+            ->performSync(
+                $service,
+                'Aenta',
                 'filename.xlsx',
-                $this->getSftpConnection(),
                 new Mapper\Aenta(),
                 new Parser\Xls()
             )
-            ->sync(
+            ->performSync(
+                $service,
+                'VSP',
                 'filename.csv',
-                $this->getSftpConnection(),
                 new Mapper\Vsp(),
                 new Parser\Csv()
             );
 
         return Command::SUCCESS;
     }
-
-    // --------------------------------------------------------------------------
 
     private function getSftpConnection(): Connection\Sftp
     {
@@ -67,5 +69,39 @@ class SyncCommand extends Command
             env('DATASOURCE_SFTP_USERNAME'),
             env('DATASOURCE_SFTP_PASSWORD')
         );
+    }
+
+    private function performSync(
+        DataSourceService $service,
+        string $label,
+        string $filename,
+        \App\Services\DataSource\Interfaces\Mapper $mapper,
+        \App\Services\DataSource\Interfaces\Parser $parser
+    ): self {
+
+        try {
+
+            $this->getOutput()->write(sprintf(
+                'Syncing <comment>%s</comment> data... ',
+                $label
+            ));
+
+            $service
+                ->sync(
+                    $filename,
+                    $this->getSftpConnection(),
+                    $mapper,
+                    $parser
+                );
+
+            $this->getOutput()->writeln('<info>done!</info>');
+
+        } catch (\Throwable $e) {
+            $this->getOutput()->writeln(sprintf(
+                '<error>ERROR: %s</error>',
+                $e->getMessage()
+            ));
+        }
+        return $this;
     }
 }
