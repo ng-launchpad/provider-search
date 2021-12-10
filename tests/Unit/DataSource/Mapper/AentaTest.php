@@ -25,6 +25,8 @@ class AentaTest extends TestCase
         $this->assertInstanceOf(Collection::class, $collection);
         $this->assertCount(1, $collection);
         $this->assertInstanceOf(Provider::class, $collection->get(0));
+
+        //  @todo (Pablo 2021-12-10) - Add assertions for all the columns the mapper maps
         $this->assertEquals($data[0]['COLUMN NAME'], $collection->get(0)->label);
     }
 
