@@ -9,6 +9,11 @@ class Csv implements Parser
 {
     const MIMES = ['text/csv', 'text/plain'];
 
+    public static function factory(): self
+    {
+        return new static();
+    }
+
     public function parse($resource): Collection
     {
         if (!$this->isValidMime($resource)) {

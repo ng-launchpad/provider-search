@@ -9,6 +9,11 @@ class Xls implements Parser
 {
     const MIME = 'application/vnd.ms-excel';
 
+    public static function factory(): self
+    {
+        return new static();
+    }
+
     public function parse($resource): Collection
     {
         if (!$this->isValidMime($resource)) {
