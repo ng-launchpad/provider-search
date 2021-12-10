@@ -7,14 +7,14 @@ use Illuminate\Support\Collection;
 
 class Csv implements Parser
 {
-    const MIME = 'text/csv';
+    const MIMES = ['text/csv', 'text/plain'];
 
     public function parse($resource): Collection
     {
         if (!$this->isValidMime($resource)) {
             throw new \RuntimeException(sprintf(
-                'invalid file type, expected `%s`, got %s',
-                static::MIME,
+                'Invalid file type, expected `%s`, got `%s`',
+                implode(', ', static::MIMES),
                 $this->getMime($resource)
             ));
         }
@@ -24,7 +24,7 @@ class Csv implements Parser
 
     protected function isValidMime($resource): bool
     {
-        return $this->getMime($resource) === static::MIME;
+        return in_array($this->getMime($resource), static::MIMES);
     }
 
     protected function getMime($resource): ?string
