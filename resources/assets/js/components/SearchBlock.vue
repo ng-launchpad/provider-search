@@ -271,15 +271,8 @@ export default {
 
     methods: {
         newSearch: async function() {
-            if (this.searchQuery) this.$router.push({path: '/results', query: {search: this.searchQuery}}).catch(()=>{});
+            if (this.searchQuery) this.$router.push({path: '/results', query: {keywords: this.searchQuery}}).catch(()=>{});
         },
-
-        searchProviders: async function(string) {
-            this.loading = true;
-            const {data} = await api.search(string);
-            this.providers = data.data;
-            this.loading = false;
-        }
     },
 }
 </script>

@@ -73,6 +73,22 @@
                         </p>
                     </template>
                 </div>
+
+                <div class="results-container__pagination">
+                    <div class="pagination">
+                        <div
+                            v-for="index in paginationItems"
+                            class="pagination__item"
+                            v-bind:key="index"
+                            v-bind:class="{
+                                'is-active': index === currentPage
+                            }"
+                            v-on:click="setPage(index)"
+                        >
+                            {{ index }}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -95,13 +111,15 @@ export default {
 
     data() {
         return {
+            currentPage: 1,
             providers: [],
+            providersMeta: {},
             searchQuery: '',
             loading: false,
             matchQueryOptions: [
                 {
                     label: 'All fields',
-                    value: 'search'
+                    value: 'keywords'
                 },
                 {
                     label: 'Provider name',
@@ -124,7 +142,7 @@ export default {
                     value: 'facility_services'
                 }
             ],
-            matchQuery: 'search',
+            matchQuery: 'keywords',
         }
     },
 
@@ -137,10 +155,13 @@ export default {
             handler: async function(){
                 this.matchQuery = Object.keys(this.$route.query)[0];
 
-                let queryKey = Object.keys(this.$route.query)[0];
-                let queryVal = this.$route.query[queryKey];
+                // let queryKey = Object.keys(this.$route.query)[0];
+                // let queryVal = this.$route.query[queryKey];
+                if (this.$route.query.page) {
+                    this.currentPage = parseInt(this.$route.query.page);
+                }
 
-                await this.searchProviders(queryKey, queryVal);
+                await this.searchProviders(this.$route.query);
             },
             immediate: true
         },
@@ -157,14 +178,19 @@ export default {
 
         resultsLabel: function() {
             return this.providers.length === 1 ? 'result for' : 'results for';
+        },
+
+        paginationItems: function() {
+            return Math.ceil(this.providersMeta.total / this.providersMeta.per_page)
         }
     },
 
     methods: {
-        searchProviders: async function(queryKey, queryVal) {
+        searchProviders: async function(query) {
             this.loading = true;
-            const {data} = await api.search(queryVal);
+            const {data} = await api.search(query);
             this.providers = data.data;
+            this.providersMeta = data.meta;
             this.loading = false;
         },
 
@@ -178,6 +204,10 @@ export default {
             } else if (type === 'facility') {
                 return ResultsItemFacility;
             }
+        },
+
+        setPage(page) {
+            this.$router.push({query: {...this.$route.query, page: page}}).catch(()=>{});
         }
     }
 }
