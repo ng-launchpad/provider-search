@@ -23,6 +23,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|State whereLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|State whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Provider[] $providers
+ * @property-read int|null $providers_count
  */
 class State extends Model
 {

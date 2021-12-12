@@ -138,9 +138,9 @@
 </template>
 
 <script>
-import api from '../api/mock';
+import api from '../api';
 import chunk from '../utility/chunk';
-import mock from "../api/mock";
+// import mock from "../api/mock";
 
 export default {
     name: 'SearchBlock',
@@ -262,7 +262,7 @@ export default {
         browseBy: {
             handler: async function() {
                 this.loading = true;
-                this.browsingList = await api.getItems(this.browseBy);
+                // this.browsingList = await api.getItems(this.browseBy);
                 this.loading = false;
             },
             immediate: true
@@ -274,11 +274,10 @@ export default {
             if (this.searchQuery) this.$router.push({path: '/results', query: {search: this.searchQuery}}).catch(()=>{});
         },
 
-        searchProviders: async function(query) {
+        searchProviders: async function(string) {
             this.loading = true;
-            this.providers = await mock.search(query).then(providers => {
-                return providers;
-            });
+            const {data} = await api.search(string);
+            this.providers = data.data;
             this.loading = false;
         }
     },

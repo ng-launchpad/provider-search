@@ -29,6 +29,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Provider whereBeginsWith(string $column, string $value, string $boolean = 'and')
  * @method static \Illuminate\Database\Eloquent\Builder|Provider whereEndsWith(string $column, string $value, string $boolean = 'and')
  * @method static \Illuminate\Database\Eloquent\Builder|Provider whereLike(string $column, string $value, string $boolean = 'and')
+ * @property int $state_id
+ * @property-read \App\Models\State $state
+ * @method static Builder|Provider whereStateId($value)
+ * @method static Builder|Provider withKeywords(string $keywords)
+ * @method static Builder|Provider withState(\App\Models\State $state)
  */
 class Provider extends Model
 {

@@ -80,6 +80,7 @@
 
 <script>
 import mock from '../api/mock';
+import api from '../api';
 import SearchBlock from '../components/SearchBlock';
 import ResultsItemDoctor from '../components/ResultsContainer/ResultsItemDoctor';
 import ResultsItemFacility from '../components/ResultsContainer/ResultsItemFacility';
@@ -162,9 +163,8 @@ export default {
     methods: {
         searchProviders: async function(queryKey, queryVal) {
             this.loading = true;
-            this.providers = await mock.search(queryKey, queryVal).then(providers => {
-                return providers;
-            });
+            const {data} = await api.search(queryVal);
+            this.providers = data.data;
             this.loading = false;
         },
 
