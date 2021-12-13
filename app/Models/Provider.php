@@ -38,7 +38,7 @@ class Provider extends Model
     const GENDER_FEMALE = 'FEMALE';
 
     /**
-     * Gets the state associated with the provider
+     * Gets the Network associated with the Provider
      */
     public function network()
     {
@@ -46,7 +46,7 @@ class Provider extends Model
     }
 
     /**
-     * Get providers which match keywords
+     * Get Providers which match keywords
      */
     public function scopeWithKeywords(Builder $query, string $keywords)
     {

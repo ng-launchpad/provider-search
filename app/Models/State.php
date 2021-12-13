@@ -29,11 +29,10 @@ class State extends Model
     use HasFactory;
 
     /**
-     * Gets all Providers associated with the state
+     * Gets all Locations associated with the state
      */
-    public function providers()
+    public function locations()
     {
-        return $this->hasMany(Provider::class);
+        return $this->hasMany(Location::class);
     }
-
 }
