@@ -16,7 +16,7 @@ class ProviderController extends Controller
     public function index(Request $request)
     {
         $providers = Provider::query()
-            ->with('state')
+            ->with('network')
             ->filter($request->all())
             ->paginateFilter();
 

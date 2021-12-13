@@ -4,7 +4,6 @@ namespace Tests\Feature\Endpoints\State;
 
 use App\Models\State;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class StateIndexTest extends TestCase

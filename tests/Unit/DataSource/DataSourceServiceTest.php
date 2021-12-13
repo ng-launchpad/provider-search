@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\DataSource;
 
+use App\Models\Network;
 use App\Models\State;
 use App\Services\DataSource\Interfaces\Connection;
 use App\Services\DataSource\Interfaces\Mapper;
@@ -22,18 +23,20 @@ class DataSourceServiceTest extends TestCase
     {
         // arrange
         $connection = $this->createMock(Connection::class);
-
-        $state = State::factory()->create();
-
-        $faker = Factory::create();
+        $faker      = Factory::create();
+        $network    = Network::factory()->create();
 
         /**
          * Create a new model, but not synced to the database;
          * include minimum required fields to avoid DB exceptions
          */
-        $provider           = new Provider();
-        $provider->label    = $faker->company;
-        $provider->state_id = $state->id;
+        $provider                            = new Provider();
+        $provider->label                     = $faker->company;
+        $provider->npi                       = $faker->numerify('##########');
+        $provider->gender                    = $faker->randomElement([Provider::GENDER_MALE, Provider::GENDER_FEMALE]);
+        $provider->network_id                = $network->id;
+        $provider->is_facility               = $faker->boolean;
+        $provider->is_accepting_new_patients = $faker->boolean;
 
         $mapper = $this->createMock(Mapper::class);
         $mapper

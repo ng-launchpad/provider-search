@@ -34,22 +34,15 @@ class Provider extends Model
 {
     use HasFactory, Filterable;
 
+    const GENDER_MALE   = 'MALE';
+    const GENDER_FEMALE = 'FEMALE';
+
     /**
      * Gets the state associated with the provider
      */
-    public function state()
+    public function network()
     {
-        return $this->belongsTo(State::class);
-    }
-
-    /**
-     * Get Providers which have a State
-     */
-    public function scopeWithState(Builder $query, State $state)
-    {
-        $query->whereHas('state', function ($query) use ($state) {
-            $query->where('state_id', $state->id);
-        });
+        return $this->belongsTo(Network::class);
     }
 
     /**
@@ -57,6 +50,6 @@ class Provider extends Model
      */
     public function scopeWithKeywords(Builder $query, string $keywords)
     {
-        $query->where('label', 'like' , "%$keywords%");
+        $query->where('label', 'like', "%$keywords%");
     }
 }
