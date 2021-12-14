@@ -3,9 +3,8 @@
 namespace Tests\Feature\Endpoints\Provider;
 
 use App\Models\Provider;
-use App\Models\State;
+use App\Models\Network;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ProviderSingleTest extends TestCase
@@ -16,8 +15,8 @@ class ProviderSingleTest extends TestCase
     public function it_returns_list_of_providers()
     {
         // arrange
-        $state    = State::factory()->create();
-        $provider = Provider::factory()->for($state)->create();
+        $network  = Network::factory()->create();
+        $provider = Provider::factory()->for($network)->create();
 
         // act
         $response = $this->withoutExceptionHandling()

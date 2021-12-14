@@ -39,29 +39,34 @@ class Provider extends Model
 {
     use HasFactory, Filterable;
 
+    const GENDER_MALE   = 'MALE';
+    const GENDER_FEMALE = 'FEMALE';
+
     /**
-     * Gets the state associated with the provider
+     * Gets the Network associated with the Provider
      */
-    public function state()
+    public function network()
     {
-        return $this->belongsTo(State::class);
+        return $this->belongsTo(Network::class);
+    }
+
+    public function locations()
+    {
+        return $this->belongsToMany(Location::class);
     }
 
     /**
-     * Get Providers which have a State
-     */
-    public function scopeWithState(Builder $query, State $state)
-    {
-        $query->whereHas('state', function ($query) use ($state) {
-            $query->where('state_id', $state->id);
-        });
-    }
-
-    /**
-     * Get providers which match keywords
+     * Get Providers which match keywords
      */
     public function scopeWithKeywords(Builder $query, string $keywords)
     {
-        $query->where('label', 'like' , "%$keywords%");
+        $query->where('label', 'like', "%$keywords%");
+    }
+
+    public function scopeWithState(Builder $query, State $state)
+    {
+        $query->whereHas('locations.addressState', function ($query) use ($state) {
+            $query->where('address_state_id', $state->id);
+        });
     }
 }

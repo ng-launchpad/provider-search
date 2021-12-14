@@ -16,9 +16,17 @@ class ProviderResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'    => $this->id,
-            'label' => $this->label,
-            'state' => new StateResource($this->whenLoaded('state')),
+            'id'                        => $this->id,
+            'label'                     => $this->label,
+            'npi'                       => $this->npi,
+            'phone'                     => $this->phone,
+            'degree'                    => $this->degree,
+            'website'                   => $this->website,
+            'gender'                    => $this->gender,
+            'is_facility'               => (bool) $this->is_facility,
+            'is_accepting_new_patients' => (bool) $this->is_accepting_new_patients,
+            'network'                   => new NetworkResource($this->whenLoaded('network')),
+            'locations'                 => LocationResource::collection($this->whenLoaded('locations')),
         ];
     }
 }
