@@ -27,6 +27,8 @@ class ProviderResource extends JsonResource
             'is_accepting_new_patients' => (bool) $this->is_accepting_new_patients,
             'network'                   => new NetworkResource($this->whenLoaded('network')),
             'locations'                 => LocationResource::collection($this->whenLoaded('locations')),
+            'languages'                 => LanguageResource::collection($this->whenLoaded('languages')),
+            'specialities'              => SpecialityResource::collection($this->whenLoaded('specialities')),
         ];
     }
 }

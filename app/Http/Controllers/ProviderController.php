@@ -17,8 +17,10 @@ class ProviderController extends Controller
     {
         $providers = Provider::query()
             ->with([
+                'languages',
+                'locations.addressState',
                 'network',
-                'locations.addressState'
+                'specialities',
             ])
             ->filter($request->all())
             ->paginateFilter();
