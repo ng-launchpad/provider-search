@@ -54,6 +54,22 @@ class Provider extends Model
     }
 
     /**
+     * Gets the Languages associated with the Provider
+     */
+    public function languages()
+    {
+        return $this->belongsToMany(Language::class);
+    }
+
+    /**
+     * Gets the Specialities associated with the Provider
+     */
+    public function specialities()
+    {
+        return $this->belongsToMany(Speciality::class);
+    }
+
+    /**
      * Get Providers which match keywords
      */
     public function scopeWithKeywords(Builder $query, string $keywords)
