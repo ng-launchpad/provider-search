@@ -14,4 +14,11 @@ class ProviderFilter extends ModelFilter
     {
         $this->withKeywords($keywords);
     }
+
+    public function state($id)
+    {
+        $this->withState(
+            State::findOrFail($id)
+        );
+    }
 }

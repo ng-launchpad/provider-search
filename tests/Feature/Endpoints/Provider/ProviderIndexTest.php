@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Endpoints\Provider;
 
+use App\Models\Location;
 use App\Models\Network;
 use App\Models\Provider;
 use App\Models\State;
@@ -12,28 +13,25 @@ class ProviderIndexTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $state1;
-    private $state2;
     private $network;
-    private $provider1;
-    private $provider2;
+    private $state;
+    private $provider;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->state1    = State::factory()->create();
-        $this->state2    = State::factory()->create();
-        $this->network   = Network::factory()->create();
-        $this->provider1 = Provider::factory()->for($this->network)->create();
-        $this->provider2 = Provider::factory()->for($this->network)->create();
+        $this->network = Network::factory()->create();
+
+        $this->createProvider($this->state, $this->provider);
+        $this->createProvider();
     }
 
     /** @test */
     public function it_returns_list_of_providers()
     {
         // arrange
-        $provider = $this->provider1;
+        $provider = $this->provider;
 
         // act
         $response = $this
@@ -50,19 +48,29 @@ class ProviderIndexTest extends TestCase
     /** @test */
     public function it_returns_providers_filtered_by_state()
     {
-        self::markTestIncomplete();
         // arrange
+        $provider = $this->provider;
+        $state    = $this->state;
 
         // act
+        $response = $this
+            ->withoutExceptionHandling()
+            ->getJson(route('api.providers.index', [
+                'state' => $state->id,
+            ]));
 
         // assert
+        $response
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.label', $provider->label);
     }
 
     /** @test */
     public function it_returns_providers_filtered_by_keyword()
     {
         // arrange
-        $provider = $this->provider1;
+        $provider = $this->provider;
 
         // act
         $response = $this
@@ -76,5 +84,13 @@ class ProviderIndexTest extends TestCase
             ->assertOk()
             ->assertJsonCount(1, 'data')
             ->assertJsonPath('data.0.label', $provider->label);
+    }
+
+    private function createProvider(&$state = null, &$provider = null)
+    {
+        $state    = State::factory()->create();
+        $location = Location::factory()->for($state, 'addressState')->create();
+        $provider = Provider::factory()->create();
+        $provider->locations()->attach($location);
     }
 }

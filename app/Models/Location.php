@@ -16,4 +16,9 @@ class Location extends Model
     {
         return $this->belongsTo(State::class, 'address_state_id');
     }
+
+    public function providers()
+    {
+        return $this->belongsToMany(Provider::class);
+    }
 }

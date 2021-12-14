@@ -45,11 +45,23 @@ class Provider extends Model
         return $this->belongsTo(Network::class);
     }
 
+    public function locations()
+    {
+        return $this->belongsToMany(Location::class);
+    }
+
     /**
      * Get Providers which match keywords
      */
     public function scopeWithKeywords(Builder $query, string $keywords)
     {
         $query->where('label', 'like', "%$keywords%");
+    }
+
+    public function scopeWithState(Builder $query, State $state)
+    {
+        $query->whereHas('locations.addressState', function ($query) use ($state) {
+            $query->where('address_state_id', $state->id);
+        });
     }
 }
