@@ -34,6 +34,25 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Provider whereStateId($value)
  * @method static Builder|Provider withKeywords(string $keywords)
  * @method static Builder|Provider withState(\App\Models\State $state)
+ * @property string $npi
+ * @property string|null $phone
+ * @property string|null $degree
+ * @property string|null $website
+ * @property string|null $gender
+ * @property int|null $network_id
+ * @property int $is_facility
+ * @property int $is_accepting_new_patients
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Location[] $locations
+ * @property-read int|null $locations_count
+ * @property-read \App\Models\Network|null $network
+ * @method static Builder|Provider whereDegree($value)
+ * @method static Builder|Provider whereGender($value)
+ * @method static Builder|Provider whereIsAcceptingNewPatients($value)
+ * @method static Builder|Provider whereIsFacility($value)
+ * @method static Builder|Provider whereNetworkId($value)
+ * @method static Builder|Provider whereNpi($value)
+ * @method static Builder|Provider wherePhone($value)
+ * @method static Builder|Provider whereWebsite($value)
  */
 class Provider extends Model
 {

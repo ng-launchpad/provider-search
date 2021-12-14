@@ -45,9 +45,10 @@
                     <component
                         v-for="(provider, index) in providers"
                         v-bind:key="index"
-                        v-bind:is="getItemTypeComponent(provider.type)"
+                        v-bind:is="getItemTypeComponent(provider.is_facility)"
                         v-bind:item="provider"
                         v-bind:is-even="index%2 !== 0"
+                        v-bind:class='`index-${index}`'
                     />
 
                     <div
@@ -181,7 +182,9 @@ export default {
         },
 
         paginationItems: function() {
-            return Math.ceil(this.providersMeta.total / this.providersMeta.per_page)
+            if (this.providersMeta.total) {
+                return Math.ceil(this.providersMeta.total / this.providersMeta.per_page);
+            }
         }
     },
 
@@ -198,10 +201,10 @@ export default {
             this.$router.push({query: {[this.matchQuery]: this.searchQuery}}).catch(()=>{});
         },
 
-        getItemTypeComponent(type) {
-            if (type === 'provider') {
+        getItemTypeComponent(isFacilitiy) {
+            if (!isFacilitiy) {
                 return ResultsItemDoctor;
-            } else if (type === 'facility') {
+            } else {
                 return ResultsItemFacility;
             }
         },

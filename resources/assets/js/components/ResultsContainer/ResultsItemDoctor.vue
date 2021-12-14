@@ -5,31 +5,19 @@
                 v-bind:to="`/provider/${item.npi}`"
                 class="results-item__title"
             >
-                {{ item.first_name }} {{ item.middle_name }} {{ item.last_name }}<template v-if="item.credentials">, {{ item.credentials }}</template>
+                {{ item.label }}<template v-if="item.credentials">, {{ item.degree }}</template>
             </router-link>
 
             <div
-                v-if="item.accepting_new_patients === 'Yes' || item.accepting_new_patients === 'No'"
                 class="results-item__sub-title">
-                Provider: {{ item.accepting_new_patients === 'Yes' ? 'Accepting new patients' : item.accepting_new_patients === 'No' ? 'Not accepting new patients' : ''}}
-
-                <img
-                    v-if="item.accepting_new_patients === 'Yes'"
-                    src="images/check-circle.svg"
-                    class="results-item__header-icon"
-                >
-                <img
-                    v-if="item.accepting_new_patients === 'No'"
-                    src="images/x-circle.svg"
-                    class="results-item__header-icon"
-                >
+                {{ item.is_accepting_new_patients ? 'Accepting new patients' : 'Not accepting new patients' }}
             </div>
 
             <router-link
                 v-bind:to="`/provider/${item.npi}`"
                 class="results-item__detail results-item__detail--desktop"
             >
-                <span>View {{ item.first_name }} {{ item.last_name }}'s details</span>
+                <span>View {{ item.label }}'s details</span>
                 <img
                     v-if="isEven"
                     src="images/arrow-right-white.svg"
@@ -56,17 +44,17 @@
                         alt=""
                     >
                     <span>
-                        Primary address: <br>
-                        {{ item.locations[0].addr_line_1 }}, {{ item.locations[0].city }}, {{ item.locations[0].state }}, {{ item.locations[0].zip }} <br>
+                        <span class="text--bold">Primary address:</span> <br>
+                        {{ item.locations[0].address.line_1 }}, {{ item.locations[0].address.city }}, {{ item.locations[0].address.state.label }}, {{ item.locations[0].address.zip }} <br>
                         <router-link
                             v-if="item.locations.length > 1"
                             v-bind:to="`/provider/${item.npi}`"
-                            class="text--styled-link text--bold"
+                            class="text--styled-link text--regular"
                         >+ {{ item.locations.length - 1 }} location{{ item.locations.length - 1 > 1 ? 's' : '' }}</router-link>
                     </span>
                 </div>
                 <div
-                    v-if="item.locations[0].practice_phone"
+                    v-if="item.locations[0].phone"
                     class="results-item__char results-item__char--phone">
                     <img
                         v-if="!isEven"
@@ -76,20 +64,44 @@
                         v-else
                         src="images/phone-icon-white.svg" alt=""
                     >
-                    <a v-bind:href="`tel:${item.locations[0].practice_phone}`">
-                        {{ item.locations[0].practice_phone }}
+                    <a v-bind:href="`tel:${item.locations[0].phone}`">
+                        {{ item.locations[0].phone }}
                     </a>
                 </div>
             </div>
             <div
-                v-if="specialties"
+                v-if="item.languages"
                 class="results-item__info-col"
             >
-                <div class="results-item__char text--regular">
-                    Specialties:
+                <div class="results-item__char text--bold">
+                    Languages spoken:
                 </div>
                 <div class="results-item__char">
-                    {{ specialties }}
+                    {{ item.languages }}
+                </div>
+            </div>
+            <div class="results-item__info-col">
+                <div
+                    v-if="item.specialties"
+                    class="mb-2"
+                >
+                    <div class="results-item__char text--bold">
+                        Specialties:
+                    </div>
+                    <div class="results-item__char">
+                        {{ item.specialties }}
+                    </div>
+                </div>
+
+                <div
+                    v-if="item.specialties"
+                >
+                    <div class="results-item__char text--bold">
+                        Network:
+                    </div>
+                    <div class="results-item__char">
+                        {{ item.network }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -98,7 +110,7 @@
                 v-bind:to="`/provider/${item.npi}`"
                 class="results-item__detail results-item__detail--mobile"
             >
-                <span>View {{ item.first_name }} {{ item.last_name }}'s details</span>
+                <span>View {{ item.label }}'s details</span>
                 <img
                     v-if="!isEven"
                     src="images/arrow-right.svg"
@@ -130,15 +142,5 @@ export default {
             default: false
         }
     },
-
-    computed: {
-        specialties: function() {
-            if (this.item.specialty) {
-                return this.item.specialty.trim().split(',').join(', ');
-            } else {
-                return [];
-            }
-        }
-    }
 }
 </script>
