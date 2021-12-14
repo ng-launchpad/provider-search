@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use App\Models\State;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class LocationFactory extends Factory
 {
@@ -21,6 +23,8 @@ class LocationFactory extends Factory
                 'Acute Short Term Hospital',
                 'Accident and Emergency',
                 'Community Hospital',
+                'Children\'s Hospital',
+                'Hospital',
             ]),
             'address_line_1'   => $faker->streetAddress(),
             'address_city'     => $faker->city(),

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\ModelPivots\LocationProviderPivot;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -37,6 +38,11 @@ class Provider extends Model
     const GENDER_MALE   = 'MALE';
     const GENDER_FEMALE = 'FEMALE';
 
+    protected $casts = [
+        'is_facility'               => 'boolean',
+        'is_accepting_new_patients' => 'boolean',
+    ];
+
     /**
      * Gets the Network associated with the Provider
      */
@@ -50,7 +56,11 @@ class Provider extends Model
      */
     public function locations()
     {
-        return $this->belongsToMany(Location::class);
+        return $this->belongsToMany(Location::class)
+            ->using(LocationProviderPivot::class)
+            ->withPivot([
+                'is_primary',
+            ]);
     }
 
     /**

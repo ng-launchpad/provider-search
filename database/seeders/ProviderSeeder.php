@@ -30,7 +30,7 @@ class ProviderSeeder extends Seeder
                 $provider->save();
 
                 for ($i = 0; $i < rand(1, 4); $i++) {
-                    $provider->locations()->attach(Location::query()->inRandomOrder()->first());
+                    $provider->locations()->attach(Location::query()->inRandomOrder()->first(), ['is_primary' => $i === 0]);
                 }
 
                 for ($i = 0; $i < rand(0, 2); $i++) {

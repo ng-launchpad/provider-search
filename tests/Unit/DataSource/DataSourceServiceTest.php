@@ -48,6 +48,7 @@ class DataSourceServiceTest extends TestCase
     /** @test */
     public function it_syncs_data()
     {
+        self::markTestIncomplete();
         // arrange
         $connection = $this->createMock(Connection::class);
         $faker      = Factory::create();

@@ -47,9 +47,46 @@ final class DataSourceService
 
         $collection = $parser->parse($file);
 
-        $collection = $collection->map(fn(array $item) => $mapper->transform($item));
+        $mapper->extractLanguages($collection)
+            ->unique()
+            ->each(fn(Language $model) => $model->save());
 
-        $collection->each(fn(Provider $provider) => $provider->save());
+        $mapper->extractLocations($collection)
+            ->unique()
+            ->each(fn(Location $model) => $model->save());
+
+        $mapper->extractNetworks($collection)
+            ->unique()
+            ->each(fn(Network $model) => $model->save());
+
+        $mapper->extractSpecialities($collection)
+            ->unique()
+            ->each(fn(Speciality $model) => $model->save());
+
+        $mapper->extractProviders($collection)
+            ->unique()
+            ->each(fn(Provider $model) => $model->save());
+
+        $mapper->extractProviderLocations($collection)
+            ->unique()
+            ->each(function (array $set) {
+                [$provider, $location, $is_primary] = $set;
+                $provider->locations()->attach($location, ['is_primary' => $is_primary]);
+            });
+
+        $mapper->extractProviderLanguages($collection)
+            ->unique()
+            ->each(function (array $set) {
+                [$provider, $language] = $set;
+                $provider->languages()->attach($language);
+            });
+
+        $mapper->extractProviderSpecialities($collection)
+            ->unique()
+            ->each(function (array $set) {
+                [$provider, $speciality] = $set;
+                $provider->specialities()->attach($speciality);
+            });
 
         return $this;
     }
