@@ -65,9 +65,9 @@ class SyncCommand extends Command
     private function getSftpConnection(): Connection\Sftp
     {
         return Connection\Sftp::factory(
-            env('DATASOURCE_SFTP_HOST'),
-            env('DATASOURCE_SFTP_USERNAME'),
-            env('DATASOURCE_SFTP_PASSWORD')
+            config('datasource.sftp.host'),
+            config('datasource.sftp.username'),
+            config('datasource.sftp.password')
         );
     }
 
