@@ -45,6 +45,9 @@ class Provider extends Model
         return $this->belongsTo(Network::class);
     }
 
+    /**
+     * Gets the Locations associated with the Provider
+     */
     public function locations()
     {
         return $this->belongsToMany(Location::class);
@@ -58,6 +61,9 @@ class Provider extends Model
         $query->where('label', 'like', "%$keywords%");
     }
 
+    /**
+     * Gets Providers which have a Location in a particular State
+     */
     public function scopeWithState(Builder $query, State $state)
     {
         $query->whereHas('locations.addressState', function ($query) use ($state) {
