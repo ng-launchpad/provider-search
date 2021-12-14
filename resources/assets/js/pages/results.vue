@@ -56,7 +56,7 @@
                         class="results-container__loader"
                     >
                         <div
-                            class="spinner-border text-warning"
+                            class="spinner-border"
                             role="status"
                         >
                             <span

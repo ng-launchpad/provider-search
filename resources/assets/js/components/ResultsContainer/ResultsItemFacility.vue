@@ -65,13 +65,14 @@
                 </div>
             </div>
             <div
+                v-if="item.type"
                 class="results-item__info-col"
             >
                 <div class="results-item__char text--bold">
                     Facility type
                 </div>
                 <div class="results-item__char">
-                    Here must be a facility type
+                    {{ item.type }}
                 </div>
             </div>
             <div

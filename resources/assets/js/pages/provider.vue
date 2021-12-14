@@ -249,7 +249,7 @@ export default {
 
         specialities() {
             if (this.provider.specialities.length) {
-                return this.provider.specialities.join(', ');
+                return this.provider.specialities.map(spec => spec.label).join(', ');
             }
             return '';
         },

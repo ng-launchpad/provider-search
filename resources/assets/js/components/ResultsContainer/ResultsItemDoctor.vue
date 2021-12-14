@@ -70,31 +70,34 @@
                 </div>
             </div>
             <div
-                v-if="item.languages"
+                v-if="languages"
                 class="results-item__info-col"
             >
                 <div class="results-item__char text--bold">
                     Languages spoken:
                 </div>
                 <div class="results-item__char">
-                    {{ item.languages }}
+                    {{ languages }}
                 </div>
             </div>
-            <div class="results-item__info-col">
+            <div
+                v-if="item.network || specialities"
+                class="results-item__info-col"
+            >
                 <div
-                    v-if="item.specialties"
+                    v-if="specialities"
                     class="mb-2"
                 >
                     <div class="results-item__char text--bold">
                         Specialties:
                     </div>
                     <div class="results-item__char">
-                        {{ item.specialties }}
+                        {{ specialities }}
                     </div>
                 </div>
 
                 <div
-                    v-if="item.specialties"
+                    v-if="item.nerwork"
                 >
                     <div class="results-item__char text--bold">
                         Network:
@@ -146,7 +149,21 @@ export default {
     computed: {
         primaryAddress() {
             return this.item.locations.find(location => location.is_primary);
-        }
+        },
+
+        specialities() {
+            if (this.item.specialities.length) {
+                return this.item.specialities.map(spec => spec.label).join(', ');
+            }
+            return '';
+        },
+
+        languages() {
+            if (this.item.languages.length) {
+                return this.item.languages.map(lang => lang.label).join(', ');
+            }
+            return '';
+        },
     }
 }
 </script>
