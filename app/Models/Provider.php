@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\ModelPivots\LocationProviderPivot;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -61,6 +62,11 @@ class Provider extends Model
     const GENDER_MALE   = 'MALE';
     const GENDER_FEMALE = 'FEMALE';
 
+    protected $casts = [
+        'is_facility'               => 'boolean',
+        'is_accepting_new_patients' => 'boolean',
+    ];
+
     /**
      * Gets the Network associated with the Provider
      */
@@ -69,9 +75,32 @@ class Provider extends Model
         return $this->belongsTo(Network::class);
     }
 
+    /**
+     * Gets the Locations associated with the Provider
+     */
     public function locations()
     {
-        return $this->belongsToMany(Location::class);
+        return $this->belongsToMany(Location::class)
+            ->using(LocationProviderPivot::class)
+            ->withPivot([
+                'is_primary',
+            ]);
+    }
+
+    /**
+     * Gets the Languages associated with the Provider
+     */
+    public function languages()
+    {
+        return $this->belongsToMany(Language::class);
+    }
+
+    /**
+     * Gets the Specialities associated with the Provider
+     */
+    public function specialities()
+    {
+        return $this->belongsToMany(Speciality::class);
     }
 
     /**
@@ -82,6 +111,9 @@ class Provider extends Model
         $query->where('label', 'like', "%$keywords%");
     }
 
+    /**
+     * Gets Providers which have a Location in a particular State
+     */
     public function scopeWithState(Builder $query, State $state)
     {
         $query->whereHas('locations.addressState', function ($query) use ($state) {

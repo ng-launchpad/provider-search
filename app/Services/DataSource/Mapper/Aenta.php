@@ -12,4 +12,29 @@ final class Aenta extends Mapper
             'COLUMN NAME' => 'label',
         ];
     }
+
+    protected function getLanguageKeys(): array
+    {
+        return [];
+    }
+
+    protected function getLocationKeys(): array
+    {
+        return [];
+    }
+
+    protected function getNetworkKey(): string
+    {
+        return '';
+    }
+
+    protected function getSpecialityKeys(): array
+    {
+        return [];
+    }
+
+    protected function getProviderKeys(): array
+    {
+        return [];
+    }
 }

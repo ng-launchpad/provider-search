@@ -18,25 +18,17 @@ class ProviderResource extends JsonResource
         return [
             'id'                        => $this->id,
             'label'                     => $this->label,
+            'type'                      => $this->type,
             'npi'                       => $this->npi,
-            'phone'                     => $this->phone,
             'degree'                    => $this->degree,
             'website'                   => $this->website,
             'gender'                    => $this->gender,
-            'is_facility'               => (bool) $this->is_facility,
-            'is_accepting_new_patients' => (bool) $this->is_accepting_new_patients,
-            'network'                   => $this->when(
-                $this->whenLoaded('network'),
-                function () {
-                    return new NetworkResource($this->network);
-                }
-            ),
-            'locations'                 => $this->when(
-                $this->whenLoaded('locations'),
-                function () {
-                    return LocationResource::collection($this->locations);
-                }
-            ),
+            'is_facility'               => $this->is_facility,
+            'is_accepting_new_patients' => $this->is_accepting_new_patients,
+            'network'                   => new NetworkResource($this->whenLoaded('network')),
+            'locations'                 => LocationResource::collection($this->whenLoaded('locations')),
+            'languages'                 => LanguageResource::collection($this->whenLoaded('languages')),
+            'specialities'              => SpecialityResource::collection($this->whenLoaded('specialities')),
         ];
     }
 }

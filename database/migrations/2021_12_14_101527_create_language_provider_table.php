@@ -1,12 +1,12 @@
 <?php
 
-use App\Models\Location;
+use App\Models\Language;
 use App\Models\Provider;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLocationProviderTable extends Migration
+class CreateLanguageProviderTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,10 +15,9 @@ class CreateLocationProviderTable extends Migration
      */
     public function up()
     {
-        Schema::create('location_provider', function (Blueprint $table) {
-            $table->foreignIdFor(Location::class)->constrained('locations')->cascadeOnDelete();
+        Schema::create('language_provider', function (Blueprint $table) {
+            $table->foreignIdFor(Language::class)->constrained('languages')->cascadeOnDelete();
             $table->foreignIdFor(Provider::class)->constrained('providers')->cascadeOnDelete();
-            $table->boolean('is_primary')->default(false);
         });
     }
 
@@ -29,6 +28,6 @@ class CreateLocationProviderTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('location_provider');
+        Schema::dropIfExists('language_provider');
     }
 }

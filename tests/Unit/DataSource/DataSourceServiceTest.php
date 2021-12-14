@@ -2,7 +2,10 @@
 
 namespace Tests\Unit\DataSource;
 
+use App\Models\Language;
+use App\Models\Location;
 use App\Models\Network;
+use App\Models\Speciality;
 use App\Models\State;
 use App\Services\DataSource\Interfaces\Connection;
 use App\Services\DataSource\Interfaces\Mapper;
@@ -19,8 +22,33 @@ class DataSourceServiceTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
+    public function it_truncates_the_data()
+    {
+        // arrange
+        State::factory()->create();
+        Provider::factory()->create();
+        Network::factory()->create();
+        Language::factory()->create();
+        Location::factory()->create();
+        Speciality::factory()->create();
+        $service = DataSourceService::factory();
+
+        // act
+        $service->truncate();
+
+        // assert
+        $this->assertcount(1, State::all());
+        $this->assertcount(0, Provider::all());
+        $this->assertcount(0, Network::all());
+        $this->assertcount(0, Language::all());
+        $this->assertcount(0, Location::all());
+        $this->assertcount(0, Speciality::all());
+    }
+
+    /** @test */
     public function it_syncs_data()
     {
+        self::markTestIncomplete();
         // arrange
         $connection = $this->createMock(Connection::class);
         $faker      = Factory::create();

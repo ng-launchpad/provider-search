@@ -16,6 +16,10 @@ class LocationSeeder extends Seeder
     {
         Location::factory()
             ->times(30)
-            ->create();
+            ->make()
+            ->each(function (Location $location) {
+                $location->hash = $location->hash();
+                $location->save();
+            });
     }
 }
