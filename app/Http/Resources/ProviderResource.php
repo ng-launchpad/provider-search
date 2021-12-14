@@ -25,8 +25,18 @@ class ProviderResource extends JsonResource
             'gender'                    => $this->gender,
             'is_facility'               => (bool) $this->is_facility,
             'is_accepting_new_patients' => (bool) $this->is_accepting_new_patients,
-            'network'                   => new NetworkResource($this->whenLoaded('network')),
-            'locations'                 => LocationResource::collection($this->whenLoaded('locations')),
+            'network'                   => $this->when(
+                $this->whenLoaded('network'),
+                function () {
+                    return new NetworkResource($this->network);
+                }
+            ),
+            'locations'                 => $this->when(
+                $this->whenLoaded('locations'),
+                function () {
+                    return LocationResource::collection($this->locations);
+                }
+            ),
         ];
     }
 }
