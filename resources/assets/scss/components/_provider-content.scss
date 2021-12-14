@@ -17,7 +17,7 @@
     }
 
     &__char {
-        @include font-size(18px);
+        @include font-size(16px);
         color: $blue-zodiac;
         line-height: 1.5;
 
@@ -34,6 +34,13 @@
             }
         }
 
+        img {
+            display: inline-block;
+            margin-right: 12px;
+            margin-top: 2px;
+            margin-bottom: -3px;
+        }
+
         &--icon-small {
             img {
                 width: 12px;
@@ -47,11 +54,6 @@
             display: flex;
             align-items: flex-start;
 
-            img {
-                display: inline-block;
-                margin-right: 12px;
-            }
-
             a {
                 color: $blue-zodiac;
                 text-decoration: none;
@@ -63,18 +65,13 @@
         }
 
         &--head {
+            @include font-size(18px);
             margin-bottom: 10px;
         }
 
         &--facility {
-            @include media-breakpoint-up(lg) {
-                margin-left: 24px;
-            }
 
             &.provider-content__char--location {
-                @include media-breakpoint-up(lg) {
-                    margin-left: 27px;
-                }
 
                 img {
                     @include media-breakpoint-down(ms) {
@@ -86,10 +83,6 @@
             }
 
             &.provider-content__char--phone {
-                @include media-breakpoint-up(lg) {
-                    margin-left: 30px;
-                }
-
                 img {
                     @include media-breakpoint-down(ms) {
                         width: 15px;
@@ -112,23 +105,16 @@
     }
 
     &__char-line {
-            @include font-size(18px);
         & + .provider-content__char-line {
             margin-top: 18px;
         }
     }
 
     &__char-text {
-        flex: 1;
-        display: flex;
-
-        @include media-breakpoint-down(sm) {
-            flex-direction: column;
-        }
     }
 
     &__char-location-link {
-        margin-left: 20px;
+        margin-left: 5px;
         white-space: nowrap;
 
         @include media-breakpoint-down(sm) {

@@ -229,10 +229,6 @@ export default {
     },
 
     methods: {
-        goBack: function () {
-            this.prevRoute.fullPath !== '/' ? this.$router.push(this.prevRoute) : this.$router.push('/');
-        },
-
         async fetchData() {
             const {data} = await api.getProvider(this.$route.params.id);
             this.provider = data.data;
