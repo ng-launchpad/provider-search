@@ -7,6 +7,8 @@ use App\Services\DataSource\Mapper;
 use App\Services\DataSource\Parser;
 use App\Services\DataSourceService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 
 class SyncCommand extends Command
 {
@@ -41,23 +43,40 @@ class SyncCommand extends Command
      */
     public function handle()
     {
-        $service = DataSourceService::factory();
 
-        $this
-            ->performSync(
-                $service,
-                'Aenta',
-                'filename.xlsx',
-                new Mapper\Aenta(),
-                new Parser\Xls()
-            )
-            ->performSync(
-                $service,
-                'VSP',
-                'filename.csv',
-                new Mapper\Vsp(),
-                new Parser\Csv()
-            );
+        try {
+
+            Artisan::call('down');
+
+            $service = DataSourceService::factory();
+
+            DB::transaction(function () use ($service) {
+
+                $service->truncate();
+
+                $this
+                    ->performSync(
+                        $service,
+                        'Aenta',
+                        'filename.xlsx',
+                        new Mapper\Aenta(),
+                        new Parser\Xls()
+                    )
+                    ->performSync(
+                        $service,
+                        'VSP',
+                        'filename.csv',
+                        new Mapper\Vsp(),
+                        new Parser\Csv()
+                    );
+
+                $service->endSync();
+
+            });
+
+        } finally {
+            Artisan::call('up');
+        }
 
         return Command::SUCCESS;
     }
@@ -101,7 +120,9 @@ class SyncCommand extends Command
                 '<error>ERROR: %s</error>',
                 $e->getMessage()
             ));
+            throw $e;
         }
+
         return $this;
     }
 }
