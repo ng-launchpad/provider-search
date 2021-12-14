@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class ProviderController extends Controller
 {
+    const LOAD_RELATIONS = [
+        'languages',
+        'locations.addressState',
+        'network',
+        'specialities',
+    ];
+
     /**
      * Get list of providers
      *
@@ -16,12 +23,7 @@ class ProviderController extends Controller
     public function index(Request $request)
     {
         $providers = Provider::query()
-            ->with([
-                'languages',
-                'locations.addressState',
-                'network',
-                'specialities',
-            ])
+            ->with(static::LOAD_RELATIONS)
             ->filter($request->all())
             ->paginateFilter();
 
@@ -39,6 +41,8 @@ class ProviderController extends Controller
      */
     public function single(Provider $provider)
     {
-        return new ProviderResource($provider);
+        return new ProviderResource(
+            $provider->load(static::LOAD_RELATIONS)
+        );
     }
 }
