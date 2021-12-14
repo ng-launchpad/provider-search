@@ -3,7 +3,7 @@
         <div class="page-header page-header--bg-color">
             <div class="container">
                 <p class="page-header__title heading">
-                    {{ provider.first_name }} {{ provider.middle_name }} {{ provider.last_name }}, {{ provider.credentials }}
+                    {{ provider.label }}{{ provider.degree ? `, ${provider.degree}` : '' }}
                 </p>
                 <p
                     class="page-header__sub-title">
@@ -11,15 +11,21 @@
                 </p>
                 <div class="row mt-4">
                     <div class="col-md-4">
-                        <div class="page-header__char">
+                        <div
+                            v-if="provider.locations"
+                            class="page-header__char"
+                        >
                             <img v-bind:src="'/images/map-pin-white.svg'" alt="">
-                            <div class="page-header__char-title">
+                            <div
+                                v-if="primaryAddress"
+                                class="page-header__char-title"
+                            >
                                 <strong>Primary address</strong>
                                 <br>
-                                {{ provider.locations[0].addr_line_1 }}, {{ provider.locations[0].addr_line_2 ? provider.locations[0].addr_line_2 + ', ' : '' }} {{ provider.locations[0].city }}, {{ provider.locations[0].state }}, {{ provider.locations[0].zip }}
+                                {{ primaryAddress.address.line_1 }}, {{ primaryAddress.address.line_2 ? primaryAddress.address.line_2 + ', ' : '' }} {{ primaryAddress.address.city }}, {{ primaryAddress.address.state.label }}, {{ primaryAddress.address.zip }}
                                 <br>
                                 <a
-                                    v-bind:href="`https://maps.google.com/?q=${provider.locations[0].addr_line_1},${provider.locations[0].city},${provider.locations[0].state},${provider.locations[0].zip}`"
+                                    v-bind:href="`https://maps.google.com/?q=${primaryAddress.address.addr_line_1},${primaryAddress.address.city},${primaryAddress.address.state.label},${primaryAddress.address.zip}`"
                                     class="mt-2 d-inline-block text--styled-link"
                                 >
                                     View on a map
@@ -33,17 +39,20 @@
                             <div class="page-header__char-title">
                                 <strong>Phone number</strong>
                                 <br>
-                                <a href="#">813-926-5454</a>
+                                <a v-bind:href="`tel:${primaryAddress.phone}`">{{ primaryAddress.phone }}</a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div
+                        v-if="specialities"
+                        class="col-md-4"
+                    >
                         <div class="page-header__char">
                             <img v-bind:src="'/images/check-white.svg'" alt="">
                             <div class="page-header__char-title">
                                 <strong>Specialties</strong>
                                 <br>
-                                {{ provider.specialty }}
+                                {{ specialities }}
                             </div>
                         </div>
                     </div>
@@ -55,19 +64,19 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div
-                            v-if="provider.provider_type"
-                            class="provider-content__item"
+                            v-if="provider.type"
+                            class="provider-content__item mb-4"
                         >
                             <div class="provider-content__char text--bold">
                                 Provider type
                             </div>
                             <div class="provider-content__char text--regular">
-                                {{ provider.provider_type }}
+                                {{ provider.type }}
                             </div>
                         </div>
                         <div
                             v-if="provider.gender"
-                            class="provider-content__item mt-4"
+                            class="provider-content__item mb-4"
                         >
                             <div class="provider-content__char text--bold">
                                 Gender
@@ -78,7 +87,7 @@
                         </div>
                         <div
                             v-if="provider.npi"
-                            class="provider-content__item mt-4"
+                            class="provider-content__item mb-4"
                         >
                             <div class="provider-content__char text--bold">
                                 NPI ID
@@ -88,38 +97,46 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div
+                        v-if="provider.network || provider.website"
+                        class="col-md-4"
+                    >
                         <div
+                            v-if="provider.website"
                             class="provider-content__item"
                         >
                             <div class="provider-content__char text--bold">
                                 Website
                             </div>
                             <div class="provider-content__char text--regular">
-                                <a href="testwebsite.com">testwebsite.com</a>
+                                <a v-bind:href="provider.website">{{ provider.website }}</a>
                             </div>
                         </div>
                         <div
-                            v-if="provider.practice_name"
+                            v-if="provider.network"
                             class="provider-content__item mt-4"
                         >
                             <div class="provider-content__char text--bold">
                                 Network name
                             </div>
                             <div class="provider-content__char text--regular">
-                                {{ provider.practice_name }}
+                                {{ provider.network.label }}
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div
+                        v-if="languages || true"
+                        class="col-md-4"
+                    >
                         <div
+                            v-if="languages"
                             class="provider-content__item"
                         >
                             <div class="provider-content__char text--bold">
                                 Languages spoken
                             </div>
                             <div class="provider-content__char text--regular">
-                                English, Arabic, Bengali, Russian, Portuguese
+                                {{ languages }}
                             </div>
                         </div>
                         <div
@@ -148,173 +165,6 @@
                             </div>
                         </div>
                     </div>
-<!--                    <div class="col-xl-3">-->
-<!--                        <div class="provider-content__item provider-content__item&#45;&#45;location">-->
-<!--                            <div class="provider-content__char text&#45;&#45;regular">-->
-<!--                                Address-->
-<!--                            </div>-->
-<!--                            <div-->
-<!--                                v-if="provider.locations && provider.locations.length"-->
-<!--                                class="provider-content__char provider-content__char&#45;&#45;location"-->
-<!--                            >-->
-<!--                                <img src="../../img/svg/map-pin.svg" alt="">-->
-<!--                                <span class="provider-content__char-text">-->
-<!--                                    <span class="text&#45;&#45;light">-->
-<!--                                        {{ provider.locations[0].addr_line_1 }}, {{ provider.locations[0].addr_line_2 ? provider.locations[0].addr_line_2 + ', ' : '' }} {{ provider.locations[0].city }}, {{ provider.locations[0].state }}, {{ provider.locations[0].zip }}-->
-<!--                                    </span>-->
-
-<!--                                    <a-->
-<!--                                        v-bind:href="`https://maps.google.com/?q=${provider.locations[0].addr_line_1},${provider.locations[0].city},${provider.locations[0].state},${provider.locations[0].zip}`"-->
-<!--                                        class="provider-content__char-location-link text&#45;&#45;bold"-->
-<!--                                        target="_blank"-->
-<!--                                    >-->
-<!--                                        <span>View on a map</span>-->
-<!--                                        <img src="../../img/svg/arrow-right.svg" alt="">-->
-<!--                                    </a>-->
-<!--                                </span>-->
-<!--                            </div>-->
-
-<!--                            <div-->
-<!--                                v-if="provider.locations && provider.locations[0].practice_phone"-->
-<!--                                class="provider-content__item d-xl-none d-block mt-3"-->
-<!--                            >-->
-<!--                                <div class="provider-content__char text&#45;&#45;regular">-->
-<!--                                    Phone number-->
-<!--                                </div>-->
-<!--                                <div class="provider-content__char provider-content__char&#45;&#45;phone text&#45;&#45;light">-->
-<!--                                    <img src="../../img/svg/phone-icon.svg" alt="">-->
-<!--                                    <a-->
-<!--                                        v-bind:href="`tel:${provider.locations[0].practice_phone}`"-->
-<!--                                    >-->
-<!--                                        {{ provider.locations[0].practice_phone }}-->
-<!--                                    </a>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div-->
-<!--                            class="row"-->
-<!--                        >-->
-<!--                            <div-->
-<!--                                v-if="provider.gender"-->
-<!--                                class="col-md-6 col-md-4 mt-lg-5 mt-3">-->
-<!--                                <div-->
-<!--                                    class="provider-content__item"-->
-<!--                                >-->
-<!--                                    <div class="provider-content__char text&#45;&#45;regular">-->
-<!--                                        Gender-->
-<!--                                    </div>-->
-<!--                                    <div class="provider-content__char provider-content__char&#45;&#45;location text&#45;&#45;light">-->
-<!--                                        {{ provider.gender }}-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-
-<!--                            <div-->
-<!--                                v-if="provider.age"-->
-<!--                                class="col-md-6 col-md-4 mt-lg-5 mt-3">-->
-<!--                                <div-->
-<!--                                    class="provider-content__item"-->
-<!--                                >-->
-<!--                                    <div class="provider-content__char text&#45;&#45;regular">-->
-<!--                                        Age-->
-<!--                                    </div>-->
-<!--                                    <div class="provider-content__char provider-content__char&#45;&#45;location text&#45;&#45;light">-->
-<!--                                        {{ provider.age }} years-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-
-<!--                            <div-->
-<!--                                v-if="provider.provider_type"-->
-<!--                                class="col-md-6 col-md-4 mt-lg-5 mt-3">-->
-<!--                                <div-->
-<!--                                    class="provider-content__item"-->
-<!--                                >-->
-<!--                                    <div class="provider-content__char text&#45;&#45;regular">-->
-<!--                                        Provider type-->
-<!--                                    </div>-->
-<!--                                    <div class="provider-content__char provider-content__char&#45;&#45;location text&#45;&#45;light">-->
-<!--                                        {{ provider.provider_type }}-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-
-<!--                            <div-->
-<!--                                v-if="provider.specialty"-->
-<!--                                class="col-md-6 mt-lg-5 mt-3">-->
-<!--                                <div-->
-<!--                                    class="provider-content__item"-->
-<!--                                >-->
-<!--                                    <div class="provider-content__char text&#45;&#45;regular">-->
-<!--                                        Specialties-->
-<!--                                    </div>-->
-<!--                                    <div class="provider-content__char provider-content__char&#45;&#45;location text&#45;&#45;light">-->
-<!--                                        {{ provider.specialty }}-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-xl-4 mt-xl-0 mt-3">-->
-<!--                        <div class="row">-->
-<!--                            <div-->
-<!--                                v-if="provider.locations && provider.locations[0].practice_phone"-->
-<!--                                class="col-md-6 mb-lg-5 mb-3 d-xl-block d-none">-->
-<!--                                <div class="provider-content__item">-->
-<!--                                    <div class="provider-content__char text&#45;&#45;regular">-->
-<!--                                        Phone number-->
-<!--                                    </div>-->
-<!--                                    <div class="provider-content__char provider-content__char&#45;&#45;phone text&#45;&#45;light">-->
-<!--                                        <img src="../../img/svg/phone-icon.svg" alt="">-->
-<!--                                        <a-->
-<!--                                            v-bind:href="`tel:${provider.locations[0].practice_phone}`"-->
-<!--                                        >-->
-<!--                                            {{ provider.locations[0].practice_phone }}-->
-<!--                                        </a>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-
-<!--                            <div v-if="provider.practice_name" class="col-md-6 mb-lg-5 mb-3">-->
-<!--                                <div-->
-<!--                                    class="provider-content__item"-->
-<!--                                >-->
-<!--                                    <div class="provider-content__char text&#45;&#45;regular">-->
-<!--                                        Practice name-->
-<!--                                    </div>-->
-<!--                                    <div class="provider-content__char provider-content__char&#45;&#45;location text&#45;&#45;light">-->
-<!--                                        {{ provider.practice_name }}-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-
-<!--                            <div v-if="provider.num_years_experience" class="col-md-6 mb-lg-5 mb-3">-->
-<!--                                <div-->
-<!--                                    class="provider-content__item"-->
-<!--                                >-->
-<!--                                    <div class="provider-content__char text&#45;&#45;regular">-->
-<!--                                        Experience-->
-<!--                                    </div>-->
-<!--                                    <div class="provider-content__char provider-content__char&#45;&#45;location text&#45;&#45;light">-->
-<!--                                        {{ provider.num_years_experience }} {{ provider.num_years_experience === 1 && provider.num_years_experience === 0 ? 'year' : 'years' }}-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-
-<!--                            <div v-if="provider.medical_school" class="col-md-6 mb-lg-5 mb-3">-->
-<!--                                <div-->
-<!--                                    class="provider-content__item"-->
-<!--                                >-->
-<!--                                    <div class="provider-content__char text&#45;&#45;regular">-->
-<!--                                        Medical School-->
-<!--                                    </div>-->
-<!--                                    <div class="provider-content__char provider-content__char&#45;&#45;location text&#45;&#45;light">-->
-<!--                                        {{ provider.medical_school }}-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
                 </div>
 
                 <template v-if="provider.locations && provider.locations.length > 1">
@@ -330,9 +180,9 @@
                             v-for="item in provider.locations.slice(1)"
                             class="provider-content__char-line"
                         >
-                            {{ item.addr_line_1 }}, {{ item.addr_line_2 ? item.addr_line_2 + ', ' : '' }} {{ item.city }}, {{ item.state }}, {{ item.zip }}
+                            {{ item.address.line_1 }}, {{ item.address.line_2 ? item.address.line_2 + ', ' : '' }} {{ item.address.city }}, {{ item.address.state.label }}, {{ item.address.zip }}
                             <a
-                                v-bind:href="`https://maps.google.com/?q=${provider.locations[0].addr_line_1},${provider.locations[0].city},${provider.locations[0].state},${provider.locations[0].zip}`"
+                                v-bind:href="`https://maps.google.com/?q=${item.address.line_1},${item.address.city},${item.address.state.label},${item.address.zip}`"
                                 class="text--regular text--styled-link"
                                 target="_blank"
                             >
@@ -341,11 +191,11 @@
                             </a>
                             &mdash;
                             <a
-                                v-bind:href="`tel: ${item.practice_phone}`"
+                                v-bind:href="`tel: ${item.phone}`"
                                 class="text--styled-link"
                             >
                                 <img src="images/phone-icon.svg" alt="">
-                                {{ item.practice_phone }}
+                                {{ item.phone }}
                             </a>
                         </div>
                     </div>
@@ -356,10 +206,10 @@
 </template>
 
 <script>
-import api from '../api/mock';
+import api from '../api';
 
 export default {
-    name: 'DoctorPage',
+    name: 'ProviderPage',
 
     data() {
         return {
@@ -375,13 +225,41 @@ export default {
     },
 
     async created() {
-        this.provider = await api.getDoctor(this.$route.params.id);
+        await this.fetchData();
     },
 
     methods: {
         goBack: function () {
             this.prevRoute.fullPath !== '/' ? this.$router.push(this.prevRoute) : this.$router.push('/');
+        },
+
+        async fetchData() {
+            const {data} = await api.getProvider(this.$route.params.id);
+            this.provider = data.data;
         }
+    },
+
+    computed: {
+        primaryAddress() {
+            if (this.provider.locations) {
+                return this.provider.locations.find(location => location.is_primary);
+            }
+            return '';
+        },
+
+        specialities() {
+            if (this.provider.specialities.length) {
+                return this.provider.specialities.join(', ');
+            }
+            return '';
+        },
+
+        languages() {
+            if (this.provider.languages.length) {
+                return this.provider.languages.map(lang => lang.label).join(', ');
+            }
+            return '';
+        },
     }
 }
 </script>

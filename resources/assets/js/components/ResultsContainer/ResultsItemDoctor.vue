@@ -2,10 +2,10 @@
     <div class="results-item">
         <div class="results-item__header">
             <router-link
-                v-bind:to="`/provider/${item.npi}`"
+                v-bind:to="`/provider/${item.id}`"
                 class="results-item__title"
             >
-                {{ item.label }}<template v-if="item.credentials">, {{ item.degree }}</template>
+                {{ item.label }}<template v-if="item.degree">, {{ item.degree }}</template>
             </router-link>
 
             <div
@@ -14,7 +14,7 @@
             </div>
 
             <router-link
-                v-bind:to="`/provider/${item.npi}`"
+                v-bind:to="`/provider/${item.id}`"
                 class="results-item__detail results-item__detail--desktop"
             >
                 <span>View {{ item.label }}'s details</span>
@@ -45,16 +45,16 @@
                     >
                     <span>
                         <span class="text--bold">Primary address:</span> <br>
-                        {{ item.locations[0].address.line_1 }}, {{ item.locations[0].address.city }}, {{ item.locations[0].address.state.label }}, {{ item.locations[0].address.zip }} <br>
+                        {{ primaryAddress.address.line_1 }}, {{ primaryAddress.address.city }}, {{ primaryAddress.address.state.label }}, {{ primaryAddress.address.zip }} <br>
                         <router-link
                             v-if="item.locations.length > 1"
-                            v-bind:to="`/provider/${item.npi}`"
+                            v-bind:to="`/provider/${item.id}`"
                             class="text--styled-link text--regular"
                         >+ {{ item.locations.length - 1 }} location{{ item.locations.length - 1 > 1 ? 's' : '' }}</router-link>
                     </span>
                 </div>
                 <div
-                    v-if="item.locations[0].phone"
+                    v-if="primaryAddress.phone"
                     class="results-item__char results-item__char--phone">
                     <img
                         v-if="!isEven"
@@ -64,8 +64,8 @@
                         v-else
                         src="images/phone-icon-white.svg" alt=""
                     >
-                    <a v-bind:href="`tel:${item.locations[0].phone}`">
-                        {{ item.locations[0].phone }}
+                    <a v-bind:href="`tel:${primaryAddress.phone}`">
+                        {{ primaryAddress.phone }}
                     </a>
                 </div>
             </div>
@@ -107,7 +107,7 @@
         </div>
         <div class="align-right">
             <router-link
-                v-bind:to="`/provider/${item.npi}`"
+                v-bind:to="`/provider/${item.id}`"
                 class="results-item__detail results-item__detail--mobile"
             >
                 <span>View {{ item.label }}'s details</span>
@@ -142,5 +142,11 @@ export default {
             default: false
         }
     },
+
+    computed: {
+        primaryAddress() {
+            return this.item.locations.find(location => location.is_primary);
+        }
+    }
 }
 </script>

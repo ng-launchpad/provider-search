@@ -2,7 +2,7 @@
     <div class="results-item results-item--facility">
         <div class="results-item__header">
             <router-link
-                v-bind:to="`/facility/${item.tin}`"
+                v-bind:to="`/facility/${item.id}`"
                 class="results-item__title"
             >
                 {{ item.label }}
@@ -13,7 +13,7 @@
             </div>
 
             <router-link
-                v-bind:to="`/facility/${item.npi}`"
+                v-bind:to="`/facility/${item.id}`"
                 class="results-item__detail results-item__detail--desktop"
             >
                 <span>View facility details</span>
@@ -45,7 +45,7 @@
                     <span>
                         <template v-if="item.locations.length > 1">
                             <router-link
-                                v-bind:to="`/facility/${item.npi}`"
+                                v-bind:to="`/facility/${item.id}`"
                                 class="text--styled-link text--bold"
                             >{{ item.locations.length }} locations including:</router-link><br>
                         </template>
@@ -88,7 +88,7 @@
         </div>
         <div class="align-right">
             <router-link
-                v-bind:to="`/facility/${item.npi}`"
+                v-bind:to="`/facility/${item.id}`"
                 class="results-item__detail results-item__detail--mobile"
             >
                 <span>View facility details</span>
