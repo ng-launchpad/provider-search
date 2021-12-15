@@ -15,8 +15,6 @@ class CityResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'label' => $this->label,
-        ];
+        return $this->address_city;
     }
 }
