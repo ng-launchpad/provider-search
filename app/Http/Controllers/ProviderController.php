@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 class ProviderController extends Controller
 {
     const LOAD_RELATIONS = [
+        'hospitals',
         'languages',
         'locations.addressState',
         'network',

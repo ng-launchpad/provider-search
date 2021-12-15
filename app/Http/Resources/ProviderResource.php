@@ -29,6 +29,7 @@ class ProviderResource extends JsonResource
             'locations'                 => LocationResource::collection($this->whenLoaded('locations')),
             'languages'                 => LanguageResource::collection($this->whenLoaded('languages')),
             'specialities'              => SpecialityResource::collection($this->whenLoaded('specialities')),
+            'hospitals'                 => HospitalResource::collection($this->whenLoaded('hospitals')),
         ];
     }
 }
