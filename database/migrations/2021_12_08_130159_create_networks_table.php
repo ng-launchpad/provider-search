@@ -19,6 +19,7 @@ class CreateNetworksTable extends Migration
             $table->string('label_search', 150);
             $table->string('label_network', 150);
             $table->string('label_browse', 150);
+            $table->string('config_key', 150);
             $table->timestamps();
         });
     }
