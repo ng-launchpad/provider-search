@@ -118,6 +118,14 @@ class Provider extends Model
     }
 
     /**
+     * Gets Providers which belong to a particular Network
+     */
+    public function scopeWithNetwork(Builder $query, Network $network)
+    {
+        $query->where('network_id', $network->id);
+    }
+
+    /**
      * Gets Providers which have a Location in a particular State
      */
     public function scopeWithState(Builder $query, State $state)
