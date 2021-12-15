@@ -130,7 +130,7 @@
                     >
                         <div
                             v-if="languages"
-                            class="provider-content__item"
+                            class="provider-content__item mb-4"
                         >
                             <div class="provider-content__char text--bold">
                                 Languages spoken
@@ -140,7 +140,7 @@
                             </div>
                         </div>
                         <div
-                            class="provider-content__item mt-4"
+                            class="provider-content__item"
                         >
                             <div class="provider-content__char text--bold">
                                 Affiliated hospitals
