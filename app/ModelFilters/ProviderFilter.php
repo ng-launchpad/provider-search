@@ -29,4 +29,9 @@ class ProviderFilter extends ModelFilter
             State::findOrFail($id)
         );
     }
+
+    public function type($type)
+    {
+        $this->withType($type);
+    }
 }

@@ -134,4 +134,9 @@ class Provider extends Model
             $query->where('address_state_id', $state->id);
         });
     }
+
+    public function scopeWithType(Builder $query, $type)
+    {
+        $query->where('is_facility', $type === 'facility');
+    }
 }
