@@ -32,6 +32,11 @@ class State extends Model
 {
     use HasFactory;
 
+    public static function findByCodeOrFail(string $value)
+    {
+        return self::where('code', $value)->firstOrFail();
+    }
+
     /**
      * Gets all Locations associated with the state
      */
