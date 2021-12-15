@@ -1,15 +1,29 @@
 .footer {
-    padding: 80px 0;
+    padding: 50px 0 30px;
     background-color: $mystic;
+
+    @include media-breakpoint-up(md) {
+        padding: 80px 0;
+    }
 
     &__inner {
         display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
+        flex-direction: column;
+
+        @include media-breakpoint-up(md) {
+            flex-direction: row;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
     }
 
     &__copyright {
         @include font-size(16px);
+        margin-top: 50px;
+
+        @include media-breakpoint-up(md) {
+            margin-top: 0;
+        }
     }
 
     &__menu {
@@ -20,12 +34,20 @@
 
     &__menu-item {
         & + .footer__menu-item {
-            margin-top: 30px;
+            margin-top: 10px;
+
+            @include media-breakpoint-up(md) {
+                margin-top: 30px;
+            }
         }
     }
 
     &__menu-link {
-        @include font-size(20px);
+        @include font-size(16px);
         font-weight: 500;
+
+        @include media-breakpoint-up(md) {
+            @include font-size(20px);
+        }
     }
 }
