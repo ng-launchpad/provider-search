@@ -55,9 +55,12 @@
                             class="browsing-container__list-item"
                             v-bind:key="index"
                         >
-                            <a href="#" class="browsing-container__list-link">
+                            <router-link
+                                v-bind:to="{path: '/results', query: {keywords: item,network_id: selectedNetwork, scope: 'city'}}"
+                                class="browsing-container__list-link"
+                            >
                                 {{ item }}
-                            </a>
+                            </router-link>
                         </li>
                     </ul>
                 </div>
@@ -73,9 +76,12 @@
                             class="browsing-container__list-item"
                             v-bind:key="index"
                         >
-                            <a href="#" class="browsing-container__list-link">
+                            <router-link
+                                v-bind:to="{path: '/results', query: {keywords: item,network_id: selectedNetwork, scope: 'speciality'}}"
+                                class="browsing-container__list-link"
+                            >
                                 {{ item }}
-                            </a>
+                            </router-link>
                         </li>
                     </ul>
                 </div>
