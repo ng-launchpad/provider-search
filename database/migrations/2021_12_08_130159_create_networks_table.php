@@ -16,6 +16,9 @@ class CreateNetworksTable extends Migration
         Schema::create('networks', function (Blueprint $table) {
             $table->id();
             $table->string('label', 150);
+            $table->string('label_search', 150);
+            $table->string('label_network', 150);
+            $table->string('label_browse', 150);
             $table->timestamps();
         });
     }

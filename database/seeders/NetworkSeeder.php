@@ -14,8 +14,40 @@ class NetworkSeeder extends Seeder
      */
     public function run()
     {
-        Network::factory()
-            ->times(10)
-            ->create();
+        $networks = [
+            [
+                'label'         => 'AENTA',
+                'label_search'  => 'Medical & dental providers',
+                'label_network' => 'Allstate Benefits Secure Choice',
+                'label_browse'  => 'Secure Choice Broad',
+            ],
+            [
+                'label'         => 'HCH',
+                'label_search'  => 'Medical providers',
+                'label_network' => 'Allstate Benefits Secure Choice',
+                'label_browse'  => 'Secure Choice Select',
+            ],
+            [
+                'label'         => 'VSP',
+                'label_search'  => 'Vision providers',
+                'label_network' => 'Allstate Benefits Secure Choice',
+                'label_browse'  => 'Vision Providers',
+            ],
+            [
+                'label'         => 'CIGNA',
+                'label_search'  => 'Pharmacy directory',
+                'label_network' => 'Allstate Benefits Secure Choice',
+                'label_browse'  => 'Pharmacy Providers',
+            ],
+        ];
+
+        foreach ($networks as $network) {
+            Network::create([
+                'label'         => $network['label'],
+                'label_search'  => $network['label_search'],
+                'label_network' => $network['label_network'],
+                'label_browse'  => $network['label_browse'],
+            ]);
+        }
     }
 }
