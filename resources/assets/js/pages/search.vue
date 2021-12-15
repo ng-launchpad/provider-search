@@ -60,15 +60,10 @@ export default {
                 auto: 'yes',
                 theme: 'gray'
             },
-            networkItems: [],
             links: [],
             customerOption: '',
             loading: false
         }
-    },
-
-    async mounted() {
-        this.networkItems = await mock.getLinks();
     },
 
     methods: {

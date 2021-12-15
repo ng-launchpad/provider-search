@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default {
     async search(query = '') {
-        return await axios.get(`/api/providers`, {
+        return await axios.get(`/api/providers?state_id=${window.state.id}`, {
             params: query
         });
     },

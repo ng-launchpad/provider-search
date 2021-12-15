@@ -53,67 +53,27 @@
                     </div>
                     <div class="search-block__network-container">
                         <div class="search-block__network-row">
-                            <div class="search-block__network-item">
+                            <div
+                                v-for="network in networks"
+                                class="search-block__network-item"
+                                v-bind:key="network.id"
+                                v-on:click="setNetwork(network.id)"
+                                v-bind:class="{
+                                    'is-selected': selectedNetwork === network.id
+                                }"
+                            >
                                 <div class="search-block__network-item-head">
                                     <div class="search-block__network-item-label">
-                                        Medical & dental providers
+                                        {{ network.search_label }}
                                     </div>
                                     <div class="search-block__network-item-head-inner">
                                         <div class="search-block__network-item-logo">
                                             <img v-bind:src="'/images/logo_vertical.png'" alt="">
                                         </div>
-                                        <div class="search-block__network-item-text">
-                                            Secure choice <br>
-                                            <i>Broad</i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="search-block__network-item">
-                                <div class="search-block__network-item-head">
-                                    <div class="search-block__network-item-label">
-                                        Medical providers
-                                    </div>
-                                    <div class="search-block__network-item-head-inner">
-                                        <div class="search-block__network-item-logo">
-                                            <img v-bind:src="'/images/logo_vertical.png'" alt="">
-                                        </div>
-                                        <div class="search-block__network-item-text">
-                                            Secure choice <br>
-                                            <i>Select</i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="search-block__network-item">
-                                <div class="search-block__network-item-head">
-                                    <div class="search-block__network-item-label">
-                                        Vision providers
-                                    </div>
-                                    <div class="search-block__network-item-head-inner">
-                                        <div class="search-block__network-item-logo">
-                                            <img v-bind:src="'/images/logo_vertical.png'" alt="">
-                                        </div>
-                                        <div class="search-block__network-item-text">
-                                            Secure choice <br>
-                                            <i>Broad & Select</i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="search-block__network-item">
-                                <div class="search-block__network-item-head">
-                                    <div class="search-block__network-item-label">
-                                        Pharmacy directory
-                                    </div>
-                                    <div class="search-block__network-item-head-inner">
-                                        <div class="search-block__network-item-logo">
-                                            <img v-bind:src="'/images/logo_vertical.png'" alt="">
-                                        </div>
-                                        <div class="search-block__network-item-text">
-                                            Secure choice <br>
-                                            <i>Broad & Select</i>
-                                        </div>
+                                        <div
+                                            class="search-block__network-item-text"
+                                            v-html="network.search_sublabel"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -138,9 +98,7 @@
 </template>
 
 <script>
-import api from '../api';
 import chunk from '../utility/chunk';
-// import mock from "../api/mock";
 
 export default {
     name: 'SearchBlock',
@@ -197,7 +155,7 @@ export default {
         matchQuery: {
             type: String,
             required: false,
-            default: 'search'
+            default: 'keywords'
         }
     },
 
@@ -208,13 +166,20 @@ export default {
             browsingList: [],
             loading: false,
             browseTab: 'browse_doctors',
-            windowWidth: window.innerWidth
+            windowWidth: window.innerWidth,
+            networks: [],
+            selectedNetwork: ''
         }
     },
 
     mounted() {
         window.onresize = () => {
             this.windowWidth = window.innerWidth
+        }
+        this.networks = window.networks;
+
+        if (this.$route.query.network_id) {
+            this.selectedNetwork = this.$route.query.network_id;
         }
     },
 
@@ -224,7 +189,7 @@ export default {
         },
 
         canSearch: function() {
-            return !!this.searchQuery;
+            return !!this.searchQuery && this.selectedNetwork;
         },
 
         isMobile: function() {
@@ -257,22 +222,17 @@ export default {
                 this.$emit('query-changed', this.searchQuery);
             },
             immediate: true
-        },
-
-        browseBy: {
-            handler: async function() {
-                this.loading = true;
-                // this.browsingList = await api.getItems(this.browseBy);
-                this.loading = false;
-            },
-            immediate: true
         }
     },
 
     methods: {
         newSearch: async function() {
-            if (this.searchQuery) this.$router.push({path: '/results', query: {keywords: this.searchQuery}}).catch(()=>{});
+            if (this.searchQuery) this.$router.push({path: '/results', query: {keywords: this.searchQuery, network_id: this.selectedNetwork}}).catch(()=>{});
         },
+
+        setNetwork: function(id) {
+            this.selectedNetwork = id;
+        }
     },
 }
 </script>

@@ -14,7 +14,7 @@
                 <div class="results-container__header">
                     <div class="results-container__left">
                         <div class="results-container__results-count">
-                            Showing {{ providersMeta.total }} {{ latestQueryString ? resultsLabel : '' }} ‘{{ latestQueryString }}’
+                            Showing {{ providers.length }} {{ latestQueryString ? resultsLabel : '' }} ‘{{ latestQueryString }}’
                         </div>
                         <div class="results-container__print">
                             <a href="javascript:if(window.print)window.print()" class="text--color-white text--line-height-fix text--styled-link">Print</a>
@@ -156,8 +156,6 @@ export default {
             handler: async function(){
                 this.matchQuery = Object.keys(this.$route.query)[0];
 
-                // let queryKey = Object.keys(this.$route.query)[0];
-                // let queryVal = this.$route.query[queryKey];
                 if (this.$route.query.page) {
                     this.currentPage = parseInt(this.$route.query.page);
                 }
