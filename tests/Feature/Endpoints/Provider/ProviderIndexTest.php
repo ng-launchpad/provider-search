@@ -17,13 +17,14 @@ class ProviderIndexTest extends TestCase
     private $network;
     private $state;
     private $provider;
+    private $facility;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->createProvider($this->state, $this->network, $this->provider);
-        $this->createProvider($this->state, $this->network);
+        $this->createFacility($this->state, $this->network, $this->facility);
         $this->createProvider($this->state);
         $this->createProvider();
     }
@@ -123,12 +124,33 @@ class ProviderIndexTest extends TestCase
         //  @todo (Pablo 2021-12-15) - complete this test
     }
 
-    private function createProvider(State &$state = null, Network &$network = null, Provider &$provider = null)
-    {
-        $state    = $state ?? State::factory()->create();
-        $network  = $network ?? Network::factory()->create();
+    private function createProvider(
+        State &$state = null,
+        Network &$network = null,
+        Provider &$provider = null
+    ) {
+        $state = $state ?? State::factory()->create();
+
+        $network = $network ?? Network::factory()->create();
+
         $location = Location::factory()->for($state, 'addressState')->create();
+
         $provider = $provider ?? Provider::factory()->for($network)->create();
+
+        $provider->is_facility = false;
+        $provider->save();
+
         $provider->locations()->attach($location);
+    }
+
+    private function createFacility(
+        State &$state = null,
+        Network &$network = null,
+        Provider &$provider = null
+    ) {
+        $this->createProvider($state, $network, $provider);
+
+        $provider->is_facility = true;
+        $provider->save();
     }
 }
