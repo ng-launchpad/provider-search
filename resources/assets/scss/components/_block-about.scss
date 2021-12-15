@@ -1,20 +1,13 @@
 .block-about {
     max-width: 1440px;
     margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
 
-    &__top,
-    &__bottom {
-        display: flex;
-        flex-direction: column;
-
-        @include media-breakpoint-up(lg) {
-            flex-direction: row;
-        }
-    }
-
-    &__top-left {
+    &__description {
         background-color: $mystic;
         padding: 2rem;
+        width: 100%;
 
         @include media-breakpoint-up(md) {
             padding: 3rem 5rem;
@@ -25,12 +18,13 @@
         }
     }
 
-    &__top-right {
+    &__bbb {
         background-color: $blue-zodiac;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 2rem 6rem;
+        padding: 1rem;
+        width: 50%;
 
         @include media-breakpoint-up(lg) {
             width: 36%;
@@ -39,6 +33,7 @@
 
     &__top-logo {
         max-width: 184px;
+        width: 100%;
     }
 
     &__title {
@@ -68,23 +63,25 @@
         font-weight: 500;
     }
 
-    &__bottom-left {
+    &__allstate {
         background-color: $picton-blue;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 40px;
+        width: 50%;
 
         @include media-breakpoint-up(lg) {
             width: 36%;
         }
     }
 
-    &__bottom-right {
+    &__g-hands {
         background-color: $primary;
         display: flex;
         align-items: center;
         padding: 40px;
+        width: 100%;
 
         @include media-breakpoint-up(lg) {
             width: 64%;
