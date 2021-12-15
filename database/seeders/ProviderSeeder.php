@@ -20,7 +20,7 @@ class ProviderSeeder extends Seeder
     public function run()
     {
         Provider::factory()
-            ->times(100)
+            ->times(250)
             ->make()
             ->each(function (Provider $provider) {
 
