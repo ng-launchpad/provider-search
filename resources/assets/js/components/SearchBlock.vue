@@ -151,21 +151,12 @@ export default {
             required: false,
             default: ''
         },
-
-        matchQuery: {
-            type: String,
-            required: false,
-            default: 'keywords'
-        }
     },
 
     data() {
         return {
             searchQuery: '',
-            browseBy: 'provider_city',
-            browsingList: [],
             loading: false,
-            browseTab: 'browse_doctors',
             windowWidth: window.innerWidth,
             networks: [],
             selectedNetwork: ''
@@ -193,7 +184,7 @@ export default {
         },
 
         canSearch: function() {
-            return !!this.searchQuery && this.selectedNetwork;
+            return this.searchQuery && this.selectedNetwork;
         },
 
         isMobile: function() {
@@ -202,24 +193,12 @@ export default {
     },
 
     watch: {
-        browseTab: {
-            handler: function(newVal) {
-                this.$nextTick(() => {
-                    if (newVal === 'browse_doctors') {
-                        this.browseBy = 'provider_city'
-                    } else if (newVal === 'browse_facilities') {
-                        this.browseBy = 'facility_city'
-                    }
-                });
-            }
-        },
-
-        matchQuery: {
-            handler: function() {
-                this.searchQuery = this.$route.query[this.matchQuery]
-            },
-            immediate: true
-        },
+        // matchQuery: {
+        //     handler: function() {
+        //         this.searchQuery = this.$route.query[this.matchQuery]
+        //     },
+        //     immediate: true
+        // },
 
         // searchQuery: {
         //     handler: function() {
@@ -232,9 +211,9 @@ export default {
     methods: {
         newSearch: async function() {
             if (this.searchQuery) this.$router.push({path: '/results', query: {
+                    ...this.$route.query,
                     keywords: this.searchQuery,
                     network_id: this.selectedNetwork,
-                    ...this.$route.query
             }}).catch(()=>{});
         },
 

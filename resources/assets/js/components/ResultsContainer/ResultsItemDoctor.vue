@@ -153,14 +153,14 @@ export default {
 
         specialities() {
             if (this.item.specialities.length) {
-                return this.item.specialities.map(spec => spec.label).join(', ');
+                return this.item.specialities.join(', ');
             }
             return '';
         },
 
         languages() {
             if (this.item.languages.length) {
-                return this.item.languages.map(lang => lang.label).join(', ');
+                return this.item.languages.join(', ');
             }
             return '';
         },
