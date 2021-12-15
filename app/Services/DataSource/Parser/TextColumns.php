@@ -10,5 +10,6 @@ final class TextColumns implements Parser
     public function parse($resource): Collection
     {
         //  @todo (Pablo 2021-12-15) - implement this method
+        return new Collection();
     }
 }
