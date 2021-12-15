@@ -23,7 +23,7 @@ class CreateProvidersTable extends Migration
             $table->string('degree', 10)->nullable();
             $table->string('website', 150)->nullable();
             $table->enum('gender', [Provider::GENDER_MALE, Provider::GENDER_FEMALE])->nullable();
-            $table->foreignIdFor(Network::class)->nullable()->constrained('networks')->restrictOnDelete();
+            $table->foreignIdFor(Network::class)->constrained('networks')->restrictOnDelete();
             $table->boolean('is_facility');
             $table->boolean('is_accepting_new_patients')->nullable();
             $table->timestamps();

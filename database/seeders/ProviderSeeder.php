@@ -23,10 +23,7 @@ class ProviderSeeder extends Seeder
             ->make()
             ->each(function (Provider $provider) {
 
-                if (rand(0, 1)) {
-                    $provider->network()->associate(Network::query()->inRandomOrder()->first());
-                }
-
+                $provider->network()->associate(Network::query()->inRandomOrder()->first());
                 $provider->save();
 
                 for ($i = 0; $i < rand(1, 4); $i++) {
