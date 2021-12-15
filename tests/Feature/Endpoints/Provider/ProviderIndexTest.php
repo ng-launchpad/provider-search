@@ -111,7 +111,7 @@ class ProviderIndexTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_providers_filtered_by_type()
+    public function it_returns_provider_filtered_by_type()
     {
         self::markTestIncomplete();
         //  @todo (Pablo 2021-12-15) - complete this test
