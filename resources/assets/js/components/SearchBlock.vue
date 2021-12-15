@@ -181,6 +181,10 @@ export default {
         if (this.$route.query.network_id) {
             this.selectedNetwork = this.$route.query.network_id;
         }
+
+        if (this.$route.query.keywords) {
+            this.searchQuery = this.$route.query.keywords;
+        }
     },
 
     computed: {
@@ -217,17 +221,21 @@ export default {
             immediate: true
         },
 
-        searchQuery: {
-            handler: function() {
-                this.$emit('query-changed', this.searchQuery);
-            },
-            immediate: true
-        }
+        // searchQuery: {
+        //     handler: function() {
+        //         this.$emit('query-changed', this.searchQuery);
+        //     },
+        //     immediate: true
+        // }
     },
 
     methods: {
         newSearch: async function() {
-            if (this.searchQuery) this.$router.push({path: '/results', query: {keywords: this.searchQuery, network_id: this.selectedNetwork}}).catch(()=>{});
+            if (this.searchQuery) this.$router.push({path: '/results', query: {
+                    keywords: this.searchQuery,
+                    network_id: this.selectedNetwork,
+                    ...this.$route.query
+            }}).catch(()=>{});
         },
 
         setNetwork: function(id) {

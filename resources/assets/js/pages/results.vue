@@ -24,7 +24,7 @@
                         <div class="results-container__select">
                             <v-select
                                 class="custom-select"
-                                v-model="matchQuery"
+                                v-model="type"
                                 v-bind:options="matchQueryOptions"
                                 v-bind:reduce="option => option.value"
                                 v-bind:clearable="false"
@@ -120,42 +120,36 @@ export default {
             matchQueryOptions: [
                 {
                     label: 'All fields',
-                    value: 'keywords'
+                    value: ''
                 },
                 {
-                    label: 'Provider name',
+                    label: 'Providers only',
                     value: 'provider_name'
                 },
                 {
-                    label: 'Provider city',
+                    label: 'Healthcare facilities only',
                     value: 'provider_city'
                 },
                 {
-                    label: 'Provider specialty',
-                    value: 'provider_specialty'
+                    label: 'City',
+                    value: 'city'
                 },
                 {
-                    label: 'Facility city',
-                    value: 'facility_city'
+                    label: 'Speciality',
+                    value: 'speciality'
                 },
                 {
-                    label: 'Facility services',
-                    value: 'facility_services'
+                    label: 'Language',
+                    value: 'language'
                 }
             ],
-            matchQuery: 'keywords',
+            type: '',
         }
-    },
-
-    async mounted() {
-        this.matchQuery = Object.keys(this.$route.query)[0];
     },
 
     watch: {
         '$route.query': {
             handler: async function(){
-                this.matchQuery = Object.keys(this.$route.query)[0];
-
                 if (this.$route.query.page) {
                     this.currentPage = parseInt(this.$route.query.page);
                 }
@@ -196,7 +190,7 @@ export default {
         },
 
         newSearch: async function() {
-            this.$router.push({query: {[this.matchQuery]: this.searchQuery}}).catch(()=>{});
+            this.$router.push({query: {...this.$route.query}}).catch(()=>{});
         },
 
         getItemTypeComponent(isFacilitiy) {
