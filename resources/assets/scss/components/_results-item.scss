@@ -165,22 +165,29 @@
     }
 
     &__info-col {
+        width: 100%;
+
+        @include media-breakpoint-up(md) {
+            width: (100% / 3);
+            flex-shrink: 0;
+        }
+
         @media print {
             display: table-cell;
             width: 50%;
             overflow: hidden;
         }
 
-        &:nth-child(1) {
-            @include media-breakpoint-up(md) {
-                width: 180px;
-                flex-shrink: 0;
-            }
-
-            @include media-breakpoint-up(lg) {
-                width: 220px;
-            }
-        }
+        //&:nth-child(1) {
+        //    @include media-breakpoint-up(md) {
+        //        width: 180px;
+        //        flex-shrink: 0;
+        //    }
+        //
+        //    @include media-breakpoint-up(lg) {
+        //        width: 220px;
+        //    }
+        //}
 
         &:nth-child(2) {
             .results-item--facility & {
@@ -193,13 +200,8 @@
             }
 
             @include media-breakpoint-up(md) {
-                width: 150px;
-                margin-left: 2rem
-            }
-
-            @include media-breakpoint-up(lg) {
-                margin-left: 4.5rem;
-                width: 200px;
+                // width: 150px;
+                padding-left: 2rem
             }
 
             @media print {
@@ -211,8 +213,8 @@
             flex: 1;
 
             @include media-breakpoint-up(md) {
-                width: 380px;
-                margin-left: 2rem;
+                // width: 380px;
+                padding-left: 2rem;
             }
         }
 
@@ -260,6 +262,10 @@
                     color: $primary;
                 }
             }
+        }
+
+        &--location {
+            max-width: 310px;
         }
 
         @include media-breakpoint-down(md) {
