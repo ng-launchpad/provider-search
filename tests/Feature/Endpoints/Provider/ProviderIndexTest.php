@@ -174,7 +174,7 @@ class ProviderIndexTest extends TestCase
 
         $network = $network ?? Network::factory()->create();
 
-        $location = Location::factory()->for($state, 'addressState')->create();
+        $location = Location::factory()->for($state)->create();
 
         $provider = $provider ?? Provider::factory()->for($network)->create();
 

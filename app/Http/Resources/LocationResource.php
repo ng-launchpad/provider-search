@@ -23,7 +23,7 @@ class LocationResource extends JsonResource
                 'line_1' => $this->address_line_1,
                 'city'   => $this->address_city,
                 'county' => $this->address_county,
-                'state'  => new StateResource($this->whenLoaded('addressState')),
+                'state'  => new StateResource($this->whenLoaded('state')),
                 'zip'    => $this->address_zip,
             ],
             'phone'      => $this->phone,

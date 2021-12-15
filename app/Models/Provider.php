@@ -138,7 +138,7 @@ class Provider extends Model
      */
     public function scopeWithState(Builder $query, State $state)
     {
-        $query->whereHas('locations.addressState', function ($query) use ($state) {
+        $query->whereHas('locations.state', function ($query) use ($state) {
             $query->where('address_state_id', $state->id);
         });
     }

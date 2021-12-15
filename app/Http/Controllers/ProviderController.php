@@ -11,7 +11,7 @@ class ProviderController extends Controller
     const LOAD_RELATIONS = [
         'hospitals',
         'languages',
-        'locations.addressState',
+        'locations.state',
         'network',
         'specialities',
     ];

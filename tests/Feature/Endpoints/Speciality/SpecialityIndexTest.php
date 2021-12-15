@@ -72,9 +72,9 @@ class SpecialityIndexTest extends TestCase
         $city1       = $faker->unique()->city;
         $city2       = $faker->unique()->city;
 
-        $location1 = Location::factory()->for($state1, 'addressState')->create(['address_city' => $city1]);
-        $location2 = Location::factory()->for($state1, 'addressState')->create(['address_city' => $city1]);
-        $location3 = Location::factory()->for($state2, 'addressState')->create(['address_city' => $city2]);
+        $location1 = Location::factory()->for($state1)->create(['address_city' => $city1]);
+        $location2 = Location::factory()->for($state1)->create(['address_city' => $city1]);
+        $location3 = Location::factory()->for($state2)->create(['address_city' => $city2]);
 
         $speciality1 = Speciality::factory()->create();
         $speciality2 = Speciality::factory()->create();

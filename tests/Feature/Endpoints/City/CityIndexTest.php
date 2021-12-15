@@ -71,9 +71,9 @@ class CityIndexTest extends TestCase
         $city1   = $faker->unique()->city;
         $city2   = $faker->unique()->city;
 
-        $location1 = Location::factory()->for($state1, 'addressState')->create(['address_city' => $city1]);
-        $location2 = Location::factory()->for($state1, 'addressState')->create(['address_city' => $city1]);
-        $location3 = Location::factory()->for($state2, 'addressState')->create(['address_city' => $city2]);
+        $location1 = Location::factory()->for($state1)->create(['address_city' => $city1]);
+        $location2 = Location::factory()->for($state1)->create(['address_city' => $city1]);
+        $location3 = Location::factory()->for($state2)->create(['address_city' => $city2]);
 
         $provider1 = Provider::factory()->for($network)->create();
         $provider1->locations()->attach($location1);

@@ -48,7 +48,7 @@ class Location extends Model
     /**
      * Gets the State associated with the Location
      */
-    public function addressState()
+    public function state()
     {
         return $this->belongsTo(State::class, 'address_state_id');
     }
