@@ -31,11 +31,12 @@ class ProviderIndexTest extends TestCase
     /** @test */
     public function it_requires_a_network_id()
     {
+        // arrange
         // assert
         $this->expectException(ValidationException::class);
 
         // act
-        $response = $this
+        $this
             ->withoutExceptionHandling()
             ->getJson(route('api.providers.index', [
                 'state_id' => $this->state->id,
@@ -49,7 +50,7 @@ class ProviderIndexTest extends TestCase
         $this->expectException(ValidationException::class);
 
         // act
-        $response = $this
+        $this
             ->withoutExceptionHandling()
             ->getJson(route('api.providers.index', [
                 'network_id' => $this->network->id,
