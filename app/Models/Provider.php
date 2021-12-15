@@ -139,4 +139,9 @@ class Provider extends Model
     {
         $query->where('is_facility', $type === 'facility');
     }
+
+    public function scopeWithScope(Builder $query, $type)
+    {
+        //  @todo (Pablo 2021-12-15) - alter scope of search keywords
+    }
 }

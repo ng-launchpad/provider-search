@@ -34,4 +34,9 @@ class ProviderFilter extends ModelFilter
     {
         $this->withType($type);
     }
+
+    public function scope($scope)
+    {
+        $this->withScope($scope);
+    }
 }
