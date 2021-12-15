@@ -59,8 +59,9 @@ class DataSourceServiceTest extends TestCase
          * include minimum required fields to avoid DB exceptions
          */
         $provider                            = new Provider();
-        $provider->label                     = $faker->company;
         $provider->npi                       = $faker->numerify('##########');
+        $provider->network_id                = $network->id;
+        $provider->label                     = $faker->company;
         $provider->gender                    = $faker->randomElement([Provider::GENDER_MALE, Provider::GENDER_FEMALE]);
         $provider->network_id                = $network->id;
         $provider->is_facility               = $faker->boolean;
