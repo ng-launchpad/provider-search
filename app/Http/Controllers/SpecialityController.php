@@ -11,6 +11,11 @@ class SpecialityController extends Controller
      */
     public function index(Request $request)
     {
+        $request->validate([
+            'network_id' => 'required',
+            'state_id'   => 'required',
+        ]);
+
         return [];
     }
 }
