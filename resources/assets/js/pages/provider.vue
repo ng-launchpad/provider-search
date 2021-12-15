@@ -103,7 +103,7 @@
                     >
                         <div
                             v-if="provider.website"
-                            class="provider-content__item"
+                            class="provider-content__item mb-4"
                         >
                             <div class="provider-content__char text--bold">
                                 Website
@@ -114,7 +114,7 @@
                         </div>
                         <div
                             v-if="provider.network"
-                            class="provider-content__item mt-4"
+                            class="provider-content__item mb-4"
                         >
                             <div class="provider-content__char text--bold">
                                 Network name
@@ -145,23 +145,11 @@
                             <div class="provider-content__char text--bold">
                                 Affiliated hospitals
                             </div>
-                            <div class="provider-content__char text--regular">
-                                Affiliated hospital 1 name
-                            </div>
-                            <div class="provider-content__char text--regular">
-                                Affiliated hospital 2 name
-                            </div>
-                            <div class="provider-content__char text--regular">
-                                Affiliated hospital 3 name
-                            </div>
-                            <div class="provider-content__char text--regular">
-                                Affiliated hospital 4 name
-                            </div>
-                            <div class="provider-content__char text--regular">
-                                Affiliated hospital 5 name
-                            </div>
-                            <div class="provider-content__char text--regular">
-                                Affiliated hospital 6 name
+                            <div
+                                v-for="hospital in provider.hospitals"
+                                class="provider-content__char text--regular"
+                            >
+                                {{ hospital }}
                             </div>
                         </div>
                     </div>
@@ -244,15 +232,15 @@ export default {
         },
 
         specialities() {
-            if (this.provider.specialities.length) {
-                return this.provider.specialities.map(spec => spec.label).join(', ');
+            if (this.provider.specialities) {
+                return this.provider.specialities.join(', ');
             }
             return '';
         },
 
         languages() {
-            if (this.provider.languages.length) {
-                return this.provider.languages.map(lang => lang.label).join(', ');
+            if (this.provider.languages) {
+                return this.provider.languages.join(', ');
             }
             return '';
         },
