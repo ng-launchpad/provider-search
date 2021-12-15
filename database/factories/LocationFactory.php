@@ -29,7 +29,9 @@ class LocationFactory extends Factory
             'address_line_1'   => $faker->streetAddress(),
             'address_city'     => $faker->city(),
             'address_county'   => null,
-            'address_state_id' => State::query()->inRandomOrder()->first(),
+            // Always seed for Texas as, currently, that's the only supported state
+            //'address_state_id' => State::query()->inRandomOrder()->first(),
+            'address_state_id' => State::findByCodeOrFail('TX'),
             'address_zip'      => $faker->postcode(),
             'phone'            => $faker->phoneNumber(),
         ];
