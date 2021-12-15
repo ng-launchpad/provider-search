@@ -25,13 +25,13 @@ class DataSourceServiceTest extends TestCase
     public function it_truncates_the_data()
     {
         // arrange
-        State::factory()->create();
-        Provider::factory()->create();
-        Network::factory()->create();
-        Language::factory()->create();
-        Location::factory()->create();
-        Speciality::factory()->create();
-        $service = DataSourceService::factory();
+        $state      = State::factory()->create();
+        $network    = Network::factory()->create();
+        $provider   = Provider::factory()->for($network)->create();
+        $language   = Language::factory()->create();
+        $location   = Location::factory()->for($state)->create();
+        $speciality = Speciality::factory()->create();
+        $service    = DataSourceService::factory();
 
         // act
         $service->truncate();
