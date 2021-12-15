@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             SpecialitySeeder::class,
             StateSeeder::class,
             LocationSeeder::class,
+            HospitalSeeder::class,
             ProviderSeeder::class,
             LocationSeeder::class,
         ]);
