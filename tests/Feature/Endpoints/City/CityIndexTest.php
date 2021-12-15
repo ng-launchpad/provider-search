@@ -2,8 +2,11 @@
 
 namespace Tests\Feature\Endpoints\City;
 
+use App\Models\Location;
 use App\Models\Network;
+use App\Models\Provider;
 use App\Models\State;
+use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
@@ -60,11 +63,49 @@ class CityIndexTest extends TestCase
     /** @test */
     public function it_returns_list_of_cities()
     {
-        self::markTestIncomplete();
         // arrange
+        $faker   = Factory::create();
+        $network = $this->network;
+        $state1  = $this->state;
+        $state2  = State::factory()->create();
+        $city1   = $faker->unique()->city;
+        $city2   = $faker->unique()->city;
+
+        $location1 = Location::factory()->for($state1, 'addressState')->create(['address_city' => $city1]);
+        $location2 = Location::factory()->for($state1, 'addressState')->create(['address_city' => $city1]);
+        $location3 = Location::factory()->for($state2, 'addressState')->create(['address_city' => $city2]);
+
+        $provider1 = Provider::factory()->for($network)->create();
+        $provider1->locations()->attach($location1);
+        $provider1->locations()->attach($location2);
+
+        $provider2 = Provider::factory()->for($network)->create();
+        $provider2->locations()->attach($location3);
 
         // act
+        $response1 = $this
+            ->withoutExceptionHandling()
+            ->getJson(route('api.cities.index', [
+                'network_id' => $network->id,
+                'state_id'   => $state1->id,
+            ]));
+
+        $response2 = $this
+            ->withoutExceptionHandling()
+            ->getJson(route('api.cities.index', [
+                'network_id' => $network->id,
+                'state_id'   => $state2->id,
+            ]));
 
         // assert
+        $response1
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0', $city1);
+
+        $response2
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0', $city2);
     }
 }

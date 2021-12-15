@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SpecialityResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SpecialityController extends Controller
 {
@@ -16,6 +18,19 @@ class SpecialityController extends Controller
             'state_id'   => 'required',
         ]);
 
-        return [];
+        $result = DB::query()
+            ->from('location_provider')
+            ->leftJoin('locations', 'location_provider.location_id', '=', 'locations.id')
+            ->leftJoin('providers', 'location_provider.provider_id', '=', 'providers.id')
+            ->leftJoin('provider_speciality', 'location_provider.provider_id', '=', 'provider_speciality.provider_id')
+            ->leftJoin('specialities', 'provider_speciality.speciality_id', '=', 'specialities.id')
+            ->where('locations.address_state_id', '=', $request->get('state_id'))
+            ->where('providers.network_id', '=', $request->get('network_id'))
+            ->whereNotNull('specialities.label')
+            ->orderBy('specialities.label')
+            ->distinct()
+            ->get(['specialities.label']);
+
+        return SpecialityResource::collection($result);
     }
 }
