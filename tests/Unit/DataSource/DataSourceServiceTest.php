@@ -84,7 +84,7 @@ class DataSourceServiceTest extends TestCase
         $service = DataSourceService::factory();
 
         // act
-        $service->sync('test.file', $connection, $mapper, $parser);
+        $service->sync($network, 'test.file', $connection, $mapper, $parser);
 
         // assert
         $this->assertcount(1, Provider::all());

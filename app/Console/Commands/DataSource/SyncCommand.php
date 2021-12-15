@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\DataSource;
 
+use App\Models\Network;
 use App\Services\DataSource\Connection;
 use App\Services\DataSource\Mapper;
 use App\Services\DataSource\Parser;
@@ -54,75 +55,55 @@ class SyncCommand extends Command
 
                 $service->truncate();
 
-                $this
-                    ->performSync(
-                        $service,
-                        'Aenta',
-                        'filename.xlsx',
-                        new Mapper\Aenta(),
-                        new Parser\Xls()
-                    )
-                    ->performSync(
-                        $service,
-                        'VSP',
-                        'filename.csv',
-                        new Mapper\Vsp(),
-                        new Parser\Csv()
-                    );
+                foreach (Network::all() as $network) {
+
+                    try {
+
+                        $this->getOutput()->write(sprintf(
+                            'Syncing <comment>%s</comment> data... ',
+                            $network->label
+                        ));
+
+                        $config     = config($network->config_key);
+                        $path       = $config['path'];
+                        $connection = call_user_func_array(
+                            $config['connection']['class'] . '::factory',
+                            $config['connection']['config']
+                        );
+                        $mapper     = call_user_func($config['mapper'] . '::factory');
+                        $parser     = call_user_func($config['parser'] . '::factory');
+
+                        $service
+                            ->sync(
+                                $network,
+                                $path,
+                                $connection,
+                                $mapper,
+                                $parser
+                            );
+
+                        $this->getOutput()->writeln('<info>done!</info>');
+
+                    } catch (\Throwable $e) {
+                        $this->getOutput()->writeln(sprintf(
+                            '<error>ERROR: %s</error>',
+                            $e->getMessage()
+                        ));
+                        throw $e;
+                    }
+                }
 
                 $service->endSync();
 
             });
+
+        } catch (\Throwable $e) {
+            //  @todo (Pablo 2021-12-15) - Report error by email
 
         } finally {
             Artisan::call('up');
         }
 
         return Command::SUCCESS;
-    }
-
-    private function getSftpConnection(): Connection\Sftp
-    {
-        return Connection\Sftp::factory(
-            config('datasource.sftp.host'),
-            config('datasource.sftp.username'),
-            config('datasource.sftp.password')
-        );
-    }
-
-    private function performSync(
-        DataSourceService $service,
-        string $label,
-        string $filename,
-        \App\Services\DataSource\Interfaces\Mapper $mapper,
-        \App\Services\DataSource\Interfaces\Parser $parser
-    ): self {
-
-        try {
-
-            $this->getOutput()->write(sprintf(
-                'Syncing <comment>%s</comment> data... ',
-                $label
-            ));
-
-            $service
-                ->sync(
-                    $filename,
-                    $this->getSftpConnection(),
-                    $mapper,
-                    $parser
-                );
-
-            $this->getOutput()->writeln('<info>done!</info>');
-
-        } catch (\Throwable $e) {
-            $this->getOutput()->writeln(sprintf(
-                '<error>ERROR: %s</error>',
-                $e->getMessage()
-            ));
-            throw $e;
-        }
-
-        return $this;
     }
 }

@@ -12,10 +12,6 @@ final class Vsp extends Mapper
     protected function getLanguageKeys(): array
     {
         return [
-            'OFFICE LANG 1',
-            'OFFICE LANG 2',
-            'OFFICE LANG 3',
-            'OFFICE LANG 4',
             'LANGUAGE SPOKEN 1',
             'LANGUAGE SPOKEN 2',
             'LANGUAGE SPOKEN 3',
@@ -39,11 +35,6 @@ final class Vsp extends Mapper
             'address_zip'      => 'ZIP9',
             'phone'            => 'OFFICE PHONE',
         ];
-    }
-
-    protected function getNetworkKey(): string
-    {
-        return 'PROVIDER NETWORK';
     }
 
     protected function getSpecialityKeys(): array
@@ -75,12 +66,7 @@ final class Vsp extends Mapper
                         return null;
                 }
             },
-            'network_id'                => function (array $item) {
-                return Network::query()
-                    ->where('label', $item['PROVIDER NETWORK'])
-                    ->firstOrFail()
-                    ->id;
-            },
+            'network_id'                => fn() => null,
             'is_facility'               => fn() => false,
             'is_accepting_new_patients' => fn() => null,
         ];

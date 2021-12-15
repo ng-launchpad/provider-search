@@ -9,7 +9,6 @@ use App\Models\Provider;
 use App\Models\Speciality;
 use App\Models\State;
 use App\Services\DataSource\Mapper\Aenta;
-use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
@@ -30,6 +29,7 @@ class AentaTest extends TestCase
         // act
         $mapper
             ->extractLanguages($collection)
+            ->filter(fn(Language $language) => (bool) $language->label)
             ->unique()
             ->each(fn(Language $model) => $model->save());
 
@@ -65,25 +65,6 @@ class AentaTest extends TestCase
     }
 
     /** @test */
-    public function it_extracts_the_networks()
-    {
-        self::markTestIncomplete();
-        // arrange
-        $data       = $this->getNetworkData();
-        $collection = new Collection($data);
-        $mapper     = Aenta::factory();
-
-        // act
-        $mapper
-            ->extractNetworks($collection)
-            ->unique()
-            ->each(fn(Network $model) => $model->save());
-
-        // assert
-        $this->assertCount(2, Network::all());
-    }
-
-    /** @test */
     public function it_extracts_the_specialities()
     {
         self::markTestIncomplete();
@@ -110,13 +91,6 @@ class AentaTest extends TestCase
         $data       = $this->getProviderData();
         $collection = new Collection($data);
         $mapper     = Aenta::factory();
-
-        //  Ensure generated Networks exist
-        foreach ($data as $datum) {
-            $state        = new Network();
-            $state->label = $datum['PROVIDER NETWORK'];
-            $state->save();
-        }
 
         // act
         $mapper

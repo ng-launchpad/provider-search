@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Hospital;
 use App\Models\Language;
 use App\Models\Location;
 use App\Models\Network;
@@ -20,11 +21,18 @@ final class DataSourceService
 
     public function truncate(): self
     {
-        Provider::truncate();
-        Network::truncate();
-        Language::truncate();
-        Location::truncate();
-        Speciality::truncate();
+        $models = [
+            Provider::class,
+            Hospital::class,
+            Language::class,
+            Location::class,
+            Speciality::class,
+        ];
+
+        foreach ($models as $class) {
+            call_user_func([$class, 'query'])->delete();
+            //  @todo (Pablo 2021-12-15) - reset IDs?
+        }
 
         return $this;
     }
@@ -39,11 +47,11 @@ final class DataSourceService
      *
      * @return $this
      */
-    public function sync(string $filename, Connection $connection, Mapper $mapper, Parser $parser): self
+    public function sync(Network $network, string $path, Connection $connection, Mapper $mapper, Parser $parser): self
     {
         $file = tmpfile();
 
-        $connection->download($filename, $file);
+        $connection->download($path, $file);
 
         $collection = $parser->parse($file);
 
@@ -55,17 +63,16 @@ final class DataSourceService
             ->unique()
             ->each(fn(Location $model) => $model->save());
 
-        $mapper->extractNetworks($collection)
-            ->unique()
-            ->each(fn(Network $model) => $model->save());
-
         $mapper->extractSpecialities($collection)
             ->unique()
             ->each(fn(Speciality $model) => $model->save());
 
         $mapper->extractProviders($collection)
             ->unique()
-            ->each(fn(Provider $model) => $model->save());
+            ->each(function (Provider $model) use ($network) {
+                $model->network_id = $network->id;
+                $model->save();
+            });
 
         $mapper->extractProviderLocations($collection)
             ->unique()

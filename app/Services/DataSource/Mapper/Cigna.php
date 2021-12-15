@@ -23,11 +23,6 @@ final class Cigna extends Mapper
         return [];
     }
 
-    protected function getNetworkKey(): string
-    {
-        return '';
-    }
-
     protected function getSpecialityKeys(): array
     {
         return [];

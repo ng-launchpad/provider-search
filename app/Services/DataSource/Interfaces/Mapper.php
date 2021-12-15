@@ -2,11 +2,12 @@
 
 namespace App\Services\DataSource\Interfaces;
 
-use App\Models\Provider;
 use Illuminate\Support\Collection;
 
 interface Mapper
 {
+    public static function factory(): self;
+
     /**
      * Takes a Collection and extracts a Collection of Languages
      *
@@ -24,15 +25,6 @@ interface Mapper
      * @return Collection
      */
     public function extractLocations(Collection $collection): Collection;
-
-    /**
-     * Takes a Collection and extracts a Collection of Networks
-     *
-     * @param Collection $collection
-     *
-     * @return Collection
-     */
-    public function extractNetworks(Collection $collection): Collection;
 
     /**
      * Takes a Collection and extracts a Collection of Specialities

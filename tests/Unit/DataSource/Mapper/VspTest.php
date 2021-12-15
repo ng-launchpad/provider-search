@@ -64,24 +64,6 @@ class VspTest extends TestCase
     }
 
     /** @test */
-    public function it_extracts_the_networks()
-    {
-        // arrange
-        $data       = $this->getNetworkData();
-        $collection = new Collection($data);
-        $mapper     = Vsp::factory();
-
-        // act
-        $mapper
-            ->extractNetworks($collection)
-            ->unique()
-            ->each(fn(Network $model) => $model->save());
-
-        // assert
-        $this->assertCount(2, Network::all());
-    }
-
-    /** @test */
     public function it_extracts_the_specialities()
     {
         // arrange
@@ -106,18 +88,16 @@ class VspTest extends TestCase
         $data       = $this->getProviderData();
         $collection = new Collection($data);
         $mapper     = Vsp::factory();
-
-        //  Ensure generated Networks exist
-        $mapper
-            ->extractNetworks($collection)
-            ->unique()
-            ->each(fn(Network $model) => $model->save());
+        $network    = Network::factory()->create();
 
         // act
         $mapper
             ->extractProviders($collection)
             ->unique()
-            ->each(fn(Provider $model) => $model->save());
+            ->each(function (Provider $model) use ($network) {
+                $model->network_id = $network->id;
+                $model->save();
+            });
 
         // assert
         $this->assertCount(4, Provider::all());
@@ -130,6 +110,7 @@ class VspTest extends TestCase
         $data       = $this->getProviderLocationData();
         $collection = new Collection($data);
         $mapper     = Vsp::factory();
+        $network    = Network::factory()->create();
 
         //  Ensure generated States exist
         foreach ($data as $datum) {
@@ -139,17 +120,14 @@ class VspTest extends TestCase
             $state->save();
         }
 
-        //  Ensure generated Networks exist
-        $mapper
-            ->extractNetworks($collection)
-            ->unique()
-            ->each(fn(Network $model) => $model->save());
-
         //  Ensure generated Providers exist
         $mapper
             ->extractProviders($collection)
             ->unique()
-            ->each(fn(Provider $model) => $model->save());
+            ->each(function (Provider $model) use ($network) {
+                $model->network_id = $network->id;
+                $model->save();
+            });
 
         //  Ensure generated Locations exist
         $mapper
@@ -222,10 +200,6 @@ class VspTest extends TestCase
         $faker     = Factory::create();
         $languages = ['English', 'Spanish', 'French', 'German', 'Vietnamese', 'Chinese'];
         return [
-            'OFFICE LANG 1'     => $faker->optional()->randomElement($languages),
-            'OFFICE LANG 2'     => $faker->optional()->randomElement($languages),
-            'OFFICE LANG 3'     => $faker->optional()->randomElement($languages),
-            'OFFICE LANG 4'     => $faker->optional()->randomElement($languages),
             'LANGUAGE SPOKEN 1' => $faker->optional()->randomElement($languages),
             'LANGUAGE SPOKEN 2' => $faker->optional()->randomElement($languages),
             'LANGUAGE SPOKEN 3' => $faker->optional()->randomElement($languages),
@@ -235,28 +209,17 @@ class VspTest extends TestCase
 
     private function getGeneratedLanguagesFromData(array $data): array
     {
-        $expectedLangs = array_map(fn($datum) => array_map(fn($lang) => $lang ?: 'English', $datum), $data);
+        $expectedLangs = array_map(fn($datum) => array_map(fn($lang) => $lang ?: null, $datum), $data);
         $expectedLangs = array_map(fn($datum) => implode(',', $datum), $expectedLangs);
         $expectedLangs = implode(',', $expectedLangs);
-        $expectedLangs = array_unique(explode(',', $expectedLangs));
+        $expectedLangs = explode(',', $expectedLangs);
+        $expectedLangs = array_unique($expectedLangs);
+        $expectedLangs = array_filter($expectedLangs);
+        $expectedLangs = array_filter($expectedLangs, fn($lang) => $lang !== 'English');
+
+        //  @todo (Pablo 2021-12-15) - filter english here and from data sources
 
         return $expectedLangs;
-    }
-
-    private function getNetworkData(): array
-    {
-        return [
-            $this->getNetworkDatum(),
-            $this->getNetworkDatum(),
-        ];
-    }
-
-    private function getNetworkDatum(): array
-    {
-        $faker = Factory::create();
-        return [
-            'PROVIDER NETWORK' => $faker->unique()->words(3, true),
-        ];
     }
 
     private function getSpecialityData(): array
@@ -285,21 +248,19 @@ class VspTest extends TestCase
             'NPI'               => $faker->unique()->numerify('##########'),
             'DEGREE'            => $faker->randomElement(['MD', 'DO', 'OD']),
             'GENDER'            => $gender,
-            'PROVIDER NETWORK'  => $faker->company,
         ];
     }
 
     private function getProviderLocationData(): array
     {
         $provider = $this->getProviderDatum();
-        $network  = $this->getNetworkDatum();
 
         return [
-            array_merge($provider, $this->getLocationDatum(), $network),
-            array_merge($provider, $this->getLocationDatum(), $network),
+            array_merge($provider, $this->getLocationDatum()),
+            array_merge($provider, $this->getLocationDatum()),
 
             //  Third option which should be attached to a different Provider
-            array_merge($this->getProviderDatum(), $this->getLocationDatum(), $this->getNetworkDatum()),
+            array_merge($this->getProviderDatum(), $this->getLocationDatum()),
         ];
     }
 }

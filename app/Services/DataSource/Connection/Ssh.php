@@ -9,10 +9,10 @@ final class Ssh implements Connection
     private \Spatie\Ssh\Ssh $ssh;
 
     public static function factory(
-        string $host,
-        string $username,
-        int $port
-    ) {
+        string $host = null,
+        string $username = null,
+        int $port = null
+    ): self {
         return new \Spatie\Ssh\Ssh($username, $host, $port);
     }
 
@@ -21,10 +21,10 @@ final class Ssh implements Connection
         $this->ssh = $ssh;
     }
 
-    public function download(string $file, $resource): Connection
+    public function download(string $path, $resource): Connection
     {
         $this->ssh->download(
-            $file,
+            $path,
             stream_get_meta_data($resource)['uri']
         );
         return $this;

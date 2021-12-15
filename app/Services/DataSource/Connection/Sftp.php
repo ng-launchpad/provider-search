@@ -12,14 +12,14 @@ final class Sftp implements Connection
     private FilesystemInterface $filesystem;
 
     public static function factory(
-        string $host,
-        string $username,
-        string $password,
+        string $host = null,
+        string $username = null,
+        string $password = null,
         int $port = 22,
         string $privateKey = null,
         string $root = '~/',
         int $timeout = 10
-    ) {
+    ): self {
         return new self(
             new Filesystem(
                 new SftpAdapter([
@@ -40,9 +40,9 @@ final class Sftp implements Connection
         $this->filesystem = $filesystem;
     }
 
-    public function download(string $file, $resource): Connection
+    public function download(string $path, $resource): Connection
     {
-        $response = $this->filesystem->read($file);
+        $response = $this->filesystem->read($path);
         fwrite($resource, $response);
         return $this;
     }

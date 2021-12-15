@@ -31,10 +31,15 @@ abstract class Mapper implements Interfaces\Mapper
         $collection->each(function ($item) use ($collectionOut) {
             foreach ($this->getLanguageKeys() as $key) {
 
-                $language        = new Language();
-                $language->label = ($item[$key] ?? null) ?: 'English';
+                $language = new Language();
 
-                $collectionOut->add($language);
+                if (!empty($item[$key]) && strtolower($item[$key]) !== 'english') {
+                    $language->label = $item[$key];
+                }
+
+                if ($language->isDirty()) {
+                    $collectionOut->add($language);
+                }
             }
         });
 
@@ -71,27 +76,6 @@ abstract class Mapper implements Interfaces\Mapper
         $location->hash = $location->hash();
 
         return $location;
-    }
-
-    public function extractNetworks(Collection $collection): Collection
-    {
-        $collectionOut = new Collection();
-
-        $collection->each(function ($item) use ($collectionOut) {
-
-            $key     = $this->getNetworkKey();
-            $network = new Network();
-
-            if ($item[$key] ?? null) {
-                $network->label = $item[$key];
-            }
-
-            if ($network->isDirty()) {
-                $collectionOut->add($network);
-            }
-        });
-
-        return $collectionOut;
     }
 
     public function extractSpecialities(Collection $collection): Collection
@@ -180,8 +164,6 @@ abstract class Mapper implements Interfaces\Mapper
     protected abstract function getLanguageKeys(): array;
 
     protected abstract function getLocationKeys(): array;
-
-    protected abstract function getNetworkKey(): string;
 
     protected abstract function getSpecialityKeys(): array;
 

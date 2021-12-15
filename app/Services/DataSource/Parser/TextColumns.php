@@ -7,6 +7,11 @@ use Illuminate\Support\Collection;
 
 final class TextColumns implements Parser
 {
+    public static function factory(): self
+    {
+        return new self();
+    }
+
     public function parse($resource): Collection
     {
         //  @todo (Pablo 2021-12-15) - implement this method
