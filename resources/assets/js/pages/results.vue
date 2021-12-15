@@ -4,7 +4,6 @@
             is-results
             back-link="/allstate"
             back-link-text="Start over"
-            v-bind:match-query="matchQuery"
             v-on:query-changed="searchQuery = $event"
             title="Search results"
         />

@@ -6,7 +6,7 @@
                     {{ provider.label }}
                 </p>
                 <div class="page-header__sub-title">
-                    Healthcare facility - {{ provider.locations.length }} location{{ provider.locations.length > 1 ? 's' : '' }}
+                    Healthcare facility - {{ locationsCount }} location{{ locationsCount > 1 ? 's' : '' }}
                 </div>
             </div>
         </div>
@@ -130,9 +130,14 @@ export default {
             this.provider = data.data;
         }
     },
+
+    computed: {
+        locationsCount() {
+            if (this.provider.locations) {
+                return this.provider.locations.length;
+            }
+            return 0;
+        }
+    }
 }
 </script>
-
-<style scoped>
-
-</style>
