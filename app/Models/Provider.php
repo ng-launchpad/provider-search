@@ -60,6 +60,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Speciality[] $specialities
  * @property-read int|null $specialities_count
  * @method static Builder|Provider whereType($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Hospital[] $hospitals
+ * @property-read int|null $hospitals_count
+ * @method static Builder|Provider withNetwork(\App\Models\Network $network)
+ * @method static Builder|Provider withScope($type)
+ * @method static Builder|Provider withType($type)
  */
 class Provider extends Model
 {

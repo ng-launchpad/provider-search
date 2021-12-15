@@ -40,6 +40,7 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property string|null $hash
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereHash($value)
+ * @property-read \App\Models\State $state
  */
 class Location extends Model
 {

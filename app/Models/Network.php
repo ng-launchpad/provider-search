@@ -23,6 +23,16 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Network whereLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Network whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $search_label
+ * @property string $search_sublabel
+ * @property string $network_label
+ * @property string $browse_label
+ * @property string $config_key
+ * @method static \Illuminate\Database\Eloquent\Builder|Network whereBrowseLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Network whereConfigKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Network whereNetworkLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Network whereSearchLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Network whereSearchSublabel($value)
  */
 class Network extends Model
 {
