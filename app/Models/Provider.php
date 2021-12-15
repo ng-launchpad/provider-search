@@ -110,6 +110,14 @@ class Provider extends Model
     }
 
     /**
+     * Gets the Hospitals associated with the Provider
+     */
+    public function hospitals()
+    {
+        return $this->belongsToMany(Hospital::class);
+    }
+
+    /**
      * Get Providers which match keywords
      */
     public function scopeWithKeywords(Builder $query, string $keywords)
