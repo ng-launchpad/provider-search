@@ -13,8 +13,12 @@
     }
 
     &__title {
-        @include font-size(36px);
+        @include font-size(26px);
         font-weight: 500;
+
+        @include media-breakpoint-up(md) {
+            @include font-size(36px);
+        }
 
         .search-block--header & {
             @include font-size(60px);
@@ -39,6 +43,7 @@
     &__form-inner {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
 
         .search-block--header & {
             margin-top: 8px;
@@ -65,7 +70,14 @@
 
     &__form-descr {
         @include font-size(16px);
-        margin-left: 54px;
+        width: 100%;
+        margin-top: 20px;
+
+        @include media-breakpoint-up(lg) {
+            width: auto;
+            margin-left: 54px;
+            margin-top: 0;
+        }
 
         a {
             font-weight: bold;
@@ -74,7 +86,11 @@
     }
 
     &__network {
-        margin-top: 64px;
+        margin-top: 40px;
+
+        @include media-breakpoint-up(lg) {
+            margin-top: 64px;
+        }
     }
 
     &__network-container {
@@ -85,13 +101,25 @@
     &__network-row {
         margin-left: -15px;
         margin-right: -15px;
+        flex-wrap: wrap;
     }
 
     &__network-item {
-        width: (100% / 4);
+        width: 100%;
         padding-left: 15px;
         padding-right: 15px;
         cursor: pointer;
+        margin-bottom: 20px;
+
+        @include media-breakpoint-up(md) {
+            width: (100% / 2);
+            margin-bottom: 30px;
+        }
+
+        @include media-breakpoint-up(xl) {
+            width: (100% / 4);
+            margin-bottom: 0;
+        }
 
         &:hover {
             .search-block__network-item-head {
@@ -142,7 +170,11 @@
     }
 
     &__submit {
-        margin-top: 46px;
+        margin-top: 15px;
+
+        @include media-breakpoint-up(xl) {
+            margin-top: 46px;
+        }
 
         .search-block--header & {
             margin-top: 0;
