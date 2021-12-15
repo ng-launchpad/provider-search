@@ -22,9 +22,10 @@ class VspTest extends TestCase
     public function it_extracts_the_languages()
     {
         // arrange
-        $data       = $this->getLanguageData();
-        $collection = new Collection($data);
-        $mapper     = Vsp::factory();
+        $data          = $this->getLanguageData();
+        $expectedLangs = $this->getGeneratedLanguagesFromData($data);
+        $collection    = new Collection($data);
+        $mapper        = Vsp::factory();
 
         // act
         $mapper
@@ -33,7 +34,7 @@ class VspTest extends TestCase
             ->each(fn(Language $model) => $model->save());
 
         // assert
-        $this->assertCount(6, Language::all());
+        $this->assertCount(count($expectedLangs), Language::all());
     }
 
     /** @test */
@@ -211,27 +212,35 @@ class VspTest extends TestCase
     private function getLanguageData(): array
     {
         return [
-            [
-                'OFFICE LANG 1'     => 'English',
-                'OFFICE LANG 2'     => 'Spanish',
-                'OFFICE LANG 3'     => '',
-                'OFFICE LANG 4'     => '',
-                'LANGUAGE SPOKEN 1' => '',
-                'LANGUAGE SPOKEN 2' => 'Spanish',
-                'LANGUAGE SPOKEN 3' => 'French',
-                'LANGUAGE SPOKEN 4' => '',
-            ],
-            [
-                'OFFICE LANG 1'     => '',
-                'OFFICE LANG 2'     => 'Spanish',
-                'OFFICE LANG 3'     => 'German',
-                'OFFICE LANG 4'     => 'French',
-                'LANGUAGE SPOKEN 1' => '',
-                'LANGUAGE SPOKEN 2' => 'Vietnamese',
-                'LANGUAGE SPOKEN 3' => '',
-                'LANGUAGE SPOKEN 4' => 'Chinese',
-            ],
+            $this->getLanguageDatum(),
+            $this->getLanguageDatum(),
         ];
+    }
+
+    private function getLanguageDatum(): array
+    {
+        $faker     = Factory::create();
+        $languages = ['English', 'Spanish', 'French', 'German', 'Vietnamese', 'Chinese'];
+        return [
+            'OFFICE LANG 1'     => $faker->optional()->randomElement($languages),
+            'OFFICE LANG 2'     => $faker->optional()->randomElement($languages),
+            'OFFICE LANG 3'     => $faker->optional()->randomElement($languages),
+            'OFFICE LANG 4'     => $faker->optional()->randomElement($languages),
+            'LANGUAGE SPOKEN 1' => $faker->optional()->randomElement($languages),
+            'LANGUAGE SPOKEN 2' => $faker->optional()->randomElement($languages),
+            'LANGUAGE SPOKEN 3' => $faker->optional()->randomElement($languages),
+            'LANGUAGE SPOKEN 4' => $faker->optional()->randomElement($languages),
+        ];
+    }
+
+    private function getGeneratedLanguagesFromData(array $data): array
+    {
+        $expectedLangs = array_map(fn($datum) => array_map(fn($lang) => $lang ?: 'English', $datum), $data);
+        $expectedLangs = array_map(fn($datum) => implode(',', $datum), $expectedLangs);
+        $expectedLangs = implode(',', $expectedLangs);
+        $expectedLangs = array_unique(explode(',', $expectedLangs));
+
+        return $expectedLangs;
     }
 
     private function getNetworkData(): array
