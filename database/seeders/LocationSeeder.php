@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Location;
+use App\Models\State;
 use Illuminate\Database\Seeder;
 
 class LocationSeeder extends Seeder
@@ -16,6 +17,7 @@ class LocationSeeder extends Seeder
     {
         Location::factory()
             ->times(30)
+            ->for(State::findByCodeOrFail('TX'))
             ->make()
             ->each(function (Location $location) {
                 $location->hash = $location->hash();
