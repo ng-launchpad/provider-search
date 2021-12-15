@@ -83,7 +83,7 @@
                     Network name
                 </div>
                 <div class="results-item__char">
-                    {{ item.network.label }}
+                    {{ item.network.search_label }}
                 </div>
             </div>
         </div>

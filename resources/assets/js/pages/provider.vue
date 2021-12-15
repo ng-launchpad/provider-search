@@ -120,7 +120,7 @@
                                 Network name
                             </div>
                             <div class="provider-content__char text--regular">
-                                {{ provider.network.label }}
+                                {{ provider.network.search_label }}
                             </div>
                         </div>
                     </div>
