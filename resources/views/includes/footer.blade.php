@@ -1,28 +1,24 @@
 <div class="block-about">
-    <div class="block-about__top">
-        <div class="block-about__top-left">
-            <div class="block-about__title heading">
-                We are <span>Allstate Benefits</span>
-            </div>
-            <div class="block-about__text">
-                From innovative group health coverage to our industry-leading range of
-                comprehensive supplementary insurance, we believe everyone should have the option
-                of quality, affordable insurance, from a company they trust.
-            </div>
-            <a href="#" class="d-inline-block text--styled-link mt-3 block-about__more">Learn more about us</a>
+    <div class="block-about__description">
+        <div class="block-about__title heading">
+            We are <span>Allstate Benefits</span>
         </div>
-        <div class="block-about__top-right">
-            <img src="images/bbb-logo.png" class="block-about__top-logo" alt="">
+        <div class="block-about__text">
+            From innovative group health coverage to our industry-leading range of
+            comprehensive supplementary insurance, we believe everyone should have the option
+            of quality, affordable insurance, from a company they trust.
         </div>
+        <a href="#" class="d-inline-block text--styled-link mt-3 block-about__more">Learn more about us</a>
     </div>
-    <div class="block-about__bottom">
-        <div class="block-about__bottom-left">
-            <img src="images/logo.png" class="block-about__bottom-logo" alt="">
-        </div>
-        <div class="block-about__bottom-right">
-            <div class="block-about__bottom-text">
-                you’re in <span>good hands®</span>
-            </div>
+    <div class="block-about__bbb">
+        <img src="images/bbb-logo.png" class="block-about__top-logo" alt="">
+    </div>
+    <div class="block-about__allstate">
+        <img src="images/logo.png" class="block-about__bottom-logo" alt="">
+    </div>
+    <div class="block-about__g-hands">
+        <div class="block-about__bottom-text">
+            you’re in <span>good hands®</span>
         </div>
     </div>
 </div>

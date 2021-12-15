@@ -121,7 +121,8 @@
             margin-bottom: 0;
         }
 
-        &:hover {
+        &:hover,
+        &.is-selected {
             .search-block__network-item-head {
                 border-color: $primary;
             }

@@ -4,7 +4,6 @@
             is-results
             back-link="/allstate"
             back-link-text="Start over"
-            v-bind:match-query="matchQuery"
             v-on:query-changed="searchQuery = $event"
             title="Search results"
         />
@@ -14,7 +13,7 @@
                 <div class="results-container__header">
                     <div class="results-container__left">
                         <div class="results-container__results-count">
-                            Showing {{ providers.length }} {{ latestQueryString ? resultsLabel : '' }} ‘{{ latestQueryString }}’
+                            Showing {{ providersMeta.total }} {{ resultsLabel }} ‘{{ queryResultString }}’
                         </div>
                         <div class="results-container__print">
                             <a href="javascript:if(window.print)window.print()" class="text--color-white text--line-height-fix text--styled-link">Print</a>
@@ -24,12 +23,12 @@
                         <div class="results-container__select">
                             <v-select
                                 class="custom-select"
-                                v-model="matchQuery"
-                                v-bind:options="matchQueryOptions"
-                                v-bind:reduce="option => option.value"
+                                v-model="filterValue"
+                                v-bind:options="filterOptions"
                                 v-bind:clearable="false"
+                                v-bind:reduce="option => option.value"
                                 v-bind:searchable="false"
-                                v-on:input="newSearch"
+                                v-on:option:selected="setFilter"
                             />
                         </div>
                     </div>
@@ -117,49 +116,51 @@ export default {
             providersMeta: {},
             searchQuery: '',
             loading: false,
-            matchQueryOptions: [
+            filterOptions: [
                 {
                     label: 'All fields',
-                    value: 'keywords'
+                    value: '',
+                    name: ''
                 },
                 {
-                    label: 'Provider name',
-                    value: 'provider_name'
+                    label: 'Providers only',
+                    value: 'provider',
+                    name: 'type'
                 },
                 {
-                    label: 'Provider city',
-                    value: 'provider_city'
+                    label: 'Healthcare facilities only',
+                    value: 'facility',
+                    name: 'type'
                 },
                 {
-                    label: 'Provider specialty',
-                    value: 'provider_specialty'
+                    label: 'City',
+                    value: 'city',
+                    name: 'scope'
                 },
                 {
-                    label: 'Facility city',
-                    value: 'facility_city'
+                    label: 'Speciality',
+                    value: 'speciality',
+                    name: 'scope'
                 },
                 {
-                    label: 'Facility services',
-                    value: 'facility_services'
+                    label: 'Language',
+                    value: 'language',
+                    name: 'scope'
                 }
             ],
-            matchQuery: 'keywords',
+            filterValue: '',
         }
-    },
-
-    async mounted() {
-        this.matchQuery = Object.keys(this.$route.query)[0];
     },
 
     watch: {
         '$route.query': {
             handler: async function(){
-                this.matchQuery = Object.keys(this.$route.query)[0];
-
-                // let queryKey = Object.keys(this.$route.query)[0];
-                // let queryVal = this.$route.query[queryKey];
                 if (this.$route.query.page) {
                     this.currentPage = parseInt(this.$route.query.page);
+                }
+
+                if (this.$route.query.type || this.$route.query.scope) {
+                    this.filterValue = this.$route.query.type || this.$route.query.scope;
                 }
 
                 await this.searchProviders(this.$route.query);
@@ -169,12 +170,8 @@ export default {
     },
 
     computed: {
-        latestQueryKey: function() {
-            return Object.keys(this.$route.query)[0];
-        },
-
-        latestQueryString: function() {
-            return this.$route.query[this.latestQueryKey]
+        queryResultString: function() {
+            return this.$route.query.keywords;
         },
 
         resultsLabel: function() {
@@ -198,7 +195,7 @@ export default {
         },
 
         newSearch: async function() {
-            this.$router.push({query: {[this.matchQuery]: this.searchQuery}}).catch(()=>{});
+            this.$router.push({query: {...this.$route.query}}).catch(()=>{});
         },
 
         getItemTypeComponent(isFacilitiy) {
@@ -207,6 +204,23 @@ export default {
             } else {
                 return ResultsItemFacility;
             }
+        },
+
+        setFilter() {
+            let query = {
+                ...this.$route.query
+            };
+
+            delete query.type;
+            delete query.scope;
+
+            if (this.filterValue) {
+                let currentOption = this.filterOptions.find(option => this.filterValue === option.value);
+
+                query[currentOption.name] = currentOption.value;
+            }
+
+            this.$router.push({query: {...query}}).catch(()=>{});
         },
 
         setPage(page) {
