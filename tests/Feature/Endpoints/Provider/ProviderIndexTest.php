@@ -113,8 +113,25 @@ class ProviderIndexTest extends TestCase
     /** @test */
     public function it_returns_provider_filtered_by_type()
     {
-        self::markTestIncomplete();
-        //  @todo (Pablo 2021-12-15) - complete this test
+        // arrange
+        $network  = $this->network;
+        $state    = $this->state;
+        $provider = $this->provider;
+
+        // act
+        $response = $this
+            ->withoutExceptionHandling()
+            ->getJson(route('api.providers.index', [
+                'network_id' => $network->id,
+                'state_id'   => $state->id,
+                'type'       => 'provider',
+            ]));
+
+        // assert
+        $response
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.label', $provider->label);
     }
 
     /** @test */
