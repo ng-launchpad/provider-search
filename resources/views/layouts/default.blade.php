@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    @include('includes.head')
+</head>
+<body>
+@include('includes.header')
+<main>
+    @yield('content')
+</main>
+@include('includes.footer')
+@include('includes.footer-scripts')
+</body>
+</html>

@@ -1,0 +1,278 @@
+<template>
+    <div
+        class="search-block"
+        v-bind:class="{
+            'search-block--header': isResults
+        }"
+    >
+        <div class="container">
+            <div class="search-block__inner">
+                <div class="search-block__title">
+                    {{ title }}
+                </div>
+
+                <div class="search-block__form">
+                    <div v-if="isResults" class="search-block__network-label">
+                        Searching: Medical & dental providers
+                    </div>
+                    <div class="search-block__form-inner">
+                        <input type="text" class="search-block__input" placeholder="Search by doctor or facility name, specialty or address" v-model="searchQuery">
+                        <div
+                            v-if="!isResults"
+                            class="search-block__form-descr"
+                        >
+                            <span>Not sure what to search for?<br><router-link to="/allstate">Browse providers & facilities</router-link></span>
+                        </div>
+                        <div
+                            v-if="isResults"
+                            class="search-block__submit"
+                        >
+                            <button
+                                type="submit"
+                                v-bind:disabled="!canSearch"
+                                class="button button--primary"
+                                v-on:click="newSearch"
+                            >Search</button>
+                        </div>
+                        <router-link
+                            v-if="isResults"
+                            to="/allstate"
+                            class="text--styled-link search-block__browse-all"
+                        >
+                            Browse all
+                        </router-link>
+                    </div>
+                </div>
+
+                <div
+                    v-if="!isResults"
+                    class="search-block__network"
+                >
+                    <div class="search-block__network-title heading heading--lg">
+                        Select your network
+                    </div>
+                    <div class="search-block__network-container">
+                        <div class="search-block__network-row">
+                            <div class="search-block__network-item">
+                                <div class="search-block__network-item-head">
+                                    <div class="search-block__network-item-label">
+                                        Medical & dental providers
+                                    </div>
+                                    <div class="search-block__network-item-head-inner">
+                                        <div class="search-block__network-item-logo">
+                                            <img v-bind:src="'/images/logo_vertical.png'" alt="">
+                                        </div>
+                                        <div class="search-block__network-item-text">
+                                            Secure choice <br>
+                                            <i>Broad</i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="search-block__network-item">
+                                <div class="search-block__network-item-head">
+                                    <div class="search-block__network-item-label">
+                                        Medical providers
+                                    </div>
+                                    <div class="search-block__network-item-head-inner">
+                                        <div class="search-block__network-item-logo">
+                                            <img v-bind:src="'/images/logo_vertical.png'" alt="">
+                                        </div>
+                                        <div class="search-block__network-item-text">
+                                            Secure choice <br>
+                                            <i>Select</i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="search-block__network-item">
+                                <div class="search-block__network-item-head">
+                                    <div class="search-block__network-item-label">
+                                        Vision providers
+                                    </div>
+                                    <div class="search-block__network-item-head-inner">
+                                        <div class="search-block__network-item-logo">
+                                            <img v-bind:src="'/images/logo_vertical.png'" alt="">
+                                        </div>
+                                        <div class="search-block__network-item-text">
+                                            Secure choice <br>
+                                            <i>Broad & Select</i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="search-block__network-item">
+                                <div class="search-block__network-item-head">
+                                    <div class="search-block__network-item-label">
+                                        Pharmacy directory
+                                    </div>
+                                    <div class="search-block__network-item-head-inner">
+                                        <div class="search-block__network-item-logo">
+                                            <img v-bind:src="'/images/logo_vertical.png'" alt="">
+                                        </div>
+                                        <div class="search-block__network-item-text">
+                                            Secure choice <br>
+                                            <i>Broad & Select</i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    v-if="!isResults"
+                    class="search-block__submit"
+                >
+                    <button
+                        type="submit"
+                        v-bind:disabled="!canSearch"
+                        class="button button--primary"
+                        v-on:click="newSearch"
+                    >Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import api from '../api';
+import chunk from '../utility/chunk';
+// import mock from "../api/mock";
+
+export default {
+    name: 'SearchBlock',
+
+    props: {
+        isInner: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
+
+        browsingFilters: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
+
+        title: {
+            type: String,
+            required: false,
+            default: ''
+        },
+
+        subTitle: {
+            type: String,
+            required: false,
+            default: ''
+        },
+
+        caption: {
+            type: String,
+            required: false,
+            default: ''
+        },
+
+        isResults: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
+
+        backLink: {
+            type: String,
+            required: false,
+            default: ''
+        },
+
+        backLinkText: {
+            type: String,
+            required: false,
+            default: ''
+        },
+
+        matchQuery: {
+            type: String,
+            required: false,
+            default: 'search'
+        }
+    },
+
+    data() {
+        return {
+            searchQuery: '',
+            browseBy: 'provider_city',
+            browsingList: [],
+            loading: false,
+            browseTab: 'browse_doctors',
+            windowWidth: window.innerWidth
+        }
+    },
+
+    mounted() {
+        window.onresize = () => {
+            this.windowWidth = window.innerWidth
+        }
+    },
+
+    computed: {
+        chunkedListItems: function() {
+            return chunk(this.browsingList, Math.round(this.browsingList.length / 3.5));
+        },
+
+        canSearch: function() {
+            return !!this.searchQuery;
+        },
+
+        isMobile: function() {
+            return this.windowWidth < 768;
+        }
+    },
+
+    watch: {
+        browseTab: {
+            handler: function(newVal) {
+                this.$nextTick(() => {
+                    if (newVal === 'browse_doctors') {
+                        this.browseBy = 'provider_city'
+                    } else if (newVal === 'browse_facilities') {
+                        this.browseBy = 'facility_city'
+                    }
+                });
+            }
+        },
+
+        matchQuery: {
+            handler: function() {
+                this.searchQuery = this.$route.query[this.matchQuery]
+            },
+            immediate: true
+        },
+
+        searchQuery: {
+            handler: function() {
+                this.$emit('query-changed', this.searchQuery);
+            },
+            immediate: true
+        },
+
+        browseBy: {
+            handler: async function() {
+                this.loading = true;
+                // this.browsingList = await api.getItems(this.browseBy);
+                this.loading = false;
+            },
+            immediate: true
+        }
+    },
+
+    methods: {
+        newSearch: async function() {
+            if (this.searchQuery) this.$router.push({path: '/results', query: {keywords: this.searchQuery}}).catch(()=>{});
+        },
+    },
+}
+</script>

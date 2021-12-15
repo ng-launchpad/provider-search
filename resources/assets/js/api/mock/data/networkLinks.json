@@ -1,0 +1,177 @@
+[
+    {
+        "label": "Individuals",
+        "products": [
+            {
+                "label": "Short term medical",
+                "links": [
+                    {
+                        "label": "Cigna® PPO Network",
+                        "url": "https://www.mynatgen.com/CignaPPO",
+                        "external": true
+                    },
+                    {
+                        "label": "Aetna Open Choice® PPO Network ",
+                        "url": "https://www.goperspecta.com/PDN/nhic/public/ProviderSearch/Main",
+                        "external": true
+                    },
+                    {
+                        "label": "Arizona only - Local Plus",
+                        "url": "https://MyNatGen.com/CignaLocalPlus",
+                        "external": true
+                    },
+                    {
+                        "label": "Ascension St. Vincent's Physician Alliance Network",
+                        "url": "#",
+                        "external": false
+                    }
+                ]
+            },
+            {
+                "label": "Fixed benefit medical",
+                "links": [
+                    {
+                        "label": "First Health® Network",
+                        "url": "https://www.firsthealthlbp.com/LocateProvider/SelectNetworkType",
+                        "external": true
+                    }
+                ]
+            },
+            {
+                "label": "Select Dental PPO",
+                "links": [
+                    {
+                        "label": "Aetna Dental® Administrators Network",
+                        "url": "https://www.goperspecta.com/VPD/ngicdental/public/ProviderSearch/Main",
+                        "external": true
+                    }
+                ]
+            },
+            {
+                "label": "National General DVH",
+                "links": [
+                    {
+                        "label": "Aetna Dental® Administrators Network",
+                        "url": "https://www.goperspecta.com/VPD/ngicdental/public/ProviderSearch/Main",
+                        "external": true
+                    }
+                ]
+            },
+            {
+                "label": "Dental PPO",
+                "links": [
+                    {
+                        "label": "Careington Network",
+                        "url": "https://www1.careington.com/(S(q02cnphkhkrmixll0wgzlfyb))/NGAHDSavings/search.aspx",
+                        "external": true
+                    }
+                ]
+            },
+            {
+                "label": "Dental Indemnity",
+                "links": [
+                    {
+                        "label": "Careington Network",
+                        "url": "https://www1.careington.com/(S(gu0qyt0zebqec31z3mb1qei1))/NGAHDSavings/search.aspx",
+                        "external": true
+                    }
+                ]
+            },
+            {
+                "label": "Vision",
+                "links": [
+                    {
+                        "label": "Avesis Vision",
+                        "url": "https://www.avesis.com/Commercial3/ProviderSearch_Gen.aspx",
+                        "external": true
+                    }
+                ]
+            },
+            {
+                "label": "Hearing",
+                "links": [
+                    {
+                        "label": "Amplifon Hearing Health Care®",
+                        "url": "https://www.amplifonusa.com/NGIC",
+                        "external": true
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "label": "Business / Group",
+        "products": [
+            {
+                "label": "Allied Benefits System",
+                "links": [
+                    {
+                        "label": "Allied Benefits System",
+                        "url": "https://www.alliedbenefit.com",
+                        "external": true
+                    }
+                ]
+            },
+            {
+                "label": "Meritain Health",
+                "links": [
+                    {
+                        "label": "Meritain Health",
+                        "url": "https://www.meritain.com",
+                        "external": true
+                    }
+                ]
+            },
+            {
+                "label": "Ascension St. Vincent's Physician Alliance network",
+                "links": [
+                    {
+                        "label": "St Vincent's provider search",
+                        "url": "/st-vincents",
+                        "external": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "label": "NationCare",
+        "products": [
+            {
+                "label": "Aetna Open Choice",
+                "links": [
+                    {
+                        "label": "Aetna Open Choice® PPO Network",
+                        "url": "https://www.aetna.com/dsepublic/#/contentPage?page=providerSearchLanding&site_id=mymeritain",
+                        "external": true
+                    }
+                ]
+            },
+            {
+                "label": "Drug Formulary",
+                "links": [
+                    {
+                        "label": "Drug Formulary",
+                        "url": "https://natgenhealth.com/Consumer%20Friendly%20Formulary_0119.pdf",
+                        "external": true
+                    },
+                    {
+                        "label": "Drug Formulary 2020",
+                        "url": "https://natgenhealth.com/2020%20Nation%20Care%20Std%20RX%20Drug%20Formular1.pdf",
+                        "external": true
+                    }
+                ]
+            },
+            {
+                "label": "California Plan",
+                "links": [
+                    {
+                        "label": "California Plan Documents",
+                        "url": "https://natgenhealth.com/california-plan-docs.php",
+                        "external": false
+                    }
+                ]
+            }
+        ]
+    }
+]

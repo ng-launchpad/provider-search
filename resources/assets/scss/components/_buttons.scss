@@ -1,0 +1,18 @@
+.button {
+    @include font-size(20px);
+    color: $blue-zodiac;
+    text-align: center;
+    font-weight: 500;
+    padding: 9px 32px 11px;
+
+    &--primary {
+        background-color: $coral;
+        border: none;
+        border-radius: 30px;
+    }
+
+    &.disabled,
+    &:disabled {
+        opacity: .5;
+    }
+}
