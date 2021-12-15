@@ -138,7 +138,6 @@ export default {
             this.cities = cities.data.data;
             const specialities = await api.getSpecialities(this.selectedNetwork);
             this.specialities = specialities.data.data;
-            console.log('fetchData');
         }
     },
 };
