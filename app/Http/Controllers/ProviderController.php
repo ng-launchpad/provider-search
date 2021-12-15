@@ -22,6 +22,11 @@ class ProviderController extends Controller
      */
     public function index(Request $request)
     {
+        $request->validate([
+            'network_id' => 'required',
+            'state_id'   => 'required',
+        ]);
+
         $providers = Provider::query()
             ->with(static::LOAD_RELATIONS)
             ->filter($request->all())
