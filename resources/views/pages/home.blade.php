@@ -5,7 +5,10 @@
     <div class="home-search">
         <div class="container">
             <div class="vue-app">
-                <search-block></search-block>
+                <search-block
+                    v-bind:stateId="{{ $state }}"
+                    v-bind:networks="{{ $networks }}"
+                ></search-block>
             </div>
         </div>
     </div>

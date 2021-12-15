@@ -11,5 +11,9 @@ class HomeController extends Controller
 {
     public function index()
     {
+        return view('pages.home', [
+            'state'    => (new StateResource(State::findByCodeOrFail('TX')))->toJson(),
+            'networks' => NetworkResource::collection(Network::all())->toJson(),
+        ]);
     }
 }
