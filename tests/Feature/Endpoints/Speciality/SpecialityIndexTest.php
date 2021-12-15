@@ -2,8 +2,12 @@
 
 namespace Tests\Feature\Endpoints\Speciality;
 
+use App\Models\Location;
 use App\Models\Network;
+use App\Models\Provider;
+use App\Models\Speciality;
 use App\Models\State;
+use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
@@ -60,11 +64,54 @@ class SpecialityIndexTest extends TestCase
     /** @test */
     public function it_returns_list_of_specialities()
     {
-        self::markTestIncomplete();
         // arrange
+        $faker       = Factory::create();
+        $network     = $this->network;
+        $state1      = $this->state;
+        $state2      = State::factory()->create();
+        $city1       = $faker->unique()->city;
+        $city2       = $faker->unique()->city;
+
+        $location1 = Location::factory()->for($state1, 'addressState')->create(['address_city' => $city1]);
+        $location2 = Location::factory()->for($state1, 'addressState')->create(['address_city' => $city1]);
+        $location3 = Location::factory()->for($state2, 'addressState')->create(['address_city' => $city2]);
+
+        $speciality1 = Speciality::factory()->create();
+        $speciality2 = Speciality::factory()->create();
+
+        $provider1 = Provider::factory()->for($network)->create();
+        $provider1->locations()->attach($location1);
+        $provider1->locations()->attach($location2);
+        $provider1->specialities()->attach($speciality1);
+
+        $provider2 = Provider::factory()->for($network)->create();
+        $provider2->locations()->attach($location3);
+        $provider2->specialities()->attach($speciality2);
 
         // act
+        $response1 = $this
+            ->withoutExceptionHandling()
+            ->getJson(route('api.specialities.index', [
+                'network_id' => $network->id,
+                'state_id'   => $state1->id,
+            ]));
+
+        $response2 = $this
+            ->withoutExceptionHandling()
+            ->getJson(route('api.specialities.index', [
+                'network_id' => $network->id,
+                'state_id'   => $state2->id,
+            ]));
 
         // assert
+        $response1
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0', $speciality1->label);
+
+        $response2
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0',  $speciality2->label);
     }
 }
