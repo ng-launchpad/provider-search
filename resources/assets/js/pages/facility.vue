@@ -6,7 +6,7 @@
                     {{ provider.label }}
                 </p>
                 <div class="page-header__sub-title">
-                    Healthcare facility - {{ provider.locations.length - 1 }} location{{ provider.locations.length - 1 > 1 ? 's' : '' }}
+                    Healthcare facility - {{ provider.locations.length }} location{{ provider.locations.length > 1 ? 's' : '' }}
                 </div>
             </div>
         </div>

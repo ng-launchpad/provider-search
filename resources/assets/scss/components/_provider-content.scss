@@ -30,7 +30,7 @@
             text-decoration: none;
 
             &:hover {
-                color: $primary;
+                color: $primary !important;
             }
         }
 
@@ -114,7 +114,6 @@
     }
 
     &__char-location-link {
-        margin-left: 5px;
         white-space: nowrap;
 
         @include media-breakpoint-down(sm) {
