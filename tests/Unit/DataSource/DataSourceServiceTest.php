@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\DataSource;
 
+use App\Models\Hospital;
 use App\Models\Language;
 use App\Models\Location;
 use App\Models\Network;
@@ -28,18 +29,21 @@ class DataSourceServiceTest extends TestCase
         $state      = State::factory()->create();
         $network    = Network::factory()->create();
         $provider   = Provider::factory()->for($network)->create();
+        $hospital   = Hospital::factory()->create();
         $language   = Language::factory()->create();
         $location   = Location::factory()->for($state)->create();
         $speciality = Speciality::factory()->create();
-        $service    = DataSourceService::factory();
+
+        $service = DataSourceService::factory();
 
         // act
         $service->truncate();
 
         // assert
         $this->assertcount(1, State::all());
+        $this->assertcount(1, Network::all());
         $this->assertcount(0, Provider::all());
-        $this->assertcount(0, Network::all());
+        $this->assertcount(0, Hospital::all());
         $this->assertcount(0, Language::all());
         $this->assertcount(0, Location::all());
         $this->assertcount(0, Speciality::all());
