@@ -12,7 +12,7 @@ class ProviderSingleTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_returns_list_of_providers()
+    public function it_returns_a_provider()
     {
         // arrange
         $network  = Network::factory()->create();
