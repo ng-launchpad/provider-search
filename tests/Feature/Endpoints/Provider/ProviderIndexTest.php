@@ -32,6 +32,8 @@ class ProviderIndexTest extends TestCase
     public function it_requires_a_network_id()
     {
         // arrange
+        $state = $this->state;
+
         // assert
         $this->expectException(ValidationException::class);
 
@@ -39,13 +41,16 @@ class ProviderIndexTest extends TestCase
         $this
             ->withoutExceptionHandling()
             ->getJson(route('api.providers.index', [
-                'state_id' => $this->state->id,
+                'state_id' => $state->id,
             ]));
     }
 
     /** @test */
     public function it_requires_a_state_id()
     {
+        // arrange
+        $network = $this->network;
+
         // assert
         $this->expectException(ValidationException::class);
 
@@ -53,7 +58,7 @@ class ProviderIndexTest extends TestCase
         $this
             ->withoutExceptionHandling()
             ->getJson(route('api.providers.index', [
-                'network_id' => $this->network->id,
+                'network_id' => $network->id,
             ]));
     }
 
@@ -61,14 +66,16 @@ class ProviderIndexTest extends TestCase
     public function it_returns_list_of_providers_for_a_network_and_state()
     {
         // arrange
+        $network  = $this->network;
+        $state    = $this->state;
         $provider = $this->provider;
 
         // act
         $response = $this
             ->withoutExceptionHandling()
             ->getJson(route('api.providers.index', [
-                'network_id' => $this->network->id,
-                'state_id'   => $this->state->id,
+                'network_id' => $network->id,
+                'state_id'   => $state->id,
             ]));
 
         // assert
@@ -82,14 +89,16 @@ class ProviderIndexTest extends TestCase
     public function it_returns_providers_filtered_by_keyword()
     {
         // arrange
+        $network  = $this->network;
+        $state    = $this->state;
         $provider = $this->provider;
 
         // act
         $response = $this
             ->withoutExceptionHandling()
             ->getJson(route('api.providers.index', [
-                'network_id' => $this->network->id,
-                'state_id'   => $this->state->id,
+                'network_id' => $network->id,
+                'state_id'   => $state->id,
                 'keywords'   => $provider->label,
             ]));
 
