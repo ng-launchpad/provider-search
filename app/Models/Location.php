@@ -38,6 +38,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string|null $hash
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereHash($value)
  */
 class Location extends Model
 {

@@ -21,6 +21,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Speciality whereLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Speciality whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Provider[] $providers
+ * @property-read int|null $providers_count
  */
 class Speciality extends Model
 {

@@ -54,6 +54,12 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Provider whereNpi($value)
  * @method static Builder|Provider wherePhone($value)
  * @method static Builder|Provider whereWebsite($value)
+ * @property string|null $type
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Language[] $languages
+ * @property-read int|null $languages_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Speciality[] $specialities
+ * @property-read int|null $specialities_count
+ * @method static Builder|Provider whereType($value)
  */
 class Provider extends Model
 {
