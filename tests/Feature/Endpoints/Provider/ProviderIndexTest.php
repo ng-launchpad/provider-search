@@ -135,6 +135,30 @@ class ProviderIndexTest extends TestCase
     }
 
     /** @test */
+    public function it_returns_facility_filtered_by_type()
+    {
+        // arrange
+        $network  = $this->network;
+        $state    = $this->state;
+        $facility = $this->facility;
+
+        // act
+        $response = $this
+            ->withoutExceptionHandling()
+            ->getJson(route('api.providers.index', [
+                'network_id' => $network->id,
+                'state_id'   => $state->id,
+                'type'       => 'facility',
+            ]));
+
+        // assert
+        $response
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.label', $facility->label);
+    }
+
+    /** @test */
     public function it_returns_providers_filtered_by_scope()
     {
         self::markTestIncomplete();
