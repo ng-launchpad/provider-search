@@ -192,22 +192,6 @@ export default {
         }
     },
 
-    watch: {
-        // matchQuery: {
-        //     handler: function() {
-        //         this.searchQuery = this.$route.query[this.matchQuery]
-        //     },
-        //     immediate: true
-        // },
-
-        // searchQuery: {
-        //     handler: function() {
-        //         this.$emit('query-changed', this.searchQuery);
-        //     },
-        //     immediate: true
-        // }
-    },
-
     methods: {
         newSearch: async function() {
             if (this.searchQuery) this.$router.push({path: '/results', query: {
