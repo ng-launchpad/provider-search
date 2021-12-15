@@ -16,42 +16,47 @@ class NetworkSeeder extends Seeder
     {
         $networks = [
             [
-                'label'         => 'AENTA',
-                'label_search'  => 'Medical & dental providers',
-                'label_network' => 'Allstate Benefits Secure Choice',
-                'label_browse'  => 'Secure Choice Broad',
-                'config_key'    => 'datasource.source.aenta',
+                'label'           => 'AENTA',
+                'search_label'    => 'Medical & dental providers',
+                'search_sublabel' => 'Secure choice <em>Broad</em>',
+                'network_label'   => 'Allstate Benefits Secure Choice',
+                'browse_label'    => 'Secure Choice Broad',
+                'config_key'      => 'datasource.source.aenta',
             ],
             [
-                'label'         => 'HCH',
-                'label_search'  => 'Medical providers',
-                'label_network' => 'Allstate Benefits Secure Choice',
-                'label_browse'  => 'Secure Choice Select',
-                'config_key'    => 'datasource.source.hch',
+                'label'           => 'HCH',
+                'search_label'    => 'Medical providers',
+                'search_sublabel' => 'Secure choice <em>Select</em>',
+                'network_label'   => 'Allstate Benefits Secure Choice',
+                'browse_label'    => 'Secure Choice Select',
+                'config_key'      => 'datasource.source.hch',
             ],
             [
-                'label'         => 'VSP',
-                'label_search'  => 'Vision providers',
-                'label_network' => 'Allstate Benefits Secure Choice',
-                'label_browse'  => 'Vision Providers',
-                'config_key'    => 'datasource.source.vsp',
+                'label'           => 'VSP',
+                'search_label'    => 'Vision providers',
+                'search_sublabel' => 'Secure choice <em>Broad & Select</em>',
+                'network_label'   => 'Allstate Benefits Secure Choice',
+                'browse_label'    => 'Vision Providers',
+                'config_key'      => 'datasource.source.vsp',
             ],
             [
-                'label'         => 'CIGNA',
-                'label_search'  => 'Pharmacy directory',
-                'label_network' => 'Allstate Benefits Secure Choice',
-                'label_browse'  => 'Pharmacy Providers',
-                'config_key'    => 'datasource.source.cigna',
+                'label'           => 'CIGNA',
+                'search_label'    => 'Pharmacy directory',
+                'search_sublabel' => 'Secure choice <em>Broad & Select</em>',
+                'network_label'   => 'Allstate Benefits Secure Choice',
+                'browse_label'    => 'Pharmacy Providers',
+                'config_key'      => 'datasource.source.cigna',
             ],
         ];
 
         foreach ($networks as $network) {
             Network::create([
-                'label'         => $network['label'],
-                'label_search'  => $network['label_search'],
-                'label_network' => $network['label_network'],
-                'label_browse'  => $network['label_browse'],
-                'config_key'    => $network['config_key'],
+                'label'           => $network['label'],
+                'search_label'    => $network['search_label'],
+                'search_sublabel' => $network['search_sublabel'],
+                'network_label'   => $network['network_label'],
+                'browse_label'    => $network['browse_label'],
+                'config_key'      => $network['config_key'],
             ]);
         }
     }

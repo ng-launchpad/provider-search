@@ -16,8 +16,12 @@ class NetworkResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'    => $this->id,
-            'label' => $this->label,
+            'id'              => $this->id,
+            'label'           => $this->label,
+            'search_label'    => $this->search_label,
+            'search_sublabel' => $this->search_sublabel,
+            'network_label'   => $this->network_label,
+            'browse_label'    => $this->browse_label,
         ];
     }
 }
