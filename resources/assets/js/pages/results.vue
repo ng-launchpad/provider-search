@@ -13,7 +13,7 @@
                 <div class="results-container__header">
                     <div class="results-container__left">
                         <div class="results-container__results-count">
-                            Showing {{ providers.length }} {{ latestQueryString ? resultsLabel : '' }} ‘{{ latestQueryString }}’
+                            Showing {{ providersMeta.total }} {{ resultsLabel }} ‘{{ queryResultString }}’
                         </div>
                         <div class="results-container__print">
                             <a href="javascript:if(window.print)window.print()" class="text--color-white text--line-height-fix text--styled-link">Print</a>
@@ -23,12 +23,12 @@
                         <div class="results-container__select">
                             <v-select
                                 class="custom-select"
-                                v-model="type"
-                                v-bind:options="matchQueryOptions"
-                                v-bind:reduce="option => option.value"
+                                v-model="filterValue"
+                                v-bind:options="filterOptions"
                                 v-bind:clearable="false"
+                                v-bind:reduce="option => option.value"
                                 v-bind:searchable="false"
-                                v-on:input="newSearch"
+                                v-on:option:selected="setFilter"
                             />
                         </div>
                     </div>
@@ -116,33 +116,39 @@ export default {
             providersMeta: {},
             searchQuery: '',
             loading: false,
-            matchQueryOptions: [
+            filterOptions: [
                 {
                     label: 'All fields',
-                    value: ''
+                    value: '',
+                    name: ''
                 },
                 {
                     label: 'Providers only',
-                    value: 'provider_name'
+                    value: 'provider',
+                    name: 'type'
                 },
                 {
                     label: 'Healthcare facilities only',
-                    value: 'provider_city'
+                    value: 'facility',
+                    name: 'type'
                 },
                 {
                     label: 'City',
-                    value: 'city'
+                    value: 'city',
+                    name: 'scope'
                 },
                 {
                     label: 'Speciality',
-                    value: 'speciality'
+                    value: 'speciality',
+                    name: 'scope'
                 },
                 {
                     label: 'Language',
-                    value: 'language'
+                    value: 'language',
+                    name: 'scope'
                 }
             ],
-            type: '',
+            filterValue: '',
         }
     },
 
@@ -153,6 +159,10 @@ export default {
                     this.currentPage = parseInt(this.$route.query.page);
                 }
 
+                if (this.$route.query.type || this.$route.query.scope) {
+                    this.filterValue = this.$route.query.type || this.$route.query.scope;
+                }
+
                 await this.searchProviders(this.$route.query);
             },
             immediate: true
@@ -160,12 +170,8 @@ export default {
     },
 
     computed: {
-        latestQueryKey: function() {
-            return Object.keys(this.$route.query)[0];
-        },
-
-        latestQueryString: function() {
-            return this.$route.query[this.latestQueryKey]
+        queryResultString: function() {
+            return this.$route.query.keywords;
         },
 
         resultsLabel: function() {
@@ -198,6 +204,23 @@ export default {
             } else {
                 return ResultsItemFacility;
             }
+        },
+
+        setFilter() {
+            let query = {
+                ...this.$route.query
+            };
+
+            delete query.type;
+            delete query.scope;
+
+            if (this.filterValue) {
+                let currentOption = this.filterOptions.find(option => this.filterValue === option.value);
+
+                query[currentOption.name] = currentOption.value;
+            }
+
+            this.$router.push({query: {...query}}).catch(()=>{});
         },
 
         setPage(page) {
