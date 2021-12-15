@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Hospital;
 use App\Models\Language;
 use App\Models\Location;
 use App\Models\Network;
@@ -23,10 +24,7 @@ class ProviderSeeder extends Seeder
             ->make()
             ->each(function (Provider $provider) {
 
-                if (rand(0, 1)) {
-                    $provider->network()->associate(Network::query()->inRandomOrder()->first());
-                }
-
+                $provider->network()->associate(Network::query()->inRandomOrder()->first());
                 $provider->save();
 
                 for ($i = 0; $i < rand(1, 4); $i++) {
@@ -39,6 +37,10 @@ class ProviderSeeder extends Seeder
 
                 for ($i = 0; $i < rand(0, 2); $i++) {
                     $provider->specialities()->attach(Speciality::query()->inRandomOrder()->first());
+                }
+
+                for ($i = 0; $i < rand(0, 6); $i++) {
+                    $provider->hospitals()->attach(Hospital::query()->inRandomOrder()->first());
                 }
 
             });

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNetworksTable extends Migration
+class CreateHospitalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,9 @@ class CreateNetworksTable extends Migration
      */
     public function up()
     {
-        Schema::create('networks', function (Blueprint $table) {
+        Schema::create('hospitals', function (Blueprint $table) {
             $table->id();
             $table->string('label', 150);
-            $table->string('search_label', 150);
-            $table->string('search_sublabel', 150);
-            $table->string('network_label', 150);
-            $table->string('browse_label', 150);
-            $table->string('config_key', 150);
             $table->timestamps();
         });
     }
@@ -32,6 +27,6 @@ class CreateNetworksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('networks');
+        Schema::dropIfExists('hospitals');
     }
 }

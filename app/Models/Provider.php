@@ -110,11 +110,27 @@ class Provider extends Model
     }
 
     /**
+     * Gets the Hospitals associated with the Provider
+     */
+    public function hospitals()
+    {
+        return $this->belongsToMany(Hospital::class);
+    }
+
+    /**
      * Get Providers which match keywords
      */
     public function scopeWithKeywords(Builder $query, string $keywords)
     {
         $query->where('label', 'like', "%$keywords%");
+    }
+
+    /**
+     * Gets Providers which belong to a particular Network
+     */
+    public function scopeWithNetwork(Builder $query, Network $network)
+    {
+        $query->where('network_id', $network->id);
     }
 
     /**
@@ -125,5 +141,15 @@ class Provider extends Model
         $query->whereHas('locations.addressState', function ($query) use ($state) {
             $query->where('address_state_id', $state->id);
         });
+    }
+
+    public function scopeWithType(Builder $query, $type)
+    {
+        $query->where('is_facility', $type === 'facility');
+    }
+
+    public function scopeWithScope(Builder $query, $type)
+    {
+        //  @todo (Pablo 2021-12-15) - alter scope of search keywords
     }
 }

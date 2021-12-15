@@ -168,11 +168,13 @@ abstract class Mapper implements Interfaces\Mapper
     public function extractProviderLanguages(Collection $collection): Collection
     {
         //  @todo (Pablo 2021-12-14) - complete this
+        return new Collection();
     }
 
     public function extractProviderSpecialities(Collection $collection): Collection
     {
         //  @todo (Pablo 2021-12-14) - complete this
+        return new Collection();
     }
 
     protected abstract function getLanguageKeys(): array;

@@ -2,6 +2,7 @@
 
 namespace App\ModelFilters;
 
+use App\Models\Network;
 use App\Models\State;
 use EloquentFilter\ModelFilter;
 
@@ -15,10 +16,27 @@ class ProviderFilter extends ModelFilter
         $this->withKeywords($keywords);
     }
 
+    public function network($id)
+    {
+        $this->withNetwork(
+            Network::findOrFail($id)
+        );
+    }
+
     public function state($id)
     {
         $this->withState(
             State::findOrFail($id)
         );
+    }
+
+    public function type($type)
+    {
+        $this->withType($type);
+    }
+
+    public function scope($scope)
+    {
+        $this->withScope($scope);
     }
 }
