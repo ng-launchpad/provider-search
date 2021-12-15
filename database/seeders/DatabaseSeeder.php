@@ -22,7 +22,6 @@ class DatabaseSeeder extends Seeder
             LocationSeeder::class,
             HospitalSeeder::class,
             ProviderSeeder::class,
-            LocationSeeder::class,
         ]);
     }
 }
