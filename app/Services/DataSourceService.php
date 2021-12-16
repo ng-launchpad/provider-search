@@ -85,21 +85,21 @@ final class DataSourceService
                 $model->save();
             });
 
-        $mapper->extractProviderLocations($collection)
+        $mapper->extractProviderLocations($collection, $network)
             ->unique()
             ->each(function (array $set) {
                 [$provider, $location, $is_primary] = $set;
                 $provider->locations()->attach($location, ['is_primary' => $is_primary]);
             });
 
-        $mapper->extractProviderLanguages($collection)
+        $mapper->extractProviderLanguages($collection, $network)
             ->unique()
             ->each(function (array $set) {
                 [$provider, $language] = $set;
                 $provider->languages()->attach($language);
             });
 
-        $mapper->extractProviderSpecialities($collection)
+        $mapper->extractProviderSpecialities($collection, $network)
             ->unique()
             ->each(function (array $set) {
                 [$provider, $speciality] = $set;
