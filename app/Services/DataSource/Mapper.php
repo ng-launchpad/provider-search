@@ -123,7 +123,7 @@ abstract class Mapper implements Interfaces\Mapper
         return $collectionOut;
     }
 
-    public function extractProviderLocations(Collection $collection): Collection
+    public function extractProviderLocations(Collection $collection, Network $network): Collection
     {
         $collectionOut = new Collection();
 
@@ -149,13 +149,13 @@ abstract class Mapper implements Interfaces\Mapper
         return $collectionOut;
     }
 
-    public function extractProviderLanguages(Collection $collection): Collection
+    public function extractProviderLanguages(Collection $collection, Network $network): Collection
     {
         //  @todo (Pablo 2021-12-14) - complete this
         return new Collection();
     }
 
-    public function extractProviderSpecialities(Collection $collection): Collection
+    public function extractProviderSpecialities(Collection $collection, Network $network): Collection
     {
         //  @todo (Pablo 2021-12-14) - complete this
         return new Collection();

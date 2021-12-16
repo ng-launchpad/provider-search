@@ -2,6 +2,7 @@
 
 namespace App\Services\DataSource\Interfaces;
 
+use App\Models\Network;
 use Illuminate\Support\Collection;
 
 interface Mapper
@@ -48,26 +49,29 @@ interface Mapper
      * Takes a Collection and extracts a Collection of ProviderLocations
      *
      * @param Collection $collection
+     * @param Network    $network
      *
      * @return Collection
      */
-    public function extractProviderLocations(Collection $collection): Collection;
+    public function extractProviderLocations(Collection $collection, Network $network): Collection;
 
     /**
      * Takes a Collection and extracts a Collection of ProviderLanguages
      *
      * @param Collection $collection
+     * @param Network    $network
      *
      * @return Collection
      */
-    public function extractProviderLanguages(Collection $collection): Collection;
+    public function extractProviderLanguages(Collection $collection, Network $network): Collection;
 
     /**
      * Takes a Collection and extracts a Collection of ProviderSpecialities
      *
      * @param Collection $collection
+     * @param Network    $network
      *
      * @return Collection
      */
-    public function extractProviderSpecialities(Collection $collection): Collection;
+    public function extractProviderSpecialities(Collection $collection, Network $network): Collection;
 }
