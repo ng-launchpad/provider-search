@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasGetTableName;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -44,7 +45,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Location extends Model
 {
-    use HasFactory;
+    use HasFactory, HasGetTableName;
 
     /**
      * Gets the State associated with the Location

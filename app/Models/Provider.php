@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\ModelPivots\LocationProviderPivot;
+use App\Traits\HasGetTableName;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -68,7 +69,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Provider extends Model
 {
-    use HasFactory, Filterable;
+    use HasFactory, Filterable, HasGetTableName;
 
     const GENDER_MALE   = 'MALE';
     const GENDER_FEMALE = 'FEMALE';
