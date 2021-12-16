@@ -133,15 +133,15 @@ abstract class Mapper implements Interfaces\Mapper
             $location = $this->buildLocation($item);
             $location = Location::query()->where('hash', $location->hash())->firstOrFail();
 
-            if (!array_key_exists($provider->npi, static::$providerLocationCache)) {
-                static::$providerLocationCache[$provider->npi] = 0;
+            if (!array_key_exists($provider->id, static::$providerLocationCache)) {
+                static::$providerLocationCache[$provider->id] = 0;
             }
 
             $collectionOut->add([
                 $provider,
                 $location,
                 // If this is the Provider's first address (cache is 0) then consider it their primary address
-                !(bool) static::$providerLocationCache[$provider->npi]++,
+                !(bool) static::$providerLocationCache[$provider->id]++,
             ]);
 
         });
