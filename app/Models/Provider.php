@@ -166,4 +166,12 @@ class Provider extends Model
     {
         //  @todo (Pablo 2021-12-15) - alter scope of search keywords
     }
+
+    public static function findByNpiAndNetworkOrFail(string $npi, Network $network)
+    {
+        return Provider::query()
+            ->where('npi', $npi)
+            ->where('network_id', $network->id)
+            ->firstOrFail();
+    }
 }
