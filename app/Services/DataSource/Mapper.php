@@ -127,9 +127,9 @@ abstract class Mapper implements Interfaces\Mapper
     {
         $collectionOut = new Collection();
 
-        $collection->each(function ($item) use ($collectionOut) {
+        $collection->each(function ($item) use ($collectionOut, $network) {
 
-            $provider = Provider::query()->where('npi', $item['NPI'])->firstOrFail();
+            $provider = Provider::findByNpiAndNetworkOrFail($item['NPI'], $network);
             $location = $this->buildLocation($item);
             $location = Location::query()->where('hash', $location->hash())->firstOrFail();
 
