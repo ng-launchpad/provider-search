@@ -79,6 +79,14 @@ class Provider extends Model
         'is_accepting_new_patients' => 'boolean',
     ];
 
+    protected $fillable = [
+        'npi',
+        'label',
+        'gender',
+        'is_facility',
+        'is_accepting_new_patients',
+    ];
+
     /**
      * Gets the Network associated with the Provider
      */
