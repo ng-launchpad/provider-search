@@ -11,6 +11,8 @@ use App\Models\Speciality;
 use App\Services\DataSource\Interfaces\Connection;
 use App\Services\DataSource\Interfaces\Mapper;
 use App\Services\DataSource\Interfaces\Parser;
+use Illuminate\Database\SQLiteConnection;
+use Illuminate\Support\Facades\DB;
 
 final class DataSourceService
 {
@@ -30,8 +32,17 @@ final class DataSourceService
         ];
 
         foreach ($models as $class) {
-            call_user_func([$class, 'query'])->delete();
-            //  @todo (Pablo 2021-12-15) - reset IDs?
+
+            /** @var string $table */
+            $table = call_user_func([$class, 'getTableName']);
+            DB::statement("DELETE FROM `$table`;");
+
+            //  SQLite (testing) uses different syntax for resetting ID
+            if (DB::connection() instanceof SQLiteConnection) {
+                DB::statement("UPDATE `sqlite_sequence` SET `seq` = 0 WHERE `name` = '$table';");
+            } else {
+                DB::statement("ALTER TABLE `$table` AUTO_INCREMENT = 1;");
+            }
         }
 
         return $this;
