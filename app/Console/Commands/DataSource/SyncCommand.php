@@ -64,7 +64,7 @@ class SyncCommand extends Command
                             $network->label
                         ));
 
-                        $config     = config($network->config_key);
+                        $config     = $network->getConfig();
                         $path       = $config['path'];
                         $connection = call_user_func_array(
                             $config['connection']['class'] . '::factory',

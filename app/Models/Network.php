@@ -45,4 +45,9 @@ class Network extends Model
     {
         return $this->hasMany(Provider::class);
     }
+
+    public function getConfig(): array
+    {
+        return config($this->config_key);
+    }
 }
