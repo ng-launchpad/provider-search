@@ -78,8 +78,8 @@ class SyncCommand extends Command
                                 $network,
                                 $path,
                                 $connection,
-                                $mapper,
-                                $parser
+                                $parser,
+                                $mapper
                             );
 
                         $this->getOutput()->writeln('<info>done!</info>');

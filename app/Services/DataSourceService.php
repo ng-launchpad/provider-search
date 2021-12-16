@@ -58,7 +58,7 @@ final class DataSourceService
      *
      * @return $this
      */
-    public function sync(Network $network, string $path, Connection $connection, Mapper $mapper, Parser $parser): self
+    public function sync(Network $network, string $path, Connection $connection, Parser $parser, Mapper $mapper): self
     {
         $file = tmpfile();
 
