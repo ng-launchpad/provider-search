@@ -137,7 +137,7 @@ class VspTest extends TestCase
 
         // act
         $mapper
-            ->extractProviderLocations($collection)
+            ->extractProviderLocations($collection, $network)
             ->unique()
             ->each(function (array $set) {
                 [$provider, $location, $is_primary] = $set;
