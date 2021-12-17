@@ -37,6 +37,7 @@ class SyncCommand extends Command
     {
         parent::__construct();
         $this->addOption('network', 'N', InputOption::VALUE_REQUIRED, 'Specify the network to sync');
+        $this->addOption('file', 'F', InputOption::VALUE_REQUIRED, 'Specify a local file to use (overrides the remote connection)');
     }
 
     /**
@@ -63,40 +64,34 @@ class SyncCommand extends Command
 
                 foreach ($networks as $network) {
 
-                    try {
+                    $this->getOutput()->write(sprintf(
+                        'Syncing <comment>%s</comment> data... ',
+                        $network->label
+                    ));
 
-                        $this->getOutput()->write(sprintf(
-                            'Syncing <comment>%s</comment> data... ',
-                            $network->label
-                        ));
+                    $config = $network->getConfig();
+                    $path   = $config['path'];
 
-                        $config     = $network->getConfig();
-                        $path       = $config['path'];
-                        $connection = call_user_func_array(
+                    $connection = $this->input->getOption('file')
+                        ? Connection\Local::factory($this->input->getOption('file'))
+                        : call_user_func_array(
                             $config['connection']['class'] . '::factory',
                             $config['connection']['config']
                         );
-                        $mapper     = call_user_func($config['mapper'] . '::factory');
-                        $parser     = call_user_func($config['parser'] . '::factory');
 
-                        $service
-                            ->sync(
-                                $network,
-                                $path,
-                                $connection,
-                                $parser,
-                                $mapper
-                            );
+                    $mapper = call_user_func($config['mapper'] . '::factory');
+                    $parser = call_user_func($config['parser'] . '::factory');
 
-                        $this->getOutput()->writeln('<info>done!</info>');
+                    $service
+                        ->sync(
+                            $network,
+                            $path,
+                            $connection,
+                            $parser,
+                            $mapper
+                        );
 
-                    } catch (\Throwable $e) {
-                        $this->getOutput()->writeln(sprintf(
-                            '<error>ERROR: %s</error>',
-                            $e->getMessage()
-                        ));
-                        throw $e;
-                    }
+                    $this->getOutput()->writeln('<info>done!</info>');
                 }
 
                 $service->endSync();
@@ -105,6 +100,7 @@ class SyncCommand extends Command
 
         } catch (\Throwable $e) {
             //  @todo (Pablo 2021-12-15) - Report error by email
+            throw $e;
 
         } finally {
             Artisan::call('up');
