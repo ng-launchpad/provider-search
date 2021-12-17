@@ -35,8 +35,11 @@ final class Xls implements Parser
 
         $spreadsheet = $reader->load($file);
         $worksheet   = $spreadsheet->getSheet(0);
+        $rows        = $worksheet->toArray();
 
-        return new Collection($worksheet->toArray());
+        array_shift($rows);
+
+        return new Collection($rows);
     }
 
     protected function isValidMime($resource): bool
