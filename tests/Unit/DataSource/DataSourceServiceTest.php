@@ -71,6 +71,8 @@ class DataSourceServiceTest extends TestCase
         $speciality1 = Speciality::factory()->make(['label' => $faker->unique->word]);
         $speciality2 = Speciality::factory()->make(['label' => $faker->unique->word]);
         $speciality3 = Speciality::factory()->make(['label' => $faker->unique->word]);
+        $hospital1   = Hospital::factory()->make();
+        $hospital2   = Hospital::factory()->make();
 
         //  Configure mocks: Connection
         $connection
@@ -100,6 +102,11 @@ class DataSourceServiceTest extends TestCase
                 $speciality3,
             ],
 
+            'extractHospitals' => [
+                $hospital1,
+                $hospital2,
+            ],
+
             'extractProviders' => [
                 $provider1,
                 $provider2,
@@ -123,6 +130,12 @@ class DataSourceServiceTest extends TestCase
                 [$provider1, $speciality3],
                 [$provider2, $speciality3],
             ],
+
+            'extractProviderHospitals' => [
+                [$provider1, $hospital1],
+                [$provider1, $hospital2],
+                [$provider2, $hospital1],
+            ],
         ];
 
         foreach ($config as $method => $items) {
@@ -145,12 +158,15 @@ class DataSourceServiceTest extends TestCase
         $this->assertCount(2, Language::all());
         $this->assertCount(2, Location::all());
         $this->assertCount(3, Speciality::all());
+        $this->assertCount(2, Hospital::all());
         $this->assertCount(2, Provider::all());
         $this->assertCount(2, $provider1->locations()->get());
         $this->assertCount(2, $provider1->languages()->get());
         $this->assertCount(3, $provider1->specialities()->get());
+        $this->assertCount(2, $provider1->hospitals()->get());
         $this->assertCount(1, $provider2->locations()->get());
         $this->assertCount(1, $provider2->languages()->get());
         $this->assertCount(1, $provider2->specialities()->get());
+        $this->assertCount(1, $provider2->hospitals()->get());
     }
 }
