@@ -83,4 +83,14 @@ interface Mapper
      * @return Collection
      */
     public function extractProviderSpecialities(Collection $collection, Network $network): Collection;
+
+    /**
+     * Takes a Collection and extracts a Collection of ProviderHospitals
+     *
+     * @param Collection $collection
+     * @param Network    $network
+     *
+     * @return Collection
+     */
+    public function extractProviderHospitals(Collection $collection, Network $network): Collection;
 }

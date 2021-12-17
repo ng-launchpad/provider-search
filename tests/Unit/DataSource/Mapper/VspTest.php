@@ -151,17 +151,77 @@ class VspTest extends TestCase
 
         $this->assertCount(2, $providers);
         $this->assertEquals(2, $provider1Locations->count());
-        $this->assertTrue(
-            $provider1Locations->get()->get(0)->pivot->is_primary
-        );
-        $this->assertFalse(
-            $provider1Locations->get()->get(1)->pivot->is_primary
-        );
+        $this->assertTrue($provider1Locations->get()->get(0)->pivot->is_primary);
+        $this->assertFalse($provider1Locations->get()->get(1)->pivot->is_primary);
 
         $this->assertEquals(1, $provider2Locations->count());
-        $this->assertTrue(
-            $provider2Locations->get()->get(0)->pivot->is_primary
-        );
+        $this->assertTrue($provider2Locations->get()->get(0)->pivot->is_primary);
+    }
+
+    /** @test */
+    public function it_extracts_the_provider_languages()
+    {
+        // arrange
+        $data       = $this->getProviderLanguageData();
+        $collection = new Collection($data);
+        $mapper     = Vsp::factory();
+        $network    = Network::factory()->create();
+
+        //  Calculate the expected languages
+        $expectedLangs = array_map(function ($item) {
+            return $this->getGeneratedLanguagesFromData([$item], [
+                'LANGUAGE SPOKEN 1',
+                'LANGUAGE SPOKEN 2',
+                'LANGUAGE SPOKEN 3',
+                'LANGUAGE SPOKEN 4',
+            ]);
+        }, $data);
+
+        //  Ensure generated Providers exist
+        $mapper
+            ->extractProviders($collection)
+            ->unique()
+            ->each(function (Provider $model) use ($network) {
+                $model->network_id = $network->id;
+                $model->save();
+            });
+
+        //  Ensure generated languages exist
+        foreach ($expectedLangs as $expectedLang) {
+            foreach ($expectedLang as $item) {
+                Language::create(['label' => $item]);
+            }
+        }
+
+        // act
+        $mapper
+            ->extractProviderLanguages($collection, $network)
+            ->unique()
+            ->each(function (array $set) {
+                [$provider, $language] = $set;
+                $provider->languages()->attach($language);
+            });
+
+        // assert
+        $providers          = Provider::all();
+        $provider1Languages = $providers->get(0)->languages();
+        $provider2Languages = $providers->get(1)->languages();
+
+        $this->assertCount(2, $providers);
+        $this->assertEquals(count($expectedLangs[0]), $provider1Languages->count());
+        $this->assertEquals(count($expectedLangs[1]), $provider2Languages->count());
+    }
+
+    /** @test */
+    public function it_extracts_the_provider_specialities()
+    {
+        self::markTestIncomplete();
+    }
+
+    /** @test */
+    public function it_extracts_the_provider_hospitals()
+    {
+        self::markTestIncomplete();
     }
 
     private function getLocationData(): array
@@ -207,8 +267,16 @@ class VspTest extends TestCase
         ];
     }
 
-    private function getGeneratedLanguagesFromData(array $data): array
+    private function getGeneratedLanguagesFromData(array $data, array $keys = null): array
     {
+        if (!empty($keys)) {
+
+            $data = array_map(
+                fn($item) => array_intersect_key($item, array_combine($keys, $keys)),
+                $data
+            );
+        }
+
         $expectedLangs = array_map(fn($datum) => array_map(fn($lang) => $lang ?: null, $datum), $data);
         $expectedLangs = array_map(fn($datum) => implode(',', $datum), $expectedLangs);
         $expectedLangs = implode(',', $expectedLangs);
@@ -216,8 +284,6 @@ class VspTest extends TestCase
         $expectedLangs = array_unique($expectedLangs);
         $expectedLangs = array_filter($expectedLangs);
         $expectedLangs = array_filter($expectedLangs, fn($lang) => $lang !== 'English');
-
-        //  @todo (Pablo 2021-12-15) - filter english here and from data sources
 
         return $expectedLangs;
     }
@@ -261,6 +327,16 @@ class VspTest extends TestCase
 
             //  Third option which should be attached to a different Provider
             array_merge($this->getProviderDatum(), $this->getLocationDatum()),
+        ];
+    }
+
+    private function getProviderLanguageData(): array
+    {
+        $provider = $this->getProviderDatum();
+
+        return [
+            array_merge($provider, $this->getLanguageDatum()),
+            array_merge($this->getProviderDatum(), $this->getLanguageDatum()),
         ];
     }
 }

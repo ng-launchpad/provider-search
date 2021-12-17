@@ -110,6 +110,13 @@ final class DataSourceService
                 $provider->specialities()->attach($speciality);
             });
 
+        $mapper->extractProviderHospitals($collection, $network)
+            ->unique()
+            ->each(function (array $set) {
+                [$provider, $hospital] = $set;
+                $provider->hospitals()->attach($hospital);
+            });
+
         return $this;
     }
 }
