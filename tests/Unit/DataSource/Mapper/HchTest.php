@@ -5,7 +5,7 @@ namespace Tests\Unit\DataSource\Mapper;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class AentaTest extends TestCase
+class HchTest extends TestCase
 {
     use RefreshDatabase;
 
