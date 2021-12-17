@@ -22,6 +22,8 @@ class CreateNetworksTable extends Migration
             $table->string('browse_label', 150);
             $table->string('config_key', 150);
             $table->timestamps();
+
+            $table->unique('label');
         });
     }
 
