@@ -50,4 +50,9 @@ class Network extends Model
     {
         return config($this->config_key);
     }
+
+    public static function getByLabelOrFail(string $label)
+    {
+        return static::where('label', $label)->firstOrFail();
+    }
 }

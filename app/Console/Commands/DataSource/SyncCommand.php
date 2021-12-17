@@ -10,6 +10,7 @@ use App\Services\DataSourceService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Console\Input\InputOption;
 
 class SyncCommand extends Command
 {
@@ -35,6 +36,7 @@ class SyncCommand extends Command
     public function __construct()
     {
         parent::__construct();
+        $this->addOption('network', 'N', InputOption::VALUE_REQUIRED, 'Specify the network to sync');
     }
 
     /**
@@ -55,7 +57,11 @@ class SyncCommand extends Command
 
                 $service->truncate();
 
-                foreach (Network::all() as $network) {
+                $networks = $this->input->getOption('network')
+                    ? [Network::getByLabelOrFail($this->input->getOption('network'))]
+                    : Network::all();
+
+                foreach ($networks as $network) {
 
                     try {
 
