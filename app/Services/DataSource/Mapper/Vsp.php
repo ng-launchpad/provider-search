@@ -75,4 +75,9 @@ final class Vsp extends Mapper
             'is_accepting_new_patients' => fn() => null,
         ];
     }
+
+    protected function getProviderNpiKey(): string
+    {
+        return 'NPI';
+    }
 }

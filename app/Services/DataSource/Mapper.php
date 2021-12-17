@@ -152,7 +152,10 @@ abstract class Mapper implements Interfaces\Mapper
 
         $collection->each(function ($item) use ($collectionOut, $network) {
 
-            $provider = Provider::findByNpiAndNetworkOrFail($item['NPI'], $network);
+            $provider = Provider::findByNpiAndNetworkOrFail(
+                $item[$this->getProviderNpiKey()],
+                $network
+            );
             $location = $this->buildLocation($item);
             $location = Location::query()->where('hash', $location->hash())->firstOrFail();
 
@@ -178,8 +181,10 @@ abstract class Mapper implements Interfaces\Mapper
 
         $collection->each(function ($item) use ($collectionOut, $network) {
 
-            $provider = Provider::findByNpiAndNetworkOrFail($item['NPI'], $network);
-
+            $provider  = Provider::findByNpiAndNetworkOrFail(
+                $item[$this->getProviderNpiKey()],
+                $network
+            );
             $languages = $this->extractLanguages(Collection::make([$item]));
 
             foreach ($languages as $language) {
@@ -215,4 +220,6 @@ abstract class Mapper implements Interfaces\Mapper
     protected abstract function getHospitalKeys(): array;
 
     protected abstract function getProviderKeys(): array;
+
+    protected abstract function getProviderNpiKey(): string;
 }

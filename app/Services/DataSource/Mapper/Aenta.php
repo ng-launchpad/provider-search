@@ -37,4 +37,9 @@ final class Aenta extends Mapper
     {
         return [];
     }
+
+    protected function getProviderNpiKey(): string
+    {
+        return '';
+    }
 }

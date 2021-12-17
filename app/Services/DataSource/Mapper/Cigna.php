@@ -57,4 +57,9 @@ final class Cigna extends Mapper
             'is_facility' => fn() => true,
         ];
     }
+
+    protected function getProviderNpiKey(): string
+    {
+        return self::COL_NPI;
+    }
 }

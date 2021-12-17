@@ -37,4 +37,9 @@ final class Hch extends Mapper
     {
         return [];
     }
+
+    protected function getProviderNpiKey(): string
+    {
+        return '';
+    }
 }
