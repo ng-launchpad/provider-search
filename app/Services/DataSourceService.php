@@ -78,6 +78,10 @@ final class DataSourceService
             ->unique()
             ->each(fn(Speciality $model) => $model->save());
 
+        $mapper->extractHospitals($collection)
+            ->unique()
+            ->each(fn(Hospital $model) => $model->save());
+
         $mapper->extractProviders($collection)
             ->unique()
             ->each(function (Provider $model) use ($network) {

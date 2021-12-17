@@ -37,6 +37,15 @@ interface Mapper
     public function extractSpecialities(Collection $collection): Collection;
 
     /**
+     * Takes a Collection and extracts a Collection of Hospitals
+     *
+     * @param Collection $collection
+     *
+     * @return Collection
+     */
+    public function extractHospitals(Collection $collection): Collection;
+
+    /**
      * Takes a Collection and extracts a Collection of Specialities
      *
      * @param Collection $collection

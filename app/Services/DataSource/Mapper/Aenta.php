@@ -28,6 +28,11 @@ final class Aenta extends Mapper
         return [];
     }
 
+    protected function getHospitalKeys(): array
+    {
+        return [];
+    }
+
     protected function getProviderKeys(): array
     {
         return [];

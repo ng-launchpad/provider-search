@@ -2,6 +2,7 @@
 
 namespace App\Services\DataSource;
 
+use App\Models\Hospital;
 use App\Models\Language;
 use App\Models\Location;
 use App\Models\Network;
@@ -100,6 +101,28 @@ abstract class Mapper implements Interfaces\Mapper
         return $collectionOut;
     }
 
+    public function extractHospitals(Collection $collection): Collection
+    {
+        $collectionOut = new Collection();
+
+        $collection->each(function ($item) use ($collectionOut) {
+            foreach ($this->getHospitalKeys() as $key) {
+
+                $speciality = new Hospital();
+
+                if ($item[$key] ?? null) {
+                    $speciality->label = $item[$key];
+                }
+
+                if ($speciality->isDirty()) {
+                    $collectionOut->add($speciality);
+                }
+            }
+        });
+
+        return $collectionOut;
+    }
+
     public function extractProviders(Collection $collection): Collection
     {
         $collectionOut = new Collection();
@@ -166,6 +189,8 @@ abstract class Mapper implements Interfaces\Mapper
     protected abstract function getLocationKeys(): array;
 
     protected abstract function getSpecialityKeys(): array;
+
+    protected abstract function getHospitalKeys(): array;
 
     protected abstract function getProviderKeys(): array;
 }

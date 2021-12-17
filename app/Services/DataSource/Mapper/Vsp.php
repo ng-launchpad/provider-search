@@ -42,6 +42,11 @@ final class Vsp extends Mapper
         return [];
     }
 
+    protected function getHospitalKeys(): array
+    {
+        return [];
+    }
+
     protected function getProviderKeys(): array
     {
         return [
