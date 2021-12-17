@@ -2,7 +2,6 @@
 
 namespace App\Services\DataSource\Mapper;
 
-use App\Models\Network;
 use App\Models\Provider;
 use App\Models\State;
 use App\Services\DataSource\Mapper;

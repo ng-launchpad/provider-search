@@ -174,7 +174,6 @@ abstract class Mapper implements Interfaces\Mapper
 
     public function extractProviderLanguages(Collection $collection, Network $network): Collection
     {
-
         $collectionOut = new Collection();
 
         $collection->each(function ($item) use ($collectionOut, $network) {
