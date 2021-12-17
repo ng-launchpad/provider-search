@@ -94,8 +94,6 @@ class SyncCommand extends Command
                     $this->getOutput()->writeln('<info>done!</info>');
                 }
 
-                $service->endSync();
-
             });
 
         } catch (\Throwable $e) {
