@@ -28,10 +28,12 @@ class XlsTest extends TestCase
     {
         // arrange
         $data   = [
-            'A1' => 'Foo',
-            'B1' => 'Bar',
+            'A1' => 'Header Row',
+            'B1' => 'Header Row',
             'A2' => 'Fizz',
             'B2' => 'Buzz',
+            'A3' => 'Fizz',
+            'B3' => 'Buzz',
         ];
         $file   = $this->createXls($data);
         $parser = Xls::factory();
@@ -42,10 +44,10 @@ class XlsTest extends TestCase
         // assert
         $this->assertInstanceOf(Collection::class, $collection);
         $this->assertCount(2, $collection);
-        $this->assertEquals($data['A1'], $collection->get(0)[0]);
-        $this->assertEquals($data['B1'], $collection->get(0)[1]);
-        $this->assertEquals($data['A2'], $collection->get(1)[0]);
-        $this->assertEquals($data['B2'], $collection->get(1)[1]);
+        $this->assertEquals($data['A2'], $collection->get(0)[0]);
+        $this->assertEquals($data['B2'], $collection->get(0)[1]);
+        $this->assertEquals($data['A3'], $collection->get(1)[0]);
+        $this->assertEquals($data['B3'], $collection->get(1)[1]);
     }
 
     private function createXls(array $data)
