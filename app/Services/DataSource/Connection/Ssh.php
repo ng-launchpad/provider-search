@@ -9,11 +9,16 @@ final class Ssh implements Connection
     private \Spatie\Ssh\Ssh $ssh;
 
     public static function factory(
-        string $host = null,
-        string $username = null,
-        int $port = null
+        string $username = '',
+        string $host = '',
+        int $port = null,
+        string $private_key = ''
     ): self {
-        return new \Spatie\Ssh\Ssh($username, $host, $port);
+
+        $ssh = new \Spatie\Ssh\Ssh($username, $host, $port);
+        $ssh->usePrivateKey($private_key);
+
+        return new self($ssh);
     }
 
     public function __construct(\Spatie\Ssh\Ssh $ssh)

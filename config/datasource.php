@@ -51,9 +51,10 @@ return [
             'connection' => [
                 'class'  => Connection\Ssh::class,
                 'config' => [
-                    'host'        => env('DATASOURCE_SSH_HOST'),
-                    'port'        => env('DATASOURCE_SSH_PORT'),
-                    'private_key' => env('DATASOURCE_SSH_PRIVATE_KEY'),
+                    'username'    => (string) env('DATASOURCE_SSH_USER'),
+                    'host'        => (string) env('DATASOURCE_SSH_HOST'),
+                    'port'        => (string) env('DATASOURCE_SSH_PORT'),
+                    'private_key' => (string) env('DATASOURCE_SSH_PRIVATE_KEY'),
                 ],
             ],
             'mapper'     => Mapper\Cigna::class,
