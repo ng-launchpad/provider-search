@@ -11,10 +11,10 @@
         <a href="#" class="d-inline-block text--styled-link mt-3 block-about__more">Learn more about us</a>
     </div>
     <div class="block-about__bbb">
-        <img src="images/bbb-logo.png" class="block-about__top-logo" alt="">
+        <img src="{!! url('images/bbb-logo.png') !!}" class="block-about__top-logo" alt="">
     </div>
     <div class="block-about__allstate">
-        <img src="images/logo.png" class="block-about__bottom-logo" alt="">
+        <img src="{!! url('images/logo.png') !!}" class="block-about__bottom-logo" alt="">
     </div>
     <div class="block-about__g-hands">
         <div class="block-about__bottom-text">

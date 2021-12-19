@@ -10,9 +10,11 @@
                     Accepting new patients
                 </p>
                 <div class="row mt-4">
-                    <div class="col-md-4">
+                    <div
+                        v-if="provider.locations"
+                        class="col-md-4 mb-4 mb-md-0"
+                    >
                         <div
-                            v-if="provider.locations"
                             class="page-header__char"
                         >
                             <img v-bind:src="'/images/map-pin-white.svg'" alt="">
@@ -33,7 +35,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div
+                        v-if="primaryAddress.phone"
+                        class="col-md-4 mb-4 mb-md-0"
+                    >
                         <div class="page-header__char">
                             <img v-bind:src="'/images/phone-icon-white.svg'" alt="">
                             <div class="page-header__char-title">
@@ -45,7 +50,7 @@
                     </div>
                     <div
                         v-if="specialities"
-                        class="col-md-4"
+                        class="col-md-4 mb-4 mb-md-0"
                     >
                         <div class="page-header__char">
                             <img v-bind:src="'/images/check-white.svg'" alt="">

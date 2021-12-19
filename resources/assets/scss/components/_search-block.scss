@@ -8,22 +8,40 @@
             padding: 0;
             background: none;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
+            flex-direction: column;
+
+            @include media-breakpoint-up(lg) {
+                flex-direction: row;
+                align-items: center;
+            }
         }
     }
 
     &__title {
         @include font-size(26px);
         font-weight: 500;
+        margin-bottom: 20px;
 
         @include media-breakpoint-up(md) {
             @include font-size(36px);
         }
 
+        @include media-breakpoint-up(lg) {
+            margin-bottom: 0;
+        }
+
         .search-block--header & {
-            @include font-size(60px);
             color: $white;
             flex: 1 0 0;
+
+            @include media-breakpoint-up(lg) {
+                @include font-size(48px);
+            }
+
+            @include media-breakpoint-up(xl) {
+                @include font-size(60px);
+            }
         }
     }
 
@@ -37,16 +55,23 @@
 
         .search-block--header & {
             margin-top: 0;
+            width: 100%;
         }
     }
 
     &__form-inner {
         display: flex;
-        align-items: center;
         flex-wrap: wrap;
 
         .search-block--header & {
             margin-top: 8px;
+            flex-direction: column;
+            align-items: flex-start;
+
+            @include media-breakpoint-up(md) {
+                flex-direction: row;
+                align-items: center;
+            }
         }
     }
 
@@ -64,7 +89,11 @@
         }
 
         .search-block--header & {
-            width: 283px;
+            width: 100%;
+
+            @include media-breakpoint-up(md) {
+                width: 283px;
+            }
         }
     }
 
@@ -178,8 +207,12 @@
         }
 
         .search-block--header & {
-            margin-top: 0;
-            margin-left: 16px;
+            margin-top: 15px;
+
+            @include media-breakpoint-up(md) {
+                margin-left: 16px;
+                margin-top: 0;
+            }
         }
     }
 
@@ -189,8 +222,13 @@
     }
 
     &__browse-all {
-        margin-left: 16px;
         color: $white;
         background-image: linear-gradient(transparent calc(100% - 1px), white 1px);
+        margin-top: 10px;
+
+        @include media-breakpoint-up(md) {
+            margin-left: 16px;
+            margin-top: 0;
+        }
     }
 }

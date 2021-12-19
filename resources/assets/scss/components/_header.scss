@@ -26,7 +26,11 @@
     }
 
     &__logo {
-        max-width: 180px;
+        max-width: 120px;
+
+        @include media-breakpoint-up(md) {
+            max-width: 180px;
+        }
     }
 
     &__logo-link {
