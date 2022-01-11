@@ -13,7 +13,7 @@
 
                 <div class="search-block__form">
                     <div v-if="isResults" class="search-block__network-label">
-                        Searching: Medical & dental providers
+                        Searching: {{ selectedNetworkLabel }}
                     </div>
                     <div class="search-block__form-inner">
                         <input type="text" class="search-block__input" placeholder="Search by doctor or facility name, specialty or address" v-model="searchQuery">
@@ -189,6 +189,12 @@ export default {
 
         isMobile: function() {
             return this.windowWidth < 768;
+        },
+
+        selectedNetworkLabel: function() {
+            if (this.networks.length) {
+                return this.networks.find(network => network.id == this.selectedNetwork).search_label || '';
+            }
         }
     },
 
