@@ -135,7 +135,6 @@
                         </div>
                     </div>
                     <div
-                        v-if="languages"
                         class="col-md-4"
                     >
                         <div
