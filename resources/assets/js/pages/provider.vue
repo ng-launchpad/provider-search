@@ -130,7 +130,7 @@
                                 Network name
                             </div>
                             <div class="provider-content__char text--regular">
-                                {{ provider.network.search_label }}
+                                {{ provider.network.network_label }}
                             </div>
                         </div>
                     </div>
