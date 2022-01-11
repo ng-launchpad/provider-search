@@ -27,7 +27,7 @@
                     </div>
                     <div class="col-lg-2">
                         <div class="provider-content__char provider-content__char--head provider-content__char--services text--bold">
-                            Country
+                            County
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -79,7 +79,7 @@
                         >
                             <div class="provider-content__char text--light provider-content__char--facility provider-content__char--facility-serv">
                                 <img class="d-inline-block d-lg-none" src="../../img/svg/facility.svg" alt="">
-                                {{ item.address.country }}
+                                {{ item.address.county }}
                             </div>
                         </div>
                     </div>
