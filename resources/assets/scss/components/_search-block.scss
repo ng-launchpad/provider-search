@@ -56,6 +56,10 @@
         .search-block--header & {
             margin-top: 0;
             width: 100%;
+
+            @include media-breakpoint-up(lg) {
+                width: auto;
+            }
         }
     }
 
