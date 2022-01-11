@@ -141,7 +141,7 @@
                                 Languages spoken
                             </div>
                             <div class="provider-content__char text--regular">
-                                {{ languages }}
+                                English, {{ languages }}
                             </div>
                         </div>
                         <div

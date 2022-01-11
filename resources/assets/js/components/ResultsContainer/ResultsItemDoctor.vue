@@ -77,7 +77,7 @@
                     Languages spoken:
                 </div>
                 <div class="results-item__char">
-                    {{ languages }}
+                    English, {{ languages }}
                 </div>
             </div>
             <div
