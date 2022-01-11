@@ -22,10 +22,15 @@
                                 v-if="primaryAddress"
                                 class="page-header__char-title"
                             >
-                                <strong>Primary address</strong>
+                                <strong>Address</strong>
                                 <br>
                                 {{ primaryAddress.address.line_1 }}, {{ primaryAddress.address.line_2 ? primaryAddress.address.line_2 + ', ' : '' }} {{ primaryAddress.address.city }}, {{ primaryAddress.address.state.label }}, {{ primaryAddress.address.zip }}
                                 <br>
+                            </div>
+                        </div>
+                        <div class="page-header__char page-header__char--map-link">
+                            <img v-bind:src="'/images/icon-pointer.svg'" alt="">
+                            <div class="page-header__char-title">
                                 <a
                                     v-bind:href="`https://maps.google.com/?q=${primaryAddress.address.addr_line_1},${primaryAddress.address.city},${primaryAddress.address.state.label},${primaryAddress.address.zip}`"
                                     class="mt-2 d-inline-block text--styled-link"

@@ -44,7 +44,7 @@
 
         img {
             display: inline-block;
-            margin-right: 12px;
+            margin-right: 27px;
             margin-top: 6px;
         }
 
@@ -56,6 +56,13 @@
         a {
             color: $white;
             text-decoration: none;
+        }
+
+        &--map-link {
+            img {
+                margin-top: 12px;
+                margin-right: 23px;
+            }
         }
     }
 
