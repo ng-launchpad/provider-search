@@ -138,7 +138,6 @@
                         class="col-md-4"
                     >
                         <div
-                            v-if="languages"
                             class="provider-content__item mb-4"
                         >
                             <div class="provider-content__char text--bold">
