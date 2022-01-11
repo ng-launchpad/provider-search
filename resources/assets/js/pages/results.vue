@@ -16,7 +16,7 @@
                             Showing {{ providersMeta.total }} {{ resultsLabel }} ‘{{ queryResultString }}’
                         </div>
                         <div class="results-container__print">
-                            <a href="javascript:if(window.print)window.print()" class="text--color-white text--line-height-fix text--styled-link">Print</a>
+                            <a href="javascript:if(window.print)window.print()" class="text--color-white text--line-height-fix text--styled-link">Print all results</a>
                         </div>
                     </div>
                     <div class="results-container__right">
