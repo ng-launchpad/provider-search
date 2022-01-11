@@ -44,7 +44,7 @@
                         alt=""
                     >
                     <span>
-                        <span class="text--bold">Primary address:</span> <br>
+                        <span class="text--bold">Address:</span> <br>
                         {{ primaryAddress.address.line_1 }}, {{ primaryAddress.address.city }}, {{ primaryAddress.address.state.label }}, {{ primaryAddress.address.zip }} <br>
                         <router-link
                             v-if="item.locations.length > 1"
