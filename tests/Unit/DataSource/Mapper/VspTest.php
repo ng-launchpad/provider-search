@@ -271,7 +271,38 @@ class VspTest extends TestCase
     /** @test */
     public function it_extracts_the_provider_hospitals()
     {
-        self::markTestIncomplete();
+        // arrange
+        $data       = $this->getProviderHospitalData();
+        $collection = new Collection($data);
+        $mapper     = Vsp::factory();
+        $network    = Network::factory()->create();
+
+        //  Ensure generated Providers exist
+        $mapper
+            ->extractProviders($collection)
+            ->unique()
+            ->each(function (Provider $model) use ($network) {
+                $model->network_id = $network->id;
+                $model->save();
+            });
+
+        // act
+        $mapper
+            ->extractProviderHospitals($collection, $network)
+            ->unique()
+            ->each(function (array $set) {
+                [$provider, $hospital] = $set;
+                $provider->hospitals()->attach($hospital);
+            });
+
+        // assert
+        $providers          = Provider::all();
+        $provider1Hospitals = $providers->get(0)->hospitals();
+        $provider2Hospitals = $providers->get(1)->hospitals();
+
+        $this->assertCount(2, $providers);
+        $this->assertEquals(0, $provider1Hospitals->count());
+        $this->assertEquals(0, $provider2Hospitals->count());
     }
 
     private function getLocationData(): array
@@ -399,6 +430,15 @@ class VspTest extends TestCase
     private function getProviderSpecialityData(): array
     {
         //  Data source does not contain speciality data
+        return [
+            $this->getProviderDatum(),
+            $this->getProviderDatum(),
+        ];
+    }
+
+    private function getProviderHospitalData(): array
+    {
+        //  Data source does not contain hospital data
         return [
             $this->getProviderDatum(),
             $this->getProviderDatum(),
