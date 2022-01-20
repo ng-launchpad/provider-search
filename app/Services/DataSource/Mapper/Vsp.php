@@ -58,7 +58,7 @@ final class Vsp extends Mapper
                 ));
             },
             'type'                      => fn() => 'Physician',
-            'npi'                       => 'NPI',
+            'npi'                       => $this->getProviderNpiKey(),
             'degree'                    => 'DEGREE',
             'gender'                    => function ($item) {
                 switch ($item['GENDER']) {
