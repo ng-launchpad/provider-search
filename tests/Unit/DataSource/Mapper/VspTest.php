@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\DataSource\Mapper;
 
+use App\Models\Hospital;
 use App\Models\Language;
 use App\Models\Location;
 use App\Models\Network;
@@ -79,6 +80,24 @@ class VspTest extends TestCase
 
         // assert
         $this->assertCount(0, Speciality::all());
+    }
+
+    /** @test */
+    public function it_extracts_the_hospitals()
+    {
+        // arrange
+        $data       = $this->getHospitalData();
+        $collection = new Collection($data);
+        $mapper     = Vsp::factory();
+
+        // act
+        $mapper
+            ->extractHospitals($collection)
+            ->unique()
+            ->each(fn(Hospital $model) => $model->save());
+
+        // assert
+        $this->assertCount(0, Hospital::all());
     }
 
     /** @test */
@@ -291,6 +310,12 @@ class VspTest extends TestCase
     private function getSpecialityData(): array
     {
         //  Data source does not contain speciality data
+        return [];
+    }
+
+    private function getHospitalData(): array
+    {
+        //  Data source does not contain hospital data
         return [];
     }
 
