@@ -23,7 +23,7 @@ final class Xls implements Parser
         if (!$this->isValidMime($resource)) {
             throw new \InvalidArgumentException(sprintf(
                 'invalid file type, expected `%s`, got %s',
-                implode(', ', static::MIMES),
+                implode(', ', self::MIMES),
                 $this->getMime($resource)
             ));
         }
@@ -44,7 +44,7 @@ final class Xls implements Parser
 
     protected function isValidMime($resource): bool
     {
-        return in_array($this->getMime($resource), static::MIMES);
+        return in_array($this->getMime($resource), self::MIMES);
     }
 
     protected function getMime($resource): ?string
