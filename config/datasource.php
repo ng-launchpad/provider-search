@@ -17,8 +17,15 @@ return [
                     'port'     => env('DATASOURCE_SFTP_PORT'),
                 ],
             ],
-            'mapper'     => Mapper\Aenta::class,
-            'parser'     => Parser\TextColumns::class,
+            'mapper'     => [
+                'class'  => Mapper\Aenta::class,
+                'config' => [],
+            ],
+            'parser'     => [
+                'class'  => Parser\TextColumns::class,
+                'config' => [
+                ],
+            ],
         ],
         'hch'   => [
             'path'       => '/path/to/file.xls',
@@ -30,8 +37,14 @@ return [
                     'private_key' => env('DATASOURCE_SSH_PRIVATE_KEY'),
                 ],
             ],
-            'mapper'     => Mapper\Hch::class,
-            'parser'     => Parser\Xls::class,
+            'mapper'     => [
+                'class'  => Mapper\Hch::class,
+                'config' => [],
+            ],
+            'parser'     => [
+                'class'  => Parser\Xls::class,
+                'config' => [],
+            ],
         ],
         'vsp'   => [
             'path'       => '/path/to/file.csv',
@@ -43,8 +56,14 @@ return [
                     'private_key' => env('DATASOURCE_SSH_PRIVATE_KEY'),
                 ],
             ],
-            'mapper'     => Mapper\Vsp::class,
-            'parser'     => Parser\Csv::class,
+            'mapper'     => [
+                'class'  => Mapper\Vsp::class,
+                'config' => [],
+            ],
+            'parser'     => [
+                'class'  => Parser\Csv::class,
+                'config' => [],
+            ],
         ],
         'cigna' => [
             'path'       => '/path/to/file.xls',
@@ -57,8 +76,14 @@ return [
                     'private_key' => (string) env('DATASOURCE_SSH_PRIVATE_KEY'),
                 ],
             ],
-            'mapper'     => Mapper\Cigna::class,
-            'parser'     => Parser\Xls::class,
+            'mapper'     => [
+                'class'  => Mapper\Cigna::class,
+                'config' => [],
+            ],
+            'parser'     => [
+                'class'  => Parser\Xls::class,
+                'config' => [],
+            ],
         ],
     ],
 ];
