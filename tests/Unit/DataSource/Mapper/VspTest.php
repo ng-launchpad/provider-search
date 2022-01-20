@@ -234,7 +234,38 @@ class VspTest extends TestCase
     /** @test */
     public function it_extracts_the_provider_specialities()
     {
-        self::markTestIncomplete();
+        // arrange
+        $data       = $this->getProviderSpecialityData();
+        $collection = new Collection($data);
+        $mapper     = Vsp::factory();
+        $network    = Network::factory()->create();
+
+        //  Ensure generated Providers exist
+        $mapper
+            ->extractProviders($collection)
+            ->unique()
+            ->each(function (Provider $model) use ($network) {
+                $model->network_id = $network->id;
+                $model->save();
+            });
+
+        // act
+        $mapper
+            ->extractProviderSpecialities($collection, $network)
+            ->unique()
+            ->each(function (array $set) {
+                [$provider, $speciality] = $set;
+                $provider->specialities()->attach($speciality);
+            });
+
+        // assert
+        $providers             = Provider::all();
+        $provider1Specialities = $providers->get(0)->specialities();
+        $provider2Specialities = $providers->get(1)->specialities();
+
+        $this->assertCount(2, $providers);
+        $this->assertEquals(0, $provider1Specialities->count());
+        $this->assertEquals(0, $provider2Specialities->count());
     }
 
     /** @test */
@@ -362,6 +393,15 @@ class VspTest extends TestCase
         return [
             array_merge($provider, $this->getLanguageDatum()),
             array_merge($this->getProviderDatum(), $this->getLanguageDatum()),
+        ];
+    }
+
+    private function getProviderSpecialityData(): array
+    {
+        //  Data source does not contain speciality data
+        return [
+            $this->getProviderDatum(),
+            $this->getProviderDatum(),
         ];
     }
 }
