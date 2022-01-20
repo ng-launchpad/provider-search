@@ -24,6 +24,7 @@ return [
             'parser'     => [
                 'class'  => Parser\TextColumns::class,
                 'config' => [
+                    'columnMap' => Mapper\Aenta::getColumnLengths(),
                 ],
             ],
         ],
