@@ -225,8 +225,26 @@ abstract class Mapper implements Interfaces\Mapper
 
     public function extractProviderHospitals(Collection $collection, Network $network): Collection
     {
-        //  @todo (Pablo 2021-12-14) - complete this
-        return new Collection();
+        $collectionOut = new Collection();
+
+        $collection->each(function ($item) use ($collectionOut, $network) {
+
+            $provider  = Provider::findByNpiAndNetworkOrFail(
+                $item[$this->getProviderNpiKey()],
+                $network
+            );
+            $hospitals = $this->extractHospitals(Collection::make([$item]));
+
+            foreach ($hospitals as $hospital) {
+                $hospital = Hospital::where('label', $hospital->label)->firstOrFail();
+                $collectionOut->add([
+                    $provider,
+                    $hospital,
+                ]);
+            }
+        });
+
+        return $collectionOut;
     }
 
     protected abstract function getLanguageKeys(): array;
