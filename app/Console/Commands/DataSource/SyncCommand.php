@@ -79,8 +79,15 @@ class SyncCommand extends Command
                             $config['connection']['config']
                         );
 
-                    $mapper = call_user_func($config['mapper'] . '::factory');
-                    $parser = call_user_func($config['parser'] . '::factory');
+                    $mapper = call_user_func_array(
+                        $config['mapper']['class'] . '::factory',
+                        $config['mapper']['config']
+                    );
+
+                    $parser = call_user_func_array(
+                        $config['parser']['class'] . '::factory',
+                        $config['parser']['config']
+                    );
 
                     $service
                         ->sync(
