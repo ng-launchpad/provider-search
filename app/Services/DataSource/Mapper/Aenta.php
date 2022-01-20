@@ -402,8 +402,7 @@ final class Aenta extends Mapper
     protected function getLocationKeys(): array
     {
         return [
-            //  @todo (Pablo 2022-01-20) - What field is the practice name?
-            //'label'            => null,,
+            'label'            => self::COL_TIN_OWNER_NAME,
             'address_line_1'   => self::COL_SERVICE_LOCATION_LINE_1,
             'address_city'     => self::COL_SERVICE_LOCATION_CITY,
             'address_state_id' => function (array $item) {
