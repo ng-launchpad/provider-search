@@ -53,7 +53,7 @@ final class Cigna extends Mapper
         return [
             'label'       => self::COL_X,
             'type'        => fn() => 'Pharmacy',
-            'npi'         => self::COL_NPI,
+            'npi'         => $this->getProviderNpiKey(),
             'is_facility' => fn() => true,
         ];
     }

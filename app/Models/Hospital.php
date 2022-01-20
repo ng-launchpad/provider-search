@@ -29,6 +29,10 @@ class Hospital extends Model
 {
     use HasFactory, HasGetTableName;
 
+    protected $fillable = [
+        'label',
+    ];
+
     /**
      * Gets the Providers associated with the Hospital
      */

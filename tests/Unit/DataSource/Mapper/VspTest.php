@@ -278,9 +278,9 @@ class VspTest extends TestCase
         }
 
         $expectedLangs = array_map(fn($datum) => array_map(fn($lang) => $lang ?: null, $datum), $data);
-        $expectedLangs = array_map(fn($datum) => implode(',', $datum), $expectedLangs);
-        $expectedLangs = implode(',', $expectedLangs);
-        $expectedLangs = explode(',', $expectedLangs);
+        $expectedLangs = array_map(fn($datum) => implode('|', $datum), $expectedLangs);
+        $expectedLangs = implode('|', $expectedLangs);
+        $expectedLangs = explode('|', $expectedLangs);
         $expectedLangs = array_unique($expectedLangs);
         $expectedLangs = array_filter($expectedLangs);
         $expectedLangs = array_filter($expectedLangs, fn($lang) => $lang !== 'English');
