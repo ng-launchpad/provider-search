@@ -162,7 +162,6 @@ class ProviderIndexTest extends TestCase
     public function it_returns_providers_filtered_by_scope()
     {
         self::markTestIncomplete();
-        //  @todo (Pablo 2021-12-15) - complete this test
     }
 
     private function createProvider(
