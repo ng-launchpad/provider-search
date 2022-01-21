@@ -3,6 +3,8 @@
     &__inner {
         padding: 48px 32px 56px;
         background-color: $wild-sand;
+        margin-left: -32px;
+        margin-right: -32px;
 
         .search-block--header & {
             padding: 0;
