@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 Vue.use(Router);
 
-const routes = new Router({
+const router = new Router({
     mode: 'history',
     routes: [
         {
@@ -11,7 +11,10 @@ const routes = new Router({
         },
         {
             path: '/',
-            component: () => import('../pages/search')
+            component: () => import('../pages/search'),
+            meta: {
+                title: 'AllState Benefits'
+            }
         },
         {
             path: '/results',
@@ -36,4 +39,12 @@ const routes = new Router({
     }
 });
 
-export default routes;
+const DEFAULT_TITLE = 'AllState Benefits';
+// @TODO (Anton Sydorenko) - write titles for each page
+router.afterEach((to, from) => {
+    Vue.nextTick(() => {
+        document.title = to.meta.title || DEFAULT_TITLE;
+    });
+});
+
+export default router;
