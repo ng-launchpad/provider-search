@@ -13,10 +13,15 @@
     </div>
     <div class="header__bottom">
         <div class="container">
-            <div class="header__logo">
-                <a href="{{ url('/') }}" class="header__logo-link">
-                    <img src="{{ url('/images/logo.png') }}" alt="">
-                </a>
+            <div class="header__bottom-inner">
+                <div class="header__logo">
+                    <a href="{{ url('/') }}" class="header__logo-link">
+                        <img src="{{ url('/images/logo.png') }}" alt="">
+                    </a>
+                </div>
+                <div class="header__back vue-app">
+                    <header-back-btn></header-back-btn>
+                </div>
             </div>
         </div>
     </div>

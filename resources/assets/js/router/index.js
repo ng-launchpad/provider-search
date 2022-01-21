@@ -7,10 +7,12 @@ const router = new Router({
     routes: [
         {
             path: '/browse-networks',
+            name: 'browse-networks',
             component: () => import('../pages/browse-networks'),
         },
         {
             path: '/',
+            name: 'home',
             component: () => import('../pages/search'),
             meta: {
                 title: 'AllState Benefits'
@@ -18,19 +20,23 @@ const router = new Router({
         },
         {
             path: '/results',
+            name: 'results',
             component: () => import('../pages/results'),
             props: route => ({ query: route.query })
         },
         {
             path: '/allstate',
+            name: 'allstate',
             component: () => import('../pages/browsing'),
         },
         {
             path: '/provider/:id',
+            name: 'provider',
             component: () => import('../pages/provider'),
         },
         {
             path: '/facility/:id',
+            name: 'facility',
             component: () => import('../pages/facility'),
         }
     ],
