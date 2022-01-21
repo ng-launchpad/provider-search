@@ -28,17 +28,17 @@
             <div class="footer__left">
                 <ul class="footer__menu">
                     <li class="footer__menu-item">
-                        <a href="#" class="footer__menu-link text--styled-link">
+                        <a href="https://www.allstate.com/allstate-benefits/terms-of-use.aspx" target="_blank" class="footer__menu-link text--styled-link">
                             Terms of use
                         </a>
                     </li>
                     <li class="footer__menu-item">
-                        <a href="#" class="footer__menu-link text--styled-link">
+                        <a href="https://www.allstate.com/allstate-benefits/privacy-and-security.aspx" target="_blank" class="footer__menu-link text--styled-link">
                             Privacy & security
                         </a>
                     </li>
                     <li class="footer__menu-item">
-                        <a href="#" class="footer__menu-link text--styled-link">
+                        <a href="https://www.allstate.com/allstate-benefits/california-consumer-privacy.aspx" target="_blank" class="footer__menu-link text--styled-link">
                             California Consumer Privacy
                         </a>
                     </li>
