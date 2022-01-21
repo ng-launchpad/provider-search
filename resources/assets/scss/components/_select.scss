@@ -1,7 +1,12 @@
 .custom-select {
-    width: 250px;
+    width: 279px;
     background-color: $white;
     border-radius: 4px;
+
+    &__list-top {
+        color: #757575;
+        padding: 5px 20px;
+    }
 
     .multiselect {
         &__tags {
@@ -74,6 +79,23 @@
                 right: 0;
                 top: 9px;
             }
+        }
+
+        &__selected-options {
+            padding: 5px 2px 0 12px;
+
+            input.vs__search {
+                color: #757575;
+            }
+        }
+
+        &__dropdown-toggle {
+            padding: 0 0 8px 0;
+        }
+
+        &__dropdown-menu {
+            @include font-size(16px);
+            font-weight: normal;
         }
     }
 }

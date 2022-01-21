@@ -29,7 +29,12 @@
                                 v-bind:reduce="option => option.value"
                                 v-bind:searchable="false"
                                 v-on:option:selected="setFilter"
-                            />
+                                placeholder="Filter results by"
+                            >
+                                <template #list-header>
+                                    <li class="custom-select__list-top">Match your search query to:</li>
+                                </template>
+                            </v-select>
                         </div>
                     </div>
                 </div>
@@ -117,11 +122,6 @@ export default {
             searchQuery: '',
             loading: false,
             filterOptions: [
-                {
-                    label: 'All fields',
-                    value: '',
-                    name: ''
-                },
                 {
                     label: 'Providers only',
                     value: 'provider',
