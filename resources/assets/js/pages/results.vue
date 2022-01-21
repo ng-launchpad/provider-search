@@ -34,6 +34,15 @@
                                 <template #list-header>
                                     <li class="custom-select__list-top">Match your search query to:</li>
                                 </template>
+                                <template #open-indicator="{ attributes }">
+                                    <span
+                                        v-bind="attributes"
+                                        class="custom-select__open"
+                                    >
+                                        <span></span>
+                                        <span></span>
+                                    </span>
+                                </template>
                             </v-select>
                         </div>
                     </div>
