@@ -7,7 +7,6 @@ use App\Models\Language;
 use App\Models\Location;
 use App\Models\Network;
 use App\Models\Provider;
-use App\Models\Setting;
 use App\Models\Speciality;
 use Illuminate\Support\Collection;
 
@@ -22,9 +21,9 @@ abstract class Mapper implements Interfaces\Mapper
     {
     }
 
-    public static function factory(int $version = null): self
+    public static function factory(): self
     {
-        return new static($version);
+        return new static();
     }
 
     public function setVersion(int $version): self
