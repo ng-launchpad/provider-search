@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Setting;
 use App\Models\Speciality;
 use Illuminate\Database\Seeder;
 
@@ -24,7 +25,8 @@ class SpecialitySeeder extends Seeder
 
         foreach ($languages as $language) {
             Speciality::create([
-                'label' => $language,
+                'version' => Setting::version(),
+                'label'   => $language,
             ]);
         }
     }
