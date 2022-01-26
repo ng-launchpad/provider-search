@@ -27,7 +27,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
  * @mixin \Eloquent
  * @method static Builder|Setting withKey($key)
  */
-class Setting extends Model
+final class Setting extends Model
 {
     use HasFactory;
 
