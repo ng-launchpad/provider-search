@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Setting;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class HospitalFactory extends Factory
@@ -14,7 +15,8 @@ class HospitalFactory extends Factory
     public function definition()
     {
         return [
-            'label' => $this->faker->company,
+            'version' => Setting::version(),
+            'label'   => $this->faker->company,
         ];
     }
 }

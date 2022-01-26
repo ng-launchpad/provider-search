@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Setting;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class LanguageFactory extends Factory
@@ -14,7 +15,8 @@ class LanguageFactory extends Factory
     public function definition()
     {
         return [
-            'label' => $this->faker->randomElement(['English', 'Spanish', 'Chinese', 'Arabic']),
+            'version' => Setting::version(),
+            'label'   => $this->faker->randomElement(['English', 'Spanish', 'Chinese', 'Arabic']),
         ];
     }
 }
