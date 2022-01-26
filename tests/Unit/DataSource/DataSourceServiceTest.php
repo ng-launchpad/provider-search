@@ -9,6 +9,7 @@ use App\Models\Network;
 use App\Models\Setting;
 use App\Models\Speciality;
 use App\Models\State;
+use App\Notifications\SyncFailureNotification;
 use App\Services\DataSource\Interfaces\Connection;
 use App\Services\DataSource\Interfaces\Mapper;
 use App\Services\DataSource\Interfaces\Parser;
@@ -16,7 +17,10 @@ use App\Models\Provider;
 use App\Services\DataSourceService;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class DataSourceServiceTest extends TestCase
@@ -179,5 +183,24 @@ class DataSourceServiceTest extends TestCase
         $this->assertCount(1, $provider2->languages()->get());
         $this->assertCount(1, $provider2->specialities()->get());
         $this->assertCount(1, $provider2->hospitals()->get());
+    }
+
+    /** @test */
+    public function it_sends_error_notification()
+    {
+        // arrange
+        Notification::fake();
+        $service   = DataSourceService::factory();
+        $message   = 'Something went wrong.';
+        $code      = 123;
+        $exception = new \Exception($message, $code);
+
+        // act
+        $service->notifyError($exception);;
+
+        // assert
+        Notification::assertSentTo(
+            new AnonymousNotifiable, SyncFailureNotification::class
+        );
     }
 }
