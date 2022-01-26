@@ -31,6 +31,8 @@ final class Setting extends Model
 {
     use HasFactory;
 
+    const KEY_VERSION = 'version';
+
     public static function set(string $key, $value): self
     {
         try {
@@ -79,7 +81,7 @@ final class Setting extends Model
 
     public static function version(): int
     {
-        return self::get('version');
+        return self::get(self::KEY_VERSION);
     }
 
     public static function nextVersion(): int
