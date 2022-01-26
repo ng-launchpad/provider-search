@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\HasGetTableName;
+use App\Traits\HasVersionScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -45,7 +46,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Location extends Model
 {
-    use HasFactory, HasGetTableName;
+    use HasFactory, HasGetTableName, HasVersionScope;
 
     /**
      * Gets the State associated with the Location

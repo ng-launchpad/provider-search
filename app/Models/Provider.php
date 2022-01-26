@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\ModelPivots\LocationProviderPivot;
 use App\Traits\HasGetTableName;
+use App\Traits\HasVersionScope;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -69,7 +70,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Provider extends Model
 {
-    use HasFactory, Filterable, HasGetTableName;
+    use HasFactory, Filterable, HasGetTableName, HasVersionScope;
 
     const GENDER_MALE   = 'MALE';
     const GENDER_FEMALE = 'FEMALE';
@@ -221,11 +222,6 @@ class Provider extends Model
     public function scopeWithType(Builder $query, $type)
     {
         $query->where('is_facility', $type === 'facility');
-    }
-
-    public function scopeWithScope(Builder $query, $type)
-    {
-        //  @todo (Pablo 2021-12-15) - alter scope of search keywords
     }
 
     public static function findByNpiAndNetworkOrFail(string $npi, Network $network)
