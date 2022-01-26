@@ -82,6 +82,8 @@ class SyncCommand extends Command
                         $config['mapper']['config']
                     );
 
+                    $mapper->setVersion(Setting::nextVersion());
+
                     $parser = call_user_func_array(
                         $config['parser']['class'] . '::factory',
                         $config['parser']['config']
