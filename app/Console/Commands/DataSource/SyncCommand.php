@@ -45,6 +45,7 @@ class SyncCommand extends Command
      * Execute the console command.
      *
      * @return int
+     * @throws \Throwable
      */
     public function handle()
     {
@@ -75,6 +76,7 @@ class SyncCommand extends Command
                             $config['connection']['config']
                         );
 
+                    /** @var \App\Services\DataSource\Interfaces\Mapper $mapper */
                     $mapper = call_user_func_array(
                         $config['mapper']['class'] . '::factory',
                         $config['mapper']['config']
