@@ -14,8 +14,11 @@ class ProviderIndexTest extends TestCase
 {
     use RefreshDatabase;
 
+    const CITY = 'TEST_CITY_NAME';
+
     private $network;
     private $state;
+    private $location;
     private $provider;
     private $facility;
 
@@ -23,8 +26,9 @@ class ProviderIndexTest extends TestCase
     {
         parent::setUp();
 
-        $this->createProvider($this->state, $this->network, $this->provider);
         $this->createFacility($this->state, $this->network, $this->facility);
+        $this->createLocation($this->state, $this->location, self::CITY);
+        $this->createProvider($this->state, $this->network, $this->provider, $this->location);
         $this->createProvider($this->state);
         $this->createProvider();
     }
@@ -159,21 +163,43 @@ class ProviderIndexTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_providers_filtered_by_scope()
+    public function it_returns_providers_filtered_by_scope_city()
     {
-        self::markTestIncomplete();
+        // arrange
+        $network  = $this->network;
+        $state    = $this->state;
+        $provider = $this->provider;
+        $keywords = self::CITY;
+        $scope    = Provider::SCOPE_CITY;
+
+        // act
+        $response = $this
+            ->withoutExceptionHandling()
+            ->getJson(route('api.providers.index', [
+                'network_id' => $network->id,
+                'state_id'   => $state->id,
+                'keywords'   => $keywords,
+                'scope'      => $scope,
+            ]));
+
+        // assert
+        $response
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.label', $provider->label);
     }
 
     private function createProvider(
         State &$state = null,
         Network &$network = null,
-        Provider &$provider = null
+        Provider &$provider = null,
+        Location &$location = null
     ) {
         $state = $state ?? State::factory()->create();
 
         $network = $network ?? Network::factory()->create();
 
-        $location = Location::factory()->for($state)->create();
+        $location = $location ?? Location::factory()->for($state)->create();
 
         $provider = $provider ?? Provider::factory()->for($network)->create();
 
@@ -192,5 +218,19 @@ class ProviderIndexTest extends TestCase
 
         $provider->is_facility = true;
         $provider->save();
+    }
+
+    private function createLocation(
+        State &$state = null,
+        Location &$location = null,
+        string $city = null
+    ) {
+        $state    = $state ?? State::factory()->create();
+        $location = $location ?? Location::factory()->for($state)->create();
+
+        if ($city) {
+            $location->address_city = $city;
+            $location->save();
+        }
     }
 }
