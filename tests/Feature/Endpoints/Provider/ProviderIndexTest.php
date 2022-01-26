@@ -81,6 +81,7 @@ class ProviderIndexTest extends TestCase
         // arrange
         $network  = $this->network;
         $state    = $this->state;
+        $facility = $this->facility;
         $provider = $this->provider;
 
         // act
@@ -95,7 +96,8 @@ class ProviderIndexTest extends TestCase
         $response
             ->assertOk()
             ->assertJsonCount(2, 'data')
-            ->assertJsonPath('data.0.label', $provider->label);
+            ->assertJsonPath('data.0.label', $facility->label)
+            ->assertJsonPath('data.1.label', $provider->label);
     }
 
     /** @test */
