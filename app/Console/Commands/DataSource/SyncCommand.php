@@ -113,6 +113,6 @@ class SyncCommand extends Command
             throw $e;
         }
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 }
