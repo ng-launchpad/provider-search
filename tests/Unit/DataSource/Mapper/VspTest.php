@@ -29,6 +29,8 @@ class VspTest extends TestCase
         $collection    = new Collection($data);
         $mapper        = Vsp::factory();
 
+        $mapper->setVersion(Setting::nextVersion());
+
         // act
         $mapper
             ->extractLanguages($collection)
@@ -46,6 +48,8 @@ class VspTest extends TestCase
         $data       = $this->getLocationData();
         $collection = new Collection($data);
         $mapper     = Vsp::factory();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         //  Ensure generated States exist
         foreach ($data as $datum) {
@@ -73,6 +77,8 @@ class VspTest extends TestCase
         $collection = new Collection($data);
         $mapper     = Vsp::factory();
 
+        $mapper->setVersion(Setting::nextVersion());
+
         // act
         $mapper
             ->extractSpecialities($collection)
@@ -90,6 +96,8 @@ class VspTest extends TestCase
         $data       = $this->getHospitalData();
         $collection = new Collection($data);
         $mapper     = Vsp::factory();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         // act
         $mapper
@@ -109,6 +117,8 @@ class VspTest extends TestCase
         $collection = new Collection($data);
         $mapper     = Vsp::factory();
         $network    = Network::factory()->create();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         // act
         $mapper
@@ -131,6 +141,8 @@ class VspTest extends TestCase
         $collection = new Collection($data);
         $mapper     = Vsp::factory();
         $network    = Network::factory()->create();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         //  Ensure generated States exist
         foreach ($data as $datum) {
@@ -186,6 +198,8 @@ class VspTest extends TestCase
         $collection = new Collection($data);
         $mapper     = Vsp::factory();
         $network    = Network::factory()->create();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         //  Calculate the expected languages
         $expectedLangs = array_map(function ($item) {
@@ -244,6 +258,8 @@ class VspTest extends TestCase
         $mapper     = Vsp::factory();
         $network    = Network::factory()->create();
 
+        $mapper->setVersion(Setting::nextVersion());
+
         //  Ensure generated Providers exist
         $mapper
             ->extractProviders($collection)
@@ -280,6 +296,8 @@ class VspTest extends TestCase
         $collection = new Collection($data);
         $mapper     = Vsp::factory();
         $network    = Network::factory()->create();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         //  Ensure generated Providers exist
         $mapper

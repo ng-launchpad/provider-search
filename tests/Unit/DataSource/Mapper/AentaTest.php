@@ -12,7 +12,6 @@ use App\Models\Speciality;
 use App\Models\State;
 use App\Services\DataSource\Mapper\Aenta;
 use Faker\Factory;
-use Hamcrest\Core\Set;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
@@ -29,6 +28,8 @@ class AentaTest extends TestCase
         $expectedLangs = $this->getGeneratedLanguagesFromData($data);
         $collection    = new Collection($data);
         $mapper        = Aenta::factory();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         // act
         $mapper
@@ -47,6 +48,8 @@ class AentaTest extends TestCase
         $data       = $this->getLocationData();
         $collection = new Collection($data);
         $mapper     = Aenta::factory();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         //  Ensure generated States exist
         foreach ($data as $datum) {
@@ -74,6 +77,8 @@ class AentaTest extends TestCase
         $collection = new Collection($data);
         $mapper     = Aenta::factory();
 
+        $mapper->setVersion(Setting::nextVersion());
+
         // act
         $mapper
             ->extractSpecialities($collection)
@@ -91,6 +96,8 @@ class AentaTest extends TestCase
         $data       = $this->getHospitalData();
         $collection = new Collection($data);
         $mapper     = Aenta::factory();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         // act
         $mapper
@@ -110,6 +117,8 @@ class AentaTest extends TestCase
         $collection = new Collection($data);
         $mapper     = Aenta::factory();
         $network    = Network::factory()->create();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         // act
         $mapper
@@ -132,6 +141,8 @@ class AentaTest extends TestCase
         $collection = new Collection($data);
         $mapper     = Aenta::factory();
         $network    = Network::factory()->create();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         //  Ensure generated States exist
         foreach ($data as $datum) {
@@ -187,6 +198,8 @@ class AentaTest extends TestCase
         $collection = new Collection($data);
         $mapper     = Aenta::factory();
         $network    = Network::factory()->create();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         //  Calculate the expected languages
         $expectedLangs = array_map(function ($item) {
@@ -246,6 +259,8 @@ class AentaTest extends TestCase
         $mapper     = Aenta::factory();
         $network    = Network::factory()->create();
 
+        $mapper->setVersion(Setting::nextVersion());
+
         //  Calculate the expected specialities
         $expectedSpecialities = array_map(function ($item) {
             return $this->getGeneratedSpecialitiesFromData([$item], [
@@ -301,6 +316,8 @@ class AentaTest extends TestCase
         $collection = new Collection($data);
         $mapper     = Aenta::factory();
         $network    = Network::factory()->create();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         //  Calculate the expected hospitals
         $expectedHospitals = array_map(function ($item) {
