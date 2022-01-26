@@ -251,6 +251,33 @@ class ProviderIndexTest extends TestCase
             ->assertJsonPath('data.0.label', $provider->label);
     }
 
+    /** @test */
+    public function it_returns_providers_filtered_by_scope_case_inseneitive()
+    {
+        // arrange
+        $network  = $this->network;
+        $state    = $this->state;
+        $provider = $this->provider;
+        $keywords = self::CITY;
+        $scope    = strtolower(Provider::SCOPE_CITY);
+
+        // act
+        $response = $this
+            ->withoutExceptionHandling()
+            ->getJson(route('api.providers.index', [
+                'network_id' => $network->id,
+                'state_id'   => $state->id,
+                'keywords'   => $keywords,
+                'scope'      => $scope,
+            ]));
+
+        // assert
+        $response
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.label', $provider->label);
+    }
+
     private function createProvider(
         State &$state = null,
         Network &$network = null,

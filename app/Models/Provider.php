@@ -141,7 +141,7 @@ class Provider extends Model
      */
     public function scopeWithKeywords(Builder $query, string $keywords, string $scope = null)
     {
-        switch ($scope) {
+        switch (strtoupper($scope)) {
             case self::SCOPE_CITY:
                 $this->applyFilterCity($query, $keywords);
                 break;
