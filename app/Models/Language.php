@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Provider[] $providers
  * @property-read int|null $providers_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Language withVersion()
  */
 class Language extends Model
 {

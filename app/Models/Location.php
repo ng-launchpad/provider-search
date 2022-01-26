@@ -43,6 +43,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $hash
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereHash($value)
  * @property-read \App\Models\State $state
+ * @method static \Illuminate\Database\Eloquent\Builder|Location withVersion()
  */
 class Location extends Model
 {

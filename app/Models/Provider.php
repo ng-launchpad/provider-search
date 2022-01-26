@@ -67,6 +67,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Provider withNetwork(\App\Models\Network $network)
  * @method static Builder|Provider withScope($type)
  * @method static Builder|Provider withType($type)
+ * @method static Builder|Provider withVersion()
  */
 class Provider extends Model
 {
