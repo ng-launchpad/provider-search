@@ -5,6 +5,7 @@ use App\Services\DataSource\Mapper;
 use App\Services\DataSource\Parser;
 
 return [
+    'contact' => env('DATASOURCE_CONTACT'),
     'source' => [
         'aenta' => [
             'path'       => '/path/to/file.txt',
