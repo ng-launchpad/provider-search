@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Traits\HasGetTableName;
-use App\Traits\HasVersionScope;
+use App\Models\Concerns\HasGetTableName;
+use App\Models\Concerns\HasVersionScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

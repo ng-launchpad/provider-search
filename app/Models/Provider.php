@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\ModelPivots\LocationProviderPivot;
-use App\Traits\HasGetTableName;
-use App\Traits\HasVersionScope;
+use App\Models\Concerns\HasGetTableName;
+use App\Models\Concerns\HasVersionScope;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

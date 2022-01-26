@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits;
+namespace App\Models\Concerns;
 
 use App\Models\Setting;
 use Illuminate\Database\Eloquent\Builder;
