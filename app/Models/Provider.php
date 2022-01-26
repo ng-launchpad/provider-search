@@ -77,6 +77,7 @@ class Provider extends Model
     const SCOPE_DEFAULT    = 'ALL';
     const SCOPE_CITY       = 'CITY';
     const SCOPE_SPECIALITY = 'SPECIALITY';
+    const SCOPE_LANGUAGE   = 'LANGUAGE';
 
     protected $casts = [
         'is_facility'               => 'boolean',
@@ -149,11 +150,16 @@ class Provider extends Model
                 $this->applyFilterSpeciality($query, $keywords);
                 break;
 
+            case self::SCOPE_LANGUAGE:
+                $this->applyFilterLanguage($query, $keywords);
+                break;
+
             default:
                 $this
                     ->applyFilterProvider($query, $keywords)
                     ->applyFilterCity($query, $keywords)
                     ->applyFilterSpeciality($query, $keywords)
+                    ->applyFilterLanguage($query, $keywords);
                 break;
         }
     }
@@ -180,6 +186,15 @@ class Provider extends Model
     {
         $query->whereHas('specialities', function ($query) use ($keywords) {
             $query->where('specialities.label', 'like', "%$keywords%");
+        });
+
+        return $this;
+    }
+
+    protected function applyFilterLanguage(Builder $query, string $keywords): self
+    {
+        $query->whereHas('languages', function ($query) use ($keywords) {
+            $query->where('languages.label', 'like', "%$keywords%");
         });
 
         return $this;
