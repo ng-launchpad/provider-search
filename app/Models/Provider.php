@@ -87,6 +87,7 @@ class Provider extends Model
     ];
 
     protected $fillable = [
+        'version',
         'npi',
         'label',
         'gender',

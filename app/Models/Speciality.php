@@ -32,6 +32,7 @@ class Speciality extends Model
     use HasFactory, HasGetTableName, HasVersionScope;
 
     protected $fillable = [
+        'version',
         'label',
     ];
 
