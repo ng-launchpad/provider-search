@@ -19,6 +19,8 @@ class CityController extends Controller
             'state_id'   => 'required',
         ]);
 
+        //  @todo (Pablo 2022-01-26) - This could probably be refactored to use model filters
+
         $result = DB::query()
             ->from('location_provider')
             ->leftJoin('locations', 'location_provider.location_id', '=', 'locations.id')
