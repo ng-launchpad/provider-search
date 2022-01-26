@@ -145,39 +145,49 @@ class Provider extends Model
     {
         switch (strtoupper($scope)) {
             case self::SCOPE_CITY:
-                $this->applyFilterCity($query, $keywords);
+                $query->where(function (Builder $query) use ($keywords) {
+                    $this->applyFilterCity($query, $keywords);
+                });
                 break;
 
             case self::SCOPE_SPECIALITY:
-                $this->applyFilterSpeciality($query, $keywords);
+                $query->where(function (Builder $query) use ($keywords) {
+                    $this->applyFilterSpeciality($query, $keywords);
+                });
                 break;
 
             case self::SCOPE_LANGUAGE:
-                $this->applyFilterLanguage($query, $keywords);
+                $query->where(function (Builder $query) use ($keywords) {
+                    $this->applyFilterLanguage($query, $keywords);
+                });
                 break;
 
             default:
-                $this
-                    ->applyFilterProvider($query, $keywords)
-                    ->applyFilterCity($query, $keywords)
-                    ->applyFilterSpeciality($query, $keywords)
-                    ->applyFilterLanguage($query, $keywords);
+                $query->where(function (Builder $query) use ($keywords) {
+                    $this
+                        ->applyFilterProvider($query, $keywords)
+                        ->applyFilterCity($query, $keywords)
+                        ->applyFilterSpeciality($query, $keywords)
+                        ->applyFilterLanguage($query, $keywords);
+                });
                 break;
         }
     }
 
     protected function applyFilterProvider(Builder $query, string $keywords): self
     {
-        $query
-            ->orWhere('label', 'like', "%$keywords%")
-            ->orWhere('website', 'like', "%$keywords%");
+        $query->where(function ($query) use ($keywords) {
+            $query
+                ->orWhere('label', 'like', "%$keywords%")
+                ->orWhere('website', 'like', "%$keywords%");
+        });
 
         return $this;
     }
 
     protected function applyFilterCity(Builder $query, string $keywords): self
     {
-        $query->whereHas('locations', function ($query) use ($keywords) {
+        $query->orWhereHas('locations', function ($query) use ($keywords) {
             $query->where('locations.address_city', 'like', "%$keywords%");
         });
 
@@ -186,7 +196,7 @@ class Provider extends Model
 
     protected function applyFilterSpeciality(Builder $query, string $keywords): self
     {
-        $query->whereHas('specialities', function ($query) use ($keywords) {
+        $query->orWhereHas('specialities', function ($query) use ($keywords) {
             $query->where('specialities.label', 'like', "%$keywords%");
         });
 
@@ -195,7 +205,7 @@ class Provider extends Model
 
     protected function applyFilterLanguage(Builder $query, string $keywords): self
     {
-        $query->whereHas('languages', function ($query) use ($keywords) {
+        $query->orWhereHas('languages', function ($query) use ($keywords) {
             $query->where('languages.label', 'like', "%$keywords%");
         });
 
