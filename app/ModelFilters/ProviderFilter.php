@@ -13,7 +13,7 @@ class ProviderFilter extends ModelFilter
      */
     public function keywords($keywords)
     {
-        $this->withKeywords($keywords);
+        $this->withKeywords($keywords, request()->query('scope'));
     }
 
     public function network($id)
@@ -33,10 +33,5 @@ class ProviderFilter extends ModelFilter
     public function type($type)
     {
         $this->withType($type);
-    }
-
-    public function scope($scope)
-    {
-        $this->withScope($scope);
     }
 }

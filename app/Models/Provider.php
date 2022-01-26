@@ -74,6 +74,8 @@ class Provider extends Model
     const GENDER_MALE   = 'MALE';
     const GENDER_FEMALE = 'FEMALE';
 
+    const SCOPE_DEFAULT    = 'ALL';
+
     protected $casts = [
         'is_facility'               => 'boolean',
         'is_accepting_new_patients' => 'boolean',
@@ -134,7 +136,24 @@ class Provider extends Model
     /**
      * Get Providers which match keywords
      */
-    public function scopeWithKeywords(Builder $query, string $keywords)
+    public function scopeWithKeywords(Builder $query, string $keywords, string $scope = null)
+    {
+        switch ($scope) {
+            default:
+                $this
+                    ->applyFilterProvider($query, $keywords)
+                break;
+        }
+    }
+
+    protected function applyFilterProvider(Builder $query, string $keywords): self
+    {
+        $query
+            ->orWhere('label', 'like', "%$keywords%")
+            ->orWhere('website', 'like', "%$keywords%");
+
+        return $this;
+    }
     {
         $query->where('label', 'like', "%$keywords%");
     }
