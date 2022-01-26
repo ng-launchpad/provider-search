@@ -53,6 +53,6 @@ class Network extends Model
 
     public static function getByLabelOrFail(string $label)
     {
-        return static::where('label', $label)->firstOrFail();
+        return static::where('label', '=', $label)->firstOrFail();
     }
 }

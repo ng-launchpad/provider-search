@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\HasGetTableName;
+use App\Traits\HasVersionScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -42,10 +43,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $hash
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereHash($value)
  * @property-read \App\Models\State $state
+ * @method static \Illuminate\Database\Eloquent\Builder|Location withVersion()
+ * @property int $version
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereVersion($value)
  */
 class Location extends Model
 {
-    use HasFactory, HasGetTableName;
+    use HasFactory, HasGetTableName, HasVersionScope;
 
     /**
      * Gets the State associated with the Location

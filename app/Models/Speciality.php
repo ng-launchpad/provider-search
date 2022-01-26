@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\HasGetTableName;
+use App\Traits\HasVersionScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,12 +25,16 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Provider[] $providers
  * @property-read int|null $providers_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Speciality withVersion()
+ * @property int $version
+ * @method static \Illuminate\Database\Eloquent\Builder|Speciality whereVersion($value)
  */
 class Speciality extends Model
 {
-    use HasFactory, HasGetTableName;
+    use HasFactory, HasGetTableName, HasVersionScope;
 
     protected $fillable = [
+        'version',
         'label',
     ];
 

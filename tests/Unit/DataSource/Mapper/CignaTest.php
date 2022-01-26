@@ -7,6 +7,7 @@ use App\Models\Language;
 use App\Models\Location;
 use App\Models\Network;
 use App\Models\Provider;
+use App\Models\Setting;
 use App\Models\Speciality;
 use App\Models\State;
 use App\Services\DataSource\Mapper\Cigna;
@@ -28,6 +29,8 @@ class CignaTest extends TestCase
         $collection = new Collection($data);
         $mapper     = Cigna::factory();
 
+        $mapper->setVersion(Setting::nextVersion());
+
         // act
         $mapper
             ->extractLanguages($collection)
@@ -45,6 +48,8 @@ class CignaTest extends TestCase
         $data       = $this->getLocationData();
         $collection = new Collection($data);
         $mapper     = Cigna::factory();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         //  Ensure generated States exist
         foreach ($data as $datum) {
@@ -72,6 +77,8 @@ class CignaTest extends TestCase
         $collection = new Collection($data);
         $mapper     = Cigna::factory();
 
+        $mapper->setVersion(Setting::nextVersion());
+
         // act
         $mapper
             ->extractSpecialities($collection)
@@ -89,6 +96,8 @@ class CignaTest extends TestCase
         $data       = $this->getHospitalData();
         $collection = new Collection($data);
         $mapper     = Cigna::factory();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         // act
         $mapper
@@ -108,6 +117,8 @@ class CignaTest extends TestCase
         $collection = new Collection($data);
         $mapper     = Cigna::factory();
         $network    = Network::factory()->create();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         // act
         $mapper
@@ -130,6 +141,8 @@ class CignaTest extends TestCase
         $collection = new Collection($data);
         $mapper     = Cigna::factory();
         $network    = Network::factory()->create();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         //  Ensure generated States exist
         foreach ($data as $datum) {
@@ -186,6 +199,8 @@ class CignaTest extends TestCase
         $mapper     = Cigna::factory();
         $network    = Network::factory()->create();
 
+        $mapper->setVersion(Setting::nextVersion());
+
         //  Ensure generated Providers exist
         $mapper
             ->extractProviders($collection)
@@ -223,6 +238,8 @@ class CignaTest extends TestCase
         $mapper     = Cigna::factory();
         $network    = Network::factory()->create();
 
+        $mapper->setVersion(Setting::nextVersion());
+
         //  Ensure generated Providers exist
         $mapper
             ->extractProviders($collection)
@@ -259,6 +276,8 @@ class CignaTest extends TestCase
         $collection = new Collection($data);
         $mapper     = Cigna::factory();
         $network    = Network::factory()->create();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         //  Ensure generated Providers exist
         $mapper

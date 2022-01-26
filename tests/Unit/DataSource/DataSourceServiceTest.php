@@ -6,6 +6,7 @@ use App\Models\Hospital;
 use App\Models\Language;
 use App\Models\Location;
 use App\Models\Network;
+use App\Models\Setting;
 use App\Models\Speciality;
 use App\Models\State;
 use App\Services\DataSource\Interfaces\Connection;
@@ -26,27 +27,37 @@ class DataSourceServiceTest extends TestCase
     public function it_truncates_the_data()
     {
         // arrange
-        $state      = State::factory()->create();
-        $network    = Network::factory()->create();
-        $provider   = Provider::factory()->for($network)->create();
-        $hospital   = Hospital::factory()->create();
-        $language   = Language::factory()->create();
-        $location   = Location::factory()->for($state)->create();
-        $speciality = Speciality::factory()->create();
+        //  non-versioned items
+        $state   = State::factory()->create();
+        $network = Network::factory()->create();
+
+        // versioned items
+        Provider::factory()->for($network)->create();
+        Hospital::factory()->create();
+        Language::factory()->create();
+        Location::factory()->for($state)->create();
+        Speciality::factory()->create();
+
+        // versioned items but in a different version
+        Provider::factory()->for($network)->create(['version' => Setting::nextVersion()]);
+        Hospital::factory()->create(['version' => Setting::nextVersion()]);
+        Language::factory()->create(['version' => Setting::nextVersion()]);
+        Location::factory()->for($state)->create(['version' => Setting::nextVersion()]);
+        Speciality::factory()->create(['version' => Setting::nextVersion()]);
 
         $service = DataSourceService::factory();
 
         // act
-        $service->truncate();
+        $service->truncate(Setting::version());
 
         // assert
         $this->assertcount(1, State::all());
         $this->assertcount(1, Network::all());
-        $this->assertcount(0, Provider::all());
-        $this->assertcount(0, Hospital::all());
-        $this->assertcount(0, Language::all());
-        $this->assertcount(0, Location::all());
-        $this->assertcount(0, Speciality::all());
+        $this->assertcount(1, Provider::all());
+        $this->assertcount(1, Hospital::all());
+        $this->assertcount(1, Language::all());
+        $this->assertcount(1, Location::all());
+        $this->assertcount(1, Speciality::all());
     }
 
     /** @test */

@@ -7,6 +7,7 @@ use App\Models\Language;
 use App\Models\Location;
 use App\Models\Network;
 use App\Models\Provider;
+use App\Models\Setting;
 use App\Models\Speciality;
 use App\Models\State;
 use App\Services\DataSource\Mapper\Aenta;
@@ -28,6 +29,8 @@ class AentaTest extends TestCase
         $collection    = new Collection($data);
         $mapper        = Aenta::factory();
 
+        $mapper->setVersion(Setting::nextVersion());
+
         // act
         $mapper
             ->extractLanguages($collection)
@@ -45,6 +48,8 @@ class AentaTest extends TestCase
         $data       = $this->getLocationData();
         $collection = new Collection($data);
         $mapper     = Aenta::factory();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         //  Ensure generated States exist
         foreach ($data as $datum) {
@@ -72,6 +77,8 @@ class AentaTest extends TestCase
         $collection = new Collection($data);
         $mapper     = Aenta::factory();
 
+        $mapper->setVersion(Setting::nextVersion());
+
         // act
         $mapper
             ->extractSpecialities($collection)
@@ -89,6 +96,8 @@ class AentaTest extends TestCase
         $data       = $this->getHospitalData();
         $collection = new Collection($data);
         $mapper     = Aenta::factory();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         // act
         $mapper
@@ -108,6 +117,8 @@ class AentaTest extends TestCase
         $collection = new Collection($data);
         $mapper     = Aenta::factory();
         $network    = Network::factory()->create();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         // act
         $mapper
@@ -130,6 +141,8 @@ class AentaTest extends TestCase
         $collection = new Collection($data);
         $mapper     = Aenta::factory();
         $network    = Network::factory()->create();
+
+        $mapper->setVersion(Setting::nextVersion());
 
         //  Ensure generated States exist
         foreach ($data as $datum) {
@@ -186,6 +199,8 @@ class AentaTest extends TestCase
         $mapper     = Aenta::factory();
         $network    = Network::factory()->create();
 
+        $mapper->setVersion(Setting::nextVersion());
+
         //  Calculate the expected languages
         $expectedLangs = array_map(function ($item) {
             return $this->getGeneratedLanguagesFromData([$item], [
@@ -209,7 +224,10 @@ class AentaTest extends TestCase
         //  Ensure generated languages exist
         foreach ($expectedLangs as $expectedLang) {
             foreach ($expectedLang as $item) {
-                Language::create(['label' => $item]);
+                Language::create([
+                    'version' => Setting::version(),
+                    'label'   => $item,
+                ]);
             }
         }
 
@@ -241,6 +259,8 @@ class AentaTest extends TestCase
         $mapper     = Aenta::factory();
         $network    = Network::factory()->create();
 
+        $mapper->setVersion(Setting::nextVersion());
+
         //  Calculate the expected specialities
         $expectedSpecialities = array_map(function ($item) {
             return $this->getGeneratedSpecialitiesFromData([$item], [
@@ -262,7 +282,10 @@ class AentaTest extends TestCase
         //  Ensure generated specialities exist
         foreach ($expectedSpecialities as $expectedSpeciality) {
             foreach ($expectedSpeciality as $item) {
-                Speciality::create(['label' => $item]);
+                Speciality::create([
+                    'version' => Setting::version(),
+                    'label'   => $item,
+                ]);
             }
         }
 
@@ -294,6 +317,8 @@ class AentaTest extends TestCase
         $mapper     = Aenta::factory();
         $network    = Network::factory()->create();
 
+        $mapper->setVersion(Setting::nextVersion());
+
         //  Calculate the expected hospitals
         $expectedHospitals = array_map(function ($item) {
             return $this->getGeneratedHospitalsFromData([$item], [
@@ -317,7 +342,10 @@ class AentaTest extends TestCase
         //  Ensure generated hospitals exist
         foreach ($expectedHospitals as $expectedHospital) {
             foreach ($expectedHospital as $item) {
-                Hospital::create(['label' => $item]);
+                Hospital::create([
+                    'version' => Setting::version(),
+                    'label'   => $item,
+                ]);
             }
         }
 

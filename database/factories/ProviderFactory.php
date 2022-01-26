@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Provider;
+use App\Models\Setting;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProviderFactory extends Factory
@@ -18,6 +19,7 @@ class ProviderFactory extends Factory
         $gender     = $this->faker->optional()->randomElement([Provider::GENDER_MALE, Provider::GENDER_FEMALE]);
 
         return [
+            'version'                   => Setting::version(),
             'label'                     => $isFacility
                 ? $this->faker->company()
                 : $this->faker->firstName(strtolower($gender)) . ' ' . $this->faker->lastName(),

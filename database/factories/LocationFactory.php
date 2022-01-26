@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Setting;
 use App\Models\State;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -16,6 +17,7 @@ class LocationFactory extends Factory
     {
         $faker = \Faker\Factory::create();
         return [
+            'version'          => Setting::version(),
             'label'            => $faker->company(),
             'type'             => $this->faker->randomElement([
                 'Acute Short Term Hospital',

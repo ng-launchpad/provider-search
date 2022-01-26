@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\HasGetTableName;
+use App\Traits\HasVersionScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,12 +25,16 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Hospital whereLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Hospital whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|Hospital withVersion()
+ * @property int $version
+ * @method static \Illuminate\Database\Eloquent\Builder|Hospital whereVersion($value)
  */
 class Hospital extends Model
 {
-    use HasFactory, HasGetTableName;
+    use HasFactory, HasGetTableName, HasVersionScope;
 
     protected $fillable = [
+        'version',
         'label',
     ];
 

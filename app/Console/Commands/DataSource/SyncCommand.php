@@ -3,6 +3,7 @@
 namespace App\Console\Commands\DataSource;
 
 use App\Models\Network;
+use App\Models\Setting;
 use App\Services\DataSource\Connection;
 use App\Services\DataSource\Mapper;
 use App\Services\DataSource\Parser;
@@ -44,19 +45,15 @@ class SyncCommand extends Command
      * Execute the console command.
      *
      * @return int
+     * @throws \Throwable
      */
     public function handle()
     {
+        $service = DataSourceService::factory();
 
         try {
 
-            Artisan::call('down');
-
-            $service = DataSourceService::factory();
-
             DB::transaction(function () use ($service) {
-
-                $service->truncate();
 
                 $networks = $this->input->getOption('network')
                     ? [Network::getByLabelOrFail($this->input->getOption('network'))]
@@ -79,10 +76,13 @@ class SyncCommand extends Command
                             $config['connection']['config']
                         );
 
+                    /** @var \App\Services\DataSource\Interfaces\Mapper $mapper */
                     $mapper = call_user_func_array(
                         $config['mapper']['class'] . '::factory',
                         $config['mapper']['config']
                     );
+
+                    $mapper->setVersion(Setting::nextVersion());
 
                     $parser = call_user_func_array(
                         $config['parser']['class'] . '::factory',
@@ -103,14 +103,18 @@ class SyncCommand extends Command
 
             });
 
+            $service->truncate(Setting::version());
+
+            Setting::bumpVersion();
+
         } catch (\Throwable $e) {
+
+            $service->truncate(Setting::nextVersion());
+
             //  @todo (Pablo 2021-12-15) - Report error by email
             throw $e;
-
-        } finally {
-            Artisan::call('up');
         }
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 }

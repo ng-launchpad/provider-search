@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\ModelPivots\LocationProviderPivot;
 use App\Traits\HasGetTableName;
+use App\Traits\HasVersionScope;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -66,10 +67,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Provider withNetwork(\App\Models\Network $network)
  * @method static Builder|Provider withScope($type)
  * @method static Builder|Provider withType($type)
+ * @method static Builder|Provider withVersion()
+ * @property int $version
+ * @method static Builder|Provider whereVersion($value)
  */
 class Provider extends Model
 {
-    use HasFactory, Filterable, HasGetTableName;
+    use HasFactory, Filterable, HasGetTableName, HasVersionScope;
 
     const GENDER_MALE   = 'MALE';
     const GENDER_FEMALE = 'FEMALE';
@@ -85,6 +89,7 @@ class Provider extends Model
     ];
 
     protected $fillable = [
+        'version',
         'npi',
         'label',
         'gender',
@@ -143,39 +148,49 @@ class Provider extends Model
     {
         switch (strtoupper($scope)) {
             case self::SCOPE_CITY:
-                $this->applyFilterCity($query, $keywords);
+                $query->where(function (Builder $query) use ($keywords) {
+                    $this->applyFilterCity($query, $keywords);
+                });
                 break;
 
             case self::SCOPE_SPECIALITY:
-                $this->applyFilterSpeciality($query, $keywords);
+                $query->where(function (Builder $query) use ($keywords) {
+                    $this->applyFilterSpeciality($query, $keywords);
+                });
                 break;
 
             case self::SCOPE_LANGUAGE:
-                $this->applyFilterLanguage($query, $keywords);
+                $query->where(function (Builder $query) use ($keywords) {
+                    $this->applyFilterLanguage($query, $keywords);
+                });
                 break;
 
             default:
-                $this
-                    ->applyFilterProvider($query, $keywords)
-                    ->applyFilterCity($query, $keywords)
-                    ->applyFilterSpeciality($query, $keywords)
-                    ->applyFilterLanguage($query, $keywords);
+                $query->where(function (Builder $query) use ($keywords) {
+                    $this
+                        ->applyFilterProvider($query, $keywords)
+                        ->applyFilterCity($query, $keywords)
+                        ->applyFilterSpeciality($query, $keywords)
+                        ->applyFilterLanguage($query, $keywords);
+                });
                 break;
         }
     }
 
     protected function applyFilterProvider(Builder $query, string $keywords): self
     {
-        $query
-            ->orWhere('label', 'like', "%$keywords%")
-            ->orWhere('website', 'like', "%$keywords%");
+        $query->where(function ($query) use ($keywords) {
+            $query
+                ->orWhere('label', 'like', "%$keywords%")
+                ->orWhere('website', 'like', "%$keywords%");
+        });
 
         return $this;
     }
 
     protected function applyFilterCity(Builder $query, string $keywords): self
     {
-        $query->whereHas('locations', function ($query) use ($keywords) {
+        $query->orWhereHas('locations', function ($query) use ($keywords) {
             $query->where('locations.address_city', 'like', "%$keywords%");
         });
 
@@ -184,7 +199,7 @@ class Provider extends Model
 
     protected function applyFilterSpeciality(Builder $query, string $keywords): self
     {
-        $query->whereHas('specialities', function ($query) use ($keywords) {
+        $query->orWhereHas('specialities', function ($query) use ($keywords) {
             $query->where('specialities.label', 'like', "%$keywords%");
         });
 
@@ -193,7 +208,7 @@ class Provider extends Model
 
     protected function applyFilterLanguage(Builder $query, string $keywords): self
     {
-        $query->whereHas('languages', function ($query) use ($keywords) {
+        $query->orWhereHas('languages', function ($query) use ($keywords) {
             $query->where('languages.label', 'like', "%$keywords%");
         });
 
@@ -205,7 +220,7 @@ class Provider extends Model
      */
     public function scopeWithNetwork(Builder $query, Network $network)
     {
-        $query->where('network_id', $network->id);
+        $query->where('network_id', '=', $network->id);
     }
 
     /**
@@ -214,25 +229,20 @@ class Provider extends Model
     public function scopeWithState(Builder $query, State $state)
     {
         $query->whereHas('locations.state', function ($query) use ($state) {
-            $query->where('address_state_id', $state->id);
+            $query->where('address_state_id', '=', $state->id);
         });
     }
 
     public function scopeWithType(Builder $query, $type)
     {
-        $query->where('is_facility', $type === 'facility');
-    }
-
-    public function scopeWithScope(Builder $query, $type)
-    {
-        //  @todo (Pablo 2021-12-15) - alter scope of search keywords
+        $query->where('is_facility', '=', $type === 'facility');
     }
 
     public static function findByNpiAndNetworkOrFail(string $npi, Network $network)
     {
         return Provider::query()
-            ->where('npi', $npi)
-            ->where('network_id', $network->id)
+            ->where('npi', '=', $npi)
+            ->where('network_id', '=', $network->id)
             ->firstOrFail();
     }
 }
