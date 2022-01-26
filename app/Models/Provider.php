@@ -75,6 +75,7 @@ class Provider extends Model
     const GENDER_FEMALE = 'FEMALE';
 
     const SCOPE_DEFAULT    = 'ALL';
+    const SCOPE_CITY       = 'CITY';
 
     protected $casts = [
         'is_facility'               => 'boolean',
@@ -139,9 +140,14 @@ class Provider extends Model
     public function scopeWithKeywords(Builder $query, string $keywords, string $scope = null)
     {
         switch ($scope) {
+            case self::SCOPE_CITY:
+                $this->applyFilterCity($query, $keywords);
+                break;
+
             default:
                 $this
                     ->applyFilterProvider($query, $keywords)
+                    ->applyFilterCity($query, $keywords)
                 break;
         }
     }
@@ -154,8 +160,14 @@ class Provider extends Model
 
         return $this;
     }
+
+    protected function applyFilterCity(Builder $query, string $keywords): self
     {
-        $query->where('label', 'like', "%$keywords%");
+        $query->whereHas('locations', function ($query) use ($keywords) {
+            $query->where('locations.address_city', 'like', "%$keywords%");
+        });
+
+        return $this;
     }
 
     /**
