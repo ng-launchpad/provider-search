@@ -3,6 +3,7 @@
 namespace App\Console\Commands\DataSource;
 
 use App\Models\Network;
+use App\Models\Setting;
 use App\Services\DataSource\Connection;
 use App\Services\DataSource\Mapper;
 use App\Services\DataSource\Parser;
@@ -47,10 +48,9 @@ class SyncCommand extends Command
      */
     public function handle()
     {
+        $service = DataSourceService::factory();
 
         try {
-
-            $service = DataSourceService::factory();
 
             DB::transaction(function () use ($service) {
 
@@ -102,6 +102,9 @@ class SyncCommand extends Command
             $service->truncate(Setting::version());
 
         } catch (\Throwable $e) {
+
+            $service->truncate(Setting::nextVersion());
+
             //  @todo (Pablo 2021-12-15) - Report error by email
             throw $e;
         }
