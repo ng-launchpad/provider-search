@@ -108,14 +108,14 @@ abstract class Mapper implements Interfaces\Mapper
         $collection->each(function ($item) use ($collectionOut) {
             foreach ($this->getHospitalKeys() as $key) {
 
-                $speciality = new Hospital();
+                $hospital = new Hospital();
 
                 if ($item[$key] ?? null) {
-                    $speciality->label = $item[$key];
+                    $hospital->label = $item[$key];
                 }
 
-                if ($speciality->isDirty()) {
-                    $collectionOut->add($speciality);
+                if ($hospital->isDirty()) {
+                    $collectionOut->add($hospital);
                 }
             }
         });
