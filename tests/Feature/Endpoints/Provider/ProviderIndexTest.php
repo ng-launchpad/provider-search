@@ -5,6 +5,7 @@ namespace Tests\Feature\Endpoints\Provider;
 use App\Models\Location;
 use App\Models\Network;
 use App\Models\Provider;
+use App\Models\Speciality;
 use App\Models\State;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
@@ -14,11 +15,13 @@ class ProviderIndexTest extends TestCase
 {
     use RefreshDatabase;
 
-    const CITY = 'TEST_CITY_NAME';
+    const CITY       = 'TEST_CITY_NAME';
+    const SPECIALITY = 'TEST_SPECIALITY';
 
     private $network;
     private $state;
     private $location;
+    private $speciality;
     private $provider;
     private $facility;
 
@@ -28,7 +31,8 @@ class ProviderIndexTest extends TestCase
 
         $this->createFacility($this->state, $this->network, $this->facility);
         $this->createLocation($this->state, $this->location, self::CITY);
-        $this->createProvider($this->state, $this->network, $this->provider, $this->location);
+        $this->createSpeciality($this->speciality, self::SPECIALITY);
+        $this->createProvider($this->state, $this->network, $this->provider, $this->location, $this->speciality);
         $this->createProvider($this->state);
         $this->createProvider();
     }
@@ -189,11 +193,45 @@ class ProviderIndexTest extends TestCase
             ->assertJsonPath('data.0.label', $provider->label);
     }
 
+    /** @test */
+    public function it_returns_providers_filtered_by_scope_speciality()
+    {
+        // arrange
+        $network  = $this->network;
+        $state    = $this->state;
+        $provider = $this->provider;
+        $keywords = self::SPECIALITY;
+        $scope    = Provider::SCOPE_SPECIALITY;
+
+        // act
+        $response = $this
+            ->withoutExceptionHandling()
+            ->getJson(route('api.providers.index', [
+                'network_id' => $network->id,
+                'state_id'   => $state->id,
+                'keywords'   => $keywords,
+                'scope'      => $scope,
+            ]));
+
+        // assert
+        $response
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.label', $provider->label);
+    }
+
+    /** @test */
+    public function it_returns_providers_filtered_by_scope_language()
+    {
+        self::markTestIncomplete();
+    }
+
     private function createProvider(
         State &$state = null,
         Network &$network = null,
         Provider &$provider = null,
-        Location &$location = null
+        Location &$location = null,
+        Speciality &$speciality = null
     ) {
         $state = $state ?? State::factory()->create();
 
@@ -201,12 +239,15 @@ class ProviderIndexTest extends TestCase
 
         $location = $location ?? Location::factory()->for($state)->create();
 
+        $speciality = $speciality ?? Speciality::factory()->create();
+
         $provider = $provider ?? Provider::factory()->for($network)->create();
 
         $provider->is_facility = false;
         $provider->save();
 
         $provider->locations()->attach($location);
+        $provider->specialities()->attach($speciality);
     }
 
     private function createFacility(
@@ -231,6 +272,18 @@ class ProviderIndexTest extends TestCase
         if ($city) {
             $location->address_city = $city;
             $location->save();
+        }
+    }
+
+    private function createSpeciality(
+        Speciality &$speciality = null,
+        string $label = null
+    ) {
+        $speciality = $speciality ?? Speciality::factory()->create();
+
+        if ($label) {
+            $speciality->label = $label;
+            $speciality->save();
         }
     }
 }
