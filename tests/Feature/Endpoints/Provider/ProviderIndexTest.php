@@ -6,6 +6,7 @@ use App\Models\Language;
 use App\Models\Location;
 use App\Models\Network;
 use App\Models\Provider;
+use App\Models\Setting;
 use App\Models\Speciality;
 use App\Models\State;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -98,6 +99,36 @@ class ProviderIndexTest extends TestCase
             ->assertJsonCount(2, 'data')
             ->assertJsonPath('data.0.label', $facility->label)
             ->assertJsonPath('data.1.label', $provider->label);
+    }
+
+    /** @test */
+    public function it_returns_providers_filtered_by_version()
+    {
+        // arrange
+        $network  = $this->network;
+        $state    = $this->state;
+        $provider = $this->provider;
+
+        $this->createProvider($this->state, $this->network, $providerV2);
+        $providerV2->version = Setting::nextVersion();
+        $providerV2->save();
+
+        // act
+        $response = $this
+            ->withoutExceptionHandling()
+            ->getJson(route('api.providers.index', [
+                'network_id' => $network->id,
+                'state_id'   => $state->id,
+                'keywords'   => $provider->label,
+            ]));
+
+        // assert
+        $response
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.label', $provider->label);
+
+        self::assertEquals(5, Provider::count());
     }
 
     /** @test */
