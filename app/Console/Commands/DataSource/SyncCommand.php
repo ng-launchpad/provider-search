@@ -5,11 +5,8 @@ namespace App\Console\Commands\DataSource;
 use App\Models\Network;
 use App\Models\Setting;
 use App\Services\DataSource\Connection;
-use App\Services\DataSource\Mapper;
-use App\Services\DataSource\Parser;
 use App\Services\DataSourceService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Input\InputOption;
 
