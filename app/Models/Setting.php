@@ -76,4 +76,14 @@ class Setting extends Model
     {
         $query->where('key', '=', $key);
     }
+
+    public static function version(): int
+    {
+        return self::get('version');
+    }
+
+    public static function nextVersion(): int
+    {
+        return self::version() + 1;
+    }
 }
