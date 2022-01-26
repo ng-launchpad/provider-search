@@ -7,6 +7,7 @@ use App\Models\Language;
 use App\Models\Location;
 use App\Models\Network;
 use App\Models\Provider;
+use App\Models\Setting;
 use App\Models\Speciality;
 use App\Models\State;
 use App\Services\DataSource\Mapper\Vsp;
@@ -208,7 +209,10 @@ class VspTest extends TestCase
         //  Ensure generated languages exist
         foreach ($expectedLangs as $expectedLang) {
             foreach ($expectedLang as $item) {
-                Language::create(['label' => $item]);
+                Language::create([
+                    'version' => Setting::version(),
+                    'label' => $item
+                ]);
             }
         }
 

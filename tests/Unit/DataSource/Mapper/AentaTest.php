@@ -7,10 +7,12 @@ use App\Models\Language;
 use App\Models\Location;
 use App\Models\Network;
 use App\Models\Provider;
+use App\Models\Setting;
 use App\Models\Speciality;
 use App\Models\State;
 use App\Services\DataSource\Mapper\Aenta;
 use Faker\Factory;
+use Hamcrest\Core\Set;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
@@ -209,7 +211,10 @@ class AentaTest extends TestCase
         //  Ensure generated languages exist
         foreach ($expectedLangs as $expectedLang) {
             foreach ($expectedLang as $item) {
-                Language::create(['label' => $item]);
+                Language::create([
+                    'version' => Setting::version(),
+                    'label'   => $item,
+                ]);
             }
         }
 
@@ -262,7 +267,10 @@ class AentaTest extends TestCase
         //  Ensure generated specialities exist
         foreach ($expectedSpecialities as $expectedSpeciality) {
             foreach ($expectedSpeciality as $item) {
-                Speciality::create(['label' => $item]);
+                Speciality::create([
+                    'version' => Setting::version(),
+                    'label'   => $item,
+                ]);
             }
         }
 
@@ -317,7 +325,10 @@ class AentaTest extends TestCase
         //  Ensure generated hospitals exist
         foreach ($expectedHospitals as $expectedHospital) {
             foreach ($expectedHospital as $item) {
-                Hospital::create(['label' => $item]);
+                Hospital::create([
+                    'version' => Setting::version(),
+                    'label'   => $item,
+                ]);
             }
         }
 
