@@ -50,8 +50,6 @@ class SyncCommand extends Command
 
         try {
 
-            Artisan::call('down');
-
             $service = DataSourceService::factory();
 
             DB::transaction(function () use ($service) {
@@ -106,9 +104,6 @@ class SyncCommand extends Command
         } catch (\Throwable $e) {
             //  @todo (Pablo 2021-12-15) - Report error by email
             throw $e;
-
-        } finally {
-            Artisan::call('up');
         }
 
         return Command::SUCCESS;
