@@ -105,6 +105,8 @@ class SyncCommand extends Command
 
             $service->truncate(Setting::version());
 
+            Setting::bumpVersion();
+
         } catch (\Throwable $e) {
 
             $service->truncate(Setting::nextVersion());
