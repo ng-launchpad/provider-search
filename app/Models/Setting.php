@@ -88,4 +88,12 @@ final class Setting extends Model
     {
         return self::version() + 1;
     }
+
+    public static function bumpVersion(): int
+    {
+        $nextVersion = self::nextVersion();
+        self::set(self::KEY_VERSION, $nextVersion);
+
+        return $nextVersion;
+    }
 }
