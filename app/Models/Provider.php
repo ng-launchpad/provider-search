@@ -207,7 +207,7 @@ class Provider extends Model
      */
     public function scopeWithNetwork(Builder $query, Network $network)
     {
-        $query->where('network_id', $network->id);
+        $query->where('network_id', '=', $network->id);
     }
 
     /**
@@ -216,20 +216,20 @@ class Provider extends Model
     public function scopeWithState(Builder $query, State $state)
     {
         $query->whereHas('locations.state', function ($query) use ($state) {
-            $query->where('address_state_id', $state->id);
+            $query->where('address_state_id', '=', $state->id);
         });
     }
 
     public function scopeWithType(Builder $query, $type)
     {
-        $query->where('is_facility', $type === 'facility');
+        $query->where('is_facility', '=', $type === 'facility');
     }
 
     public static function findByNpiAndNetworkOrFail(string $npi, Network $network)
     {
         return Provider::query()
-            ->where('npi', $npi)
-            ->where('network_id', $network->id)
+            ->where('npi', '=', $npi)
+            ->where('network_id', '=', $network->id)
             ->firstOrFail();
     }
 }
