@@ -54,8 +54,6 @@ class SyncCommand extends Command
 
             DB::transaction(function () use ($service) {
 
-                $service->truncate();
-
                 $networks = $this->input->getOption('network')
                     ? [Network::getByLabelOrFail($this->input->getOption('network'))]
                     : Network::all();
@@ -100,6 +98,8 @@ class SyncCommand extends Command
                 }
 
             });
+
+            $service->truncate(Setting::version());
 
         } catch (\Throwable $e) {
             //  @todo (Pablo 2021-12-15) - Report error by email
