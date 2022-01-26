@@ -12,10 +12,10 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Models\Provider
  *
- * @property int                             $id
- * @property string                          $label
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int                                                                    $id
+ * @property string                                                                 $label
+ * @property \Illuminate\Support\Carbon|null                                        $created_at
+ * @property \Illuminate\Support\Carbon|null                                        $updated_at
  * @method static \Database\Factories\ProviderFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Provider newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Provider newQuery()
@@ -31,22 +31,22 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Provider whereBeginsWith(string $column, string $value, string $boolean = 'and')
  * @method static \Illuminate\Database\Eloquent\Builder|Provider whereEndsWith(string $column, string $value, string $boolean = 'and')
  * @method static \Illuminate\Database\Eloquent\Builder|Provider whereLike(string $column, string $value, string $boolean = 'and')
- * @property int $state_id
- * @property-read \App\Models\State $state
+ * @property int                                                                    $state_id
+ * @property-read \App\Models\State                                                 $state
  * @method static Builder|Provider whereStateId($value)
  * @method static Builder|Provider withKeywords(string $keywords)
  * @method static Builder|Provider withState(\App\Models\State $state)
- * @property string $npi
- * @property string|null $phone
- * @property string|null $degree
- * @property string|null $website
- * @property string|null $gender
- * @property int|null $network_id
- * @property int $is_facility
- * @property int $is_accepting_new_patients
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Location[] $locations
- * @property-read int|null $locations_count
- * @property-read \App\Models\Network|null $network
+ * @property string                                                                 $npi
+ * @property string|null                                                            $phone
+ * @property string|null                                                            $degree
+ * @property string|null                                                            $website
+ * @property string|null                                                            $gender
+ * @property int|null                                                               $network_id
+ * @property int                                                                    $is_facility
+ * @property int                                                                    $is_accepting_new_patients
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Location[]   $locations
+ * @property-read int|null                                                          $locations_count
+ * @property-read \App\Models\Network|null                                          $network
  * @method static Builder|Provider whereDegree($value)
  * @method static Builder|Provider whereGender($value)
  * @method static Builder|Provider whereIsAcceptingNewPatients($value)
@@ -55,14 +55,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Provider whereNpi($value)
  * @method static Builder|Provider wherePhone($value)
  * @method static Builder|Provider whereWebsite($value)
- * @property string|null $type
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Language[] $languages
- * @property-read int|null $languages_count
+ * @property string|null                                                            $type
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Language[]   $languages
+ * @property-read int|null                                                          $languages_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Speciality[] $specialities
- * @property-read int|null $specialities_count
+ * @property-read int|null                                                          $specialities_count
  * @method static Builder|Provider whereType($value)
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Hospital[] $hospitals
- * @property-read int|null $hospitals_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Hospital[]   $hospitals
+ * @property-read int|null                                                          $hospitals_count
  * @method static Builder|Provider withNetwork(\App\Models\Network $network)
  * @method static Builder|Provider withScope($type)
  * @method static Builder|Provider withType($type)
