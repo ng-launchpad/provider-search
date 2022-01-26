@@ -18,6 +18,8 @@ class SpecialityController extends Controller
             'state_id'   => 'required',
         ]);
 
+        //  @todo (Pablo 2022-01-26) - apply versioning
+
         $result = DB::query()
             ->from('location_provider')
             ->leftJoin('locations', 'location_provider.location_id', '=', 'locations.id')
