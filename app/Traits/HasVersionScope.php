@@ -2,18 +2,13 @@
 
 namespace App\Traits;
 
+use App\Models\Setting;
 use Illuminate\Database\Eloquent\Builder;
 
 trait HasVersionScope
 {
     public function scopeWithVersion(Builder $query)
     {
-        $query->where('version', $this->getVersion());
-    }
-
-    protected function getVersion(): int
-    {
-        //  @todo (Pablo 2022-01-26) - define logic for getting version
-        return 1;
+        $query->where('version', Setting::version());
     }
 }
