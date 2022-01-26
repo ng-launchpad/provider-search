@@ -17,6 +17,7 @@ class CreateProvidersTable extends Migration
     {
         Schema::create('providers', function (Blueprint $table) {
             $table->id();
+            $table->integer('version');
             $table->string('npi', 150);
             $table->foreignIdFor(Network::class)->constrained('networks')->restrictOnDelete();
             $table->string('label', 150);
