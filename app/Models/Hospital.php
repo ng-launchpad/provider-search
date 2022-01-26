@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Hospital whereUpdatedAt($value)
  * @mixin \Eloquent
  * @method static \Illuminate\Database\Eloquent\Builder|Hospital withVersion()
+ * @property int $version
+ * @method static \Illuminate\Database\Eloquent\Builder|Hospital whereVersion($value)
  */
 class Hospital extends Model
 {

@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Provider[] $providers
  * @property-read int|null $providers_count
  * @method static \Illuminate\Database\Eloquent\Builder|Speciality withVersion()
+ * @property int $version
+ * @method static \Illuminate\Database\Eloquent\Builder|Speciality whereVersion($value)
  */
 class Speciality extends Model
 {

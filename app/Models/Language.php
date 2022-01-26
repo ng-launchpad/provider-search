@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Provider[] $providers
  * @property-read int|null $providers_count
  * @method static \Illuminate\Database\Eloquent\Builder|Language withVersion()
+ * @property int $version
+ * @method static \Illuminate\Database\Eloquent\Builder|Language whereVersion($value)
  */
 class Language extends Model
 {
