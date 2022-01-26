@@ -76,6 +76,7 @@ class Provider extends Model
 
     const SCOPE_DEFAULT    = 'ALL';
     const SCOPE_CITY       = 'CITY';
+    const SCOPE_SPECIALITY = 'SPECIALITY';
 
     protected $casts = [
         'is_facility'               => 'boolean',
@@ -144,10 +145,15 @@ class Provider extends Model
                 $this->applyFilterCity($query, $keywords);
                 break;
 
+            case self::SCOPE_SPECIALITY:
+                $this->applyFilterSpeciality($query, $keywords);
+                break;
+
             default:
                 $this
                     ->applyFilterProvider($query, $keywords)
                     ->applyFilterCity($query, $keywords)
+                    ->applyFilterSpeciality($query, $keywords)
                 break;
         }
     }
@@ -165,6 +171,15 @@ class Provider extends Model
     {
         $query->whereHas('locations', function ($query) use ($keywords) {
             $query->where('locations.address_city', 'like', "%$keywords%");
+        });
+
+        return $this;
+    }
+
+    protected function applyFilterSpeciality(Builder $query, string $keywords): self
+    {
+        $query->whereHas('specialities', function ($query) use ($keywords) {
+            $query->where('specialities.label', 'like', "%$keywords%");
         });
 
         return $this;
