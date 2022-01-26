@@ -8,10 +8,12 @@ use App\Models\Location;
 use App\Models\Network;
 use App\Models\Provider;
 use App\Models\Speciality;
+use App\Notifications\SyncFailureNotification;
 use App\Services\DataSource\Interfaces\Connection;
 use App\Services\DataSource\Interfaces\Mapper;
 use App\Services\DataSource\Interfaces\Parser;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 final class DataSourceService
 {
@@ -110,5 +112,11 @@ final class DataSourceService
             });
 
         return $this;
+    }
+
+    public function notifyError(\Throwable $e)
+    {
+        Notification::route('mail', config('datasource.contact'))
+            ->notify(new SyncFailureNotification($e));
     }
 }

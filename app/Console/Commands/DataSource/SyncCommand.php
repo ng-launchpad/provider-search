@@ -110,8 +110,8 @@ class SyncCommand extends Command
         } catch (\Throwable $e) {
 
             $service->truncate(Setting::nextVersion());
+            $service->notifyError($e);
 
-            //  @todo (Pablo 2021-12-15) - Report error by email
             throw $e;
         }
 
