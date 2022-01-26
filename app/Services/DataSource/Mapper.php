@@ -7,22 +7,25 @@ use App\Models\Language;
 use App\Models\Location;
 use App\Models\Network;
 use App\Models\Provider;
+use App\Models\Setting;
 use App\Models\Speciality;
 use Illuminate\Support\Collection;
 
 abstract class Mapper implements Interfaces\Mapper
 {
+    private $version;
     private $providerLocationCache = [];
 
     // `final` prevents PHPStan from reporting an unsafe usage of static() in factory()
     // https://phpstan.org/blog/solving-phpstan-error-unsafe-usage-of-new-static
-    final public function __construct()
+    final public function __construct(int $version = null)
     {
+        $this->version = $version ?? Setting::version();
     }
 
-    public static function factory(): self
+    public static function factory(int $version = null): self
     {
-        return new static();
+        return new static($version);
     }
 
     public function extractLanguages(Collection $collection): Collection
@@ -39,6 +42,7 @@ abstract class Mapper implements Interfaces\Mapper
                 }
 
                 if ($language->isDirty()) {
+                    $language->version = $this->version;
                     $collectionOut->add($language);
                 }
             }
@@ -56,6 +60,7 @@ abstract class Mapper implements Interfaces\Mapper
             $location = $this->buildLocation($item);
 
             if ($location->isDirty()) {
+                $location->version = $this->version;
                 $collectionOut->add($location);
             }
         });
@@ -93,6 +98,7 @@ abstract class Mapper implements Interfaces\Mapper
                 }
 
                 if ($speciality->isDirty()) {
+                    $speciality->version = $this->version;
                     $collectionOut->add($speciality);
                 }
             }
@@ -115,6 +121,7 @@ abstract class Mapper implements Interfaces\Mapper
                 }
 
                 if ($hospital->isDirty()) {
+                    $hospital->version = $this->version;
                     $collectionOut->add($hospital);
                 }
             }
@@ -139,6 +146,7 @@ abstract class Mapper implements Interfaces\Mapper
             }
 
             if ($provider->isDirty()) {
+                $provider->version = $this->version;
                 $collectionOut->add($provider);
             }
         });
