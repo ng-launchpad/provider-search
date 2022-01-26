@@ -252,7 +252,7 @@ class ProviderIndexTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_providers_filtered_by_scope_case_inseneitive()
+    public function it_returns_providers_filtered_by_scope_case_insensitive()
     {
         // arrange
         $network  = $this->network;
