@@ -20,7 +20,7 @@ final class DataSourceService
         return new self();
     }
 
-    public function truncate(): self
+    public function truncate(int $version): self
     {
         $models = [
             Provider::class,
@@ -34,7 +34,7 @@ final class DataSourceService
 
             /** @var string $table */
             $table = call_user_func([$class, 'getTableName']);
-            DB::statement("DELETE FROM `$table`;");
+            DB::statement("DELETE FROM `$table` WHERE `version` = ?;", [$version]);
         }
 
         return $this;
