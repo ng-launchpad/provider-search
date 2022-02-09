@@ -13,9 +13,16 @@ final class Xls implements Parser
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     ];
 
-    public static function factory(): self
+    private int $offset;
+
+    public static function factory(int $offset = 0): self
     {
-        return new self();
+        return new self($offset);
+    }
+
+    public function __construct(int $offset = 0)
+    {
+        $this->offset = $offset;
     }
 
     public function parse($resource): Collection
@@ -37,7 +44,9 @@ final class Xls implements Parser
         $worksheet   = $spreadsheet->getSheet(0);
         $rows        = $worksheet->toArray();
 
-        array_shift($rows);
+        for ($i = 0; $i < $this->offset; $i++) {
+            array_shift($rows);
+        }
 
         return new Collection($rows);
     }

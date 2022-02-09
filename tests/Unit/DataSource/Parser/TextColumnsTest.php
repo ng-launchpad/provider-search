@@ -47,4 +47,30 @@ class TextColumnsTest extends TestCase
         $this->assertEquals($data[0], $collection->get(0));
         $this->assertEquals($data[1], $collection->get(1));
     }
+
+    /** @test */
+    public function it_skips_configured_rows()
+    {
+        // arrange
+        $columnMap = [3, 9, 4, 8];
+        $data      = [
+            ['FOO', 'BARBARBAR', 'FIZZ', 'BUZZBUZZ'],
+            ['F  ', 'B        ', 'F   ', 'B       '],
+            ['CAT', 'DOGDOGDOG', 'CATS', 'DOGSDOGS'],
+        ];
+        $file      = tmpfile();
+        foreach ($data as $row) {
+            fwrite($file, implode('', $row) . PHP_EOL);
+        }
+
+        $parser = TextColumns::factory(2, $columnMap);
+
+        // act
+        $collection = $parser->parse($file);
+
+        // assert
+        $this->assertInstanceOf(Collection::class, $collection);
+        $this->assertCount(1, $collection);
+        $this->assertEquals($data[2], $collection->get(0));
+    }
 }

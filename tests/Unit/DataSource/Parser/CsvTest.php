@@ -45,4 +45,28 @@ class CsvTest extends TestCase
         $this->assertEquals($data[0], $collection->get(0));
         $this->assertEquals($data[1], $collection->get(1));
     }
+
+    /** @test */
+    public function it_skips_configured_rows()
+    {
+        // arrange
+        $data = [
+            ['foo', 'bar'],
+            ['fizz', 'buzz'],
+            ['cat', 'dog'],
+        ];
+        $file = tmpfile();
+        foreach ($data as $row) {
+            fputcsv($file, $row);
+        }
+        $parser = Csv::factory(2);
+
+        // act
+        $collection = $parser->parse($file);
+
+        // assert
+        $this->assertInstanceOf(Collection::class, $collection);
+        $this->assertCount(1, $collection);
+        $this->assertEquals($data[2], $collection->get(0));
+    }
 }

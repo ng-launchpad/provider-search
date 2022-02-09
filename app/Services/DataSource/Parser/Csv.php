@@ -7,11 +7,18 @@ use Illuminate\Support\Collection;
 
 final class Csv implements Parser
 {
-    const MIMES = ['text/csv', 'text/plain'];
+    const MIMES = ['text/csv', 'application/csv', 'text/plain'];
 
-    public static function factory(): self
+    private int $offset;
+
+    public static function factory(int $offset = 0): self
     {
-        return new self();
+        return new self($offset);
+    }
+
+    public function __construct(int $offset = 0)
+    {
+        $this->offset = $offset;
     }
 
     public function parse($resource): Collection
@@ -25,11 +32,15 @@ final class Csv implements Parser
         }
 
         $collection = new Collection();
+        $i          = 0;
 
         rewind($resource);
 
         while (($data = fgetcsv($resource)) !== false) {
-            $collection->add($data);
+            if ($i >= $this->offset) {
+                $collection->add($data);
+            }
+            $i++;
         }
 
         return $collection;
