@@ -11,9 +11,9 @@
                         class="browsing-tabs__item"
                         v-bind:key="network.id"
                         v-bind:class="{
-                            'is-active': network.id === selectedNetwork
+                            'is-active': network.id === selectedNetwork.id
                         }"
-                        v-on:click="selectNetwork(network.id)"
+                        v-on:click="selectNetwork(network)"
                     >
                         {{ network.search_label }}
                     </div>
@@ -86,6 +86,15 @@
                     </ul>
                 </div>
             </div>
+
+            <div
+                v-if="networks[networks.indexOf(selectedNetwork)].legal.browse"
+                class="mt-5 pt-4"
+            >
+                <div class="container">
+                    {{ networks[networks.indexOf(selectedNetwork)].legal.browse }}
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -109,7 +118,7 @@ export default {
 
     async created() {
         this.networks = window.networks;
-        this.selectedNetwork = this.networks[0].id;
+        this.selectedNetwork = this.networks[0];
     },
 
     watch: {
@@ -135,14 +144,14 @@ export default {
             this.browseBy = type;
         },
 
-        selectNetwork(id) {
-            this.selectedNetwork = id;
+        selectNetwork(network) {
+            this.selectedNetwork = network;
         },
 
         async fetchData() {
-            const cities = await api.getCities(this.selectedNetwork);
+            const cities = await api.getCities(this.selectedNetwork.id);
             this.cities = cities.data.data;
-            const specialities = await api.getSpecialities(this.selectedNetwork);
+            const specialities = await api.getSpecialities(this.selectedNetwork.id);
             this.specialities = specialities.data.data;
         }
     },
