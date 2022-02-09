@@ -48,6 +48,9 @@ final class Xls implements Parser
             array_shift($rows);
         }
 
+        //  @todo (Pablo 2022-02-09) - trim?
+        //  @todo (Pablo 2022-02-09) - utf8 encode?
+
         return new Collection($rows);
     }
 

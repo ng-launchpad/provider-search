@@ -38,6 +38,8 @@ final class Csv implements Parser
 
         while (($data = fgetcsv($resource)) !== false) {
             if ($i >= $this->offset) {
+                $data = array_map('utf8_encode', $data);
+                $data = array_map('trim', $data);
                 $collection->add($data);
             }
             $i++;

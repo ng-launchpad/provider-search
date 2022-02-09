@@ -46,7 +46,7 @@ final class TextColumns implements Parser
 
                 //  Break the string into chunks of varying size
                 foreach ($this->columnMap as $length) {
-                    $parts[] = substr($line, 0, $length);
+                    $parts[] = utf8_encode(trim(substr($line, 0, $length)));
                     $line    = substr($line, $length);
                 }
 
