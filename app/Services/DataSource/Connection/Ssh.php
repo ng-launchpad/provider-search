@@ -26,10 +26,19 @@ final class Ssh implements Connection
         $this->ssh = $ssh;
     }
 
+    public function getMostRecentlyModified(string $path): ?array
+    {
+        $output = $this->ssh->execute('ls -al ' . $path)->getOutput();
+
+        //  @todo (Pablo 2022-02-09) - parse output and return most recently modified file
+
+        return [];
+    }
+
     public function download(string $path, $resource): Connection
     {
         $this->ssh->download(
-            $path,
+            $this->getMostRecentlyModified($path)['path'] ?? null,
             stream_get_meta_data($resource)['uri']
         );
         return $this;
