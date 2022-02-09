@@ -91,16 +91,16 @@
                 <div class="results-container__pagination">
                     <div class="pagination">
                         <div
-                            v-for="index in paginationItems"
+                            v-for="(link, index) in providersMeta.links"
                             class="pagination__item"
                             v-bind:key="index"
                             v-bind:class="{
-                                'is-active': index === currentPage
+                                'is-active': link.active,
+                                'is-disabled': !link.url
                             }"
                             v-on:click="setPage(index)"
-                        >
-                            {{ index }}
-                        </div>
+                            v-html="link.label"
+                        />
                     </div>
                 </div>
             </div>
