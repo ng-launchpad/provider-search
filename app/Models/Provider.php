@@ -182,7 +182,8 @@ class Provider extends Model
         $query->where(function ($query) use ($keywords) {
             $query
                 ->orWhere('label', 'like', "%$keywords%")
-                ->orWhere('website', 'like', "%$keywords%");
+                ->orWhere('website', 'like', "%$keywords%")
+                ->orWhere('npi', 'like', "%$keywords%");
         });
 
         return $this;
