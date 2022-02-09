@@ -104,6 +104,10 @@
                     </div>
                 </div>
             </div>
+
+            <div class="mt-2 mb-5">
+                Disclaimer here
+            </div>
         </div>
     </div>
 </template>
