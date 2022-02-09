@@ -8,14 +8,14 @@ return [
     'contact' => env('DATASOURCE_CONTACT'),
     'source' => [
         'aenta' => [
-            'path'       => '/path/to/file.txt',
+            'path'       => '/Provider',
             'connection' => [
                 'class'  => Connection\Sftp::class,
                 'config' => [
-                    'host'     => env('DATASOURCE_SFTP_HOST'),
-                    'username' => env('DATASOURCE_SFTP_USERNAME'),
-                    'password' => env('DATASOURCE_SFTP_PASSWORD'),
-                    'port'     => env('DATASOURCE_SFTP_PORT'),
+                    'host'     => env('DATASOURCE_SFTP_COFINITY_HOST'),
+                    'username' => env('DATASOURCE_SFTP_COFINITY_USERNAME'),
+                    'password' => env('DATASOURCE_SFTP_COFINITY_PASSWORD'),
+                    'port'     => env('DATASOURCE_SFTP_COFINITY_PORT'),
                 ],
             ],
             'mapper'     => [
@@ -30,13 +30,14 @@ return [
             ],
         ],
         'hch'   => [
-            'path'       => '/path/to/file.xls',
+            'path'       => '/HCH_Providers',
             'connection' => [
-                'class'  => Connection\Ssh::class,
+                'class'  => Connection\Sftp::class,
                 'config' => [
-                    'host'        => env('DATASOURCE_SSH_HOST'),
-                    'port'        => env('DATASOURCE_SSH_PORT'),
-                    'private_key' => env('DATASOURCE_SSH_PRIVATE_KEY'),
+                    'host'     => env('DATASOURCE_SFTP_EXAVAULT_HOST'),
+                    'username' => env('DATASOURCE_SFTP_EXAVAULT_USERNAME'),
+                    'password' => env('DATASOURCE_SFTP_EXAVAULT_PASSWORD'),
+                    'port'     => env('DATASOURCE_SFTP_EXAVAULT_PORT'),
                 ],
             ],
             'mapper'     => [
@@ -44,18 +45,19 @@ return [
                 'config' => [],
             ],
             'parser'     => [
-                'class'  => Parser\Xls::class,
+                'class'  => Parser\Csv::class,
                 'config' => [],
             ],
         ],
         'vsp'   => [
-            'path'       => '/path/to/file.csv',
+            'path'       => '/vsp_providers',
             'connection' => [
-                'class'  => Connection\Ssh::class,
+                'class'  => Connection\Sftp::class,
                 'config' => [
-                    'host'        => env('DATASOURCE_SSH_HOST'),
-                    'port'        => env('DATASOURCE_SSH_PORT'),
-                    'private_key' => env('DATASOURCE_SSH_PRIVATE_KEY'),
+                    'host'     => env('DATASOURCE_SFTP_EXAVAULT_HOST'),
+                    'username' => env('DATASOURCE_SFTP_EXAVAULT_USERNAME'),
+                    'password' => env('DATASOURCE_SFTP_EXAVAULT_PASSWORD'),
+                    'port'     => env('DATASOURCE_SFTP_EXAVAULT_PORT'),
                 ],
             ],
             'mapper'     => [
@@ -63,19 +65,19 @@ return [
                 'config' => [],
             ],
             'parser'     => [
-                'class'  => Parser\Csv::class,
+                'class'  => Parser\Xls::class,
                 'config' => [],
             ],
         ],
         'cigna' => [
-            'path'       => '/path/to/file.xls',
+            'path'       => '/ExpressScripts_provider',
             'connection' => [
-                'class'  => Connection\Ssh::class,
+                'class'  => Connection\Sftp::class,
                 'config' => [
-                    'username'    => (string) env('DATASOURCE_SSH_USER'),
-                    'host'        => (string) env('DATASOURCE_SSH_HOST'),
-                    'port'        => (string) env('DATASOURCE_SSH_PORT'),
-                    'private_key' => (string) env('DATASOURCE_SSH_PRIVATE_KEY'),
+                    'host'     => env('DATASOURCE_SFTP_EXAVAULT_HOST'),
+                    'username' => env('DATASOURCE_SFTP_EXAVAULT_USERNAME'),
+                    'password' => env('DATASOURCE_SFTP_EXAVAULT_PASSWORD'),
+                    'port'     => env('DATASOURCE_SFTP_EXAVAULT_PORT'),
                 ],
             ],
             'mapper'     => [
