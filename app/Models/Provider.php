@@ -68,7 +68,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Provider withScope($type)
  * @method static Builder|Provider withType($type)
  * @method static Builder|Provider withVersion()
- * @property int $version
+ * @property int                                                                    $version
  * @method static Builder|Provider whereVersion($value)
  */
 class Provider extends Model
