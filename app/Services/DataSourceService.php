@@ -87,9 +87,9 @@ final class DataSourceService
             ->unique(function ($item) {
                 return sprintf(
                     '%s,%s,%s',
-                    $item->provider->id,
-                    $item->location->id,
-                    $item->is_primary
+                    $item[0]->id,   //  Provider
+                    $item[1]->id,   //  Location
+                    $item[2]        //  is_primary
                 );
             })
             ->each(function (array $set) {
@@ -101,8 +101,8 @@ final class DataSourceService
             ->unique(function ($item) {
                 return sprintf(
                     '%s,%s',
-                    $item->provider->id,
-                    $item->language->id
+                    $item[0]->id,   //  Provider
+                    $item[1]->id    //  Language
                 );
             })
             ->each(function (array $set) {
@@ -114,8 +114,8 @@ final class DataSourceService
             ->unique(function ($item) {
                 return sprintf(
                     '%s,%s',
-                    $item->provider->id,
-                    $item->speciality->id
+                    $item[0]->id,   //  Provider
+                    $item[1]->id    //  Speciality
                 );
             })
             ->each(function (array $set) {
@@ -127,8 +127,8 @@ final class DataSourceService
             ->unique(function ($item) {
                 return sprintf(
                     '%s,%s',
-                    $item->provider->id,
-                    $item->hospital->id
+                    $item[0]->id,   //  Provider
+                    $item[1]->id    //  Hospital
                 );
             })
             ->each(function (array $set) {
