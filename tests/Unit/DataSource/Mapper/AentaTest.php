@@ -488,7 +488,7 @@ class AentaTest extends TestCase
     private function getProviderDatum(): array
     {
         $faker      = Factory::create();
-        $gender     = $faker->optional()->randomElement(['MALE', 'FEMALE']);
+        $gender     = $faker->optional()->randomElement(['M', 'F']);
         $isFacility = $faker->boolean;
 
         return [
