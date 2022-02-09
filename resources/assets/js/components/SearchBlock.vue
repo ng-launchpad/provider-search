@@ -209,6 +209,7 @@ export default {
 
         setNetwork: function(id) {
             this.selectedNetwork = id;
+            this.$emit('select-network', this.networks.find(network => network.id === this.selectedNetwork));
         }
     },
 }

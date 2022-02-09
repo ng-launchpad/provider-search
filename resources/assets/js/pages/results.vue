@@ -106,7 +106,7 @@
             </div>
 
             <div class="mt-2 mb-5">
-                Disclaimer here
+                Insert any legal disclaimers here.
             </div>
         </div>
     </div>

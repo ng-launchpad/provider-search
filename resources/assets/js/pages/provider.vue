@@ -200,9 +200,8 @@
                 <div
                     v-if="provider.network.legal.provider"
                     class="mt-5 pt-5"
-                >
-                    {{ provider.network.legal.provider }}
-                </div>
+                    v-html="provider.network.legal.provider"
+                />
             </div>
         </div>
     </div>

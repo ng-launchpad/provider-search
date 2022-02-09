@@ -92,7 +92,7 @@
                 class="mt-5 pt-4"
             >
                 <div class="container">
-                    {{ networks[networks.indexOf(selectedNetwork)].legal.browse }}
+                    <div v-html="networks[networks.indexOf(selectedNetwork)].legal.browse" />
                 </div>
             </div>
         </div>

@@ -22,11 +22,15 @@
             class="mt-5 mb-5"
             title="Start your search"
             caption="The St Vincent's Network is based around Alabama only."
+            v-on:select-network="selectNetwork"
         />
 
-        <div class="pt-2 pb-5">
+        <div
+            v-if="network && network.legal.home"
+            class="pt-2 pb-5"
+        >
             <div class="container">
-                Insert any legal disclaimers here.
+                <div v-html="network.legal.home" />
             </div>
         </div>
     </div>
@@ -62,7 +66,8 @@ export default {
             },
             links: [],
             customerOption: '',
-            loading: false
+            loading: false,
+            network: null,
         }
     },
 
@@ -77,6 +82,10 @@ export default {
             setTimeout(() => {
                 this.loading = false
             }, 1000)
+        },
+
+        selectNetwork: function(selectedNetwork) {
+            this.network = selectedNetwork;
         }
     }
 }
