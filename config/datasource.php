@@ -6,7 +6,7 @@ use App\Services\DataSource\Parser;
 
 return [
     'contact' => env('DATASOURCE_CONTACT'),
-    'source' => [
+    'source'  => [
         'aenta' => [
             'path'       => '/Provider',
             'connection' => [
@@ -25,6 +25,7 @@ return [
             'parser'     => [
                 'class'  => Parser\TextColumns::class,
                 'config' => [
+                    'offset'    => 0,
                     'columnMap' => Mapper\Aenta::getColumnLengths(),
                 ],
             ],
@@ -46,7 +47,9 @@ return [
             ],
             'parser'     => [
                 'class'  => Parser\Csv::class,
-                'config' => [],
+                'config' => [
+                    'offset' => 1,
+                ],
             ],
         ],
         'vsp'   => [
@@ -66,7 +69,9 @@ return [
             ],
             'parser'     => [
                 'class'  => Parser\Xls::class,
-                'config' => [],
+                'config' => [
+                    'offset' => 4,
+                ],
             ],
         ],
         'cigna' => [
@@ -86,7 +91,9 @@ return [
             ],
             'parser'     => [
                 'class'  => Parser\Xls::class,
-                'config' => [],
+                'config' => [
+                    'offset' => 1,
+                ],
             ],
         ],
     ],
