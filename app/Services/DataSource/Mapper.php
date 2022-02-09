@@ -164,7 +164,8 @@ abstract class Mapper implements Interfaces\Mapper
 
         $collection->each(function ($item) use ($collectionOut, $network) {
 
-            $provider = Provider::findByNpiAndNetworkOrFail(
+            $provider = Provider::findByVersionNpiAndNetworkOrFail(
+                $this->version,
                 $item[$this->getProviderNpiKey()],
                 $network
             );
@@ -193,7 +194,8 @@ abstract class Mapper implements Interfaces\Mapper
 
         $collection->each(function ($item) use ($collectionOut, $network) {
 
-            $provider  = Provider::findByNpiAndNetworkOrFail(
+            $provider  = Provider::findByVersionNpiAndNetworkOrFail(
+                $this->version,
                 $item[$this->getProviderNpiKey()],
                 $network
             );
@@ -217,7 +219,8 @@ abstract class Mapper implements Interfaces\Mapper
 
         $collection->each(function ($item) use ($collectionOut, $network) {
 
-            $provider     = Provider::findByNpiAndNetworkOrFail(
+            $provider     = Provider::findByVersionNpiAndNetworkOrFail(
+                $this->version,
                 $item[$this->getProviderNpiKey()],
                 $network
             );
@@ -241,7 +244,8 @@ abstract class Mapper implements Interfaces\Mapper
 
         $collection->each(function ($item) use ($collectionOut, $network) {
 
-            $provider  = Provider::findByNpiAndNetworkOrFail(
+            $provider  = Provider::findByVersionNpiAndNetworkOrFail(
+                $this->version,
                 $item[$this->getProviderNpiKey()],
                 $network
             );
