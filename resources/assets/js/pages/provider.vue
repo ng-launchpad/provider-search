@@ -198,7 +198,7 @@
                 </template>
 
                 <div
-                    v-if="provider.network.legal.provider"
+                    v-if="provider.network &&  provider.network.legal.provider"
                     class="mt-5 pt-5"
                     v-html="provider.network.legal.provider"
                 />

@@ -98,7 +98,7 @@
                 <hr class="mt-5 separator">
 
                 <div
-                    v-if="provider.network.legal.facility"
+                    v-if="provider.network && provider.network.legal.facility"
                     class="mt-5 pt-2"
                     v-html="provider.network.legal.facility"
                 />
