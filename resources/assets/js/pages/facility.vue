@@ -12,7 +12,7 @@
         </div>
 
         <div class="container">
-            <div class="provider-content">
+            <div class="provider-content provider-content--facility">
                 <h2 class="mt-0 mb-4">Locations</h2>
                 <div class="row mb-2 d-lg-flex d-none">
                     <div class="col-lg-5">
@@ -96,6 +96,12 @@
                 </div>
 
                 <hr class="mt-5 separator">
+
+                <div
+                    v-if="provider.network.legal.facility"
+                    class="mt-5 pt-2"
+                    v-html="provider.network.legal.facility"
+                />
             </div>
         </div>
     </div>
