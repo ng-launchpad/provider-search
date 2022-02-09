@@ -105,9 +105,11 @@
                 </div>
             </div>
 
-            <div class="mt-2 mb-5">
-                Insert any legal disclaimers here.
-            </div>
+            <div
+                v-if="selectedNetwork"
+                class="mt-2 mb-5"
+                v-html="selectedNetwork.legal.search"
+            />
         </div>
     </div>
 </template>
@@ -130,6 +132,7 @@ export default {
     data() {
         return {
             currentPage: 1,
+            networks: [],
             providers: [],
             providersMeta: {},
             searchQuery: '',
@@ -165,6 +168,10 @@ export default {
         }
     },
 
+    mounted() {
+        this.networks = window.networks;
+    },
+
     watch: {
         '$route.query': {
             handler: async function(){
@@ -195,6 +202,10 @@ export default {
             if (this.providersMeta.total) {
                 return Math.ceil(this.providersMeta.total / this.providersMeta.per_page);
             }
+        },
+
+        selectedNetwork: function() {
+            return this.networks.find(network => network.id == this.$route.query.network_id);
         }
     },
 
