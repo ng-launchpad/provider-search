@@ -441,13 +441,13 @@ final class Aenta extends Mapper
         return [
             'label'                     => function (array $item) {
                 return $this->isFacility($item)
-                    ? trim(sprintf(
+                    ? trim($item[self::COL_PROVIDER_LAST_NAME])
+                    : trim(sprintf(
                         '%s %s %s',
                         $item[self::COL_PROVIDER_FIRST_NAME],
                         $item[self::COL_PROVIDER_LAST_NAME],
                         $item[self::COL_PROVIDER_DEGREE] ? ', ' . $item[self::COL_PROVIDER_DEGREE] : '',
-                    ))
-                    : trim($item[self::COL_PROVIDER_LAST_NAME]);
+                    ));
             },
             'type'                      => self::COL_PROVIDER_TYPE,
             'npi'                       => (int) $this->getProviderNpiKey(),

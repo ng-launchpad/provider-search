@@ -109,12 +109,12 @@ final class Hch extends Mapper
         return [
             'label'                     => function (array $item) {
                 return $this->isFacility($item)
-                    ? trim(sprintf(
+                    ? trim($item[self::COL_MEDICAL_GROUP_NAME])
+                    : trim(sprintf(
                         '%s %s',
                         $item[self::COL_PROVIDER_FIRST_NAME],
                         $item[self::COL_PROVIDER_LAST_NAME],
-                    ))
-                    : trim($item[self::COL_MEDICAL_GROUP_NAME]);
+                    ));
             },
             'type'                      => self::COL_PROVIDER_TYPE,
             'npi'                       => (int) $this->getProviderNpiKey(),
