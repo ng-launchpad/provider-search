@@ -20,6 +20,7 @@ class CreateLocationsTable extends Migration
             $table->string('label', 150)->nullable();
             $table->string('type', 150)->nullable();
             $table->string('address_line_1', 150);
+            $table->string('address_line_2', 150)->nullable();
             $table->string('address_city', 150);
             $table->string('address_county', 150)->nullable();
             $table->foreignIdFor(State::class, 'address_state_id')->constrained('states')->restrictOnDelete();
