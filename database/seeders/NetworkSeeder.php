@@ -21,6 +21,11 @@ class NetworkSeeder extends Seeder
                 'search_sublabel' => 'Secure choice <em>Broad</em>',
                 'network_label'   => 'Allstate Benefits Secure Choice',
                 'browse_label'    => 'Secure Choice Broad',
+                'legal_home'      => '<p>@todo - AENTA specific legal text for the home page</p>',
+                'legal_search'    => '<p>@todo - AENTA specific legal text for the search results page</p>',
+                'legal_browse'    => '<p>@todo - AENTA specific legal text for the browse page</p>',
+                'legal_provider'  => '<p>@todo - AENTA specific legal text for the provider pages</p>',
+                'legal_facility'  => '<p>@todo - AENTA specific legal text for the facility pages</p>',
                 'config_key'      => 'datasource.source.aenta',
             ],
             [
@@ -29,6 +34,11 @@ class NetworkSeeder extends Seeder
                 'search_sublabel' => 'Secure choice <em>Select</em>',
                 'network_label'   => 'Allstate Benefits Secure Choice',
                 'browse_label'    => 'Secure Choice Select',
+                'legal_home'      => '<p>@todo - HCH specific legal text for the home page</p>',
+                'legal_search'    => '<p>@todo - HCH specific legal text for the search results page</p>',
+                'legal_browse'    => '<p>@todo - HCH specific legal text for the browse page</p>',
+                'legal_provider'  => '<p>@todo - HCH specific legal text for the provider pages</p>',
+                'legal_facility'  => '<p>@todo - HCH specific legal text for the facility pages</p>',
                 'config_key'      => 'datasource.source.hch',
             ],
             [
@@ -37,6 +47,11 @@ class NetworkSeeder extends Seeder
                 'search_sublabel' => 'Secure choice <em>Broad & Select</em>',
                 'network_label'   => 'Allstate Benefits Secure Choice',
                 'browse_label'    => 'Vision Providers',
+                'legal_home'      => '<p>@todo - VSP specific legal text for the home page</p>',
+                'legal_search'    => '<p>@todo - VSP specific legal text for the search results page</p>',
+                'legal_browse'    => '<p>@todo - VSP specific legal text for the browse page</p>',
+                'legal_provider'  => '<p>@todo - VSP specific legal text for the provider pages</p>',
+                'legal_facility'  => '<p>@todo - VSP specific legal text for the facility pages</p>',
                 'config_key'      => 'datasource.source.vsp',
             ],
             [
@@ -45,19 +60,17 @@ class NetworkSeeder extends Seeder
                 'search_sublabel' => 'Secure choice <em>Broad & Select</em>',
                 'network_label'   => 'Allstate Benefits Secure Choice',
                 'browse_label'    => 'Pharmacy Providers',
+                'legal_home'      => '<p>@todo - CIGNA specific legal text for the home page</p>',
+                'legal_search'    => '<p>@todo - CIGNA specific legal text for the search results page</p>',
+                'legal_browse'    => '<p>@todo - CIGNA specific legal text for the browse page</p>',
+                'legal_provider'  => '<p>@todo - CIGNA specific legal text for the provider pages</p>',
+                'legal_facility'  => '<p>@todo - CIGNA specific legal text for the facility pages</p>',
                 'config_key'      => 'datasource.source.cigna',
             ],
         ];
 
         foreach ($networks as $network) {
-            Network::create([
-                'label'           => $network['label'],
-                'search_label'    => $network['search_label'],
-                'search_sublabel' => $network['search_sublabel'],
-                'network_label'   => $network['network_label'],
-                'browse_label'    => $network['browse_label'],
-                'config_key'      => $network['config_key'],
-            ]);
+            Network::create($network);
         }
     }
 }
