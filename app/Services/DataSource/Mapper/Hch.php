@@ -74,10 +74,7 @@ final class Hch extends Mapper
             'address_line_2'   => self::COL_SERVICE_LOCATION_LINE_2,
             'address_city'     => self::COL_SERVICE_LOCATION_CITY,
             'address_state_id' => function (array $item) {
-                return State::query()
-                    ->where('code', $item[self::COL_SERVICE_LOCATION_STATE])
-                    ->firstOrFail()
-                    ->id;
+                return State::findByCodeOrFail($item[self::COL_SERVICE_LOCATION_STATE])->id;
             },
             'address_zip'      => self::COL_SERVICE_LOCATION_ZIP_CODE,
             'phone'            => self::COL_SERVICE_LOCATION_PRIMARY_PHONE_NUMBER,
