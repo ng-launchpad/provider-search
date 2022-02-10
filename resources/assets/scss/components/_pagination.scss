@@ -1,0 +1,26 @@
+.pagination {
+    display: flex;
+
+    &__item {
+        padding: 0 12px;
+        color: $white;
+        text-align: center;
+        background-color: $primary;
+        line-height: 32px;
+        font-weight: bold;
+        cursor: pointer;
+
+        & + .pagination__item {
+            margin-left: 16px;
+        }
+
+        &.is-active {
+            background: none;
+            color: $color-text;
+        }
+
+        &.is-disabled {
+            opacity: 0.5;
+        }
+    }
+}

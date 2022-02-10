@@ -1,6 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\ProviderController;
+use App\Http\Controllers\SpecialityController;
+use App\Http\Controllers\StateController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/states', [StateController::class, 'index'])->name('api.states.index');
+Route::get('/providers', [ProviderController::class, 'index'])->name('api.providers.index');
+Route::get('/providers/{provider}', [ProviderController::class, 'single'])->name('api.providers.single');
+Route::get('/cities', [CityController::class, 'index'])->name('api.cities.index');
+Route::get('/specialities', [SpecialityController::class, 'index'])->name('api.specialities.index');

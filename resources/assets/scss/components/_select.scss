@@ -1,0 +1,137 @@
+.custom-select {
+    width: 279px;
+    background-color: $white;
+    border-radius: 4px;
+
+    &__list-top {
+        color: #757575;
+        padding: 5px 20px;
+    }
+
+    &__open {
+        display: inline-block;
+        position: relative;
+        width: 7.6px;
+        height: 14.7px;
+
+        span {
+            content: "";
+            display: block;
+            box-sizing: border-box;
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-bottom: 1px solid #757575;
+            border-right: 1px solid #757575;
+
+            &:nth-child(1) {
+                transform: rotate(-135deg);
+                top: 0;
+            }
+
+            &:nth-child(2) {
+                transform: rotate(45deg);
+                bottom: 0;
+            }
+        }
+
+        .vs--open & {
+            transform: none;
+        }
+    }
+
+    .multiselect {
+        &__tags {
+            min-height: 60px;
+            padding: 19px 40px 11px 30px;
+            border-color: $blue-zodiac;
+            border-radius: 4px;
+            border-width: 2px;
+        }
+
+        &__content-wrapper {
+            border-color: $blue-zodiac;
+            border-width: 2px;
+        }
+
+        &__select {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        &__option {
+            padding: 12px 30px 12px 60px;
+            color: $blue-zodiac;
+            white-space: normal;
+            line-height: 1.4;
+
+            &--highlight {
+                background: $primary;
+                color: $white;
+            }
+
+            &--group {
+                @include font-size(16px);
+                font-weight: bold;
+                line-height: 30px;
+                color: $blue-zodiac;
+                padding: 12px 30px;
+                background: none;
+
+                &.multiselect__option--highlight {
+                    background: none;
+                }
+            }
+
+            &--selected {
+                font-weight: inherit;
+            }
+        }
+
+        &__placeholder {
+            @include font-size(16px);
+            font-weight: 300;
+            color: $boulder;
+            padding-top: 0;
+        }
+    }
+
+    .vs {
+        &__selected {
+            @include media-breakpoint-down(sm) {
+                max-width: 80%;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+        }
+
+        &__actions {
+            @include media-breakpoint-down(sm) {
+                position: absolute;
+                right: 0;
+                top: 9px;
+            }
+        }
+
+        &__selected-options {
+            padding: 5px 2px 0 12px;
+
+            input.vs__search {
+                color: #757575;
+            }
+        }
+
+        &__dropdown-toggle {
+            padding: 0 0 8px 0;
+        }
+
+        &__dropdown-menu {
+            @include font-size(16px);
+            font-weight: normal;
+        }
+
+        &__actions {
+            padding: 7px 12px 0 3px;
+        }
+    }
+}
