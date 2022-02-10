@@ -36,7 +36,7 @@ class TextColumnsTest extends TestCase
             fwrite($file, implode('', $row) . PHP_EOL);
         }
 
-        $parser = TextColumns::factory($columnMap);
+        $parser = TextColumns::factory(0, $columnMap);
 
         // act
         $collection = $parser->parse($file);
@@ -45,7 +45,7 @@ class TextColumnsTest extends TestCase
         $this->assertInstanceOf(Collection::class, $collection);
         $this->assertCount(2, $collection);
         $this->assertEquals($data[0], $collection->get(0));
-        $this->assertEquals($data[1], $collection->get(1));
+        $this->assertEquals(array_map('trim', $data[1]), $collection->get(1));
     }
 
     /** @test */

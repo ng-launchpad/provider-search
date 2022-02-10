@@ -21,6 +21,7 @@ use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Tests\TestCase;
 
 class DataSourceServiceTest extends TestCase
@@ -129,7 +130,7 @@ class DataSourceServiceTest extends TestCase
 
             'extractProviderLocations' => [
                 [$provider1, $location1, true],
-                [$provider1, $location2, true],
+                [$provider1, $location2, false],
                 [$provider2, $location2, true],
             ],
 
