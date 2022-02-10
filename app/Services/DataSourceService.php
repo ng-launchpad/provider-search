@@ -68,8 +68,9 @@ final class DataSourceService
         $output->write('Beginning download... ');
         $connection->download($path, $file);
         $output->writeln(sprintf(
-            '<comment>done</comment> (took <comment>%s seconds</comment>)',
-            $this->elapsed($start)
+            '<comment>done</comment> (took <comment>%s seconds</comment>, filesize: %s)',
+            number_format($this->elapsed($start),)
+            fstat($file)['size'] ?? 'unknown'
         ));
 
         // --------------------------------------------------------------------------
@@ -79,81 +80,132 @@ final class DataSourceService
         $collection = $parser->parse($file);
         $output->writeln(sprintf(
             '<comment>done</comment> (took <comment>%s seconds</comment>)',
-            $this->elapsed($start)
+            number_format($this->elapsed($start))
         ));
 
         // --------------------------------------------------------------------------
 
         $start = Carbon::now();
         $output->write('Extracting languages... ');
+
         $temp = $mapper->extractLanguages($collection)->unique('label');
-        $output->writeln('<comment>done</comment>, ' . $temp->count() . ' languages extracted');
+
+        $output->writeln(sprintf(
+            '<comment>done</comment>, %s languages extracted (took <comment>%s seconds</comment>)',
+            number_format($temp->count()),
+            number_format($this->elapsed($start))
+        ));
+
+        $start = Carbon::now();
         $output->write('Saving languages... ');
+
         $temp->each(fn(Language $model) => $model->save());
+
         $output->writeln(sprintf(
             '<comment>done</comment> (took <comment>%s seconds</comment>)',
-            $this->elapsed($start)
+            number_format($this->elapsed($start))
         ));
 
         // --------------------------------------------------------------------------
 
         $start = Carbon::now();
         $output->write('Extracting locations... ');
+
         $temp = $mapper->extractLocations($collection)->unique('hash');
-        $output->writeln('<comment>done</comment>, ' . $temp->count() . ' locations extracted');
+
+        $output->writeln(sprintf(
+            '<comment>done</comment>, %s locations extracted (took <comment>%s seconds</comment>)',
+            number_format($temp->count()),
+            number_format($this->elapsed($start))
+        ));
+
+        $start = Carbon::now();
         $output->write('Saving locations... ');
+
         $temp->each(fn(Location $model) => $model->save());
+
         $output->writeln(sprintf(
             '<comment>done</comment> (took <comment>%s seconds</comment>)',
-            $this->elapsed($start)
+            number_format($this->elapsed($start))
         ));
 
         // --------------------------------------------------------------------------
 
         $start = Carbon::now();
         $output->write('Extracting specialities... ');
+
         $temp = $mapper->extractSpecialities($collection)->unique('label');
-        $output->writeln('<comment>done</comment>, ' . $temp->count() . ' specialities extracted');
+
+        $output->writeln(sprintf(
+            '<comment>done</comment>, %s specialities extracted (took <comment>%s seconds</comment>)',
+            number_format($temp->count()),
+            number_format($this->elapsed($start))
+        ));
+
+        $start = Carbon::now();
         $output->write('Saving specialities... ');
+
         $temp->each(fn(Speciality $model) => $model->save());
+
         $output->writeln(sprintf(
             '<comment>done</comment> (took <comment>%s seconds</comment>)',
-            $this->elapsed($start)
+            number_format($this->elapsed($start))
         ));
 
         // --------------------------------------------------------------------------
 
         $start = Carbon::now();
         $output->write('Extracting hospitals... ');
+
         $temp = $mapper->extractHospitals($collection)->unique('label');
-        $output->writeln('<comment>done</comment>, ' . $temp->count() . ' hospitals extracted');
+
+        $output->writeln(sprintf(
+            '<comment>done</comment>, %s hospitals extracted (took <comment>%s seconds</comment>)',
+            number_format($temp->count()),
+            number_format($this->elapsed($start))
+        ));
+
+        $start = Carbon::now();
         $output->write('Saving hospitals... ');
+
         $temp->each(fn(Hospital $model) => $model->save());
+
         $output->writeln(sprintf(
             '<comment>done</comment> (took <comment>%s seconds</comment>)',
-            $this->elapsed($start)
+            number_format($this->elapsed($start))
         ));
 
         // --------------------------------------------------------------------------
 
         $start = Carbon::now();
         $output->write('Extracting providers... ');
+
         $temp = $mapper->extractProviders($collection)->unique('npi');
-        $output->writeln('<comment>done</comment>, ' . $temp->count() . ' providers extracted');
+
+        $output->writeln(sprintf(
+            '<comment>done</comment>, %s providers extracted (took <comment>%s seconds</comment>)',
+            number_format($temp->count()),
+            number_format($this->elapsed($start))
+        ));
+
+        $start = Carbon::now();
         $output->write('Saving providers... ');
+
         $temp->each(function (Provider $model) use ($network) {
             $model->network_id = $network->id;
             $model->save();
         });
+
         $output->writeln(sprintf(
             '<comment>done</comment> (took <comment>%s seconds</comment>)',
-            $this->elapsed($start)
+            number_format($this->elapsed($start))
         ));
 
         // --------------------------------------------------------------------------
 
         $start = Carbon::now();
         $output->write('Extracting provider locations... ');
+
         $temp = $mapper->extractProviderLocations($collection, $network)
             ->unique(function ($item) {
                 return sprintf(
@@ -163,21 +215,31 @@ final class DataSourceService
                     $item[2]        //  is_primary
                 );
             });
-        $output->writeln('<comment>done</comment>, ' . $temp->count() . ' provider locations extracted');
+
+        $output->writeln(sprintf(
+            '<comment>done</comment>, %s provider locations extracted (took <comment>%s seconds</comment>)',
+            number_format($temp->count()),
+            number_format($this->elapsed($start))
+        ));
+
+        $start = Carbon::now();
         $output->write('Saving provider locations... ');
+
         $temp->each(function (array $set) {
             [$provider, $location, $is_primary] = $set;
             $provider->locations()->attach($location, ['is_primary' => $is_primary]);
         });
+
         $output->writeln(sprintf(
             '<comment>done</comment> (took <comment>%s seconds</comment>)',
-            $this->elapsed($start)
+            number_format($this->elapsed($start))
         ));
 
         // --------------------------------------------------------------------------
 
         $start = Carbon::now();
         $output->write('Extracting provider languages... ');
+
         $temp = $mapper->extractProviderLanguages($collection, $network)
             ->unique(function ($item) {
                 return sprintf(
@@ -186,21 +248,31 @@ final class DataSourceService
                     $item[1]->id    //  Language
                 );
             });
-        $output->writeln('<comment>done</comment>, ' . $temp->count() . ' provider languages extracted');
+
+        $output->writeln(sprintf(
+            '<comment>done</comment>, %s provider languages extracted (took <comment>%s seconds</comment>)',
+            number_format($temp->count()),
+            number_format($this->elapsed($start))
+        ));
+
+        $start = Carbon::now();
         $output->write('Saving provider languages... ');
+
         $temp->each(function (array $set) {
             [$provider, $language] = $set;
             $provider->languages()->attach($language);
         });
+
         $output->writeln(sprintf(
             '<comment>done</comment> (took <comment>%s seconds</comment>)',
-            $this->elapsed($start)
+            number_format($this->elapsed($start))
         ));
 
         // --------------------------------------------------------------------------
 
         $start = Carbon::now();
         $output->write('Extracting provider specialities... ');
+
         $temp = $mapper->extractProviderSpecialities($collection, $network)
             ->unique(function ($item) {
                 return sprintf(
@@ -209,21 +281,31 @@ final class DataSourceService
                     $item[1]->id    //  Speciality
                 );
             });
-        $output->writeln('<comment>done</comment>, ' . $temp->count() . ' provider specialities extracted');
+
+        $output->writeln(sprintf(
+            '<comment>done</comment>, %s provider specialities extracted (took <comment>%s seconds</comment>)',
+            number_format($temp->count()),
+            number_format($this->elapsed($start))
+        ));
+
+        $start = Carbon::now();
         $output->write('Saving provider specialities... ');
+
         $temp->each(function (array $set) {
             [$provider, $speciality] = $set;
             $provider->specialities()->attach($speciality);
         });
+
         $output->writeln(sprintf(
             '<comment>done</comment> (took <comment>%s seconds</comment>)',
-            $this->elapsed($start)
+            number_format($this->elapsed($start))
         ));
 
         // --------------------------------------------------------------------------
 
         $start = Carbon::now();
         $output->write('Extracting provider hospitals... ');
+
         $temp = $mapper->extractProviderHospitals($collection, $network)
             ->unique(function ($item) {
                 return sprintf(
@@ -232,15 +314,24 @@ final class DataSourceService
                     $item[1]->id    //  Hospital
                 );
             });
-        $output->writeln('<comment>done</comment>, ' . $temp->count() . ' provider hospitals extracted');
+
+        $output->writeln(sprintf(
+            '<comment>done</comment>, %s provider hospitals extracted (took <comment>%s seconds</comment>)',
+            number_format($temp->count()),
+            number_format($this->elapsed($start))
+        ));
+
+        $start = Carbon::now();
         $output->write('Saving provider hospitals... ');
+
         $temp->each(function (array $set) {
             [$provider, $hospital] = $set;
             $provider->hospitals()->attach($hospital);
         });
+
         $output->writeln(sprintf(
             '<comment>done</comment> (took <comment>%s seconds</comment>)',
-            $this->elapsed($start)
+            number_format($this->elapsed($start))
         ));
 
         // --------------------------------------------------------------------------
