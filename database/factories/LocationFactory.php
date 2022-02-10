@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Location;
 use App\Models\Setting;
 use App\Models\State;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -16,7 +17,7 @@ class LocationFactory extends Factory
     public function definition()
     {
         $faker = \Faker\Factory::create();
-        return [
+        $data  = [
             'version'          => Setting::version(),
             'label'            => $faker->company(),
             'type'             => $this->faker->randomElement([
@@ -33,5 +34,9 @@ class LocationFactory extends Factory
             'address_zip'      => $faker->postcode(),
             'phone'            => $faker->phoneNumber(),
         ];
+
+        $data['hash'] = Location::buildHashFromData((object) $data);
+
+        return $data;
     }
 }

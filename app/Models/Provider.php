@@ -68,7 +68,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Provider withScope($type)
  * @method static Builder|Provider withType($type)
  * @method static Builder|Provider withVersion()
- * @property int $version
+ * @property int                                                                    $version
  * @method static Builder|Provider whereVersion($value)
  */
 class Provider extends Model
@@ -182,7 +182,8 @@ class Provider extends Model
         $query->where(function ($query) use ($keywords) {
             $query
                 ->orWhere('label', 'like', "%$keywords%")
-                ->orWhere('website', 'like', "%$keywords%");
+                ->orWhere('website', 'like', "%$keywords%")
+                ->orWhere('npi', 'like', "%$keywords%");
         });
 
         return $this;
@@ -238,9 +239,10 @@ class Provider extends Model
         $query->where('is_facility', '=', $type === 'facility');
     }
 
-    public static function findByNpiAndNetworkOrFail(string $npi, Network $network)
+    public static function findByVersionNpiAndNetworkOrFail(int $version, string $npi, Network $network)
     {
         return Provider::query()
+            ->where('version', '=', $version)
             ->where('npi', '=', $npi)
             ->where('network_id', '=', $network->id)
             ->firstOrFail();

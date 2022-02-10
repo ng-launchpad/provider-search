@@ -29,7 +29,7 @@ class CreateProvidersTable extends Migration
             $table->boolean('is_accepting_new_patients')->nullable();
             $table->timestamps();
 
-            $table->unique(['npi', 'network_id']);
+            $table->unique(['version', 'npi', 'network_id']);
         });
     }
 

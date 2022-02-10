@@ -72,21 +72,22 @@ class Location extends Model
      *
      * @return string
      */
-    public function hash()
+    public function generateHash(): string
     {
-        return md5(json_encode([
-            'label'            => $this->label,
-            'type'             => $this->type,
-            'address_line_1'   => $this->address_line_1,
-            'address_city'     => $this->address_city,
-            'address_county'   => $this->address_county,
-            'address_state_id' => $this->address_state_id,
-            'address_zip'      => $this->address_zip,
-            'phone'            => $this->phone,
-        ]));
+        return self::buildHashFromData($this);
     }
 
-    public static function saving($callback)
+    public static function buildHashFromData(object $data): string
     {
+        return md5(json_encode([
+            'label'            => $data->label,
+            'type'             => $data->type,
+            'address_line_1'   => $data->address_line_1,
+            'address_city'     => $data->address_city,
+            'address_county'   => $data->address_county,
+            'address_state_id' => $data->address_state_id,
+            'address_zip'      => $data->address_zip,
+            'phone'            => $data->phone,
+        ]));
     }
 }

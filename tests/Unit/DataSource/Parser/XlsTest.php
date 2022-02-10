@@ -28,6 +28,31 @@ class XlsTest extends TestCase
     {
         // arrange
         $data   = [
+            'A1' => 'Fizz',
+            'B1' => 'Buzz',
+            'A2' => 'Fizz',
+            'B2' => 'Buzz',
+        ];
+        $file   = $this->createXls($data);
+        $parser = Xls::factory();
+
+        // act
+        $collection = $parser->parse($file);
+
+        // assert
+        $this->assertInstanceOf(Collection::class, $collection);
+        $this->assertCount(2, $collection);
+        $this->assertEquals($data['A1'], $collection->get(0)[0]);
+        $this->assertEquals($data['B1'], $collection->get(0)[1]);
+        $this->assertEquals($data['A2'], $collection->get(1)[0]);
+        $this->assertEquals($data['B2'], $collection->get(1)[1]);
+    }
+
+    /** @test */
+    public function it_skips_configured_rows()
+    {
+        // arrange
+        $data   = [
             'A1' => 'Header Row',
             'B1' => 'Header Row',
             'A2' => 'Fizz',
@@ -36,7 +61,7 @@ class XlsTest extends TestCase
             'B3' => 'Buzz',
         ];
         $file   = $this->createXls($data);
-        $parser = Xls::factory();
+        $parser = Xls::factory(1);
 
         // act
         $collection = $parser->parse($file);

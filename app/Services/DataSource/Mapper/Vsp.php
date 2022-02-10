@@ -26,10 +26,7 @@ final class Vsp extends Mapper
             'address_city'     => 'OFFICE CITY',
             'address_county'   => 'COUNTY',
             'address_state_id' => function (array $item) {
-                return State::query()
-                    ->where('code', $item['ST'])
-                    ->firstOrFail()
-                    ->id;
+                return State::findByCodeOrFail($item['ST'])->id;
             },
             'address_zip'      => 'ZIP9',
             'phone'            => 'OFFICE PHONE',

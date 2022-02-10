@@ -23,4 +23,14 @@ final class Local implements Connection
         fwrite($resource, file_get_contents($this->path));
         return $this;
     }
+
+    public function getMostRecentlyModified(string $path): ?array
+    {
+        $files = glob($path . '/*');
+        usort($files, function ($a, $b) {
+            return filemtime($b) - filemtime($a);
+        });
+
+        return array_shift($files);
+    }
 }

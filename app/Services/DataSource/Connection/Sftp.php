@@ -17,7 +17,7 @@ final class Sftp implements Connection
         string $password = null,
         int $port = 22,
         string $privateKey = null,
-        string $root = '~/',
+        string $root = '/',
         int $timeout = 10
     ): self {
         return new self(
@@ -40,10 +40,23 @@ final class Sftp implements Connection
         $this->filesystem = $filesystem;
     }
 
+    public function getMostRecentlyModified(string $path): ?array
+    {
+        $list = $this->filesystem->listContents($path);
+
+        array_multisort(array_column($list, 'timestamp'), SORT_DESC, $list);
+
+        return $list[0] ?? null;
+    }
+
     public function download(string $path, $resource): Connection
     {
-        $response = $this->filesystem->read($path);
+        $response = $this->filesystem->read(
+            $this->getMostRecentlyModified($path)['path'] ?? null
+        );
+
         fwrite($resource, $response);
+
         return $this;
     }
 }

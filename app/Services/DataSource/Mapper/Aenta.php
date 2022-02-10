@@ -406,10 +406,7 @@ final class Aenta extends Mapper
             'address_line_1'   => self::COL_SERVICE_LOCATION_LINE_1,
             'address_city'     => self::COL_SERVICE_LOCATION_CITY,
             'address_state_id' => function (array $item) {
-                return State::query()
-                    ->where('code', $item[self::COL_SERVICE_LOCATION_STATE])
-                    ->firstOrFail()
-                    ->id;
+                return State::findByCodeOrFail($item[self::COL_SERVICE_LOCATION_STATE])->id;
             },
             'address_zip'      => self::COL_SERVICE_LOCATION_ZIP_CODE,
             'phone'            => self::COL_SERVICE_LOCATION_PRIMARY_PHONE_NUMBER,
@@ -441,13 +438,13 @@ final class Aenta extends Mapper
         return [
             'label'                     => function (array $item) {
                 return $this->isFacility($item)
-                    ? trim(sprintf(
+                    ? trim($item[self::COL_PROVIDER_LAST_NAME])
+                    : trim(sprintf(
                         '%s %s %s',
                         $item[self::COL_PROVIDER_FIRST_NAME],
                         $item[self::COL_PROVIDER_LAST_NAME],
                         $item[self::COL_PROVIDER_DEGREE] ? ', ' . $item[self::COL_PROVIDER_DEGREE] : '',
-                    ))
-                    : trim($item[self::COL_PROVIDER_LAST_NAME]);
+                    ));
             },
             'type'                      => self::COL_PROVIDER_TYPE,
             'npi'                       => (int) $this->getProviderNpiKey(),

@@ -21,6 +21,7 @@ class LocationResource extends JsonResource
             'type'       => $this->type,
             'address'    => [
                 'line_1' => $this->address_line_1,
+                'line_2' => $this->address_line_2,
                 'city'   => $this->address_city,
                 'county' => $this->address_county,
                 'state'  => new StateResource($this->whenLoaded('state')),
