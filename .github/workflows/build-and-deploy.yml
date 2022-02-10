@@ -11,7 +11,7 @@ name: Build and deploy PHP app to Azure Web App - provider-search-prod
 on:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
 
 
