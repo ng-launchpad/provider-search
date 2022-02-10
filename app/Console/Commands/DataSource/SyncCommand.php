@@ -6,6 +6,7 @@ use App\Models\Network;
 use App\Models\Setting;
 use App\Services\DataSource\Connection;
 use App\Services\DataSourceService;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Input\InputOption;
@@ -46,8 +47,14 @@ class SyncCommand extends Command
      */
     public function handle()
     {
-        $service = DataSourceService::factory();
-        $output = $this->getOutput();
+        $service  = DataSourceService::factory();
+        $output   = $this->getOutput();
+        $jobStart = Carbon::now();
+
+        $output->writeln(sprintf(
+            'Job started at %s',
+            $jobStart->toIso8601String()
+        ));
 
         try {
 
@@ -62,6 +69,12 @@ class SyncCommand extends Command
                     $output->writeln(sprintf(
                         'Syncing <comment>%s</comment> data... ',
                         $network->label
+                    ));
+
+                    $networkStart = Carbon::now();
+                    $output->writeln(sprintf(
+                        'Network sync started at %s',
+                        $networkStart->toIso8601String()
                     ));
 
                     $config = $network->getConfig();
@@ -104,6 +117,16 @@ class SyncCommand extends Command
                         );
 
                     $output->writeln('<info>done!</info>');
+                    $output->writeln(sprintf(
+                        'Network sync took <info>%s</info> seconds',
+                        $this->elapsed($networkStart)
+                    ));
+
+                    $output->writeln(sprintf(
+                        'Network sync ended at <comment>%s</comment> (took <comment>%s</comment> seconds)',
+                        $networkStart->toIso8601String(),
+                        $this->elapsed($networkStart)
+                    ));
                 }
             });
 
@@ -119,6 +142,17 @@ class SyncCommand extends Command
             throw $e;
         }
 
+        $output->writeln(sprintf(
+            'Job ended at <comment>%s</comment> (took <comment>%s</comment> seconds)',
+            $jobStart->toIso8601String(),
+            $this->elapsed($jobStart)
+        ));
+
         return self::SUCCESS;
+    }
+
+    private function elapsed(Carbon $start): float
+    {
+        return Carbon::now()->diffInSeconds($start);
     }
 }
