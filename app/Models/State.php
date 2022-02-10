@@ -34,7 +34,19 @@ class State extends Model
 
     public static function findByCodeOrFail(string $value)
     {
-        return self::where('code', $value)->firstOrFail();
+        try {
+            return self::where('code', $value)->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            throw new ModelNotFoundException(
+                sprintf(
+                    '%s Searched for value "%s"',
+                    $e->getMessage(),
+                    $value
+                ),
+                $e->getCode(),
+                $e
+            );
+        }
     }
 
     /**
