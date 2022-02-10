@@ -83,7 +83,7 @@ abstract class Mapper implements Interfaces\Mapper
                 : $item[$key];
         }
 
-        $location->hash = $location->hash();
+        $location->hash = $location->generateHash();
 
         return $location;
     }
@@ -170,7 +170,7 @@ abstract class Mapper implements Interfaces\Mapper
                 $network
             );
             $location = $this->buildLocation($item);
-            $location = Location::query()->where('hash', $location->hash())->firstOrFail();
+            $location = Location::query()->where('hash', $location->generateHash())->firstOrFail();
 
             if (!array_key_exists($provider->id, $this->providerLocationCache)) {
                 $this->providerLocationCache[$provider->id] = 0;

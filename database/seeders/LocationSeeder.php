@@ -20,7 +20,7 @@ class LocationSeeder extends Seeder
             ->for(State::findByCodeOrFail('TX'))
             ->make()
             ->each(function (Location $location) {
-                $location->hash = $location->hash();
+                $location->hash = $location->generateHash();
                 $location->save();
             });
     }
