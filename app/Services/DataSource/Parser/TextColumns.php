@@ -17,7 +17,7 @@ final class TextColumns implements Parser
         return new self($offset, $columnMap);
     }
 
-    public function __construct(int $offset = 0, array $columnMap)
+    public function __construct(int $offset = 0, array $columnMap = [])
     {
         $this->offset    = $offset;
         $this->columnMap = $columnMap;
