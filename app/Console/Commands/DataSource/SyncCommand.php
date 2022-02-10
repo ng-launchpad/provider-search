@@ -47,10 +47,11 @@ class SyncCommand extends Command
     public function handle()
     {
         $service = DataSourceService::factory();
+        $output = $this->getOutput();
 
         try {
 
-            DB::transaction(function () use ($service) {
+            DB::transaction(function () use ($service, $output) {
 
                 $networks = $this->input->getOption('network')
                     ? [Network::getByLabelOrFail($this->input->getOption('network'))]
@@ -58,7 +59,7 @@ class SyncCommand extends Command
 
                 foreach ($networks as $network) {
 
-                    $this->getOutput()->write(sprintf(
+                    $output->writeln(sprintf(
                         'Syncing <comment>%s</comment> data... ',
                         $network->label
                     ));
@@ -73,6 +74,8 @@ class SyncCommand extends Command
                             $config['connection']['config']
                         );
 
+                    $output->writeln('Using Connection: <comment>' . get_class($connection) . '</comment>');
+
                     /** @var \App\Services\DataSource\Interfaces\Mapper $mapper */
                     $mapper = call_user_func_array(
                         $config['mapper']['class'] . '::factory',
@@ -81,10 +84,14 @@ class SyncCommand extends Command
 
                     $mapper->setVersion(Setting::nextVersion());
 
+                    $output->writeln('Using Mapper: <comment>' . get_class($mapper) . '</comment>');
+
                     $parser = call_user_func_array(
                         $config['parser']['class'] . '::factory',
                         $config['parser']['config']
                     );
+
+                    $output->writeln('Using Parser: <comment>' . get_class($parser) . '</comment>');
 
                     $service
                         ->sync(
@@ -92,12 +99,12 @@ class SyncCommand extends Command
                             $path,
                             $connection,
                             $parser,
-                            $mapper
+                            $mapper,
+                            $output
                         );
 
-                    $this->getOutput()->writeln('<info>done!</info>');
+                    $output->writeln('<info>done!</info>');
                 }
-
             });
 
             $service->truncate(Setting::version());

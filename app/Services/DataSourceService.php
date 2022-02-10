@@ -14,6 +14,8 @@ use App\Services\DataSource\Interfaces\Mapper;
 use App\Services\DataSource\Interfaces\Parser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
+use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 final class DataSourceService
 {
@@ -45,45 +47,84 @@ final class DataSourceService
     /**
      * Orchestrates the sync
      *
-     * @param string     $filename
-     * @param Connection $connection
-     * @param Mapper     $mapper
-     * @param Parser     $parser
+     * @param \App\Models\Network                                    $network
+     * @param string                                                 $path
+     * @param \App\Services\DataSource\Interfaces\Connection         $connection
+     * @param \App\Services\DataSource\Interfaces\Parser             $parser
+     * @param \App\Services\DataSource\Interfaces\Mapper             $mapper
+     * @param \Symfony\Component\Console\Output\OutputInterface|null $output
      *
      * @return $this
      */
-    public function sync(Network $network, string $path, Connection $connection, Parser $parser, Mapper $mapper): self
+    public function sync(Network $network, string $path, Connection $connection, Parser $parser, Mapper $mapper, OutputInterface $output = null): self
     {
-        $file = tmpfile();
+        $file   = tmpfile();
+        $output = $output ?? new NullOutput();
 
+        // --------------------------------------------------------------------------
+
+        $output->write('Beginning download...');
         $connection->download($path, $file);
+        $output->writeln('<comment>done</comment>');
 
+        // --------------------------------------------------------------------------
+
+        $output->write('Beginning parse...');
         $collection = $parser->parse($file);
+        $output->writeln('<comment>done</comment>');
 
-        $mapper->extractLanguages($collection)
-            ->unique('label')
-            ->each(fn(Language $model) => $model->save());
+        // --------------------------------------------------------------------------
 
-        $mapper->extractLocations($collection)
-            ->unique('hash')
-            ->each(fn(Location $model) => $model->save());
+        $output->write('Extracting languages...');
+        $temp = $mapper->extractLanguages($collection)->unique('label');
+        $output->writeln('<comment>done</comment>, ' . $temp->count() . ' languages extracted');
+        $output->write('Saving languages...');
+        $temp->each(fn(Language $model) => $model->save());
+        $output->writeln('<comment>done</comment>');
 
-        $mapper->extractSpecialities($collection)
-            ->unique('label')
-            ->each(fn(Speciality $model) => $model->save());
+        // --------------------------------------------------------------------------
 
-        $mapper->extractHospitals($collection)
-            ->unique('label')
-            ->each(fn(Hospital $model) => $model->save());
+        $output->write('Extracting locations...');
+        $temp = $mapper->extractLocations($collection)->unique('hash');
+        $output->writeln('<comment>done</comment>, ' . $temp->count() . ' locations extracted');
+        $output->write('Saving locations...');
+        $temp->each(fn(Location $model) => $model->save());
+        $output->writeln('<comment>done</comment>');
 
-        $mapper->extractProviders($collection)
-            ->unique('npi')
-            ->each(function (Provider $model) use ($network) {
-                $model->network_id = $network->id;
-                $model->save();
-            });
+        // --------------------------------------------------------------------------
 
-        $mapper->extractProviderLocations($collection, $network)
+        $output->write('Extracting specialities...');
+        $temp = $mapper->extractSpecialities($collection)->unique('label');
+        $output->writeln('<comment>done</comment>, ' . $temp->count() . ' specialities extracted');
+        $output->write('Saving specialities...');
+        $temp->each(fn(Speciality $model) => $model->save());
+        $output->writeln('<comment>done</comment>');
+
+        // --------------------------------------------------------------------------
+
+        $output->write('Extracting hospitals...');
+        $temp = $mapper->extractHospitals($collection)->unique('label');
+        $output->writeln('<comment>done</comment>, ' . $temp->count() . ' hospitals extracted');
+        $output->write('Saving hospitals...');
+        $temp->each(fn(Hospital $model) => $model->save());
+        $output->writeln('<comment>done</comment>');
+
+        // --------------------------------------------------------------------------
+
+        $output->write('Extracting providers...');
+        $temp = $mapper->extractProviders($collection)->unique('npi');
+        $output->writeln('<comment>done</comment>, ' . $temp->count() . ' providers extracted');
+        $output->write('Saving providers...');
+        $temp->each(function (Provider $model) use ($network) {
+            $model->network_id = $network->id;
+            $model->save();
+        });
+        $output->writeln('<comment>done</comment>');
+
+        // --------------------------------------------------------------------------
+
+        $output->write('Extracting provider locations...');
+        $temp = $mapper->extractProviderLocations($collection, $network)
             ->unique(function ($item) {
                 return sprintf(
                     '%s,%s,%s',
@@ -91,50 +132,73 @@ final class DataSourceService
                     $item[1]->id,   //  Location
                     $item[2]        //  is_primary
                 );
-            })
-            ->each(function (array $set) {
-                [$provider, $location, $is_primary] = $set;
-                $provider->locations()->attach($location, ['is_primary' => $is_primary]);
             });
+        $output->writeln('<comment>done</comment>, ' . $temp->count() . ' provider locations extracted');
+        $output->write('Saving provider locations...');
+        $temp->each(function (array $set) {
+            [$provider, $location, $is_primary] = $set;
+            $provider->locations()->attach($location, ['is_primary' => $is_primary]);
+        });
+        $output->writeln('<comment>done</comment>');
 
-        $mapper->extractProviderLanguages($collection, $network)
+        // --------------------------------------------------------------------------
+
+        $output->write('Extracting provider languages...');
+        $temp = $mapper->extractProviderLanguages($collection, $network)
             ->unique(function ($item) {
                 return sprintf(
                     '%s,%s',
                     $item[0]->id,   //  Provider
                     $item[1]->id    //  Language
                 );
-            })
-            ->each(function (array $set) {
-                [$provider, $language] = $set;
-                $provider->languages()->attach($language);
             });
+        $output->writeln('<comment>done</comment>, ' . $temp->count() . ' provider languages extracted');
+        $output->write('Saving provider languages...');
+        $temp->each(function (array $set) {
+            [$provider, $language] = $set;
+            $provider->languages()->attach($language);
+        });
+        $output->writeln('<comment>done</comment>');
 
-        $mapper->extractProviderSpecialities($collection, $network)
+        // --------------------------------------------------------------------------
+
+        $output->write('Extracting provider specialities...');
+        $temp = $mapper->extractProviderSpecialities($collection, $network)
             ->unique(function ($item) {
                 return sprintf(
                     '%s,%s',
                     $item[0]->id,   //  Provider
                     $item[1]->id    //  Speciality
                 );
-            })
-            ->each(function (array $set) {
-                [$provider, $speciality] = $set;
-                $provider->specialities()->attach($speciality);
             });
+        $output->writeln('<comment>done</comment>, ' . $temp->count() . ' provider specialities extracted');
+        $output->write('Saving provider specialities...');
+        $temp->each(function (array $set) {
+            [$provider, $speciality] = $set;
+            $provider->specialities()->attach($speciality);
+        });
+        $output->writeln('<comment>done</comment>');
 
-        $mapper->extractProviderHospitals($collection, $network)
+        // --------------------------------------------------------------------------
+
+        $output->write('Extracting provider hospitals...');
+        $temp = $mapper->extractProviderHospitals($collection, $network)
             ->unique(function ($item) {
                 return sprintf(
                     '%s,%s',
                     $item[0]->id,   //  Provider
                     $item[1]->id    //  Hospital
                 );
-            })
-            ->each(function (array $set) {
-                [$provider, $hospital] = $set;
-                $provider->hospitals()->attach($hospital);
             });
+        $output->writeln('<comment>done</comment>, ' . $temp->count() . ' provider hospitals extracted');
+        $output->write('Saving provider hospitals...');
+        $temp->each(function (array $set) {
+            [$provider, $hospital] = $set;
+            $provider->hospitals()->attach($hospital);
+        });
+        $output->writeln('<comment>done</comment>');
+
+        // --------------------------------------------------------------------------
 
         return $this;
     }
