@@ -45,8 +45,18 @@ class SftpTest extends TestCase
     public function it_downloads_from_the_remote_server()
     {
         // arrange
+        $path       = '/path/to/files';
+        $files      = [
+            [
+                'path'      => $path . '/file1.txt',
+                'timestamp' => time(),
+            ],
+        ];
         $content    = 'Inceptos Vehicula Porta Adipiscing Egestas';
         $filesystem = $this->createMock(FilesystemInterface::class);
+        $filesystem
+            ->method('listContents')
+            ->willReturn($files);
         $filesystem
             ->method('read')
             ->willReturn($content);
