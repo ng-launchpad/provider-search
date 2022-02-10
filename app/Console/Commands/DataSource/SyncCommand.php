@@ -130,15 +130,37 @@ class SyncCommand extends Command
                 }
             });
 
+            $truncateStart = Carbon::now();
+            $output->write('Truncating old data... ');
             $service->truncate(Setting::version());
+            $output->writeln(sprintf(
+                '<comment>done</comment> (took %s seconds)',
+                $this->elapsed($truncateStart)
+            ));
 
+            $output->write('Bumping version number... ');
             Setting::bumpVersion();
+            $output->writeln('<comment>done</comment>');
 
         } catch (\Throwable $e) {
 
+            $output->writeln(sprintf(
+                '<comment>Error caught: %s</comment>',
+                $e->getMessage()
+            ));
+            $truncateStart = Carbon::now();
+            $output->write('Truncating new data... ');
             $service->truncate(Setting::nextVersion());
-            $service->notifyError($e);
+            $output->writeln(sprintf(
+                '<comment>done</comment> (took %s seconds)',
+                $this->elapsed($truncateStart)
+            ));
 
+            $output->write('Sending failure notification... ');
+            $service->notifyError($e);
+            $output->write('<comment>done</comment>');
+
+            $output->write('Re-throwing exception');
             throw $e;
         }
 
