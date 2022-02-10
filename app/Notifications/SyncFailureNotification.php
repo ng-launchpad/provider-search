@@ -85,7 +85,8 @@ HEREDOC;
             ->greeting('Sync Failed')
             ->line('This email is to advise you that the most recent sync failed.')
             ->line('The error caught was:')
-            ->line(new HtmlString($table));
+            ->line(new HtmlString($table))
+            ->line('More information will be available in the application logs.');
     }
 
     /**
