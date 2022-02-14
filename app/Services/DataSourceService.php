@@ -225,7 +225,7 @@ final class DataSourceService
             $output->write('Extracting provider locations... ');
 
             $temp = $mapper->extractProviderLocations($collection, $network)
-                ->unique(function ($item) {
+                ->unique(function (array $item) {
                     return sprintf(
                         '%s,%s,%s',
                         $item[0]->id,   //  Provider
@@ -259,7 +259,7 @@ final class DataSourceService
             $output->write('Extracting provider languages... ');
 
             $temp = $mapper->extractProviderLanguages($collection, $network)
-                ->unique(function ($item) {
+                ->unique(function (array $item) {
                     return sprintf(
                         '%s,%s',
                         $item[0]->id,   //  Provider
@@ -292,7 +292,7 @@ final class DataSourceService
             $output->write('Extracting provider specialities... ');
 
             $temp = $mapper->extractProviderSpecialities($collection, $network)
-                ->unique(function ($item) {
+                ->unique(function (array $item) {
                     return sprintf(
                         '%s,%s',
                         $item[0]->id,   //  Provider
@@ -325,7 +325,7 @@ final class DataSourceService
             $output->write('Extracting provider hospitals... ');
 
             $temp = $mapper->extractProviderHospitals($collection, $network)
-                ->unique(function ($item) {
+                ->unique(function (array $item) {
                     return sprintf(
                         '%s,%s',
                         $item[0]->id,   //  Provider
