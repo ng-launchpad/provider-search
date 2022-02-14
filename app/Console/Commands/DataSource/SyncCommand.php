@@ -145,7 +145,7 @@ class SyncCommand extends Command
         } catch (\Throwable $e) {
 
             $output->writeln(sprintf(
-                '<comment>Error caught: %s</comment>',
+                '<error>Error caught: %s</error>',
                 $e->getMessage()
             ));
             $truncateStart = Carbon::now();
