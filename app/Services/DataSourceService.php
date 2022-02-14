@@ -196,7 +196,9 @@ final class DataSourceService
             $start = Carbon::now();
             $output->write('Extracting providers... ');
 
-            $temp = $mapper->extractProviders($collection)->unique('npi');
+            $temp = $mapper->extractProviders($collection)
+                ->unique('npi')
+                ->filter(fn(Provider $provider) => !empty($provider->npi));
 
             $output->writeln(sprintf(
                 '<comment>done</comment>, %s providers extracted (took <comment>%s seconds</comment>)',
