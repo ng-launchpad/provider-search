@@ -239,7 +239,7 @@ class Provider extends Model
         $query->where('is_facility', '=', $type === 'facility');
     }
 
-    public static function findByVersionNpiAndNetworkOrFail(int $version, string $npi, Network $network)
+    public static function findByVersionNpiAndNetworkOrFail(int $version, ?string $npi, Network $network)
     {
         return Provider::query()
             ->where('version', '=', $version)
