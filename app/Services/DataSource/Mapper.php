@@ -8,6 +8,7 @@ use App\Models\Location;
 use App\Models\Network;
 use App\Models\Provider;
 use App\Models\Speciality;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
 
 abstract class Mapper implements Interfaces\Mapper
@@ -164,24 +165,30 @@ abstract class Mapper implements Interfaces\Mapper
 
         $collection->each(function ($item) use ($collectionOut, $network) {
 
-            $provider = Provider::findByVersionNpiAndNetworkOrFail(
-                $this->version,
-                $item[$this->getProviderNpiKey()],
-                $network
-            );
-            $location = $this->buildLocation($item);
-            $location = Location::query()->where('hash', $location->generateHash())->firstOrFail();
+            try {
 
-            if (!array_key_exists($provider->id, $this->providerLocationCache)) {
-                $this->providerLocationCache[$provider->id] = 0;
+                $provider = Provider::findByVersionNpiAndNetworkOrFail(
+                    $this->version,
+                    $item[$this->getProviderNpiKey()],
+                    $network
+                );
+                $location = $this->buildLocation($item);
+                $location = Location::query()->where('hash', $location->generateHash())->firstOrFail();
+
+                if (!array_key_exists($provider->id, $this->providerLocationCache)) {
+                    $this->providerLocationCache[$provider->id] = 0;
+                }
+
+                $collectionOut->add([
+                    $provider,
+                    $location,
+                    // If this is the Provider's first address (cache is 0) then consider it their primary address
+                    !(bool) $this->providerLocationCache[$provider->id]++,
+                ]);
+
+            } catch (ModelNotFoundException $e) {
+                // Didn't find provider or location, so continue
             }
-
-            $collectionOut->add([
-                $provider,
-                $location,
-                // If this is the Provider's first address (cache is 0) then consider it their primary address
-                !(bool) $this->providerLocationCache[$provider->id]++,
-            ]);
 
         });
 
@@ -194,19 +201,31 @@ abstract class Mapper implements Interfaces\Mapper
 
         $collection->each(function ($item) use ($collectionOut, $network) {
 
-            $provider  = Provider::findByVersionNpiAndNetworkOrFail(
-                $this->version,
-                $item[$this->getProviderNpiKey()],
-                $network
-            );
-            $languages = $this->extractLanguages(Collection::make([$item]));
+            try {
 
-            foreach ($languages as $language) {
-                $language = Language::where('label', $language->label)->firstOrFail();
-                $collectionOut->add([
-                    $provider,
-                    $language,
-                ]);
+                $provider  = Provider::findByVersionNpiAndNetworkOrFail(
+                    $this->version,
+                    $item[$this->getProviderNpiKey()],
+                    $network
+                );
+                $languages = $this->extractLanguages(Collection::make([$item]));
+
+                foreach ($languages as $language) {
+                    try {
+
+                        $language = Language::where('label', $language->label)->firstOrFail();
+                        $collectionOut->add([
+                            $provider,
+                            $language,
+                        ]);
+
+                    } catch (ModelNotFoundException $e) {
+                        // Didn't find language, so continue
+                    }
+                }
+
+            } catch (ModelNotFoundException $e) {
+                // Didn't find provider, so continue
             }
         });
 
@@ -219,19 +238,31 @@ abstract class Mapper implements Interfaces\Mapper
 
         $collection->each(function ($item) use ($collectionOut, $network) {
 
-            $provider     = Provider::findByVersionNpiAndNetworkOrFail(
-                $this->version,
-                $item[$this->getProviderNpiKey()],
-                $network
-            );
-            $specialities = $this->extractSpecialities(Collection::make([$item]));
+            try {
 
-            foreach ($specialities as $speciality) {
-                $speciality = Speciality::where('label', $speciality->label)->firstOrFail();
-                $collectionOut->add([
-                    $provider,
-                    $speciality,
-                ]);
+                $provider     = Provider::findByVersionNpiAndNetworkOrFail(
+                    $this->version,
+                    $item[$this->getProviderNpiKey()],
+                    $network
+                );
+                $specialities = $this->extractSpecialities(Collection::make([$item]));
+
+                foreach ($specialities as $speciality) {
+                    try {
+
+                        $speciality = Speciality::where('label', $speciality->label)->firstOrFail();
+                        $collectionOut->add([
+                            $provider,
+                            $speciality,
+                        ]);
+
+                    } catch (ModelNotFoundException $e) {
+                        // Didn't find speciality so continue
+                    }
+                }
+
+            } catch (ModelNotFoundException $e) {
+                // Didn't find provider, so continue
             }
         });
 
@@ -244,19 +275,30 @@ abstract class Mapper implements Interfaces\Mapper
 
         $collection->each(function ($item) use ($collectionOut, $network) {
 
-            $provider  = Provider::findByVersionNpiAndNetworkOrFail(
-                $this->version,
-                $item[$this->getProviderNpiKey()],
-                $network
-            );
-            $hospitals = $this->extractHospitals(Collection::make([$item]));
+            try {
 
-            foreach ($hospitals as $hospital) {
-                $hospital = Hospital::where('label', $hospital->label)->firstOrFail();
-                $collectionOut->add([
-                    $provider,
-                    $hospital,
-                ]);
+                $provider  = Provider::findByVersionNpiAndNetworkOrFail(
+                    $this->version,
+                    $item[$this->getProviderNpiKey()],
+                    $network
+                );
+                $hospitals = $this->extractHospitals(Collection::make([$item]));
+
+                foreach ($hospitals as $hospital) {
+                    try {
+
+                        $hospital = Hospital::where('label', $hospital->label)->firstOrFail();
+                        $collectionOut->add([
+                            $provider,
+                            $hospital,
+                        ]);
+
+                    } catch (ModelNotFoundException $e) {
+                        // Didn't find hospital, so continue
+                    }
+                }
+            } catch (ModelNotFoundException $e) {
+                // Didn't find provider, so continue
             }
         });
 
