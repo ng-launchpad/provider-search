@@ -8,6 +8,7 @@
         "php": "^7.4|^8.0",
         "ext-fileinfo": "*",
         "ext-json": "*",
+        "ext-zip": "*",
         "cviebrock/eloquent-sluggable": "^8.0",
         "freshbitsweb/laravel-log-enhancer": "^1.3",
         "fruitcake/laravel-cors": "^2.0",
