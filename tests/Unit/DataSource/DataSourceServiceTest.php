@@ -66,6 +66,68 @@ class DataSourceServiceTest extends TestCase
     }
 
     /** @test */
+    public function it_detects_zip_file()
+    {
+        // arrange
+        $service  = DataSourceService::factory();
+        $file     = tempnam(sys_get_temp_dir(), 'FOO');
+        $contents = 'Curabitur blandit tempus porttitor.';
+        $zip      = new \ZipArchive();
+
+        $zip->open($file, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        $zip->addFromString('data.txt', $contents);
+        $zip->close();
+
+        $resource = fopen($file, 'r');
+
+        // act
+        $isZip = $service->isZip($resource);
+
+        // assert
+        self::assertTrue($isZip);
+    }
+
+    /** @test */
+    public function it_detects_non_zip_file()
+    {
+        // arrange
+        $service  = DataSourceService::factory();
+        $file     = tempnam(sys_get_temp_dir(), 'FOO');
+        $contents = 'Curabitur blandit tempus porttitor.';
+        file_put_contents($file, $contents);
+
+        $resource = fopen($file, 'r');
+
+        // act
+        $isZip = $service->isZip($resource);
+
+        // assert
+        self::assertFalse($isZip);
+    }
+
+    /** @test */
+    public function it_unzips_the_file()
+    {
+        // arrange
+        $service  = DataSourceService::factory();
+        $file     = tempnam(sys_get_temp_dir(), 'FOO');
+        $contents = 'Curabitur blandit tempus porttitor.';
+        $zip      = new \ZipArchive();
+
+        $zip->open($file, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        $zip->addFromString('data.txt', $contents);
+        $zip->close();
+
+        $resource = fopen($file, 'r');
+
+        // act
+        $newResource = $service->unzip($resource);
+
+        // assert
+        self::assertEquals($contents, file_get_contents(stream_get_meta_data($newResource)['uri']));
+    }
+
+    /** @test */
     public function it_syncs_data()
     {
         // arrange
