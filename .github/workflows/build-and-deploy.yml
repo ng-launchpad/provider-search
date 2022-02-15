@@ -27,5 +27,5 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
       - run: |
-        docker build -f .github/workflows/build-and-deploy/Dockerfile . -t providersearchacr.azurecr.io/providersearch:production
-        docker push providersearchacr.azurecr.io/providersearch:production
+          docker build -f .github/workflows/build-and-deploy/Dockerfile . -t providersearchacr.azurecr.io/providersearch:production
+          docker push providersearchacr.azurecr.io/providersearch:production
