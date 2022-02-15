@@ -5,7 +5,13 @@ WORKDIR /home/src
 COPY ./. .
 # 5. Composer.
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN apt-get update && apt-get install -y \
+    git \
+    libzip-dev \
+    zip \
+    unzip
 RUN composer install --no-interaction --prefer-dist --ignore-platform-reqs
+
 FROM node:lts AS npminstall
 WORKDIR /home
 RUN mkdir src
@@ -15,6 +21,7 @@ RUN npm i -g npm
 RUN npm ci
 RUN npm run production
 RUN rm -rf node_modules
+
 FROM php:8-apache
 COPY --from=npminstall /home/src/. /var/www/html/.
 RUN apt-get update && apt-get install -y \
