@@ -24,6 +24,7 @@ RUN rm -rf node_modules
 
 FROM php:8-apache
 COPY --from=npminstall /home/src/. /var/www/html/.
+EXPOSE 80
 RUN apt-get update && apt-get install -y \
     cron \
     curl \
