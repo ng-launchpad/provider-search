@@ -42,7 +42,17 @@ final class Sftp implements Connection
 
     public function getMostRecentlyModified(string $path): ?array
     {
+        /** @var SftpAdapter $adapter */
+        $adapter = $this->filesystem->getAdapter();
+        if ($adapter->isConnected()) {
+            $adapter->disconnect();
+        }
+
+        $adapter->connect();
+
         $list = $this->filesystem->listContents($path);
+
+        $adapter->disconnect();
 
         array_multisort(array_column($list, 'timestamp'), SORT_DESC, $list);
 
@@ -51,9 +61,19 @@ final class Sftp implements Connection
 
     public function download(string $path, $resource): Connection
     {
+        /** @var SftpAdapter $adapter */
+        $adapter = $this->filesystem->getAdapter();
+        if ($adapter->isConnected()) {
+            $adapter->disconnect();
+        }
+
+        $adapter->connect();
+
         $response = $this->filesystem->read(
             $this->getMostRecentlyModified($path)['path'] ?? null
         );
+
+        $adapter->disconnect();
 
         fwrite($resource, $response);
 
