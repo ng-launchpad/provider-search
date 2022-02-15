@@ -48,3 +48,4 @@ RUN a2enmod rewrite headers
 # 4. Start with base PHP config, then add extensions.
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 CMD ["/usr/local/bin/php", "artisan", "migrate", "--force"]
+CMD ["/usr/local/bin/php", "artisan", "storage:link"]
