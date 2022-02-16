@@ -46,6 +46,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Location withVersion()
  * @property int $version
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereVersion($value)
+ * @property string|null $address_line_2
+ * @method static \Illuminate\Database\Eloquent\Builder|Location whereAddressLine2($value)
  */
 class Location extends Model
 {
