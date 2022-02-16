@@ -158,9 +158,9 @@ class SyncCommand extends Command
 
             $output->write('Sending failure notification... ');
             $service->notifyError($e);
-            $output->write('<comment>done</comment>');
+            $output->writeln('<comment>done</comment>');
 
-            $output->write('Re-throwing exception');
+            $output->writeln('Re-throwing exception');
             throw $e;
         }
 
