@@ -31,6 +31,7 @@ class ProviderController extends Controller
         $providers = Provider::query()
             ->with(static::LOAD_RELATIONS)
             ->filter($request->all())
+            ->orderBy('id')
             ->withVersion()
             ->paginateFilter();
 

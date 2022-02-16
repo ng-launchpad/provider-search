@@ -79,7 +79,6 @@ class ProviderIndexTest extends TestCase
     /** @test */
     public function it_returns_list_of_providers_for_a_network_and_state()
     {
-        //  @todo (Pablo 2022-02-10) - test fails intermittently
         // arrange
         $network  = $this->network;
         $state    = $this->state;
