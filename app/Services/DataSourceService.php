@@ -81,7 +81,16 @@ final class DataSourceService
 
             if ($this->isZip($file)) {
 
+                $output->write('Download is a zip, unzipping... ');
+
+                $start       = Carbon::now();
                 $newResource = $this->unzip($file);
+
+                $output->writeln(sprintf(
+                    '<comment>done</comment> (took <comment>%s seconds</comment>, filesize: %s bytes)',
+                    number_format($this->elapsed($start)),
+                    fstat($newResource)['size'] ?? 'unknown'
+                ));
 
                 //  Remove the old file in favour of the new file and clean up
                 fclose($file);
