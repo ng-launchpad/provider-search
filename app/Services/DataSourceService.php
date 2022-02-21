@@ -95,7 +95,6 @@ final class DataSourceService
 
                 //  Remove the old file in favour of the new file and clean up
                 fclose($file);
-                unlink($file);
                 $file = $newResource;
             }
 
