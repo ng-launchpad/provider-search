@@ -73,7 +73,7 @@ final class DataSourceService
             $output->write('Beginning download... ');
             $connection->download($path, $file);
             $output->writeln(sprintf(
-                '<comment>done</comment> (took <comment>%s seconds</comment>, filesize: %s)',
+                '<comment>done</comment> (took <comment>%s seconds</comment>, filesize: %s bytes)',
                 number_format($this->elapsed($start)),
                 fstat($file)['size'] ?? 'unknown'
             ));
