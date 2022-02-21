@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 
 final class TextColumns implements Parser
 {
-    const MIMES = ['text/plain'];
+    const MIMES = ['text/plain', 'application/octet-stream'];
 
     private int   $offset;
     private array $columnMap;
