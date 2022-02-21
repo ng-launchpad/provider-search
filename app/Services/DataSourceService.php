@@ -392,10 +392,16 @@ final class DataSourceService
         return fopen($tempDir . DIRECTORY_SEPARATOR . $firstFile, 'r');
     }
 
-    public function notifyError(\Throwable $e)
+    public function notifySuccess(array $log)
     {
         Notification::route('mail', config('datasource.contact'))
-            ->notify(new SyncFailureNotification($e));
+            ->notify(new SyncSuccessNotification($log));
+    }
+
+    public function notifyError(\Throwable $e, array $log)
+    {
+        Notification::route('mail', config('datasource.contact'))
+            ->notify(new SyncFailureNotification($e, $log));
     }
 
     private function elapsed(Carbon $start): float

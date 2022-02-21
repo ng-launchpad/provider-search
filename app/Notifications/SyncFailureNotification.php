@@ -13,15 +13,17 @@ class SyncFailureNotification extends Notification
     use Queueable;
 
     private \Throwable $exception;
+    private array $log;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(\Throwable $exception)
+    public function __construct(\Throwable $exception, array $log)
     {
         $this->exception = $exception;
+        $this->log = $log;
     }
 
     /**
@@ -78,6 +80,11 @@ class SyncFailureNotification extends Notification
 </table>
 HEREDOC;
 
+        $log = sprintf(
+            '<code style="display: block; width: 100%%; padding: 10px; white-space: pre-wrap;;">%s</code>',
+            implode(PHP_EOL, array_map('strip_tags', $this->log))
+        );
+
         return (new MailMessage)
             ->error()
             //  @todo (Pablo 2022-01-26) - customise sender
@@ -86,7 +93,8 @@ HEREDOC;
             ->line('This email is to advise you that the most recent sync failed.')
             ->line('The error caught was:')
             ->line(new HtmlString($table))
-            ->line('More information will be available in the application logs.');
+            ->line('The following logs were collected.')
+            ->line(new HtmlString($log));
     }
 
     /**

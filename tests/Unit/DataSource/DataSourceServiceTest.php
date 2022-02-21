@@ -259,7 +259,7 @@ class DataSourceServiceTest extends TestCase
         $exception = new \Exception($message, $code);
 
         // act
-        $service->notifyError($exception);;
+        $service->notifyError($exception, []);
 
         // assert
         Notification::assertSentTo(
