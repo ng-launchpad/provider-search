@@ -9,6 +9,7 @@ use App\Models\Network;
 use App\Models\Provider;
 use App\Models\Speciality;
 use App\Notifications\SyncFailureNotification;
+use App\Notifications\SyncSuccessNotification;
 use App\Services\DataSource\Interfaces\Connection;
 use App\Services\DataSource\Interfaces\Mapper;
 use App\Services\DataSource\Interfaces\Parser;
