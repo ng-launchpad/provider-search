@@ -5,6 +5,7 @@ namespace App\Console\Commands\DataSource;
 use App\Models\Network;
 use App\Models\Setting;
 use App\Services\DataSource\Connection;
+use App\Services\DataSource\Console\Output;
 use App\Services\DataSourceService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -27,6 +28,8 @@ class SyncCommand extends Command
      */
     protected $description = 'Syncs upstream data sources into the database';
 
+    private array $log = [];
+
     /**
      * Create a new command instance.
      *
@@ -48,7 +51,10 @@ class SyncCommand extends Command
     public function handle()
     {
         $service  = DataSourceService::factory();
-        $output   = $this->getOutput();
+        $output   = new Output(
+            $this->input,
+            $this->output
+        );
         $jobStart = Carbon::now();
 
         $output->writeln(sprintf(
@@ -142,6 +148,8 @@ class SyncCommand extends Command
             Setting::bumpVersion();
             $output->writeln('<comment>done</comment>');
 
+            $service->notifySuccess($output->getLog());
+
         } catch (\Throwable $e) {
 
             $output->writeln(sprintf(
@@ -157,7 +165,7 @@ class SyncCommand extends Command
             ));
 
             $output->write('Sending failure notification... ');
-            $service->notifyError($e);
+            $service->notifyError($e, $output->getLog());
             $output->writeln('<comment>done</comment>');
 
             $output->writeln('Re-throwing exception');
