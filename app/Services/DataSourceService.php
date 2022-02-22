@@ -366,7 +366,9 @@ final class DataSourceService
             ));
 
         } finally {
-            //  @todo (Pablo 2022-02-14) - delete the downloaded file
+            if ($file !== null) {
+                fclose($file);
+            }
         }
         // --------------------------------------------------------------------------
 
