@@ -108,6 +108,10 @@ final class DataSourceService
                 number_format($this->elapsed($start))
             ));
 
+            //  Close the file, we no longer require ir
+            fclose($file);
+            $file = null;
+
             // --------------------------------------------------------------------------
 
             $start = Carbon::now();
