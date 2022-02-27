@@ -241,7 +241,7 @@ class Provider extends Model
 
     public static function findByVersionNpiAndNetworkOrFail(int $version, ?string $npi, Network $network)
     {
-        return Provider::query()
+        return self::query()
             ->where('version', '=', $version)
             ->where('npi', '=', $npi)
             ->where('network_id', '=', $network->id)
