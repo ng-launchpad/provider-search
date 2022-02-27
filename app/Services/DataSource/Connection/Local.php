@@ -20,7 +20,7 @@ final class Local implements Connection
 
     public function download(string $path, &$resource): Connection
     {
-        fwrite($resource, file_get_contents($this->path));
+        $resource = fopen($this->path, 'r');
         return $this;
     }
 
