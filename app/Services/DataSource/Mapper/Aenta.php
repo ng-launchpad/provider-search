@@ -440,7 +440,7 @@ final class Aenta extends Mapper
                 return $this->isFacility($item)
                     ? trim($item[self::COL_PROVIDER_LAST_NAME])
                     : trim(sprintf(
-                        '%s %s %s',
+                        '%s %s%s',
                         $item[self::COL_PROVIDER_FIRST_NAME],
                         $item[self::COL_PROVIDER_LAST_NAME],
                         $item[self::COL_PROVIDER_DEGREE] ? ', ' . $item[self::COL_PROVIDER_DEGREE] : '',

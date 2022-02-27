@@ -97,7 +97,7 @@ final class Vsp extends Mapper
         return [
             'label'                     => function (array $item) {
                 return trim(sprintf(
-                    '%s %s %s',
+                    '%s %s%s',
                     $item[self::COL_DOCTOR_FIRST_NAME],
                     $item[self::COL_DOCTOR_LAST_NAME],
                     $item[self::COL_DEGREE] ? ', ' . $item[self::COL_DEGREE] : '',
