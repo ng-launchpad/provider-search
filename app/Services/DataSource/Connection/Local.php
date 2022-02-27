@@ -18,7 +18,7 @@ final class Local implements Connection
         $this->path = $path;
     }
 
-    public function download(string $path, $resource): Connection
+    public function download(string $path, &$resource): Connection
     {
         fwrite($resource, file_get_contents($this->path));
         return $this;

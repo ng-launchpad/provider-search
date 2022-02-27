@@ -59,7 +59,7 @@ final class Sftp implements Connection
         return $list[0] ?? null;
     }
 
-    public function download(string $path, $resource): Connection
+    public function download(string $path, &$resource): Connection
     {
         /** @var SftpAdapter $adapter */
         $adapter = $this->filesystem->getAdapter();

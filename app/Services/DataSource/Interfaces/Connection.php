@@ -23,5 +23,5 @@ interface Connection
      *
      * @return $this
      */
-    public function download(string $path, $resource): self;
+    public function download(string $path, &$resource): self;
 }
