@@ -2,9 +2,12 @@
 
 namespace App\Services\DataSource\Parser;
 
+use App\Helper\BytesForHumans;
 use App\Services\DataSource\Interfaces\Parser;
 use Illuminate\Support\Collection;
 use PhpOffice\PhpSpreadsheet;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 final class Xls implements Parser
 {
@@ -25,7 +28,7 @@ final class Xls implements Parser
         $this->offset = $offset;
     }
 
-    public function parse($resource): Collection
+    public function parse($resource, OutputInterface $output): Collection
     {
         if (!$this->isValidMime($resource)) {
             throw new \InvalidArgumentException(sprintf(
@@ -43,15 +46,32 @@ final class Xls implements Parser
         $spreadsheet = $reader->load($file);
         $worksheet   = $spreadsheet->getSheet(0);
         $rows        = $worksheet->toArray();
+        $collection  = new Collection();
+
+        if ($output instanceof ConsoleOutputInterface) {
+            $section = $output->section();
+        }
 
         for ($i = 0; $i < $this->offset; $i++) {
             array_shift($rows);
         }
 
-        //  @todo (Pablo 2022-02-09) - trim?
-        //  @todo (Pablo 2022-02-09) - utf8 encode?
+        foreach ($rows as $i => $row) {
 
-        return new Collection($rows);
+            $row = array_map('trim', $row);
+            $row = array_map('utf8_encode', $row);
+            $collection->add($row);
+
+            if (isset($section)) {
+                $section->overwrite(sprintf(
+                    'Processed line %s; memory usage %s',
+                    $i,
+                    BytesForHumans::fromBytes(memory_get_usage())
+                ));
+            }
+        }
+
+        return $collection;
     }
 
     protected function isValidMime($resource): bool

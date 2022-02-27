@@ -102,13 +102,13 @@ final class DataSourceService
 
             $start = Carbon::now();
             $output->write('Beginning parse... ');
-            $collection = $parser->parse($file);
+            $collection = $parser->parse($file, $output);
             $output->writeln(sprintf(
                 '<comment>done</comment> (took <comment>%s seconds</comment>)',
                 number_format($this->elapsed($start))
             ));
 
-            //  Close the file, we no longer require ir
+            //  Close the file, we no longer require it
             fclose($file);
             $file = null;
 

@@ -16,6 +16,7 @@ class Output extends OutputStyle
 
     public function writeln($messages, int $type = self::OUTPUT_NORMAL)
     {
+
         $this->logMessages($messages);
         parent::writeln($messages, $type);
     }

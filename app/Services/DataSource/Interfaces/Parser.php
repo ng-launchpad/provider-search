@@ -3,6 +3,7 @@
 namespace App\Services\DataSource\Interfaces;
 
 use Illuminate\Support\Collection;
+use Symfony\Component\Console\Output\OutputInterface;
 
 interface Parser
 {
@@ -15,5 +16,5 @@ interface Parser
      *
      * @return Collection
      */
-    public function parse($resource): Collection;
+    public function parse($resource, OutputInterface $output): Collection;
 }

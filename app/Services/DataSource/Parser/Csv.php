@@ -2,8 +2,11 @@
 
 namespace App\Services\DataSource\Parser;
 
+use App\Helper\BytesForHumans;
 use App\Services\DataSource\Interfaces\Parser;
 use Illuminate\Support\Collection;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 final class Csv implements Parser
 {
@@ -21,7 +24,7 @@ final class Csv implements Parser
         $this->offset = $offset;
     }
 
-    public function parse($resource): Collection
+    public function parse($resource, OutputInterface $output): Collection
     {
         if (!$this->isValidMime($resource)) {
             throw new \InvalidArgumentException(sprintf(
@@ -36,11 +39,23 @@ final class Csv implements Parser
 
         rewind($resource);
 
+        if ($output instanceof ConsoleOutputInterface) {
+            $section = $output->section();
+        }
+
         while (($data = fgetcsv($resource)) !== false) {
             if ($i >= $this->offset) {
                 $data = array_map('utf8_encode', $data);
                 $data = array_map('trim', $data);
                 $collection->add($data);
+
+                if (isset($section)) {
+                    $section->overwrite(sprintf(
+                        'Processed line %s; memory usage %s',
+                        $i,
+                        BytesForHumans::fromBytes(memory_get_usage())
+                    ));
+                }
             }
             $i++;
         }
