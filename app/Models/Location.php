@@ -92,4 +92,20 @@ class Location extends Model
             'phone'            => $data->phone,
         ]));
     }
+
+    public function existsForVersion(): bool
+    {
+        try {
+
+            self::query()
+                ->where('version', '=', $this->version)
+                ->where('hash', '=', $this->hash)
+                ->firstOrFail();
+
+            return true;
+
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
 }

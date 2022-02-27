@@ -247,4 +247,21 @@ class Provider extends Model
             ->where('network_id', '=', $network->id)
             ->firstOrFail();
     }
+
+    public function existsForVersionAndNetwork(): bool
+    {
+        try {
+
+            self::findByVersionNpiAndNetworkOrFail(
+                $this->version,
+                $this->npi,
+                Network::findOrFail($this->network_id)
+            );
+
+            return true;
+
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
 }
