@@ -2,9 +2,9 @@
 
 namespace App\Services\DataSource\Console;
 
-use Illuminate\Console\OutputStyle;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
-class Output extends OutputStyle
+class Output extends ConsoleOutput
 {
     private array $log = [];
 

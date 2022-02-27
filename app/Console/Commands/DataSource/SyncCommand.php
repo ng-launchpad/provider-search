@@ -51,10 +51,7 @@ class SyncCommand extends Command
     public function handle()
     {
         $service  = DataSourceService::factory();
-        $output   = new Output(
-            $this->input,
-            $this->output
-        );
+        $output   = new Output();
         $jobStart = Carbon::now();
 
         $output->writeln(sprintf(
