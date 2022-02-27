@@ -10,20 +10,20 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Models\Location
  *
- * @property int $id
- * @property string $label
- * @property string $type
- * @property string $address_line_1
- * @property string $address_city
- * @property string|null $address_county
- * @property int $address_state_id
- * @property string $address_zip
- * @property string|null $phone
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\State $addressState
+ * @property int                                                                  $id
+ * @property string                                                               $label
+ * @property string                                                               $type
+ * @property string                                                               $address_line_1
+ * @property string                                                               $address_city
+ * @property string|null                                                          $address_county
+ * @property int                                                                  $address_state_id
+ * @property string                                                               $address_zip
+ * @property string|null                                                          $phone
+ * @property \Illuminate\Support\Carbon|null                                      $created_at
+ * @property \Illuminate\Support\Carbon|null                                      $updated_at
+ * @property-read \App\Models\State                                               $addressState
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Provider[] $providers
- * @property-read int|null $providers_count
+ * @property-read int|null                                                        $providers_count
  * @method static \Database\Factories\LocationFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Location newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Location newQuery()
@@ -40,13 +40,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property string|null $hash
+ * @property string|null                                                          $hash
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereHash($value)
- * @property-read \App\Models\State $state
+ * @property-read \App\Models\State                                               $state
  * @method static \Illuminate\Database\Eloquent\Builder|Location withVersion()
- * @property int $version
+ * @property int                                                                  $version
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereVersion($value)
- * @property string|null $address_line_2
+ * @property string|null                                                          $address_line_2
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereAddressLine2($value)
  */
 class Location extends Model
