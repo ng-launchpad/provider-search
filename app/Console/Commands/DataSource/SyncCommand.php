@@ -55,7 +55,7 @@ class SyncCommand extends Command
         $jobStart = Carbon::now();
 
         $output->writeln(sprintf(
-            'Job started at %s',
+            'Job started at <comment>%s</comment>',
             $jobStart->toIso8601String()
         ));
 
@@ -76,7 +76,7 @@ class SyncCommand extends Command
 
                     $networkStart = Carbon::now();
                     $output->writeln(sprintf(
-                        'Network sync started at %s',
+                        'Network sync started at <comment>%s</comment>',
                         $networkStart->toIso8601String()
                     ));
 
