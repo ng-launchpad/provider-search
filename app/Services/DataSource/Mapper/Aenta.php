@@ -396,6 +396,10 @@ final class Aenta extends Mapper
 
     public function skipRow(array $row): bool
     {
+        if ($row[self::COL_SERVICE_LOCATION_STATE] !== $this->texas->code) {
+            return true;
+        }
+
         switch ($row[self::COL_ADD_CHANGE_INDICATOR]) {
             case self::ADD_CHANGE_INDICATOR_ADD:
             case self::ADD_CHANGE_INDICATOR_REINSTATE:

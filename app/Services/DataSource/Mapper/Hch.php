@@ -57,6 +57,10 @@ final class Hch extends Mapper
 
     public function skipRow(array $row): bool
     {
+        if ($row[self::COL_SERVICE_LOCATION_STATE] !== $this->texas->code) {
+            return true;
+        }
+
         return false;
     }
 

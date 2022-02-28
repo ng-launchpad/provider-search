@@ -59,6 +59,10 @@ final class Vsp extends Mapper
 
     public function skipRow(array $row): bool
     {
+        if ($row[self::COL_ST] !== $this->texas->code) {
+            return true;
+        }
+
         return false;
     }
 
