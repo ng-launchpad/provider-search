@@ -87,8 +87,13 @@ class SyncCommand extends Command
 
                 foreach ($networks as $networkSet) {
 
+                    /**
+                     * @var Network     $network
+                     * @var string|null $file
+                     */
                     [$network, $file] = $networkSet;
 
+                    $output->writeln('- - -');
                     $output->writeln(sprintf(
                         'Syncing <comment>%s</comment> data... ',
                         $network->label
@@ -139,7 +144,6 @@ class SyncCommand extends Command
                             $output
                         );
 
-                    $output->writeln('<info>done!</info>');
                     $output->writeln(sprintf(
                         'Network sync took <info>%s</info> seconds',
                         $this->elapsed($networkStart)
@@ -148,24 +152,25 @@ class SyncCommand extends Command
                     $output->writeln(sprintf(
                         'Network sync ended at <comment>%s</comment> (took <comment>%s</comment> seconds)',
                         $networkStart->toIso8601String(),
-                        $this->elapsed($networkStart)
+                        number_format($this->elapsed($networkStart))
                     ));
+                    $output->writeln('---');
                 }
             });
 
             $truncateStart = Carbon::now();
-            $output->write('Truncating old data... ');
+            $output->writeln('Truncating old data... ');
             $service->truncate(Setting::version());
             $output->writeln(sprintf(
                 '➞ <comment>done</comment> (took %s seconds)',
-                $this->elapsed($truncateStart)
+                number_format($this->elapsed($truncateStart))
             ));
 
-            $output->write('Bumping version number... ');
+            $output->writeln('Bumping version number... ');
             Setting::bumpVersion();
             $output->writeln('➞ <comment>done</comment>');
 
-            $output->write('Sending success notification... ');
+            $output->writeln('Sending success notification... ');
             $service->notifySuccess($output->getLog());
             $output->writeln('➞ <comment>done</comment>');
 
@@ -176,14 +181,14 @@ class SyncCommand extends Command
                 $e->getMessage()
             ));
             $truncateStart = Carbon::now();
-            $output->write('Truncating new data... ');
+            $output->writeln('Truncating new data... ');
             $service->truncate(Setting::nextVersion());
             $output->writeln(sprintf(
                 '➞ <comment>done</comment> (took %s seconds)',
-                $this->elapsed($truncateStart)
+                number_format($this->elapsed($truncateStart))
             ));
 
-            $output->write('Sending failure notification... ');
+            $output->writeln('Sending failure notification... ');
             $service->notifyError($e, $output->getLog());
             $output->writeln('➞ <comment>done</comment>');
 
@@ -194,7 +199,7 @@ class SyncCommand extends Command
         $output->writeln(sprintf(
             'Job ended at <comment>%s</comment> (took <comment>%s</comment> seconds)',
             $jobStart->toIso8601String(),
-            $this->elapsed($jobStart)
+            number_format($this->elapsed($jobStart))
         ));
 
         return self::SUCCESS;
