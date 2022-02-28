@@ -14,13 +14,6 @@ class Output extends ConsoleOutput
         parent::write($messages, $newline, $type);
     }
 
-    public function writeln($messages, int $type = self::OUTPUT_NORMAL)
-    {
-
-        $this->logMessages($messages);
-        parent::writeln($messages, $type);
-    }
-
     private function logMessages($messages): void
     {
         if (!is_iterable($messages)) {
