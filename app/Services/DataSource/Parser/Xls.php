@@ -36,7 +36,7 @@ final class Xls implements Parser
 
         $file = stream_get_meta_data($resource)['uri'];
 
-        $reader = PhpSpreadsheet\IOFactory::createReaderForFile($file);
+        $reader = $this->getReader();
         $reader->setReadDataOnly(true);
 
         $spreadsheet = $reader->load($file);
@@ -53,6 +53,11 @@ final class Xls implements Parser
             $row = array_map('utf8_encode', $row);
             yield $row;
         }
+    }
+
+    protected function getReader(): PhpSpreadsheet\Reader\IReader
+    {
+        return PhpSpreadsheet\IOFactory::createReader('Xlsx');
     }
 
     protected function isValidMime($resource): bool
