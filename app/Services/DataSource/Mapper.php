@@ -20,14 +20,14 @@ abstract class Mapper implements Interfaces\Mapper
 
     // `final` prevents PHPStan from reporting an unsafe usage of static() in factory()
     // https://phpstan.org/blog/solving-phpstan-error-unsafe-usage-of-new-static
-    final public function __construct()
+    final public function __construct(State $texas = null)
     {
-        $this->texas = State::findByCodeOrFail('TX');
+        $this->texas = $texas ?? State::findByCodeOrFail('TX');
     }
 
-    public static function factory(): self
+    public static function factory(State $texas = null): self
     {
-        return new static();
+        return new static($texas);
     }
 
     public function setVersion(int $version): self
