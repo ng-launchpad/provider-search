@@ -38,8 +38,7 @@ class SyncCommand extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->addOption('network', 'N', InputOption::VALUE_REQUIRED, 'Specify the network to sync');
-        $this->addOption('file', 'F', InputOption::VALUE_REQUIRED, 'Specify a local file to use (overrides the remote connection)');
+        $this->addOption('network', 'N', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Specify a network to sync; <network>:<file>');
     }
 
     /**
@@ -63,11 +62,32 @@ class SyncCommand extends Command
 
             DB::transaction(function () use ($service, $output) {
 
-                $networks = $this->input->getOption('network')
-                    ? [Network::getByLabelOrFail($this->input->getOption('network'))]
-                    : Network::all();
+                if ($this->input->getOption('network')) {
 
-                foreach ($networks as $network) {
+                    $networks = [];
+
+                    foreach ($this->input->getOption('network') as $network) {
+
+                        preg_match('/^([a-zA-Z]+)(:(.*))?$/', $network, $matches);
+
+                        $networks[] = [
+                            Network::getByLabelOrFail($matches[1] ?? ''),
+                            $matches[3] ?? null,
+                        ];
+                    }
+
+                } else {
+                    $networks = array_map(function (Network $network) {
+                        return [
+                            $network,
+                            null,
+                        ];
+                    }, Network::all());
+                }
+
+                foreach ($networks as $networkSet) {
+
+                    [$network, $file] = $networkSet;
 
                     $output->writeln(sprintf(
                         'Syncing <comment>%s</comment> data... ',
@@ -83,8 +103,8 @@ class SyncCommand extends Command
                     $config = $network->getConfig();
                     $path   = $config['path'];
 
-                    $connection = $this->input->getOption('file')
-                        ? Connection\Local::factory($this->input->getOption('file'))
+                    $connection = $file
+                        ? Connection\Local::factory($file)
                         : call_user_func_array(
                             $config['connection']['class'] . '::factory',
                             $config['connection']['config']
