@@ -160,9 +160,17 @@ class DataSourceServiceTest extends TestCase
         //  Configure mocks: Parser
         $parser
             ->expects($this->once())
-            ->method('parse');
+            ->method('parse')
+            ->willReturn($this->arrayAsGenerator([
+                [],
+                [],
+            ]));
 
         //  Configure mocks: Mapper
+        $mapper
+            ->method('skipRow')
+            ->willReturn(false);
+
         $config = [
             'extractLanguages' => [
                 $language1,
@@ -185,10 +193,16 @@ class DataSourceServiceTest extends TestCase
                 $hospital2,
             ],
 
-            'extractProviders' => [
-                $provider1,
-                $provider2,
-            ],
+            'extractProviders' => array_map(
+                function (Provider $provider) use ($network) {
+                    $provider->network_id = $network->id;
+                    return $provider;
+                },
+                [
+                    $provider1,
+                    $provider2,
+                ]
+            ),
 
             'extractProviderLocations' => [
                 [$provider1, $location1, true],
@@ -218,7 +232,6 @@ class DataSourceServiceTest extends TestCase
 
         foreach ($config as $method => $items) {
             $mapper
-                ->expects($this->once())
                 ->method($method)
                 ->willReturn(Collection::make($items));
         }
@@ -238,10 +251,12 @@ class DataSourceServiceTest extends TestCase
         $this->assertCount(3, Speciality::all());
         $this->assertCount(2, Hospital::all());
         $this->assertCount(2, Provider::all());
+
         $this->assertCount(2, $provider1->locations()->get());
         $this->assertCount(2, $provider1->languages()->get());
         $this->assertCount(3, $provider1->specialities()->get());
         $this->assertCount(2, $provider1->hospitals()->get());
+
         $this->assertCount(1, $provider2->locations()->get());
         $this->assertCount(1, $provider2->languages()->get());
         $this->assertCount(1, $provider2->specialities()->get());
@@ -265,5 +280,12 @@ class DataSourceServiceTest extends TestCase
         Notification::assertSentTo(
             new AnonymousNotifiable, SyncFailureNotification::class
         );
+    }
+
+    private function arrayAsGenerator(array $array): \Generator
+    {
+        foreach ($array as $item) {
+            yield $item;
+        }
     }
 }
