@@ -117,13 +117,17 @@ final class Hch extends Mapper
                 return $this->isFacility($item)
                     ? trim($item[self::COL_MEDICAL_GROUP_NAME])
                     : trim(sprintf(
-                        '%s %s',
+                        '%s%s%s',
                         $item[self::COL_PROVIDER_FIRST_NAME],
+                        $item[self::COL_PROVIDER_MIDDLE_INITIAL]
+                            ? ' ' . $item[self::COL_PROVIDER_MIDDLE_INITIAL] . '. '
+                            : ' ',
                         $item[self::COL_PROVIDER_LAST_NAME],
                     ));
             },
-            'type'                      => self::COL_PROVIDER_TYPE,
+            'type'                      => fn() => 'Physician',
             'npi'                       => (int) $this->getProviderNpiKey(),
+            'degree'                    => self::COL_PROVIDER_TYPE,
             'gender'                    => function ($item) {
                 switch ($item[self::COL_PROVIDER_GENDER]) {
                     case 'M':
