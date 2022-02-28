@@ -116,7 +116,7 @@ abstract class Mapper implements Interfaces\Mapper
 
             $hospital = new Hospital();
 
-            if ($row[$key] ?? null) {
+            if (!empty($row[$key]) && strtolower($row[$key]) !== 'information not available') {
                 $hospital->label = $row[$key];
             }
 
