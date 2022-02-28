@@ -16,6 +16,11 @@ final class Cigna extends Mapper
     const COL_SERVICE_LOCATION_COUNTRY              = 8;
     const COL_SERVICE_LOCATION_PRIMARY_PHONE_NUMBER = 9;
 
+    public function skipRow(array $row): bool
+    {
+        return false;
+    }
+
     protected function getLanguageKeys(): array
     {
         return [];

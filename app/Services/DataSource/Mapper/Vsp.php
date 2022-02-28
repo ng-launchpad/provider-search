@@ -57,6 +57,11 @@ final class Vsp extends Mapper
     const COL_TAX_ID              = 47;
     const COL_FAX_NUMBER          = 48;
 
+    public function skipRow(array $row): bool
+    {
+        return false;
+    }
+
     protected function getLanguageKeys(): array
     {
         return [

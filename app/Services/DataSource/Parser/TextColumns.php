@@ -2,11 +2,7 @@
 
 namespace App\Services\DataSource\Parser;
 
-use App\Helper\BytesForHumans;
 use App\Services\DataSource\Interfaces\Parser;
-use Illuminate\Support\Collection;
-use Symfony\Component\Console\Output\ConsoleOutputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 final class TextColumns implements Parser
 {
@@ -26,7 +22,7 @@ final class TextColumns implements Parser
         $this->columnMap = $columnMap;
     }
 
-    public function parse($resource, OutputInterface $output): Collection
+    public function parse($resource): \Generator
     {
         if (!$this->isValidMime($resource)) {
             throw new \InvalidArgumentException(sprintf(
@@ -36,14 +32,9 @@ final class TextColumns implements Parser
             ));
         }
 
-        $collection = new Collection();
-        $i          = 0;
+        $i = 0;
 
         rewind($resource);
-
-        if ($output instanceof ConsoleOutputInterface) {
-            $section = $output->section();
-        }
 
         while (($line = fgets($resource)) !== false) {
             if ($i >= $this->offset) {
@@ -58,20 +49,10 @@ final class TextColumns implements Parser
                     $line    = substr($line, $length);
                 }
 
-                $collection->add($parts);
-
-                if (isset($section)) {
-                    $section->overwrite(sprintf(
-                        'Processed line %s; memory usage %s',
-                        $i,
-                        BytesForHumans::fromBytes(memory_get_usage())
-                    ));
-                }
+                yield $parts;
             }
             $i++;
         }
-
-        return $collection;
     }
 
     protected function isValidMime($resource): bool

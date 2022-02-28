@@ -2,9 +2,6 @@
 
 namespace App\Services\DataSource\Interfaces;
 
-use Illuminate\Support\Collection;
-use Symfony\Component\Console\Output\OutputInterface;
-
 interface Parser
 {
     public static function factory(int $offset = 0): self;
@@ -14,7 +11,7 @@ interface Parser
      *
      * @param $resource
      *
-     * @return Collection
+     * @return \Generator
      */
-    public function parse($resource, OutputInterface $output): Collection;
+    public function parse($resource): \Generator;
 }

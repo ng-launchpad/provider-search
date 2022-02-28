@@ -290,6 +290,12 @@ final class Aenta extends Mapper
     const COL_SPECIALTY3 = 91;
     const LEN_SPECIALTY3 = 5;
 
+    const ADD_CHANGE_INDICATOR_ADD         = 'A';   // indicates a brand-new Pin/Suffix created.  All data elements would be returned.
+    const ADD_CHANGE_INDICATOR_REINSTATE   = 'R';   // indicates a reinstatement (re-activation) of a Pin/Suffix.  All data elements would be returned.
+    const ADD_CHANGE_INDICATOR_TERMINATED  = 'T';   // indicates a Pin/Suffix has been terminated. All data elements would be returned.
+    const ADD_CHANGE_INDICATOR_INACTIVATED = 'I';   // indicates a Pin/Suffix Tax-Id has been inactivated (as by death or retirement). All data elements would be returned,
+    const ADD_CHANGE_INDICATOR_CHANGED     = 'C';   // indicates a change(s) to the provider data.  All data elements would be returned and may be overlaid.
+
     public static function getColumnLengths(): array
     {
         return [
@@ -386,6 +392,21 @@ final class Aenta extends Mapper
             self::LEN_SPECIALTY2,
             self::LEN_SPECIALTY3,
         ];
+    }
+
+    public function skipRow(array $row): bool
+    {
+        switch ($row[self::COL_ADD_CHANGE_INDICATOR]) {
+            case self::ADD_CHANGE_INDICATOR_ADD:
+            case self::ADD_CHANGE_INDICATOR_REINSTATE:
+            case self::ADD_CHANGE_INDICATOR_CHANGED:
+                return false;
+
+            case self::ADD_CHANGE_INDICATOR_TERMINATED:
+            case self::ADD_CHANGE_INDICATOR_INACTIVATED:
+            default:
+                return true;
+        }
     }
 
     protected function getLanguageKeys(): array

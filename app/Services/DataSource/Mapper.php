@@ -33,44 +33,39 @@ abstract class Mapper implements Interfaces\Mapper
         return $this;
     }
 
-    public function extractLanguages(Collection $collection): Collection
+    public function extractLanguages(array $row): Collection
     {
-        $collectionOut = new Collection();
+        $collection = new Collection();
 
-        $collection->each(function ($item) use ($collectionOut) {
-            foreach ($this->getLanguageKeys() as $key) {
+        foreach ($this->getLanguageKeys() as $key) {
 
-                $language = new Language();
+            $language = new Language();
 
-                if (!empty($item[$key]) && strtolower($item[$key]) !== 'english') {
-                    $language->label = $item[$key];
-                }
-
-                if ($language->isDirty()) {
-                    $language->version = $this->version;
-                    $collectionOut->add($language);
-                }
+            if (!empty($row[$key]) && strtolower($row[$key]) !== 'english') {
+                $language->label = $row[$key];
             }
-        });
 
-        return $collectionOut;
+            if ($language->isDirty()) {
+                $language->version = $this->version;
+                $collection->add($language);
+            }
+        }
+
+        return $collection;
     }
 
-    public function extractLocations(Collection $collection): Collection
+    public function extractLocations(array $row): Collection
     {
-        $collectionOut = new Collection();
+        $collection = new Collection();
 
-        $collection->each(function ($item) use ($collectionOut) {
+        $location = $this->buildLocation($row);
 
-            $location = $this->buildLocation($item);
+        if ($location->isDirty()) {
+            $location->version = $this->version;
+            $collection->add($location);
+        }
 
-            if ($location->isDirty()) {
-                $location->version = $this->version;
-                $collectionOut->add($location);
-            }
-        });
-
-        return $collectionOut;
+        return $collection;
     }
 
     private function buildLocation($item): Location
@@ -89,220 +84,204 @@ abstract class Mapper implements Interfaces\Mapper
         return $location;
     }
 
-    public function extractSpecialities(Collection $collection): Collection
+    public function extractSpecialities(array $row): Collection
     {
-        $collectionOut = new Collection();
+        $collection = new Collection();
 
-        $collection->each(function ($item) use ($collectionOut) {
-            foreach ($this->getSpecialityKeys() as $key) {
+        foreach ($this->getSpecialityKeys() as $key) {
 
-                $speciality = new Speciality();
+            $speciality = new Speciality();
 
-                if ($item[$key] ?? null) {
-                    $speciality->label = $item[$key];
-                }
-
-                if ($speciality->isDirty()) {
-                    $speciality->version = $this->version;
-                    $collectionOut->add($speciality);
-                }
+            if ($row[$key] ?? null) {
+                $speciality->label = $row[$key];
             }
-        });
 
-        return $collectionOut;
+            if ($speciality->isDirty()) {
+                $speciality->version = $this->version;
+                $collection->add($speciality);
+            }
+        }
+
+        return $collection;
     }
 
-    public function extractHospitals(Collection $collection): Collection
+    public function extractHospitals(array $row): Collection
     {
-        $collectionOut = new Collection();
+        $collection = new Collection();
 
-        $collection->each(function ($item) use ($collectionOut) {
-            foreach ($this->getHospitalKeys() as $key) {
+        foreach ($this->getHospitalKeys() as $key) {
 
-                $hospital = new Hospital();
+            $hospital = new Hospital();
 
-                if ($item[$key] ?? null) {
-                    $hospital->label = $item[$key];
-                }
-
-                if ($hospital->isDirty()) {
-                    $hospital->version = $this->version;
-                    $collectionOut->add($hospital);
-                }
+            if ($row[$key] ?? null) {
+                $hospital->label = $row[$key];
             }
-        });
 
-        return $collectionOut;
+            if ($hospital->isDirty()) {
+                $hospital->version = $this->version;
+                $collection->add($hospital);
+            }
+        }
+
+        return $collection;
     }
 
-    public function extractProviders(Collection $collection): Collection
+    public function extractProviders(array $row, Network $network): Collection
     {
-        $collectionOut = new Collection();
+        $collection = new Collection();
 
-        $collection->each(function ($item) use ($collectionOut) {
+        $provider = new Provider();
 
-            $provider = new Provider();
+        foreach ($this->getProviderKeys() as $property => $key) {
 
-            foreach ($this->getProviderKeys() as $property => $key) {
+            $provider->{$property} = $key instanceof \Closure
+                ? $key($row)
+                : $row[$key];
+        }
 
-                $provider->{$property} = $key instanceof \Closure
-                    ? $key($item)
-                    : $item[$key];
-            }
+        if ($provider->isDirty()) {
+            $provider->network_id = $network->id;
+            $provider->version    = $this->version;
+            $collection->add($provider);
+        }
 
-            if ($provider->isDirty()) {
-                $provider->version = $this->version;
-                $collectionOut->add($provider);
-            }
-        });
-
-        return $collectionOut;
+        return $collection;
     }
 
-    public function extractProviderLocations(Collection $collection, Network $network): Collection
+    public function extractProviderLocations(array $row, Network $network): Collection
     {
-        $collectionOut = new Collection();
+        $collection = new Collection();
 
-        $collection->each(function ($item) use ($collectionOut, $network) {
+        try {
 
-            try {
+            $provider = Provider::findByVersionNpiAndNetworkOrFail(
+                $this->version,
+                $row[$this->getProviderNpiKey()],
+                $network
+            );
 
-                $provider = Provider::findByVersionNpiAndNetworkOrFail(
-                    $this->version,
-                    $item[$this->getProviderNpiKey()],
-                    $network
-                );
-                $location = $this->buildLocation($item);
-                $location = Location::query()->where('hash', $location->generateHash())->firstOrFail();
+            $location = $this->buildLocation($row);
+            $location = Location::query()
+                ->where('hash', $location->generateHash())
+                ->firstOrFail();
 
-                if (!array_key_exists($provider->id, $this->providerLocationCache)) {
-                    $this->providerLocationCache[$provider->id] = 0;
-                }
-
-                $collectionOut->add([
-                    $provider,
-                    $location,
-                    // If this is the Provider's first address (cache is 0) then consider it their primary address
-                    !(bool) $this->providerLocationCache[$provider->id]++,
-                ]);
-
-            } catch (ModelNotFoundException $e) {
-                // Didn't find provider or location, so continue
+            if (!array_key_exists($provider->id, $this->providerLocationCache)) {
+                $this->providerLocationCache[$provider->id] = 0;
             }
 
-        });
+            $collection->add([
+                $provider,
+                $location,
+                // If this is the Provider's first address (cache is 0) then consider it their primary address
+                !(bool) $this->providerLocationCache[$provider->id]++,
+            ]);
 
-        return $collectionOut;
+        } catch (ModelNotFoundException $e) {
+            // Didn't find provider or location, so continue
+        }
+
+        return $collection;
     }
 
-    public function extractProviderLanguages(Collection $collection, Network $network): Collection
+    public function extractProviderLanguages(array $row, Network $network): Collection
     {
-        $collectionOut = new Collection();
+        $collection = new Collection();
 
-        $collection->each(function ($item) use ($collectionOut, $network) {
+        try {
 
-            try {
+            $provider  = Provider::findByVersionNpiAndNetworkOrFail(
+                $this->version,
+                $row[$this->getProviderNpiKey()],
+                $network
+            );
+            $languages = $this->extractLanguages($row);
 
-                $provider  = Provider::findByVersionNpiAndNetworkOrFail(
-                    $this->version,
-                    $item[$this->getProviderNpiKey()],
-                    $network
-                );
-                $languages = $this->extractLanguages(Collection::make([$item]));
+            foreach ($languages as $language) {
+                try {
 
-                foreach ($languages as $language) {
-                    try {
+                    $language = Language::findByVersionAndLabelOrFail($provider->version, $language->label);
+                    $collection->add([
+                        $provider,
+                        $language,
+                    ]);
 
-                        $language = Language::where('label', $language->label)->firstOrFail();
-                        $collectionOut->add([
-                            $provider,
-                            $language,
-                        ]);
-
-                    } catch (ModelNotFoundException $e) {
-                        // Didn't find language, so continue
-                    }
+                } catch (ModelNotFoundException $e) {
+                    // Didn't find language, so continue
                 }
-
-            } catch (ModelNotFoundException $e) {
-                // Didn't find provider, so continue
             }
-        });
 
-        return $collectionOut;
+        } catch (ModelNotFoundException $e) {
+            // Didn't find provider, so continue
+        }
+
+        return $collection;
     }
 
-    public function extractProviderSpecialities(Collection $collection, Network $network): Collection
+    public function extractProviderSpecialities(array $row, Network $network): Collection
     {
-        $collectionOut = new Collection();
+        $collection = new Collection();
 
-        $collection->each(function ($item) use ($collectionOut, $network) {
+        try {
 
-            try {
+            $provider     = Provider::findByVersionNpiAndNetworkOrFail(
+                $this->version,
+                $row[$this->getProviderNpiKey()],
+                $network
+            );
+            $specialities = $this->extractSpecialities($row);
 
-                $provider     = Provider::findByVersionNpiAndNetworkOrFail(
-                    $this->version,
-                    $item[$this->getProviderNpiKey()],
-                    $network
-                );
-                $specialities = $this->extractSpecialities(Collection::make([$item]));
+            foreach ($specialities as $speciality) {
+                try {
 
-                foreach ($specialities as $speciality) {
-                    try {
+                    $speciality = Speciality::where('label', $speciality->label)->firstOrFail();
+                    $collection->add([
+                        $provider,
+                        $speciality,
+                    ]);
 
-                        $speciality = Speciality::where('label', $speciality->label)->firstOrFail();
-                        $collectionOut->add([
-                            $provider,
-                            $speciality,
-                        ]);
-
-                    } catch (ModelNotFoundException $e) {
-                        // Didn't find speciality so continue
-                    }
+                } catch (ModelNotFoundException $e) {
+                    // Didn't find speciality so continue
                 }
-
-            } catch (ModelNotFoundException $e) {
-                // Didn't find provider, so continue
             }
-        });
 
-        return $collectionOut;
+        } catch (ModelNotFoundException $e) {
+            // Didn't find provider, so continue
+        }
+
+        return $collection;
     }
 
-    public function extractProviderHospitals(Collection $collection, Network $network): Collection
+    public function extractProviderHospitals(array $row, Network $network): Collection
     {
-        $collectionOut = new Collection();
+        $collection = new Collection();
 
-        $collection->each(function ($item) use ($collectionOut, $network) {
+        try {
 
-            try {
+            $provider  = Provider::findByVersionNpiAndNetworkOrFail(
+                $this->version,
+                $row[$this->getProviderNpiKey()],
+                $network
+            );
+            $hospitals = $this->extractHospitals($row);
 
-                $provider  = Provider::findByVersionNpiAndNetworkOrFail(
-                    $this->version,
-                    $item[$this->getProviderNpiKey()],
-                    $network
-                );
-                $hospitals = $this->extractHospitals(Collection::make([$item]));
+            foreach ($hospitals as $hospital) {
+                try {
 
-                foreach ($hospitals as $hospital) {
-                    try {
+                    $hospital = Hospital::where('label', $hospital->label)->firstOrFail();
+                    $collection->add([
+                        $provider,
+                        $hospital,
+                    ]);
 
-                        $hospital = Hospital::where('label', $hospital->label)->firstOrFail();
-                        $collectionOut->add([
-                            $provider,
-                            $hospital,
-                        ]);
-
-                    } catch (ModelNotFoundException $e) {
-                        // Didn't find hospital, so continue
-                    }
+                } catch (ModelNotFoundException $e) {
+                    // Didn't find hospital, so continue
                 }
-            } catch (ModelNotFoundException $e) {
-                // Didn't find provider, so continue
             }
-        });
+        } catch (ModelNotFoundException $e) {
+            // Didn't find provider, so continue
+        }
 
-        return $collectionOut;
+        return $collection;
     }
 
     protected abstract function getLanguageKeys(): array;

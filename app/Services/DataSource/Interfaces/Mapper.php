@@ -10,87 +10,97 @@ interface Mapper
     public static function factory(): self;
 
     /**
-     * Takes a Collection and extracts a Collection of Languages
+     * Determines whether the row should be skipped or not
      *
-     * @param Collection $collection
+     * @param array $row
      *
-     * @return Collection
+     * @return bool
      */
-    public function extractLanguages(Collection $collection): Collection;
+    public function skipRow(array $row): bool;
 
     /**
-     * Takes a Collection and extracts a Collection of Locations
+     * Takes a data row and extracts a Collection of Languages
      *
-     * @param Collection $collection
+     * @param array $row
      *
      * @return Collection
      */
-    public function extractLocations(Collection $collection): Collection;
+    public function extractLanguages(array $row): Collection;
 
     /**
-     * Takes a Collection and extracts a Collection of Specialities
+     * Takes a data row and extracts a Collection of Locations
      *
-     * @param Collection $collection
+     * @param array $row
      *
      * @return Collection
      */
-    public function extractSpecialities(Collection $collection): Collection;
+    public function extractLocations(array $row): Collection;
 
     /**
-     * Takes a Collection and extracts a Collection of Hospitals
+     * Takes a data row and extracts a Collection of Specialities
      *
-     * @param Collection $collection
+     * @param array $row
      *
      * @return Collection
      */
-    public function extractHospitals(Collection $collection): Collection;
+    public function extractSpecialities(array $row): Collection;
 
     /**
-     * Takes a Collection and extracts a Collection of Specialities
+     * Takes a data row and extracts a Collection of Hospitals
      *
-     * @param Collection $collection
+     * @param array $row
      *
      * @return Collection
      */
-    public function extractProviders(Collection $collection): Collection;
+    public function extractHospitals(array $row): Collection;
+
+    /**
+     * Takes a data row and extracts a Collection of Providers
+     *
+     * @param array   $row
+     * @param Network $network
+     *
+     * @return Collection
+     */
+    public function extractProviders(array $row, Network $network): Collection;
 
     /**
      * Takes a Collection and extracts a Collection of ProviderLocations
      *
-     * @param Collection $collection
-     * @param Network    $network
+     * @param array   $row
+     * @param Network $network
      *
      * @return Collection
      */
-    public function extractProviderLocations(Collection $collection, Network $network): Collection;
+    public function extractProviderLocations(array $row, Network $network): Collection;
 
     /**
      * Takes a Collection and extracts a Collection of ProviderLanguages
      *
-     * @param Collection $collection
-     * @param Network    $network
+     * @param array   $row
+     * @param Network $network
      *
      * @return Collection
      */
-    public function extractProviderLanguages(Collection $collection, Network $network): Collection;
+    public function extractProviderLanguages(array $row, Network $network): Collection;
 
     /**
      * Takes a Collection and extracts a Collection of ProviderSpecialities
      *
-     * @param Collection $collection
-     * @param Network    $network
+     * @param array   $row
+     * @param Network $network
      *
      * @return Collection
      */
-    public function extractProviderSpecialities(Collection $collection, Network $network): Collection;
+    public function extractProviderSpecialities(array $row, Network $network): Collection;
 
     /**
      * Takes a Collection and extracts a Collection of ProviderHospitals
      *
-     * @param Collection $collection
-     * @param Network    $network
+     * @param array   $row
+     * @param Network $network
      *
      * @return Collection
      */
-    public function extractProviderHospitals(Collection $collection, Network $network): Collection;
+    public function extractProviderHospitals(array $row, Network $network): Collection;
 }

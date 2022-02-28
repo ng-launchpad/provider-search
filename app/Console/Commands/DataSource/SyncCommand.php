@@ -157,15 +157,17 @@ class SyncCommand extends Command
             $output->write('Truncating old data... ');
             $service->truncate(Setting::version());
             $output->writeln(sprintf(
-                '<comment>done</comment> (took %s seconds)',
+                '➞ <comment>done</comment> (took %s seconds)',
                 $this->elapsed($truncateStart)
             ));
 
             $output->write('Bumping version number... ');
             Setting::bumpVersion();
-            $output->writeln('<comment>done</comment>');
+            $output->writeln('➞ <comment>done</comment>');
 
+            $output->write('Sending success notification... ');
             $service->notifySuccess($output->getLog());
+            $output->writeln('➞ <comment>done</comment>');
 
         } catch (\Throwable $e) {
 
@@ -177,13 +179,13 @@ class SyncCommand extends Command
             $output->write('Truncating new data... ');
             $service->truncate(Setting::nextVersion());
             $output->writeln(sprintf(
-                '<comment>done</comment> (took %s seconds)',
+                '➞ <comment>done</comment> (took %s seconds)',
                 $this->elapsed($truncateStart)
             ));
 
             $output->write('Sending failure notification... ');
             $service->notifyError($e, $output->getLog());
-            $output->writeln('<comment>done</comment>');
+            $output->writeln('➞ <comment>done</comment>');
 
             $output->writeln('Re-throwing exception');
             throw $e;

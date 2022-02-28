@@ -55,6 +55,11 @@ final class Hch extends Mapper
     const COL_SPECIALTY_2                             = 44;
     const COL_SPECIALTY_3                             = 45;
 
+    public function skipRow(array $row): bool
+    {
+        return false;
+    }
+
     protected function getLanguageKeys(): array
     {
         return [
