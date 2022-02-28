@@ -56,7 +56,7 @@
                             v-bind:key="index"
                         >
                             <router-link
-                                v-bind:to="{path: '/results', query: {keywords: item,network_id: selectedNetwork, scope: 'city'}}"
+                                v-bind:to="{path: '/results', query: {keywords: item,network_id: selectedNetwork.id, scope: 'city'}}"
                                 class="browsing-container__list-link"
                             >
                                 {{ item }}
@@ -77,7 +77,7 @@
                             v-bind:key="index"
                         >
                             <router-link
-                                v-bind:to="{path: '/results', query: {keywords: item,network_id: selectedNetwork, scope: 'speciality'}}"
+                                v-bind:to="{path: '/results', query: {keywords: item,network_id: selectedNetwork.id, scope: 'speciality'}}"
                                 class="browsing-container__list-link"
                             >
                                 {{ item }}
