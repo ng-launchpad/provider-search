@@ -194,7 +194,7 @@ final class DataSourceService
                     [$provider, $location, $is_primary] = $set;
                     $provider
                         ->locations()
-                        ->attach($location, ['is_primary' => $is_primary]);
+                        ->syncWithoutDetaching($location, ['is_primary' => $is_primary]);
                 });
 
                 // --------------------------------------------------------------------------
@@ -213,7 +213,7 @@ final class DataSourceService
                     [$provider, $language] = $set;
                     $provider
                         ->languages()
-                        ->attach($language);
+                        ->syncWithoutDetaching($language);
                 });
 
                 // --------------------------------------------------------------------------
@@ -232,7 +232,7 @@ final class DataSourceService
                     [$provider, $speciality] = $set;
                     $provider
                         ->specialities()
-                        ->attach($speciality);
+                        ->syncWithoutDetaching($speciality);
                 });
 
                 // --------------------------------------------------------------------------
@@ -251,7 +251,7 @@ final class DataSourceService
                     [$provider, $hospital] = $set;
                     $provider
                         ->hospitals()
-                        ->attach($hospital);
+                        ->syncWithoutDetaching($hospital);
                 });
 
                 // --------------------------------------------------------------------------
