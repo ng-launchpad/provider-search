@@ -8,18 +8,21 @@ use App\Models\Location;
 use App\Models\Network;
 use App\Models\Provider;
 use App\Models\Speciality;
+use App\Models\State;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
 
 abstract class Mapper implements Interfaces\Mapper
 {
-    private $version;
-    private $providerLocationCache = [];
+    protected State $texas;
+    private         $version;
+    private         $providerLocationCache = [];
 
     // `final` prevents PHPStan from reporting an unsafe usage of static() in factory()
     // https://phpstan.org/blog/solving-phpstan-error-unsafe-usage-of-new-static
     final public function __construct()
     {
+        $this->texas = State::findByCodeOrFail('TX');
     }
 
     public static function factory(): self
