@@ -72,7 +72,10 @@ final class DataSourceService
         try {
 
             $start = Carbon::now();
-            $output->writeln('Beginning download... ');
+            $output->writeln(sprintf(
+                'Beginning download <comment>%s</comment>... ',
+                $path
+            ));
             $connection->download($path, $file);
             $output->writeln(sprintf(
                 '➞ <comment>done</comment> (took <comment>%s seconds</comment>, filesize: %s)',
