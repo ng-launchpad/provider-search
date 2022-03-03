@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Helper\Formatter;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class LocationResource extends JsonResource
@@ -27,7 +28,7 @@ class LocationResource extends JsonResource
                 'state'  => new StateResource($this->whenLoaded('state')),
                 'zip'    => $this->address_zip,
             ],
-            'phone'      => $this->phone,
+            'phone'      => Formatter::phone($this->phone),
             'is_primary' => $this->whenPivotLoaded('location_provider', function () {
                 return $this->pivot->is_primary;
             }),
