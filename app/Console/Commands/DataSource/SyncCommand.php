@@ -93,7 +93,7 @@ class SyncCommand extends Command
                      */
                     [$network, $file] = $networkSet;
 
-                    $output->writeln('- - -');
+                    $output->writeln('');
                     $output->writeln(sprintf(
                         'Syncing <comment>%s</comment> data... ',
                         $network->label
@@ -154,7 +154,7 @@ class SyncCommand extends Command
                         $networkStart->toIso8601String(),
                         number_format($this->elapsed($networkStart))
                     ));
-                    $output->writeln('---');
+                    $output->writeln('');
                 }
             });
 
