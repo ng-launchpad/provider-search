@@ -33,14 +33,17 @@ class NetworkSeeder extends Seeder
                     '<p>This online directory is updated weekly, but it is for reference only. We make every effort to ensure current, accurate data, but changes occur daily and may not be reflected immediately.  If you feel you have identified a discrepancy, please contact us at <a href="mailto:ABGHProviderDirectory@NGIC.COM">ABGHProviderDirectory@NGIC.COM</a>.</p>',
                 ]),
                 'legal_browse'    => implode(PHP_EOL, [
+                    '<p>Aetna PPO Network through the Aetna Signature Administrators® program provides medical and dental network access for Allstate Benefits Secure Choice – Broad members.</p>',
                     '<p>Group health insurance plans offered by Allstate Benefits are underwritten by Integon National Insurance Company.</p>',
                     '<p>This online directory is updated weekly, but it is for reference only. We make every effort to ensure current, accurate data, but changes occur daily and may not be reflected immediately.  If you feel you have identified a discrepancy, please contact us at <a href="mailto:ABGHProviderDirectory@NGIC.COM">ABGHProviderDirectory@NGIC.COM</a>.</p>',
                 ]),
                 'legal_provider'  => implode(PHP_EOL, [
+                    '<p>Aetna PPO Network through the Aetna Signature Administrators® program provides medical and dental network access for Allstate Benefits Secure Choice – Broad members.</p>',
                     '<p>Group health insurance plans offered by Allstate Benefits are underwritten by Integon National Insurance Company.</p>',
                     '<p>This online directory is updated weekly, but it is for reference only. We make every effort to ensure current, accurate data, but changes occur daily and may not be reflected immediately.  If you feel you have identified a discrepancy, please contact us at <a href="mailto:ABGHProviderDirectory@NGIC.COM">ABGHProviderDirectory@NGIC.COM</a>.</p>',
                 ]),
                 'legal_facility'  => implode(PHP_EOL, [
+                    '<p>Aetna PPO Network through the Aetna Signature Administrators® program provides medical and dental network access for Allstate Benefits Secure Choice – Broad members.</p>',
                     '<p>Group health insurance plans offered by Allstate Benefits are underwritten by Integon National Insurance Company.</p>',
                     '<p>This online directory is updated weekly, but it is for reference only. We make every effort to ensure current, accurate data, but changes occur daily and may not be reflected immediately.  If you feel you have identified a discrepancy, please contact us at <a href="mailto:ABGHProviderDirectory@NGIC.COM">ABGHProviderDirectory@NGIC.COM</a>.</p>',
                 ]),
@@ -67,14 +70,20 @@ class NetworkSeeder extends Seeder
                     '<p>This online directory is updated weekly, but it is for reference only. We make every effort to ensure current, accurate data, but changes occur daily and may not be reflected immediately.  If you feel you have identified a discrepancy, please contact us at <a href="mailto:ABGHProviderDirectory@NGIC.COM">ABGHProviderDirectory@NGIC.COM</a>.</p>',
                 ]),
                 'legal_browse'    => implode(PHP_EOL, [
+                    '<p>The Allstate Benefits Secure Choice - Select providers listed in this online directory are accessible to health plan members through a contract arrangement with Healthcare Highways. All Healthcare Highways providers should recognize the combined logos on your member ID card.</p>',
+                    '<p>The Healthcare Highways Sync Texas Fully Insured provides medical network access for Allstate Benefits Secure Choice – Select members.</p>',
                     '<p>Group health insurance plans offered by Allstate Benefits are underwritten by Integon National Insurance Company.</p>',
                     '<p>This online directory is updated weekly, but it is for reference only. We make every effort to ensure current, accurate data, but changes occur daily and may not be reflected immediately.  If you feel you have identified a discrepancy, please contact us at <a href="mailto:ABGHProviderDirectory@NGIC.COM">ABGHProviderDirectory@NGIC.COM</a>.</p>',
                 ]),
                 'legal_provider'  => implode(PHP_EOL, [
+                    '<p>The Allstate Benefits Secure Choice - Select providers listed in this online directory are accessible to health plan members through a contract arrangement with Healthcare Highways. All Healthcare Highways providers should recognize the combined logos on your member ID card.</p>',
+                    '<p>The Healthcare Highways Sync Texas Fully Insured provides medical network access for Allstate Benefits Secure Choice – Select members.</p>',
                     '<p>Group health insurance plans offered by Allstate Benefits are underwritten by Integon National Insurance Company.</p>',
                     '<p>This online directory is updated weekly, but it is for reference only. We make every effort to ensure current, accurate data, but changes occur daily and may not be reflected immediately.  If you feel you have identified a discrepancy, please contact us at <a href="mailto:ABGHProviderDirectory@NGIC.COM">ABGHProviderDirectory@NGIC.COM</a>.</p>',
                 ]),
                 'legal_facility'  => implode(PHP_EOL, [
+                    '<p>The Allstate Benefits Secure Choice - Select providers listed in this online directory are accessible to health plan members through a contract arrangement with Healthcare Highways. All Healthcare Highways providers should recognize the combined logos on your member ID card.</p>',
+                    '<p>The Healthcare Highways Sync Texas Fully Insured provides medical network access for Allstate Benefits Secure Choice – Select members.</p>',
                     '<p>Group health insurance plans offered by Allstate Benefits are underwritten by Integon National Insurance Company.</p>',
                     '<p>This online directory is updated weekly, but it is for reference only. We make every effort to ensure current, accurate data, but changes occur daily and may not be reflected immediately.  If you feel you have identified a discrepancy, please contact us at <a href="mailto:ABGHProviderDirectory@NGIC.COM">ABGHProviderDirectory@NGIC.COM</a>.</p>',
                 ]),
@@ -125,14 +134,20 @@ class NetworkSeeder extends Seeder
                     '<p>This online directory is updated weekly, but it is for reference only. We make every effort to ensure current, accurate data, but changes occur daily and may not be reflected immediately.  If you feel you have identified a discrepancy, please contact us at <a href="mailto:ABGHProviderDirectory@NGIC.COM">ABGHProviderDirectory@NGIC.COM</a>.</p>',
                 ]),
                 'legal_search'    => implode(PHP_EOL, [
+                    '<p>Cigna is an independent company and not affiliated with Allstate Benefits. Access to the Cigna Pharmacy 90 Now Network is available through Cigna\'s contractual relationship with Allstate Benefits.</p>',
+                    '<p>All Cigna products are provided exclusively by or through operating subsidiaries of Cigna Corporation, including Cigna Health and Life Insurance Company. The Cigna name, logo, and other Cigna marks are owned by Cigna Intellectual Property, Inc</p>',
                     '<p>Group health insurance plans offered by Allstate Benefits are underwritten by Integon National Insurance Company.</p>',
                     '<p>This online directory is updated weekly, but it is for reference only. We make every effort to ensure current, accurate data, but changes occur daily and may not be reflected immediately.  If you feel you have identified a discrepancy, please contact us at <a href="mailto:ABGHProviderDirectory@NGIC.COM">ABGHProviderDirectory@NGIC.COM</a>.</p>',
                 ]),
                 'legal_browse'    => implode(PHP_EOL, [
+                    '<p>Cigna is an independent company and not affiliated with Allstate Benefits. Access to the Cigna Pharmacy 90 Now Network is available through Cigna\'s contractual relationship with Allstate Benefits.</p>',
+                    '<p>All Cigna products are provided exclusively by or through operating subsidiaries of Cigna Corporation, including Cigna Health and Life Insurance Company. The Cigna name, logo, and other Cigna marks are owned by Cigna Intellectual Property, Inc</p>',
                     '<p>Group health insurance plans offered by Allstate Benefits are underwritten by Integon National Insurance Company.</p>',
                     '<p>This online directory is updated weekly, but it is for reference only. We make every effort to ensure current, accurate data, but changes occur daily and may not be reflected immediately.  If you feel you have identified a discrepancy, please contact us at <a href="mailto:ABGHProviderDirectory@NGIC.COM">ABGHProviderDirectory@NGIC.COM</a>.</p>',
                 ]),
                 'legal_provider'  => implode(PHP_EOL, [
+                    '<p>Cigna is an independent company and not affiliated with Allstate Benefits. Access to the Cigna Pharmacy 90 Now Network is available through Cigna\'s contractual relationship with Allstate Benefits.</p>',
+                    '<p>All Cigna products are provided exclusively by or through operating subsidiaries of Cigna Corporation, including Cigna Health and Life Insurance Company. The Cigna name, logo, and other Cigna marks are owned by Cigna Intellectual Property, Inc</p>',
                     '<p>Group health insurance plans offered by Allstate Benefits are underwritten by Integon National Insurance Company.</p>',
                     '<p>This online directory is updated weekly, but it is for reference only. We make every effort to ensure current, accurate data, but changes occur daily and may not be reflected immediately.  If you feel you have identified a discrepancy, please contact us at <a href="mailto:ABGHProviderDirectory@NGIC.COM">ABGHProviderDirectory@NGIC.COM</a>.</p>',
                 ]),
@@ -140,7 +155,7 @@ class NetworkSeeder extends Seeder
                     '<p>Cigna is an independent company and not affiliated with Allstate Benefits. Access to the Cigna Pharmacy 90 Now Network is available through Cigna\'s contractual relationship with Allstate Benefits.</p>',
                     '<p>All Cigna products are provided exclusively by or through operating subsidiaries of Cigna Corporation, including Cigna Health and Life Insurance Company. The Cigna name, logo, and other Cigna marks are owned by Cigna Intellectual Property, Inc</p>',
                     '<p>Group health insurance plans offered by Allstate Benefits are underwritten by Integon National Insurance Company.</p>',
-                    '<p>This online directory is updated weekly, but it is for reference only. We make every effort to ensure current, accurate data, but changes occur daily and may not be reflected immediately.  If you feel you have identified a discrepancy, please contact us at ABGHProviderDirectory@NGIC.COM.</p>',
+                    '<p>This online directory is updated weekly, but it is for reference only. We make every effort to ensure current, accurate data, but changes occur daily and may not be reflected immediately.  If you feel you have identified a discrepancy, please contact us at <a href="mailto:ABGHProviderDirectory@NGIC.COM">ABGHProviderDirectory@NGIC.COM</a>.</p>',
                 ]),
                 'config_key'      => 'datasource.source.cigna',
             ],
