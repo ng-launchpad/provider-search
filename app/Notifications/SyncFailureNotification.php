@@ -81,7 +81,7 @@ class SyncFailureNotification extends Notification
 HEREDOC;
 
         $log = sprintf(
-            '<code style="display: block; width: 100%%; padding: 10px; white-space: pre-wrap;;">%s</code>',
+            '<code style="display: block; width: 100%%; padding: 10px; white-space: pre-wrap;">%s</code>',
             implode(PHP_EOL, array_map('strip_tags', $this->log))
         );
 
