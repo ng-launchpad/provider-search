@@ -13,7 +13,13 @@
 
                 <div class="search-block__form">
                     <div v-if="isResults" class="search-block__network-label">
-                        Searching: {{ selectedNetworkLabel }}
+                        <template v-if="selectedIndex === 0">
+                            Searching: Secure choice - Broad medical providers
+                        </template>
+
+                        <template v-else>
+                            Searching: {{ selectedNetworkLabel }}
+                        </template>
                     </div>
                     <div class="search-block__form-inner">
                         <input type="text" class="search-block__input" placeholder="Search by doctor or facility name, specialty or address" v-model="searchQuery">
@@ -194,6 +200,12 @@ export default {
         selectedNetworkLabel: function() {
             if (this.networks.length) {
                 return this.networks.find(network => network.id == this.selectedNetwork).search_label || '';
+            }
+        },
+
+        selectedIndex() {
+            if (this.networks.length) {
+                return this.networks.indexOf(this.networks.find(network => network.id == this.selectedNetwork));
             }
         }
     },
