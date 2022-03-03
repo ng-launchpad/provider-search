@@ -192,7 +192,9 @@ class Provider extends Model
     protected function applyFilterCity(Builder $query, string $keywords): self
     {
         $query->orWhereHas('locations', function ($query) use ($keywords) {
-            $query->where('locations.address_city', 'like', "%$keywords%");
+            $query
+                ->orWhere('locations.address_city', 'like', "%$keywords%")
+                ->orWhere('locations.address_zip', 'like', "%$keywords%");
         });
 
         return $this;
