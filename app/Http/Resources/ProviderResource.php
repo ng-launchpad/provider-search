@@ -22,7 +22,7 @@ class ProviderResource extends JsonResource
             'npi'                       => $this->npi,
             'degree'                    => $this->degree,
             'website'                   => $this->website,
-            'gender'                    => $this->gender,
+            'gender'                    => ucwords(strtolower($this->gender)),
             'is_facility'               => $this->is_facility,
             'is_accepting_new_patients' => $this->is_accepting_new_patients,
             'network'                   => new NetworkResource($this->whenLoaded('network')),
