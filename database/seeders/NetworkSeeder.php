@@ -18,7 +18,7 @@ class NetworkSeeder extends Seeder
             //  AENTA
             [
                 'label'           => 'AENTA',
-                'search_label'    => 'Medical & dental providers',
+                'search_label'    => 'Medical providers',
                 'search_sublabel' => 'Secure choice <em>Broad</em>',
                 'network_label'   => 'Allstate Benefits Secure Choice',
                 'browse_label'    => 'Secure Choice Broad',
