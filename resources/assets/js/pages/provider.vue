@@ -144,7 +144,7 @@
                                 Languages spoken
                             </div>
                             <div class="provider-content__char text--regular">
-                                English, {{ languages }}
+                                English<span v-if="languages.length">,</span> {{ languages }}
                             </div>
                         </div>
                         <div
