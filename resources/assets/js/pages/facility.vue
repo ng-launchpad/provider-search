@@ -46,15 +46,15 @@
                             <div class="provider-content__char provider-content__char--location provider-content__char--facility">
                                 <span class="provider-content__char-text text--light flex-xl-row flex-column">
                                     <span>
-                                        {{ item.address.line_1 }}, {{ item.address.line_2 ? item.address.line_2 + ',' : '' }} {{ item.address.city }}, {{ item.address.state.label }}, {{ item.address.zip }}
+                                        {{ item.address.string }}
                                     </span>
 
                                     <a
-                                        v-bind:href="`https://maps.google.com/?q=${item.address.line_1},${item.address.line_2 ? item.address.line_2 + ',' : ''}${item.address.city},${item.address.state},${item.address.zip}`"
+                                        v-bind:href="`${item.address.map}`"
                                         class="provider-content__char-location-link ml-xl-3 ml-0"
                                         target="_blank"
                                     >
-                                        <span>view on a map</span>
+                                        <br><span>view on a map</span>
                                     </a>
                                 </span>
                             </div>

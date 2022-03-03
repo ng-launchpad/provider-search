@@ -7,7 +7,7 @@
                 </p>
                 <p
                     class="page-header__sub-title">
-                    Accepting new patients
+                    {{ provider.is_accepting_new_patients ? 'Accepting new patients' : 'Not accepting new patients' }}
                 </p>
                 <div class="row mt-4">
                     <div
@@ -24,7 +24,7 @@
                             >
                                 <strong>Address</strong>
                                 <br>
-                                {{ primaryAddress.address.line_1 }}, {{ primaryAddress.address.line_2 ? primaryAddress.address.line_2 + ', ' : '' }} {{ primaryAddress.address.city }}, {{ primaryAddress.address.state.label }}, {{ primaryAddress.address.zip }}
+                                {{ primaryAddress.address.string }}
                                 <br>
                             </div>
                         </div>
@@ -32,7 +32,7 @@
                             <img v-bind:src="'/images/icon-pointer.svg'" alt="">
                             <div class="page-header__char-title">
                                 <a
-                                    v-bind:href="`https://maps.google.com/?q=${primaryAddress.address.addr_line_1},${primaryAddress.address.city},${primaryAddress.address.state.label},${primaryAddress.address.zip}`"
+                                    v-bind:href="`${primaryAddress.address.map}`"
                                     class="mt-2 d-inline-block text--styled-link"
                                 >
                                     View on a map
@@ -176,13 +176,13 @@
                             v-for="item in provider.locations.slice(1)"
                             class="provider-content__char-line"
                         >
-                            {{ item.address.line_1 }}, {{ item.address.line_2 ? item.address.line_2 + ', ' : '' }} {{ item.address.city }}, {{ item.address.state.label }}, {{ item.address.zip }}
+                            {{ item.address.string }}
                             <a
-                                v-bind:href="`https://maps.google.com/?q=${item.address.line_1},${item.address.city},${item.address.state.label},${item.address.zip}`"
+                                v-bind:href="`${item.address.map}`"
                                 class="text--regular text--styled-link"
                                 target="_blank"
                             >
-                                <span>view on a map</span>
+                                <br><span>view on a map</span>
                                 <img src="images/arrow-right.svg" alt="">
                             </a>
                             &mdash;
