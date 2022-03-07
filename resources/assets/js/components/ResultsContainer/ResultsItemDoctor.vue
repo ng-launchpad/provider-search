@@ -45,7 +45,7 @@
                     >
                     <span>
                         <span class="text--bold">Address:</span> <br>
-                        {{ primaryAddress.address.line_1 }}, {{ primaryAddress.address.city }}, {{ primaryAddress.address.state.label }}, {{ primaryAddress.address.zip }} <br>
+                        {{ primaryAddress.address.string }}<br>
                         <router-link
                             v-if="item.locations.length > 1"
                             v-bind:to="`/provider/${item.id}`"
