@@ -42,15 +42,23 @@ abstract class Mapper implements Interfaces\Mapper
 
         foreach ($this->getLanguageKeys() as $key) {
 
-            $language = new Language();
+            $label = $row[$key] ?? null;
 
-            if (!empty($row[$key]) && strtolower($row[$key]) !== 'english') {
-                $language->label = $row[$key];
-            }
+            if ($label && strtolower($label) !== 'english') {
 
-            if ($language->isDirty()) {
-                $language->version = $this->version;
-                $collection->add($language);
+                foreach (explode(',', $label) as $datum) {
+
+                    $datum = trim($datum);
+
+                    if ($datum) {
+
+                        $language          = new Language();
+                        $language->label   = $datum;
+                        $language->version = $this->version;
+
+                        $collection->add($language);
+                    }
+                }
             }
         }
 
@@ -93,15 +101,23 @@ abstract class Mapper implements Interfaces\Mapper
 
         foreach ($this->getSpecialityKeys() as $key) {
 
-            $speciality = new Speciality();
+            $label = $row[$key] ?? null;
 
-            if ($row[$key] ?? null) {
-                $speciality->label = $row[$key];
-            }
+            if ($label) {
 
-            if ($speciality->isDirty()) {
-                $speciality->version = $this->version;
-                $collection->add($speciality);
+                foreach (explode(',', $label) as $datum) {
+
+                    $datum = trim($datum);
+
+                    if ($datum) {
+
+                        $speciality          = new Speciality();
+                        $speciality->label   = $datum;
+                        $speciality->version = $this->version;
+
+                        $collection->add($speciality);
+                    }
+                }
             }
         }
 
