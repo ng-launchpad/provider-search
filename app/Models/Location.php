@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Models\Concerns\HasGetTableName;
 use App\Models\Concerns\HasVersionScope;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * App\Models\Location
@@ -107,5 +109,15 @@ class Location extends Model
         } catch (\Throwable $e) {
             return false;
         }
+    }
+
+    public static function getCities(): \Illuminate\Support\Collection
+    {
+        $result = DB::query()
+            ->distinct('address_city')
+            ->from(self::getTableName())
+            ->get(['address_city']);
+
+        return $result->map(fn(\stdClass $location) => $location->address_city);
     }
 }

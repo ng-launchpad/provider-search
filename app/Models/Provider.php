@@ -191,11 +191,36 @@ class Provider extends Model
 
     protected function applyFilterCity(Builder $query, string $keywords): self
     {
-        $query->orWhereHas('locations', function ($query) use ($keywords) {
-            $query
-                ->orWhere('locations.address_city', 'like', "%$keywords%")
-                ->orWhere('locations.address_zip', 'like', "%$keywords%");
-        });
+        /**
+         * If the keyword is numeric, assume zip code
+         * If keyword is a city then restrict on city name
+         */
+        if (is_numeric($keywords)) {
+            $include = 'ZIP';
+
+        } else {
+            $cities = Location::getCities()
+                ->map(fn($city) => strtolower($city))
+                ->toArray();
+
+            if (in_array(strtolower(trim($keywords)), $cities)) {
+                $include = 'CITY';
+            }
+        }
+
+        if (!empty($include)) {
+
+            $query->orWhereHas('locations', function ($query) use ($include, $keywords) {
+                if ($include === 'ZIP') {
+                    $query
+                        ->where('locations.address_zip', 'like', "%$keywords%");
+
+                } elseif ($include === 'CITY') {
+                    $query
+                        ->where('locations.address_city', '=', $keywords);
+                }
+            });
+        }
 
         return $this;
     }
