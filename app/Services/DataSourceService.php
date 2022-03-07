@@ -194,7 +194,7 @@ final class DataSourceService
                     [$provider, $location, $is_primary] = $set;
                     $provider
                         ->locations()
-                        ->syncWithoutDetaching($location, ['is_primary' => $is_primary]);
+                        ->syncWithPivotValues($location, ['is_primary' => $is_primary], false);
                 });
 
                 // --------------------------------------------------------------------------
