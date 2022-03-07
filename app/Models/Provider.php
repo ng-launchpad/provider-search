@@ -170,8 +170,9 @@ class Provider extends Model
                     $this
                         ->applyFilterProvider($query, $keywords)
                         ->applyFilterCity($query, $keywords)
-                        ->applyFilterSpeciality($query, $keywords)
-                        ->applyFilterLanguage($query, $keywords);
+                        //->applyFilterSpeciality($query, $keywords)
+                        //->applyFilterLanguage($query, $keywords)
+                    ;
                 });
                 break;
         }
@@ -182,8 +183,7 @@ class Provider extends Model
         $query->where(function ($query) use ($keywords) {
             $query
                 ->orWhere('label', 'like', "%$keywords%")
-                ->orWhere('website', 'like', "%$keywords%")
-                ->orWhere('npi', 'like', "%$keywords%");
+                ->orWhere('website', 'like', "%$keywords%");
         });
 
         return $this;

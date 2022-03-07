@@ -197,16 +197,16 @@ export default {
                     value: 'city',
                     name: 'scope'
                 },
-                {
-                    label: 'Speciality',
-                    value: 'speciality',
-                    name: 'scope'
-                },
-                {
-                    label: 'Language',
-                    value: 'language',
-                    name: 'scope'
-                }
+                // {
+                //     label: 'Speciality',
+                //     value: 'speciality',
+                //     name: 'scope'
+                // },
+                // {
+                //     label: 'Language',
+                //     value: 'language',
+                //     name: 'scope'
+                // }
             ],
             filterValue: '',
         }
