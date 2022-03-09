@@ -479,7 +479,7 @@ final class Aenta extends Mapper
                         $item[self::COL_PROVIDER_LAST_NAME],
                     ));
             },
-            'type'                      => self::COL_PROVIDER_TYPE,
+            'type'                      => fn($row) => Mapper\Aenta\TypeMap::lookup($row[self::COL_PROVIDER_TYPE]),
             'npi'                       => (int) $this->getProviderNpiKey(),
             'degree'                    => self::COL_PROVIDER_DEGREE,
             'gender'                    => function ($item) {
