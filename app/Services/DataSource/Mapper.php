@@ -101,7 +101,19 @@ abstract class Mapper implements Interfaces\Mapper
 
         foreach ($this->getSpecialityKeys() as $key) {
 
+            if (is_array($key)) {
+                /**
+                 * @var $key       string
+                 * @var $formatter \Closure
+                 */
+                [$key, $formatter] = $key;
+            }
+
             $label = $row[$key] ?? null;
+
+            if (isset($formatter)) {
+                $label = $formatter($label);
+            }
 
             if ($label) {
 

@@ -441,9 +441,18 @@ final class Aenta extends Mapper
     protected function getSpecialityKeys(): array
     {
         return [
-            self::COL_PRIMARY_PROVIDER_SPECIALTY,
-            self::COL_SPECIALTY2,
-            self::COL_SPECIALTY3,
+            [
+                self::COL_PRIMARY_PROVIDER_SPECIALTY,
+                fn(string $key) => Mapper\Aenta\SpecialityMap::lookup($key),
+            ],
+            [
+                self::COL_SPECIALTY2,
+                fn(string $key) => Mapper\Aenta\SpecialityMap::lookup($key),
+            ],
+            [
+                self::COL_SPECIALTY3,
+                fn(string $key) => Mapper\Aenta\SpecialityMap::lookup($key),
+            ],
         ];
     }
 
