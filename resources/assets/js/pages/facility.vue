@@ -97,6 +97,22 @@
 
                 <hr class="mt-5 separator">
 
+                <div class="mt-5">
+                    <h2 class="mt-0 mb-4">Service providers at this location</h2>
+
+                    <div
+                        v-for="(person, index) in provider.people"
+                        class="mb-4"
+                    >
+                        <router-link
+                            v-bind:to="`/provider/${person.id}`"
+                            class="text--link"
+                        >
+                            {{ person.label }}
+                        </router-link>
+                    </div>
+                </div>
+
                 <div
                     v-if="provider.network && provider.network.legal.facility"
                     class="mt-5 pt-2"

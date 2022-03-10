@@ -33,6 +33,11 @@ strong {
         @include typeface(default-alt);
     }
 
+    &--link {
+        color: $blue-zodiac;
+        font-weight: 500;
+    }
+
     &--styled-link {
         color: $primary;
         text-decoration: none;

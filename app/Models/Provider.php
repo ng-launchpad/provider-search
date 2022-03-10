@@ -71,6 +71,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Provider withVersion()
  * @property int                                                                    $version
  * @method static Builder|Provider whereVersion($value)
+ * @property-read mixed $people
+ * @method static Builder|Provider facility(bool $is_facility = true)
+ * @method static Builder|Provider withLocations(\Illuminate\Database\Eloquent\Collection $locations)
  */
 class Provider extends Model
 {
