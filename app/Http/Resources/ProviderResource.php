@@ -26,10 +26,13 @@ class ProviderResource extends JsonResource
             'is_facility'               => $this->is_facility,
             'is_accepting_new_patients' => $this->is_accepting_new_patients,
             'network'                   => new NetworkResource($this->whenLoaded('network')),
-            'locations'                 => LocationResource::collection($this->whenLoaded('locations')->unique('hash')),
-            'languages'                 => LanguageResource::collection($this->whenLoaded('languages')->unique()),
-            'specialities'              => SpecialityResource::collection($this->whenLoaded('specialities')->unique()),
-            'hospitals'                 => HospitalResource::collection($this->whenLoaded('hospitals')->unique()),
+
+            'locations'                 => LocationResource::collection($this->whenLoaded('locations', collect(), collect())->unique('hash')),
+            'languages'                 => LanguageResource::collection($this->whenLoaded('languages', collect(), collect())->unique()),
+            'specialities'              => SpecialityResource::collection($this->whenLoaded('specialities', collect(), collect())->unique()),
+            'hospitals'                 => HospitalResource::collection($this->whenLoaded('hospitals', collect(), collect())->unique()),
+
+            'people'                    => ProviderResource::collection($this->people),
         ];
     }
 }

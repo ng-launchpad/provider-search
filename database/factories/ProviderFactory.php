@@ -15,27 +15,34 @@ class ProviderFactory extends Factory
      */
     public function definition()
     {
-        $isFacility = $this->faker->boolean();
         $gender     = $this->faker->optional()->randomElement([Provider::GENDER_MALE, Provider::GENDER_FEMALE]);
 
         return [
             'version'                   => Setting::version(),
-            'label'                     => $isFacility
-                ? $this->faker->company()
-                : $this->faker->firstName(strtolower($gender)) . ' ' . $this->faker->lastName(),
-            'type'                      => $isFacility
-                ? $this->faker->randomElement(['Hospital', 'Children\'s Hospital', 'Acute Short Term Hospital'])
-                : $this->faker->randomElement(['Physician', 'Doctor', 'Nurse']),
+            'label'                     => $this->faker->firstName(strtolower($gender)) . ' ' . $this->faker->lastName(),
+            'type'                      => $this->faker->randomElement(['Physician', 'Doctor', 'Nurse']),
             'npi'                       => $this->faker->unique()->numerify('#########'),
-            'degree'                    => $isFacility
-                ? null
-                : $this->faker->optional()->randomElement(['MD', 'DO', 'OD']),
+            'degree'                    => $this->faker->optional()->randomElement(['MD', 'DO', 'OD']),
             'website'                   => $this->faker->optional()->domainName(),
-            'gender'                    => $isFacility
-                ? null
-                : $gender,
-            'is_facility'               => $isFacility,
+            'gender'                    => $gender,
+            'is_facility'               => false,
             'is_accepting_new_patients' => $this->faker->boolean(),
         ];
+    }
+
+    /**
+     * Indicate a facility provider
+     */
+    public function facility()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'is_facility' => true,
+                'label'       => $this->faker->company(),
+                'type'        => $this->faker->randomElement(['Hospital', 'Children\'s Hospital', 'Acute Short Term Hospital']),
+                'degree'      => null,
+                'gender'      => null
+            ];
+        });
     }
 }
