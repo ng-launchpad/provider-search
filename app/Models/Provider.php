@@ -7,6 +7,7 @@ use App\Models\Concerns\HasGetTableName;
 use App\Models\Concerns\HasVersionScope;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -139,6 +140,45 @@ class Provider extends Model
     public function hospitals()
     {
         return $this->belongsToMany(Hospital::class);
+    }
+
+    /**
+     * Get list of people sharing the same location
+     */
+    public function getPeopleAttribute()
+    {
+        if (! $this->is_facility) {
+            return [];
+        }
+
+        return self::query()
+            ->facility(false)
+            ->withLocations($this->locations)
+            ->get();
+    }
+
+    /**
+     * Scope providers by human/facility
+     */
+    public function scopeFacility(Builder $query, bool $is_facility = true)
+    {
+        $query->where('is_facility', $is_facility);
+    }
+
+    /**
+     * Scope providers with same location
+     */
+    public function scopeWithLocations(Builder $query, Collection $locations)
+    {
+        // return nothing on empty locations list
+        if (! $locations) {
+            return;
+        }
+
+        // find providers that have connection to one of requested locations
+        $query->whereHas('locations', function (Builder $query) use ($locations) {
+            $query->whereIn('location_id', $locations->pluck('id'));
+        });
     }
 
     /**
