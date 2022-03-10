@@ -53,7 +53,7 @@ class BytesForHumans
 
     protected int $bytes;
 
-    protected function __construct(int $bytes)
+    final protected function __construct(int $bytes)
     {
         $this->bytes = $bytes;
     }

@@ -13,6 +13,9 @@ class ProviderSingleTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $facility;
+    protected $provider;
+
     public function setUp(): void
     {
         parent::setUp();
