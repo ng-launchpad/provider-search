@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helper\PeopleMap;
 use App\ModelPivots\LocationProviderPivot;
 use App\Models\Concerns\HasGetTableName;
 use App\Models\Concerns\HasVersionScope;
@@ -148,16 +149,58 @@ class Provider extends Model
     /**
      * Get list of people sharing the same location
      */
-    public function getPeopleAttribute()
+    public function getSpecialityGroupsAttribute()
     {
         if (! $this->is_facility) {
             return [];
         }
 
-        return self::query()
+        // find list of people that share same locations
+        $people = self::query()
             ->facility(false)
             ->withLocations($this->locations)
+            ->with('specialities')
             ->get();
+
+        // map people into groups
+        $groups = [];
+        foreach ($people as $human) {
+
+            // iterate human specialities
+            foreach ($human->specialities as $speciality) {
+
+                // skip when speciality is not present in the mapping
+                if (! isset(PeopleMap::MAP[$speciality->label])) {
+                    continue;
+                }
+
+                // define target group label
+                $group_label = PeopleMap::MAP[$speciality->label];
+
+                // create group if not present
+                if(! isset($groups[$group_label])) {
+                    $groups[$group_label] = [
+                        'label' => $group_label,
+                        'people' => [],
+                    ];
+                }
+
+                // add human to the group
+                $groups[$group_label]['people'][] = $human->withoutRelations();
+            }
+        }
+
+        // return groups as collection
+        return collect(array_values($groups))
+
+            // map every group into a class
+            ->map(function ($data) {
+                $group = new \stdClass();
+                $group->label = $data['label'];
+                $group->people = $data['people'];
+
+                return $group;
+            });
     }
 
     /**

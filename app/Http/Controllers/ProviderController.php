@@ -47,8 +47,16 @@ class ProviderController extends Controller
      */
     public function single(Provider $provider)
     {
-        return new ProviderResource(
-            $provider->load(static::LOAD_RELATIONS)
-        );
+        // load relations
+        $provider->load(static::LOAD_RELATIONS);
+
+        // load speciality groups from accessor
+        // very bad approach
+        // @todo move data into the db
+        // and make an ordinary relationship
+        // dd($provider->speciality_groups);
+
+        // return provider resource
+        return new ProviderResource($provider);
     }
 }
