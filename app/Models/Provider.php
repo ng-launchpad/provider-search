@@ -72,10 +72,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Provider withVersion()
  * @property int                                                                    $version
  * @method static Builder|Provider whereVersion($value)
- * @property-read mixed $people
+ * @property-read mixed                                                             $people
  * @method static Builder|Provider facility(bool $is_facility = true)
  * @method static Builder|Provider withLocations(\Illuminate\Database\Eloquent\Collection $locations)
- * @property-read mixed $speciality_groups
+ * @property-read mixed                                                             $speciality_groups
  */
 class Provider extends Model
 {
@@ -153,7 +153,7 @@ class Provider extends Model
      */
     public function getSpecialityGroupsAttribute()
     {
-        if (! $this->is_facility) {
+        if (!$this->is_facility) {
             return [];
         }
 
@@ -172,7 +172,7 @@ class Provider extends Model
             foreach ($human->specialities->unique() as $speciality) {
 
                 // skip when speciality is not present in the mapping
-                if (! isset(PeopleMap::MAP[$speciality->label])) {
+                if (!isset(PeopleMap::MAP[$speciality->label])) {
                     continue;
                 }
 
@@ -180,9 +180,9 @@ class Provider extends Model
                 $group_label = PeopleMap::MAP[$speciality->label];
 
                 // create group if not present
-                if(! isset($groups[$group_label])) {
+                if (!isset($groups[$group_label])) {
                     $groups[$group_label] = [
-                        'label' => $group_label,
+                        'label'  => $group_label,
                         'people' => [],
                     ];
                 }
@@ -197,8 +197,8 @@ class Provider extends Model
 
             // map every group into a class
             ->map(function ($data) {
-                $group = new \stdClass();
-                $group->label = $data['label'];
+                $group         = new \stdClass();
+                $group->label  = $data['label'];
                 $group->people = $data['people'];
 
                 return $group;
@@ -219,7 +219,7 @@ class Provider extends Model
     public function scopeWithLocations(Builder $query, Collection $locations)
     {
         // return nothing on empty locations list
-        if (! $locations) {
+        if (!$locations) {
             return;
         }
 
