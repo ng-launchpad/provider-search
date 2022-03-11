@@ -98,13 +98,13 @@
                 </div>
 
                 <div
-                    v-if="item.nerwork"
+                    v-if="item.network"
                 >
                     <div class="results-item__char text--bold">
                         Network:
                     </div>
                     <div class="results-item__char">
-                        {{ item.network }}
+                        {{ item.network.search_label }}
                     </div>
                 </div>
             </div>
