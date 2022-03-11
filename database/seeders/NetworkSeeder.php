@@ -20,7 +20,7 @@ class NetworkSeeder extends Seeder
                 'label'           => 'AENTA',
                 'search_label'    => 'Medical providers',
                 'search_sublabel' => 'Secure choice <em>Broad</em>',
-                'network_label'   => 'Allstate Benefits Secure Choice',
+                'network_label'   => 'Allstate Benefits Secure Choice - Broad',
                 'browse_label'    => 'Secure Choice Broad',
                 'legal_home'      => implode(PHP_EOL, [
                     '<p>Aetna PPO Network through the Aetna Signature Administrators® program provides medical and dental network access for Allstate Benefits Secure Choice – Broad members.</p>',
@@ -55,7 +55,7 @@ class NetworkSeeder extends Seeder
                 'label'           => 'HCH',
                 'search_label'    => 'Medical providers',
                 'search_sublabel' => 'Secure choice <em>Select</em>',
-                'network_label'   => 'Allstate Benefits Secure Choice',
+                'network_label'   => 'Allstate Benefits Secure Choice - Select',
                 'browse_label'    => 'Secure Choice Select',
                 'legal_home'      => implode(PHP_EOL, [
                     '<p>The Allstate Benefits Secure Choice - Select providers listed in this online directory are accessible to health plan members through a contract arrangement with Healthcare Highways. All Healthcare Highways providers should recognize the combined logos on your member ID card.</p>',
