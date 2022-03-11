@@ -6,6 +6,7 @@
                     {{ provider.label }}{{ provider.degree ? `, ${provider.degree}` : '' }}
                 </p>
                 <p
+                    v-if="!!provider.is_accepting_new_patients"
                     class="page-header__sub-title">
                     {{ provider.is_accepting_new_patients ? 'Accepting new patients' : 'Not accepting new patients' }}
                 </p>

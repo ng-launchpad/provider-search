@@ -2,9 +2,11 @@
 
 namespace Tests\Feature\Endpoints\Provider;
 
+use App\Helper\PeopleMap;
 use App\Models\Location;
 use App\Models\Network;
 use App\Models\Provider;
+use App\Models\Speciality;
 use App\Models\State;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -33,6 +35,10 @@ class ProviderSingleTest extends TestCase
         $provider = Provider::factory()->for($network)->create();
         $provider->locations()->attach($location);
 
+        // attach specialities
+        $provider->specialities()->attach(Speciality::factory()->create(['label' => 'Anesthesiology']));
+        $provider->specialities()->attach(Speciality::factory()->create(['label' => 'Radiology']));
+
         // create one more provider
         Provider::factory()->for($network)->create();
 
@@ -56,6 +62,7 @@ class ProviderSingleTest extends TestCase
         $response
             ->assertOk()
             ->assertJsonPath('data.label', $facility->label)
-            ->assertJsonPath('data.people.0.label', $provider->label);
+            ->assertJsonPath('data.speciality_groups.0.label', PeopleMap::GROUP_ANESTHESIOLOGISTS)
+            ->assertJsonPath('data.speciality_groups.0.people.0.label', $provider->label);
     }
 }

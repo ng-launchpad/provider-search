@@ -97,25 +97,40 @@
 
                 <hr class="mt-5 separator">
 
-                <div class="mt-5">
+                <div
+                    v-if="provider.speciality_groups.length"
+                    class="mt-5"
+                >
                     <h2 class="mt-0 mb-4">Service providers at this location</h2>
 
-                    <div
-                        v-for="(person, index) in provider.people"
-                        class="mb-4"
-                    >
-                        <router-link
-                            v-bind:to="`/provider/${person.id}`"
-                            class="text--link"
+                    <div class="row">
+                        <div
+                            v-for="(group, index) in provider.speciality_groups"
+                            v-bind:key="index"
+                            class="col-md-4 mb-4"
                         >
-                            {{ person.label }}
-                        </router-link>
+                            <div class="text--md text--bold mb-4">
+                                {{ group.label }}
+                            </div>
+                            <div
+                                v-for="(person, index) in group.people"
+                                v-bind:key="person.id"
+                                class="mb-3"
+                            >
+                                <router-link
+                                    v-bind:to="`/provider/${person.id}`"
+                                    class="text--link text--md"
+                                >
+                                    {{ person.label }}{{ person.degree ? `, ${person.degree}` : '' }}
+                                </router-link>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div
                     v-if="provider.network && provider.network.legal.facility"
-                    class="mt-5 pt-2"
+                    class="mt-2 pt-2"
                     v-html="provider.network.legal.facility"
                 />
             </div>
