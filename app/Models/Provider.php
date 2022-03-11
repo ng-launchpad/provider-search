@@ -183,12 +183,12 @@ class Provider extends Model
                 if (!isset($groups[$group_label])) {
                     $groups[$group_label] = [
                         'label'  => $group_label,
-                        'people' => [],
+                        'people' => collect(),
                     ];
                 }
 
                 // add human to the group
-                $groups[$group_label]['people'][] = $human->withoutRelations();
+                $groups[$group_label]['people']->add($human->withoutRelations());
             }
         }
 
@@ -197,6 +197,11 @@ class Provider extends Model
 
             // map every group into a class
             ->map(function ($data) {
+
+                $data['people'] = $data['people']
+                    ->unique('id')
+                    ->sortBy('label');
+
                 $group         = new \stdClass();
                 $group->label  = $data['label'];
                 $group->people = $data['people'];
@@ -216,7 +221,7 @@ class Provider extends Model
     /**
      * Scope providers with affiliated hospital of same name
      */
-    public function scopeWithHospitals(Builder $query, string  $hospital)
+    public function scopeWithHospitals(Builder $query, string $hospital)
     {
         // return nothing on empty $hospital
         if (!$hospital) {
