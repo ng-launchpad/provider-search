@@ -87,7 +87,6 @@ final class Vsp extends Mapper
                 return State::findByCodeOrFail($item[self::COL_ST])->id;
             },
             'address_zip'      => self::COL_ZIP9,
-            'phone'            => self::COL_OFFICE_PHONE,
         ];
     }
 
@@ -136,5 +135,10 @@ final class Vsp extends Mapper
     protected function getProviderNpiKey(): string
     {
         return self::COL_NPI;
+    }
+
+    protected function getProviderPhoneKey(): string
+    {
+        return (string) self::COL_OFFICE_PHONE;
     }
 }

@@ -178,8 +178,16 @@ class VspTest extends TestCase
             ->extractProviderLocations($collection, $network)
             ->unique()
             ->each(function (array $set) {
-                [$provider, $location, $is_primary] = $set;
-                $provider->locations()->attach($location, ['is_primary' => $is_primary]);
+                [$provider, $location, $is_primary, $phone] = $set;
+                $provider
+                    ->locations()
+                    ->attach(
+                        $location,
+                        [
+                            'is_primary' => $is_primary,
+                            'phone'      => $phone,
+                        ]
+                    );
             });
 
         // assert

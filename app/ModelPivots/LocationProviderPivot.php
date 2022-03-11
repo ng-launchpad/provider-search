@@ -16,5 +16,6 @@ class LocationProviderPivot extends Pivot
 {
     protected $casts = [
         'is_primary' => 'boolean',
+        'phone'      => 'string',
     ];
 }
