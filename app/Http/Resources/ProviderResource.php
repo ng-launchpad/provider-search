@@ -32,7 +32,7 @@ class ProviderResource extends JsonResource
             'specialities' => SpecialityResource::collection($this->whenLoaded('specialities', $this->specialities, collect())->unique()),
             'hospitals'    => HospitalResource::collection($this->whenLoaded('hospitals', $this->hospitals, collect())->unique()),
 
-            'speciality_groups' => SpecialityGroupResource::collection($this->when($this->speciality_groups, $this->speciality_groups)),
+            'speciality_groups' => SpecialityGroupResource::collection($this->when($this->load_speciality_groups, $this->speciality_groups)),
         ];
     }
 }

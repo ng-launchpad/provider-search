@@ -54,7 +54,7 @@ class ProviderController extends Controller
         // very bad approach
         // @todo move data into the db
         // and make an ordinary relationship
-        // dd($provider->speciality_groups);
+        $provider->load_speciality_groups = true;
 
         // return provider resource
         return new ProviderResource($provider);
