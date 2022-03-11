@@ -40,7 +40,6 @@ final class Cigna extends Mapper
                 return State::findByCodeOrFail($item[self::COL_SERVICE_LOCATION_STATE])->id;
             },
             'address_zip'      => self::COL_SERVICE_LOCATION_ZIP_CODE,
-            'phone'            => self::COL_SERVICE_LOCATION_PRIMARY_PHONE_NUMBER,
         ];
     }
 
@@ -67,5 +66,10 @@ final class Cigna extends Mapper
     protected function getProviderNpiKey(): string
     {
         return self::COL_NPI;
+    }
+
+    protected function getProviderPhoneKey(): string
+    {
+        return (string) self::COL_SERVICE_LOCATION_PRIMARY_PHONE_NUMBER;
     }
 }

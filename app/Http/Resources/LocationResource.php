@@ -49,7 +49,9 @@ class LocationResource extends JsonResource
                 $address,
                 $addressHelpers
             ),
-            'phone'      => Formatter::phone($this->phone),
+            'phone'      => $this->whenPivotLoaded('location_provider', function () {
+                return Formatter::phone($this->pivot->phone);
+            }),
             'is_primary' => $this->whenPivotLoaded('location_provider', function () {
                 return $this->pivot->is_primary;
             }),

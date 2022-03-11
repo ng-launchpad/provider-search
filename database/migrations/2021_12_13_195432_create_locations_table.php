@@ -25,7 +25,6 @@ class CreateLocationsTable extends Migration
             $table->string('address_county', 150)->nullable();
             $table->foreignIdFor(State::class, 'address_state_id')->constrained('states')->restrictOnDelete();
             $table->string('address_zip', 150);
-            $table->string('phone', 150)->nullable();
             $table->string('hash', 32)->nullable();
             $table->timestamps();
         });

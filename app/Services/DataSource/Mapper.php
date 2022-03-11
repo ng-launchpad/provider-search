@@ -205,6 +205,7 @@ abstract class Mapper implements Interfaces\Mapper
                 $location,
                 // If this is the Provider's first address (cache is 0) then consider it their primary address
                 !(bool) $this->providerLocationCache[$provider->id]++,
+                $row[$this->getProviderPhoneKey()],
             ]);
 
         } catch (ModelNotFoundException $e) {
@@ -326,4 +327,6 @@ abstract class Mapper implements Interfaces\Mapper
     protected abstract function getProviderKeys(): array;
 
     protected abstract function getProviderNpiKey(): string;
+
+    protected abstract function getProviderPhoneKey(): string;
 }
