@@ -159,6 +159,8 @@ class Provider extends Model
         // find list of people that share same locations
         $people = self::query()
             ->facility(false)
+            ->withHospitals($this->label)
+            ->with('hospitals')
             ->with('specialities')
             ->get();
 
@@ -209,6 +211,30 @@ class Provider extends Model
     public function scopeFacility(Builder $query, bool $is_facility = true)
     {
         $query->where('is_facility', $is_facility);
+    }
+
+    /**
+     * Scope providers with affiliated hospital of same name
+     */
+    public function scopeWithHospitals(Builder $query, string  $hospital)
+    {
+        // return nothing on empty $hospital
+        if (!$hospital) {
+            return;
+        }
+
+        try {
+
+            $hospital = Hospital::where('label', '=', $hospital)->firstOrFail();
+
+            // find providers that have connection to $hospital
+            $query->whereHas('hospitals', function (Builder $query) use ($hospital) {
+                $query->where('hospital_id', $hospital->id);
+            });
+
+        } catch (\Throwable $e) {
+            return;
+        }
     }
 
     /**
