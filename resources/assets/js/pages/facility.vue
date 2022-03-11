@@ -98,7 +98,7 @@
                 <hr class="mt-5 separator">
 
                 <div
-                    v-if="provider.speciality_groups.length"
+                    v-if="provider.speciality_groups && provider.speciality_groups.length"
                     class="mt-5"
                 >
                     <h2 class="mt-0 mb-4">Service providers at this location</h2>
