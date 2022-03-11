@@ -125,9 +125,9 @@ final class Hch extends Mapper
                         $item[self::COL_PROVIDER_LAST_NAME],
                     ));
             },
-            'type'                      => fn() => 'Physician',
+            'type'                      => fn($row) => Mapper\Hch\TypeMap::lookup($row[self::COL_PROVIDER_TYPE]),
             'npi'                       => (int) $this->getProviderNpiKey(),
-            'degree'                    => self::COL_PROVIDER_TYPE,
+            'degree'                    => fn() => null,
             'gender'                    => function ($item) {
                 switch ($item[self::COL_PROVIDER_GENDER]) {
                     case 'M':
