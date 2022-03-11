@@ -114,13 +114,14 @@
                             </div>
                             <div
                                 v-for="(person, index) in group.people"
+                                v-bind:key="person.id"
                                 class="mb-3"
                             >
                                 <router-link
                                     v-bind:to="`/provider/${person.id}`"
                                     class="text--link text--md"
                                 >
-                                    {{ person.label }}
+                                    {{ person.label }}{{ person.degree ? `, ${person.degree}` : '' }}
                                 </router-link>
                             </div>
                         </div>
