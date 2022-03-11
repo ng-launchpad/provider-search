@@ -167,7 +167,7 @@ class Provider extends Model
         foreach ($people as $human) {
 
             // iterate human specialities
-            foreach ($human->specialities as $speciality) {
+            foreach ($human->specialities->unique() as $speciality) {
 
                 // skip when speciality is not present in the mapping
                 if (! isset(PeopleMap::MAP[$speciality->label])) {
