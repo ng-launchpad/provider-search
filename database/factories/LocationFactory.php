@@ -32,6 +32,7 @@ class LocationFactory extends Factory
             'address_county'   => null,
             'address_state_id' => State::query()->inRandomOrder()->first(),
             'address_zip'      => $faker->postcode(),
+            'phone'            => $faker->phoneNumber(),
         ];
 
         $data['hash'] = Location::buildHashFromData((object) $data);

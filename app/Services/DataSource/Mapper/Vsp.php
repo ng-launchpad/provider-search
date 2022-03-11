@@ -87,6 +87,7 @@ final class Vsp extends Mapper
                 return State::findByCodeOrFail($item[self::COL_ST])->id;
             },
             'address_zip'      => self::COL_ZIP9,
+            'phone'            => $this->getProviderPhoneKey(),
         ];
     }
 

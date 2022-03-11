@@ -183,11 +183,10 @@ final class DataSourceService
                 $collection = $mapper->extractProviderLocations($row, $network)
                     ->unique(function (array $item) {
                         return sprintf(
-                            '%s,%s,%s,%s',
+                            '%s,%s,%s',
                             $item[0]->id,   //  Provider
                             $item[1]->id,   //  Location
-                            $item[2],       //  is_primary
-                            $item[3]        //  phone
+                            $item[2]        //  is_primary
                         );
                     });
 
@@ -199,7 +198,6 @@ final class DataSourceService
                             $location,
                             [
                                 'is_primary' => $is_primary,
-                                'phone'      => $phone,
                             ],
                             false
                         );

@@ -91,6 +91,7 @@ class Location extends Model
             'address_county'   => $data->address_county,
             'address_state_id' => $data->address_state_id,
             'address_zip'      => $data->address_zip,
+            'phone'            => $data->phone,
         ]));
     }
 

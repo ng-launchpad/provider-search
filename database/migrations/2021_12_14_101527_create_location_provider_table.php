@@ -19,7 +19,6 @@ class CreateLocationProviderTable extends Migration
             $table->foreignIdFor(Location::class)->constrained('locations')->cascadeOnDelete();
             $table->foreignIdFor(Provider::class)->constrained('providers')->cascadeOnDelete();
             $table->boolean('is_primary')->default(false);
-            $table->string('phone', 150)->nullable();
         });
     }
 

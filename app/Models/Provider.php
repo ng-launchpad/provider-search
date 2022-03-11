@@ -75,6 +75,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read mixed                                                             $people
  * @method static Builder|Provider facility(bool $is_facility = true)
  * @property-read mixed                                                             $speciality_groups
+ * @method static Builder|Provider withHospitals(string $hospital)
  */
 class Provider extends Model
 {
@@ -119,7 +120,6 @@ class Provider extends Model
             ->using(LocationProviderPivot::class)
             ->withPivot([
                 'is_primary',
-                'phone',
             ]);
     }
 

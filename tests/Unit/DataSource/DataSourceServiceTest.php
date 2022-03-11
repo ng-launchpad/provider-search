@@ -205,9 +205,9 @@ class DataSourceServiceTest extends TestCase
             ),
 
             'extractProviderLocations' => [
-                [$provider1, $location1, true, $faker->phoneNumber],
-                [$provider1, $location2, false, $faker->phoneNumber],
-                [$provider2, $location2, true, $faker->phoneNumber],
+                [$provider1, $location1, true],
+                [$provider1, $location2, false],
+                [$provider2, $location2, true],
             ],
 
             'extractProviderLanguages' => [
