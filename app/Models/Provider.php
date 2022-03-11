@@ -74,7 +74,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Provider whereVersion($value)
  * @property-read mixed                                                             $people
  * @method static Builder|Provider facility(bool $is_facility = true)
- * @method static Builder|Provider withLocations(\Illuminate\Database\Eloquent\Collection $locations)
  * @property-read mixed                                                             $speciality_groups
  */
 class Provider extends Model
@@ -160,7 +159,8 @@ class Provider extends Model
         // find list of people that share same locations
         $people = self::query()
             ->facility(false)
-            ->withLocations($this->locations)
+            ->withHospitals($this->label)
+            ->with('hospitals')
             ->with('specialities')
             ->get();
 
@@ -214,19 +214,27 @@ class Provider extends Model
     }
 
     /**
-     * Scope providers with same location
+     * Scope providers with affiliated hospital of same name
      */
-    public function scopeWithLocations(Builder $query, Collection $locations)
+    public function scopeWithHospitals(Builder $query, string  $hospital)
     {
-        // return nothing on empty locations list
-        if (!$locations) {
+        // return nothing on empty $hospital
+        if (!$hospital) {
             return;
         }
 
-        // find providers that have connection to one of requested locations
-        $query->whereHas('locations', function (Builder $query) use ($locations) {
-            $query->whereIn('location_id', $locations->pluck('id'));
-        });
+        try {
+
+            $hospital = Hospital::where('label', '=', $hospital)->firstOrFail();
+
+            // find providers that have connection to $hospital
+            $query->whereHas('hospitals', function (Builder $query) use ($hospital) {
+                $query->where('hospital_id', $hospital->id);
+            });
+
+        } catch (\Throwable $e) {
+            return;
+        }
     }
 
     /**
