@@ -228,6 +228,7 @@ class Provider extends Model
             return;
         }
 
+        // try to find people within the same hospital name
         try {
 
             $hospital = Hospital::where('label', '=', $hospital)->firstOrFail();
@@ -237,7 +238,9 @@ class Provider extends Model
                 $query->where('hospital_id', $hospital->id);
             });
 
+        // if hospital not found - add emptying where clause
         } catch (\Throwable $e) {
+            $query->whereRaw('1 = 0');
             return;
         }
     }
