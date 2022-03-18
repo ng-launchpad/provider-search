@@ -21,6 +21,14 @@
                             Searching: Secure Choice - Select medical providers
                         </template>
 
+                        <template v-else-if="selectedIndex === 2">
+                            Searching: Allstate Benefits Secure Choice – Broad
+                        </template>
+
+                        <template v-else-if="selectedIndex === 3">
+                            Allstate Benefits Secure Choice – Select
+                        </template>
+
                         <template v-else>
                             Searching: {{ selectedNetworkLabel }}
                         </template>
