@@ -89,7 +89,7 @@
                         >
                             <div class="provider-content__char text--light provider-content__char--facility provider-content__char--facility-serv">
                                 <img class="d-inline-block d-lg-none" src="../../img/svg/facility.svg" alt="">
-                                {{ item.type }}
+                                {{ item.type || 'Pharmacy' }}
                             </div>
                         </div>
                     </div>
