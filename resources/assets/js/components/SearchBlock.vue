@@ -26,7 +26,7 @@
                         </template>
 
                         <template v-else-if="selectedIndex === 3">
-                            Allstate Benefits Secure Choice – Select
+                            Searching: Allstate Benefits Secure Choice – Select
                         </template>
 
                         <template v-else>
