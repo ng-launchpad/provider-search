@@ -17,6 +17,10 @@
                             Searching: Secure choice - Broad medical providers
                         </template>
 
+                        <template v-else-if="selectedIndex === 1">
+                            Searching: Secure Choice - Select medical providers
+                        </template>
+
                         <template v-else>
                             Searching: {{ selectedNetworkLabel }}
                         </template>
