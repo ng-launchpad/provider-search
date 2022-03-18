@@ -149,6 +149,7 @@
                             </div>
                         </div>
                         <div
+                            v-if="provider.hospitals.length"
                             class="provider-content__item"
                         >
                             <div class="provider-content__char text--bold">
