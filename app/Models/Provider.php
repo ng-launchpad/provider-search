@@ -274,6 +274,7 @@ class Provider extends Model
                     $this
                         ->applyFilterProvider($query, $keywords)
                         ->applyFilterCity($query, $keywords)
+                        ->applyFilterLocation($query, $keywords)
                         //->applyFilterSpeciality($query, $keywords)
                         //->applyFilterLanguage($query, $keywords)
                     ;
@@ -342,6 +343,15 @@ class Provider extends Model
     {
         $query->orWhereHas('languages', function ($query) use ($keywords) {
             $query->where('languages.label', 'like', "%$keywords%");
+        });
+
+        return $this;
+    }
+
+    protected function applyFilterLocation(Builder $query, string $keywords): self
+    {
+        $query->orWhereHas('locations', function ($query) use ($keywords) {
+            $query->where('locations.label', 'like', "%$keywords%");
         });
 
         return $this;
