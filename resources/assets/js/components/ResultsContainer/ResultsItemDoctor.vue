@@ -9,7 +9,7 @@
             </router-link>
 
             <div
-                v-if="!!item.is_accepting_new_patients"
+                v-if="item.is_accepting_new_patients !== null"
                 class="results-item__sub-title">
                 {{ item.is_accepting_new_patients ? 'Accepting new patients' : 'Not accepting new patients' }}
             </div>
