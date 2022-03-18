@@ -8,10 +8,6 @@
                 {{ item.label }}
             </router-link>
 
-            <div class="results-item__sub-title">
-                Healthcare facility
-            </div>
-
             <router-link
                 v-bind:to="`/facility/${item.id}`"
                 class="results-item__detail results-item__detail--desktop"
