@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Helper\Formatter;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class LocationResource extends JsonResource
 {
@@ -22,7 +23,7 @@ class LocationResource extends JsonResource
             'city'   => $this->address_city,
             'county' => $this->address_county,
             'state'  => new StateResource($this->whenLoaded('state')),
-            'zip'    => $this->address_zip,
+            'zip'    => Str::limit($this->address_zip, 5),
         ];
 
         $addressString = implode(', ', array_filter([
@@ -31,7 +32,7 @@ class LocationResource extends JsonResource
             $this->address_city,
             $this->address_county,
             $this->whenLoaded('state')->label ?? null,
-            $this->address_zip,
+            Str::limit($this->address_zip, 5),
         ]));
 
         $addressMap = 'https://maps.google.com/?q=' . urlencode($addressString);
