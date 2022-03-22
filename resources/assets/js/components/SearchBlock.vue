@@ -193,7 +193,7 @@ export default {
 
         selectedNetworkLabel: function() {
             if (this.networks.length) {
-                return this.networks.find(network => network.id == this.selectedNetwork).network_label || '';
+                return this.networks.find(network => network.id == this.selectedNetwork).searching_label || '';
             }
         },
 
