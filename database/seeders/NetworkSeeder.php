@@ -95,7 +95,7 @@ class NetworkSeeder extends Seeder
                 'label'           => 'VSP',
                 'search_label'    => 'Vision providers',
                 'search_sublabel' => 'Secure choice <em>Broad & Select</em>',
-                'network_label'   => 'Allstate Benefits Secure Choice',
+                'network_label'   => 'Allstate Benefits Secure Choice - Broad<br>Allstate Benefits Secure Choice - Select',
                 'browse_label'    => 'Vision Providers',
                 'legal_home'      => implode(PHP_EOL, [
                     '<p>Group health insurance plans offered by Allstate Benefits are underwritten by Integon National Insurance Company.</p>',
@@ -125,7 +125,7 @@ class NetworkSeeder extends Seeder
                 'label'           => 'CIGNA',
                 'search_label'    => 'Pharmacy directory',
                 'search_sublabel' => 'Secure choice <em>Broad & Select</em>',
-                'network_label'   => 'Allstate Benefits Secure Choice',
+                'network_label'   => 'Allstate Benefits Secure Choice - Broad<br>Allstate Benefits Secure Choice - Select',
                 'browse_label'    => 'Pharmacy Providers',
                 'legal_home'      => implode(PHP_EOL, [
                     '<p>Cigna is an independent company and not affiliated with Allstate Benefits. Access to the Cigna Pharmacy 90 Now Network is available through Cigna\'s contractual relationship with Allstate Benefits.</p>',
