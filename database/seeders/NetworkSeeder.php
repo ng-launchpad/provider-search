@@ -58,7 +58,7 @@ class NetworkSeeder extends Seeder
                 'search_sublabel' => 'Secure choice <em>Select</em>',
                 'network_label'   => 'Allstate Benefits Secure Choice - Select',
                 'browse_label'    => 'Secure Choice Select',
-                'searching_label' => '',
+                'searching_label' => 'Secure Choice - Select medical providers',
                 'legal_home'      => implode(PHP_EOL, [
                     '<p>The Allstate Benefits Secure Choice - Select providers listed in this online directory are accessible to health plan members through a contract arrangement with Healthcare Highways. All Healthcare Highways providers should recognize the combined logos on your member ID card.</p>',
                     '<p>The Healthcare Highways Sync Texas Fully Insured provides medical network access for Allstate Benefits Secure Choice – Select members.</p>',
