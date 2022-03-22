@@ -241,7 +241,6 @@ class Provider extends Model
         // if hospital not found - add emptying where clause
         } catch (\Throwable $e) {
             $query->whereRaw('1 = 0');
-            return;
         }
     }
 
