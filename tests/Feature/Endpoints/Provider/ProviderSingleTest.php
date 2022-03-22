@@ -68,6 +68,7 @@ class ProviderSingleTest extends TestCase
             ->assertOk()
             ->assertJsonPath('data.label', $facility->label)
             ->assertJsonPath('data.speciality_groups.0.label', PeopleMap::GROUP_ANESTHESIOLOGISTS)
-            ->assertJsonPath('data.speciality_groups.0.people.0.label', $provider->label);
+            ->assertJsonPath('data.speciality_groups.0.people.0.label', $provider->label)
+            ->assertJsonPath('data.speciality_groups.1.label', PeopleMap::GROUP_ASSISTANT_SURGEONS);
     }
 }
