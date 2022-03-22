@@ -3,6 +3,7 @@
 namespace Tests\Feature\Endpoints\Provider;
 
 use App\Helper\PeopleMap;
+use App\Models\Hospital;
 use App\Models\Location;
 use App\Models\Network;
 use App\Models\Provider;
@@ -34,6 +35,10 @@ class ProviderSingleTest extends TestCase
         // create provider in the same location
         $provider = Provider::factory()->for($network)->create();
         $provider->locations()->attach($location);
+
+        // create hospital with facility name and attach provider
+        Hospital::factory()->create(['label' => $facility->label])
+            ->providers()->attach($provider);
 
         // attach specialities
         $provider->specialities()->attach(Speciality::factory()->create(['label' => 'Anesthesiology']));

@@ -191,7 +191,7 @@ final class DataSourceService
                     });
 
                 $collection->each(function (array $set) {
-                    [$provider, $location, $is_primary, $phone] = $set;
+                    [$provider, $location, $is_primary] = $set;
                     $provider
                         ->locations()
                         ->syncWithPivotValues(
