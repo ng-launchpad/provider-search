@@ -164,8 +164,15 @@ class Provider extends Model
             ->with('specialities')
             ->get();
 
-        // map people into groups
+        // prepare array of groups
         $groups = [];
+        foreach (PeopleMap::getGroups() as $group_label) {
+            $groups[$group_label] = [
+                'label'  => $group_label,
+                'people' => collect(),
+            ];
+        }
+
         foreach ($people as $human) {
 
             // iterate human specialities
@@ -178,14 +185,6 @@ class Provider extends Model
 
                 // define target group label
                 $group_label = PeopleMap::MAP[$speciality->label];
-
-                // create group if not present
-                if (!isset($groups[$group_label])) {
-                    $groups[$group_label] = [
-                        'label'  => $group_label,
-                        'people' => collect(),
-                    ];
-                }
 
                 // add human to the group
                 $groups[$group_label]['people']->add($human->withoutRelations());
