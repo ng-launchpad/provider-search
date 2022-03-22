@@ -112,18 +112,23 @@
                             <div class="text--md text--bold mb-4">
                                 {{ group.label }}
                             </div>
-                            <div
-                                v-for="(person, index) in group.people"
-                                v-bind:key="person.id"
-                                class="mb-3"
-                            >
-                                <router-link
-                                    v-bind:to="`/provider/${person.id}`"
-                                    class="text--link text--md"
+                            <template v-if="group.people.length">
+                                <div
+                                    v-for="(person, index) in group.people"
+                                    v-bind:key="person.id"
+                                    class="mb-3"
                                 >
-                                    {{ person.label }}{{ person.degree ? `, ${person.degree}` : '' }}
-                                </router-link>
-                            </div>
+                                    <router-link
+                                        v-bind:to="`/provider/${person.id}`"
+                                        class="text--link text--md"
+                                    >
+                                        {{ person.label }}{{ person.degree ? `, ${person.degree}` : '' }}
+                                    </router-link>
+                                </div>
+                            </template>
+                            <template v-else>
+                                No contracted {{ group.label }} at this facility
+                            </template>
                         </div>
                     </div>
                 </div>
