@@ -190,7 +190,7 @@ export default {
             //  CIGNA data does not provide county so hide the column
             //  Sorry for the ugly hack
             return this.provider && this.provider.network
-                ? this.provider.network.id !== 4
+                ? this.provider.network.id != 4
                 : true;
         }
     }
