@@ -130,9 +130,10 @@
                             <div class="provider-content__char text--bold">
                                 Network name
                             </div>
-                            <div class="provider-content__char text--regular">
-                                {{ provider.network.network_label }}
-                            </div>
+                            <div
+                                class="provider-content__char text--regular"
+                                v-html="provider.network.network_label"
+                            />
                         </div>
                     </div>
                     <div
