@@ -336,7 +336,7 @@ class CignaTest extends TestCase
         $faker = Factory::create();
 
         return [
-            Cigna::COL_X                                     => $faker->company,
+            Cigna::COL_PHARMACY_NAME                                     => $faker->company,
             Cigna::COL_SERVICE_LOCATION_LINE_1               => $faker->streetAddress,
             Cigna::COL_SERVICE_LOCATION_CITY                 => $faker->city,
             Cigna::COL_SERVICE_LOCATION_STATE                => $faker->stateAbbr,
@@ -365,7 +365,7 @@ class CignaTest extends TestCase
     {
         $faker = Factory::create();
         return [
-            Cigna::COL_X   => $faker->company,
+            Cigna::COL_PHARMACY_NAME   => $faker->company,
             Cigna::COL_NPI => $faker->unique()->numerify('##########'),
         ];
     }
