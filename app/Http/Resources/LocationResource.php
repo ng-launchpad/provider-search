@@ -18,6 +18,7 @@ class LocationResource extends JsonResource
     public function toArray($request)
     {
         $address = [
+            'label'  => $this->label,
             'line_1' => $this->address_line_1,
             'line_2' => $this->address_line_2,
             'city'   => $this->address_city,
@@ -27,6 +28,7 @@ class LocationResource extends JsonResource
         ];
 
         $addressString = implode(', ', array_filter([
+            $this->label,
             $this->address_line_1,
             $this->address_line_2,
             $this->address_city,
