@@ -114,7 +114,7 @@ final class Vsp extends Mapper
                     $item[self::COL_DOCTOR_LAST_NAME],
                 ));
             },
-            'type'                      => fn() => 'Physician',
+            'type'                      => fn($row) => Mapper\Vsp\TypeMap::lookup($row[self::COL_DEGREE]),
             'npi'                       => $this->getProviderNpiKey(),
             'degree'                    => self::COL_DEGREE,
             'gender'                    => function ($item) {
