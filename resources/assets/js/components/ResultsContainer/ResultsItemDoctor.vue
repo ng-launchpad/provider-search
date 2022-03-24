@@ -5,7 +5,8 @@
                 v-bind:to="`/provider/${item.id}`"
                 class="results-item__title"
             >
-                {{ item.label }}<template v-if="item.degree">, {{ item.degree }}</template>
+                {{ item.label }}
+                <template v-if="item.degree">, {{ item.degree }}</template>
             </router-link>
 
             <div
@@ -103,9 +104,10 @@
                     <div class="results-item__char text--bold">
                         Network:
                     </div>
-                    <div class="results-item__char">
-                        {{ item.network.search_label }}
-                    </div>
+                    <div
+                        class="results-item__char"
+                        v-html="item.network.network_label"
+                    />
                 </div>
             </div>
         </div>

@@ -65,7 +65,7 @@
                 class="results-item__info-col"
             >
                 <div class="results-item__char text--bold">
-                    Facility type
+                    Facility type:
                 </div>
                 <div class="results-item__char">
                     {{ item.type }}
@@ -76,11 +76,12 @@
                 class="results-item__info-col"
             >
                 <div class="results-item__char text--bold">
-                    Network name
+                    Network:
                 </div>
-                <div class="results-item__char">
-                    {{ item.network.network_label }}
-                </div>
+                <div
+                    class="results-item__char"
+                    v-html="item.network.network_label"
+                />
             </div>
         </div>
         <div class="align-right">
