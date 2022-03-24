@@ -125,7 +125,11 @@ final class Hch extends Mapper
                         $item[self::COL_PROVIDER_LAST_NAME],
                     ));
             },
-            'type'                      => fn($row) => Mapper\Hch\TypeMap::lookup($row[self::COL_PROVIDER_TYPE]),
+            'type'                      => function ($item) {
+                return $this->isFacility($item)
+                    ? $item[self::COL_PRIMARY_PROVIDER_SPECIALTY]
+                    : Mapper\Hch\TypeMap::lookup($item[self::COL_PROVIDER_TYPE]);
+            },
             'npi'                       => (int) $this->getProviderNpiKey(),
             'degree'                    => fn() => null,
             'gender'                    => function ($item) {
