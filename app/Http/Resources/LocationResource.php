@@ -18,21 +18,23 @@ class LocationResource extends JsonResource
     public function toArray($request)
     {
         $address = [
+            'label'  => $this->label,
             'line_1' => $this->address_line_1,
             'line_2' => $this->address_line_2,
             'city'   => $this->address_city,
             'county' => $this->address_county,
             'state'  => new StateResource($this->whenLoaded('state')),
-            'zip'    => Str::limit($this->address_zip, 5),
+            'zip'    => Str::limit($this->address_zip, 5, ''),
         ];
 
         $addressString = implode(', ', array_filter([
+            $this->label,
             $this->address_line_1,
             $this->address_line_2,
             $this->address_city,
             $this->address_county,
             $this->whenLoaded('state')->label ?? null,
-            Str::limit($this->address_zip, 5),
+            Str::limit($this->address_zip, 5, ''),
         ]));
 
         $addressMap = 'https://maps.google.com/?q=' . urlencode($addressString);
