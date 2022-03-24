@@ -22,6 +22,7 @@ class NetworkResource extends JsonResource
             'search_sublabel' => $this->search_sublabel,
             'network_label'   => $this->network_label,
             'browse_label'    => $this->browse_label,
+            'searching_label' => $this->searching_label,
             'legal'           => [
                 'home'     => $this->legal_home,
                 'search'   => $this->legal_search,
