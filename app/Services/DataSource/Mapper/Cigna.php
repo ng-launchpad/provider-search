@@ -7,7 +7,7 @@ use App\Services\DataSource\Mapper;
 
 final class Cigna extends Mapper
 {
-    const COL_X                                     = 0;
+    const COL_PHARMACY_NAME                         = 0;
     const COL_NPI                                   = 1;
     const COL_SERVICE_LOCATION_LINE_1               = 3;
     const COL_SERVICE_LOCATION_CITY                 = 5;
@@ -57,7 +57,7 @@ final class Cigna extends Mapper
     protected function getProviderKeys(): array
     {
         return [
-            'label'       => self::COL_X,
+            'label'       => self::COL_PHARMACY_NAME,
             'type'        => fn() => 'Pharmacy',
             'npi'         => $this->getProviderNpiKey(),
             'is_facility' => fn() => true,
