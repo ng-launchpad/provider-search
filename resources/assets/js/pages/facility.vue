@@ -25,7 +25,10 @@
                             Phone number
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    <div
+                        class="col-lg-2"
+                        v-if="showCountyColumn"
+                    >
                         <div class="provider-content__char provider-content__char--head provider-content__char--services text--bold">
                             County
                         </div>
@@ -73,7 +76,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    <div
+                        class="col-lg-2"
+                        v-if="showCountyColumn"
+                    >
                         <div
                             class="provider-content__item"
                         >
@@ -134,9 +140,9 @@
                 </div>
 
                 <div
-                    v-if="provider.network && provider.network.legal.facility"
+                    v-if="provider.network && provider.network.legal"
                     class="mt-2 pt-2"
-                    v-html="provider.network.legal.facility"
+                    v-html="provider.network.legal"
                 />
             </div>
         </div>
@@ -179,6 +185,13 @@ export default {
                 return this.provider.locations.length;
             }
             return 0;
+        },
+        showCountyColumn() {
+            //  CIGNA data does not provide county so hide the column
+            //  Sorry for the ugly hack
+            return this.provider && this.provider.network
+                ? this.provider.network.id !== 4
+                : true;
         }
     }
 }

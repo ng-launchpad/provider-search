@@ -152,7 +152,7 @@
             <div
                 v-if="selectedNetwork"
                 class="mt-2 mb-5"
-                v-html="selectedNetwork.legal.search"
+                v-html="selectedNetwork.legal"
             />
         </div>
     </div>
