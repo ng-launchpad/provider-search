@@ -4,7 +4,9 @@ namespace Tests\Feature\Commands;
 
 use App\Models\Hospital;
 use App\Models\Language;
+use App\Models\Location;
 use App\Models\Speciality;
+use App\Models\State;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Artisan;
@@ -61,6 +63,20 @@ class MigrateAetnaTest extends TestCase
         $this->assertTrue(Speciality::count() == 2);
     }
 
+    /** @test */
+    public function it_migrates_aetna_locations()
+    {
+        // arrange
+        $this->createLocations();
+
+        // act
+        $exitcode = Artisan::call('app:migrate-aetna');
+
+        // assert
+        $this->assertTrue($exitcode == 0);
+        $this->assertTrue(Location::count() == 2);
+    }
+
     protected function createHospitals()
     {
         // create hospital
@@ -108,8 +124,23 @@ class MigrateAetnaTest extends TestCase
         // create unique aetna speciality
         $aetna_speciality = new Speciality();
         $aetna_speciality->setTable('aetna_specialities');
-        $aetna_speciality->create(Speciality::factory([
-            'label' => $speciality->label.' modified'
-        ])->make()->toArray());
+        $aetna_speciality->create(Speciality::factory()->make()->toArray());
+    }
+
+    protected function createLocations()
+    {
+        // create location
+        $state = State::factory()->create();
+        $location = Location::factory()->create();
+
+        // create aetna location
+        $aetna_location = new Location();
+        $aetna_location->setTable('aetna_locations');
+        $aetna_location->create($location->toArray());
+
+        // create unique aetna location
+        $aetna_location = new Location();
+        $aetna_location->setTable('aetna_locations');
+        $aetna_location->create(Location::factory()->make()->toArray());
     }
 }

@@ -32,6 +32,7 @@ class MigrateAetnaTables extends Command
         $this->migrateList('hospitals');
         $this->migrateList('languages');
         $this->migrateList('specialities');
+        $this->migrateList('locations');
 
         return 0;
     }

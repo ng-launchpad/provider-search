@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Concerns\HasGetTableName;
 use App\Models\Concerns\HasVersionScope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -55,6 +56,19 @@ class Location extends Model
 {
     use HasFactory, HasGetTableName, HasVersionScope;
 
+    protected $fillable = [
+        'label',
+        'version',
+        'type',
+        'address_line_1',
+        'address_line_2',
+        'address_city',
+        'address_county',
+        'address_state_id',
+        'address_zip',
+        'phone',
+    ];
+
     /**
      * Gets the State associated with the Location
      */
@@ -69,6 +83,23 @@ class Location extends Model
     public function providers()
     {
         return $this->belongsToMany(Provider::class);
+    }
+
+    /**
+     * Find matching Location
+     */
+    public function scopeMatching(Builder $query, array $item)
+    {
+        $query
+            ->where('label', $item['label'])
+            ->where('type', $item['type'])
+            ->where('address_line_1', $item['address_line_1'])
+            ->where('address_city', $item['address_city'])
+            ->where('address_county', $item['address_county'])
+            ->where('address_state_id', $item['address_state_id'])
+            ->where('address_zip', $item['address_zip'])
+            ->where('phone', $item['phone'])
+            ;
     }
 
     /**
