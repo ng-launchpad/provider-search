@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Concerns\HasGetTableName;
 use App\Models\Concerns\HasVersionScope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -46,6 +47,17 @@ class Speciality extends Model
         return $this->belongsToMany(Provider::class);
     }
 
+    /**
+     * Find matching Speciality
+     */
+    public function scopeMatching(Builder $query, array $item)
+    {
+        $query->where('label', $item['label']);
+    }
+
+    /**
+     * Check if current Speciality exists for current version
+     */
     public function existsForVersion(): bool
     {
         try {
