@@ -101,6 +101,7 @@ class Provider extends Model
         'gender',
         'is_facility',
         'is_accepting_new_patients',
+        'network_id',
     ];
 
     /**
@@ -385,6 +386,17 @@ class Provider extends Model
             ->where('npi', '=', $npi)
             ->where('network_id', '=', $network->id)
             ->firstOrFail();
+    }
+
+    /**
+     * Check for unique keys set
+     */
+    public function scopeUnique(Builder $query, $item)
+    {
+        $query
+            ->where('version', $item->version)
+            ->where('npi', $item->npi)
+            ->where('network_id', $item->network_id);
     }
 
     public function existsForVersionAndNetwork(): bool

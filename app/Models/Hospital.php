@@ -50,9 +50,9 @@ class Hospital extends Model
     /**
      * Find matching Hospital
      */
-    public function scopeMatching(Builder $query, array $item)
+    public function scopeMatching(Builder $query, $item)
     {
-        $query->where('label', $item['label']);
+        $query->where('label', $item->label);
     }
 
     /**

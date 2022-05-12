@@ -50,9 +50,9 @@ class Speciality extends Model
     /**
      * Find matching Speciality
      */
-    public function scopeMatching(Builder $query, array $item)
+    public function scopeMatching(Builder $query, $item)
     {
-        $query->where('label', $item['label']);
+        $query->where('label', $item->label);
     }
 
     /**

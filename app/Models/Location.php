@@ -88,17 +88,17 @@ class Location extends Model
     /**
      * Find matching Location
      */
-    public function scopeMatching(Builder $query, array $item)
+    public function scopeMatching(Builder $query, $item)
     {
         $query
-            ->where('label', $item['label'])
-            ->where('type', $item['type'])
-            ->where('address_line_1', $item['address_line_1'])
-            ->where('address_city', $item['address_city'])
-            ->where('address_county', $item['address_county'])
-            ->where('address_state_id', $item['address_state_id'])
-            ->where('address_zip', $item['address_zip'])
-            ->where('phone', $item['phone'])
+            ->where('label', $item->label)
+            ->where('type', $item->type)
+            ->where('address_line_1', $item->address_line_1)
+            ->where('address_city', $item->address_city)
+            ->where('address_county', $item->address_county)
+            ->where('address_state_id', $item->address_state_id)
+            ->where('address_zip', $item->address_zip)
+            ->where('phone', $item->phone)
             ;
     }
 
