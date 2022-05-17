@@ -125,6 +125,24 @@ class Provider extends Model
     }
 
     /**
+     * Gets the Locations associated with the Provider
+     */
+    public function primary_locations()
+    {
+        return $this->locations()
+            ->wherePivot('is_primary', true);
+    }
+
+    /**
+     * Gets the Locations associated with the Provider
+     */
+    public function secondary_locations()
+    {
+        return $this->locations()
+            ->wherePivot('is_primary', false);
+    }
+
+    /**
      * Gets the Languages associated with the Provider
      */
     public function languages()
