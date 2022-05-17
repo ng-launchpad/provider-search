@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\Provider
@@ -79,7 +80,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Provider extends Model
 {
-    use HasFactory, Filterable, HasGetTableName, HasVersionScope;
+    use HasFactory, Filterable, HasGetTableName, HasVersionScope, SoftDeletes;
 
     const GENDER_MALE   = 'MALE';
     const GENDER_FEMALE = 'FEMALE';
@@ -415,6 +416,37 @@ class Provider extends Model
             ->where('version', $item->version)
             ->where('npi', $item->npi)
             ->where('network_id', $item->network_id);
+    }
+
+    /**
+     * Find matching providers based on mode
+     */
+    public function scopeMatching(Builder $query, $provider, $mode = 'strict')
+    {
+        // exclude matching source
+        $query->where('id', '!=', $provider->id);
+
+        // add where clauses based on matching mode
+        if ($mode == 'strict') {
+            $query
+                ->where('label', $provider->label)
+                ->where('type', $provider->type)
+                ->where('npi', $provider->npi)
+                ->where('degree', $provider->degree)
+                ->where('website', $provider->website)
+                ->where('gender', $provider->gender)
+                ->where('is_facility', $provider->is_facility)
+                ->where('is_accepting_new_patients', $provider->is_accepting_new_patients);
+
+        } elseif ($mode == 'loose') {
+            $query
+                ->where('label', $provider->label)
+                ->where('npi', $provider->npi)
+                ->where('is_facility', $provider->is_facility);
+
+        } elseif ($mode == 'npi') {
+            $query->where('npi', $provider->npi);
+        }
     }
 
     public function existsForVersionAndNetwork(): bool
