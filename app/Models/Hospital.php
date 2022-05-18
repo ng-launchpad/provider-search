@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Concerns\HasGetTableName;
 use App\Models\Concerns\HasVersionScope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Hospital withVersion()
  * @property int $version
  * @method static \Illuminate\Database\Eloquent\Builder|Hospital whereVersion($value)
+ * @method static Builder|Hospital matching($item)
  */
 class Hospital extends Model
 {
@@ -46,6 +48,17 @@ class Hospital extends Model
         return $this->belongsToMany(Provider::class);
     }
 
+    /**
+     * Find matching Hospital
+     */
+    public function scopeMatching(Builder $query, $item)
+    {
+        $query->where('label', $item->label);
+    }
+
+    /**
+     * Check if current Hospital exists for current version
+     */
     public function existsForVersion(): bool
     {
         try {

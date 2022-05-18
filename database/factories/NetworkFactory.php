@@ -17,6 +17,7 @@ class NetworkFactory extends Factory
             'label'           => ucwords($this->faker->words(3, true)),
             'search_label'    => ucwords($this->faker->words(3, true)),
             'search_sublabel' => ucwords($this->faker->words(3, true)),
+            'searching_label' => ucwords($this->faker->words(3, true)),
             'network_label'   => ucwords($this->faker->words(3, true)),
             'browse_label'    => ucwords($this->faker->words(3, true)),
             'config_key'      => '',

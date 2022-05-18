@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Concerns\HasGetTableName;
 use App\Models\Concerns\HasVersionScope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Language withVersion()
  * @property int                                                                  $version
  * @method static \Illuminate\Database\Eloquent\Builder|Language whereVersion($value)
+ * @method static Builder|Language matching($item)
  */
 class Language extends Model
 {
@@ -46,6 +48,17 @@ class Language extends Model
         return $this->belongsToMany(Provider::class);
     }
 
+    /**
+     * Find matching Language
+     */
+    public function scopeMatching(Builder $query, $item)
+    {
+        $query->where('label', $item->label);
+    }
+
+    /**
+     * Find Language by label and version
+     */
     public static function findByVersionAndLabelOrFail(int $version, string $label): self
     {
         return Language::query()
@@ -54,6 +67,9 @@ class Language extends Model
             ->firstOrFail();
     }
 
+    /**
+     * Check if current Language exists for current version
+     */
     public function existsForVersion(): bool
     {
         try {

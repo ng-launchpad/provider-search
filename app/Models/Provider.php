@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\Provider
@@ -76,10 +77,17 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Provider facility(bool $is_facility = true)
  * @property-read mixed                                                             $speciality_groups
  * @method static Builder|Provider withHospitals(string $hospital)
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static Builder|Provider matching($provider, $mode = 'strict')
+ * @method static \Illuminate\Database\Query\Builder|Provider onlyTrashed()
+ * @method static Builder|Provider unique($item)
+ * @method static Builder|Provider whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Provider withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Provider withoutTrashed()
  */
 class Provider extends Model
 {
-    use HasFactory, Filterable, HasGetTableName, HasVersionScope;
+    use HasFactory, Filterable, HasGetTableName, HasVersionScope, SoftDeletes;
 
     const GENDER_MALE   = 'MALE';
     const GENDER_FEMALE = 'FEMALE';
@@ -101,6 +109,7 @@ class Provider extends Model
         'gender',
         'is_facility',
         'is_accepting_new_patients',
+        'network_id',
     ];
 
     /**
@@ -121,6 +130,24 @@ class Provider extends Model
             ->withPivot([
                 'is_primary',
             ]);
+    }
+
+    /**
+     * Gets the Locations associated with the Provider
+     */
+    public function primary_locations()
+    {
+        return $this->locations()
+            ->wherePivot('is_primary', true);
+    }
+
+    /**
+     * Gets the Locations associated with the Provider
+     */
+    public function secondary_locations()
+    {
+        return $this->locations()
+            ->wherePivot('is_primary', false);
     }
 
     /**
@@ -385,6 +412,48 @@ class Provider extends Model
             ->where('npi', '=', $npi)
             ->where('network_id', '=', $network->id)
             ->firstOrFail();
+    }
+
+    /**
+     * Check for unique keys set
+     */
+    public function scopeUnique(Builder $query, $item)
+    {
+        $query
+            ->where('version', $item->version)
+            ->where('npi', $item->npi)
+            ->where('network_id', $item->network_id);
+    }
+
+    /**
+     * Find matching providers based on mode
+     */
+    public function scopeMatching(Builder $query, $provider, $mode = 'strict')
+    {
+        // exclude matching source
+        $query->where('id', '!=', $provider->id);
+
+        // add where clauses based on matching mode
+        if ($mode == 'strict') {
+            $query
+                ->where('label', $provider->label)
+                ->where('type', $provider->type)
+                ->where('npi', $provider->npi)
+                ->where('degree', $provider->degree)
+                ->where('website', $provider->website)
+                ->where('gender', $provider->gender)
+                ->where('is_facility', $provider->is_facility)
+                ->where('is_accepting_new_patients', $provider->is_accepting_new_patients);
+
+        } elseif ($mode == 'loose') {
+            $query
+                ->where('label', $provider->label)
+                ->where('npi', $provider->npi)
+                ->where('is_facility', $provider->is_facility);
+
+        } elseif ($mode == 'npi') {
+            $query->where('npi', $provider->npi);
+        }
     }
 
     public function existsForVersionAndNetwork(): bool
