@@ -20,7 +20,7 @@ class XlsTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
 
         // act
-        $parser->parse($file);
+        $parser->parse($file)->current();
     }
 
     /** @test */
@@ -37,15 +37,22 @@ class XlsTest extends TestCase
         $parser = Xls::factory();
 
         // act
-        $collection = $parser->parse($file);
+        $generator = $parser->parse($file);
 
         // assert
-        $this->assertInstanceOf(Collection::class, $collection);
-        $this->assertCount(2, $collection);
-        $this->assertEquals($data['A1'], $collection->get(0)[0]);
-        $this->assertEquals($data['B1'], $collection->get(0)[1]);
-        $this->assertEquals($data['A2'], $collection->get(1)[0]);
-        $this->assertEquals($data['B2'], $collection->get(1)[1]);
+        $row = $generator->current();
+        $this->assertIsArray($row);
+        $this->assertCount(2, $row);
+        $this->assertEquals($data['A1'], $row[0]);
+        $this->assertEquals($data['B1'], $row[1]);
+
+        $generator->next();
+
+        $row = $generator->current();
+        $this->assertIsArray($row);
+        $this->assertCount(2, $row);
+        $this->assertEquals($data['A2'], $row[0]);
+        $this->assertEquals($data['B2'], $row[1]);
     }
 
     /** @test */
@@ -64,15 +71,14 @@ class XlsTest extends TestCase
         $parser = Xls::factory(1);
 
         // act
-        $collection = $parser->parse($file);
+        $generator = $parser->parse($file);
 
         // assert
-        $this->assertInstanceOf(Collection::class, $collection);
-        $this->assertCount(2, $collection);
-        $this->assertEquals($data['A2'], $collection->get(0)[0]);
-        $this->assertEquals($data['B2'], $collection->get(0)[1]);
-        $this->assertEquals($data['A3'], $collection->get(1)[0]);
-        $this->assertEquals($data['B3'], $collection->get(1)[1]);
+        $row = $generator->current();
+        $this->assertIsArray($row);
+        $this->assertCount(2, $row);
+        $this->assertEquals($data['A3'], $row[0]);
+        $this->assertEquals($data['B3'], $row[1]);
     }
 
     private function createXls(array $data)

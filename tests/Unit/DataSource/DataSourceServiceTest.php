@@ -66,6 +66,68 @@ class DataSourceServiceTest extends TestCase
     }
 
     /** @test */
+    public function it_detects_zip_file()
+    {
+        // arrange
+        $service  = DataSourceService::factory();
+        $file     = tempnam(sys_get_temp_dir(), 'FOO');
+        $contents = 'Curabitur blandit tempus porttitor.';
+        $zip      = new \ZipArchive();
+
+        $zip->open($file, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        $zip->addFromString('data.txt', $contents);
+        $zip->close();
+
+        $resource = fopen($file, 'r');
+
+        // act
+        $isZip = $service->isZip($resource);
+
+        // assert
+        self::assertTrue($isZip);
+    }
+
+    /** @test */
+    public function it_detects_non_zip_file()
+    {
+        // arrange
+        $service  = DataSourceService::factory();
+        $file     = tempnam(sys_get_temp_dir(), 'FOO');
+        $contents = 'Curabitur blandit tempus porttitor.';
+        file_put_contents($file, $contents);
+
+        $resource = fopen($file, 'r');
+
+        // act
+        $isZip = $service->isZip($resource);
+
+        // assert
+        self::assertFalse($isZip);
+    }
+
+    /** @test */
+    public function it_unzips_the_file()
+    {
+        // arrange
+        $service  = DataSourceService::factory();
+        $file     = tempnam(sys_get_temp_dir(), 'FOO');
+        $contents = 'Curabitur blandit tempus porttitor.';
+        $zip      = new \ZipArchive();
+
+        $zip->open($file, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        $zip->addFromString('data.txt', $contents);
+        $zip->close();
+
+        $resource = fopen($file, 'r');
+
+        // act
+        $newResource = $service->unzip($resource);
+
+        // assert
+        self::assertEquals($contents, file_get_contents(stream_get_meta_data($newResource)['uri']));
+    }
+
+    /** @test */
     public function it_syncs_data()
     {
         // arrange
@@ -98,9 +160,17 @@ class DataSourceServiceTest extends TestCase
         //  Configure mocks: Parser
         $parser
             ->expects($this->once())
-            ->method('parse');
+            ->method('parse')
+            ->willReturn($this->arrayAsGenerator([
+                [],
+                [],
+            ]));
 
         //  Configure mocks: Mapper
+        $mapper
+            ->method('skipRow')
+            ->willReturn(false);
+
         $config = [
             'extractLanguages' => [
                 $language1,
@@ -123,10 +193,16 @@ class DataSourceServiceTest extends TestCase
                 $hospital2,
             ],
 
-            'extractProviders' => [
-                $provider1,
-                $provider2,
-            ],
+            'extractProviders' => array_map(
+                function (Provider $provider) use ($network) {
+                    $provider->network_id = $network->id;
+                    return $provider;
+                },
+                [
+                    $provider1,
+                    $provider2,
+                ]
+            ),
 
             'extractProviderLocations' => [
                 [$provider1, $location1, true],
@@ -156,7 +232,6 @@ class DataSourceServiceTest extends TestCase
 
         foreach ($config as $method => $items) {
             $mapper
-                ->expects($this->once())
                 ->method($method)
                 ->willReturn(Collection::make($items));
         }
@@ -176,10 +251,12 @@ class DataSourceServiceTest extends TestCase
         $this->assertCount(3, Speciality::all());
         $this->assertCount(2, Hospital::all());
         $this->assertCount(2, Provider::all());
+
         $this->assertCount(2, $provider1->locations()->get());
         $this->assertCount(2, $provider1->languages()->get());
         $this->assertCount(3, $provider1->specialities()->get());
         $this->assertCount(2, $provider1->hospitals()->get());
+
         $this->assertCount(1, $provider2->locations()->get());
         $this->assertCount(1, $provider2->languages()->get());
         $this->assertCount(1, $provider2->specialities()->get());
@@ -197,11 +274,18 @@ class DataSourceServiceTest extends TestCase
         $exception = new \Exception($message, $code);
 
         // act
-        $service->notifyError($exception);;
+        $service->notifyError($exception, []);
 
         // assert
         Notification::assertSentTo(
             new AnonymousNotifiable, SyncFailureNotification::class
         );
+    }
+
+    private function arrayAsGenerator(array $array): \Generator
+    {
+        foreach ($array as $item) {
+            yield $item;
+        }
     }
 }

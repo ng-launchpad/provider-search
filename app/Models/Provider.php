@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Helper\PeopleMap;
 use App\ModelPivots\LocationProviderPivot;
 use App\Models\Concerns\HasGetTableName;
 use App\Models\Concerns\HasVersionScope;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -70,6 +72,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Provider withVersion()
  * @property int                                                                    $version
  * @method static Builder|Provider whereVersion($value)
+ * @property-read mixed                                                             $people
+ * @method static Builder|Provider facility(bool $is_facility = true)
+ * @property-read mixed                                                             $speciality_groups
+ * @method static Builder|Provider withHospitals(string $hospital)
  */
 class Provider extends Model
 {
@@ -142,6 +148,102 @@ class Provider extends Model
     }
 
     /**
+     * Get list of people sharing the same location
+     */
+    public function getSpecialityGroupsAttribute()
+    {
+        if (!$this->is_facility) {
+            return [];
+        }
+
+        // find list of people that share same locations
+        $people = self::query()
+            ->facility(false)
+            ->withHospitals($this->label)
+            ->with('hospitals')
+            ->with('specialities')
+            ->get();
+
+        // prepare array of groups
+        $groups = [];
+        foreach (PeopleMap::getGroups() as $group_label) {
+            $groups[$group_label] = [
+                'label'  => $group_label,
+                'people' => collect(),
+            ];
+        }
+
+        foreach ($people as $human) {
+
+            // iterate human specialities
+            foreach ($human->specialities->unique() as $speciality) {
+
+                // skip when speciality is not present in the mapping
+                if (!isset(PeopleMap::MAP[$speciality->label])) {
+                    continue;
+                }
+
+                // define target group label
+                $group_label = PeopleMap::MAP[$speciality->label];
+
+                // add human to the group
+                $groups[$group_label]['people']->add($human->withoutRelations());
+            }
+        }
+
+        // return groups as collection
+        return collect(array_values($groups))
+
+            // map every group into a class
+            ->map(function ($data) {
+
+                $data['people'] = $data['people']
+                    ->unique('id')
+                    ->sortBy('label');
+
+                $group         = new \stdClass();
+                $group->label  = $data['label'];
+                $group->people = $data['people'];
+
+                return $group;
+            });
+    }
+
+    /**
+     * Scope providers by human/facility
+     */
+    public function scopeFacility(Builder $query, bool $is_facility = true)
+    {
+        $query->where('is_facility', $is_facility);
+    }
+
+    /**
+     * Scope providers with affiliated hospital of same name
+     */
+    public function scopeWithHospitals(Builder $query, string $hospital)
+    {
+        // return nothing on empty $hospital
+        if (!$hospital) {
+            return;
+        }
+
+        // try to find people within the same hospital name
+        try {
+
+            $hospital = Hospital::where('label', '=', $hospital)->firstOrFail();
+
+            // find providers that have connection to $hospital
+            $query->whereHas('hospitals', function (Builder $query) use ($hospital) {
+                $query->where('hospital_id', $hospital->id);
+            });
+
+        // if hospital not found - add emptying where clause
+        } catch (\Throwable $e) {
+            $query->whereRaw('1 = 0');
+        }
+    }
+
+    /**
      * Get Providers which match keywords
      */
     public function scopeWithKeywords(Builder $query, string $keywords, string $scope = null)
@@ -170,8 +272,10 @@ class Provider extends Model
                     $this
                         ->applyFilterProvider($query, $keywords)
                         ->applyFilterCity($query, $keywords)
-                        ->applyFilterSpeciality($query, $keywords)
-                        ->applyFilterLanguage($query, $keywords);
+                        ->applyFilterLocation($query, $keywords)
+                        //->applyFilterSpeciality($query, $keywords)
+                        //->applyFilterLanguage($query, $keywords)
+                    ;
                 });
                 break;
         }
@@ -182,8 +286,7 @@ class Provider extends Model
         $query->where(function ($query) use ($keywords) {
             $query
                 ->orWhere('label', 'like', "%$keywords%")
-                ->orWhere('website', 'like', "%$keywords%")
-                ->orWhere('npi', 'like', "%$keywords%");
+                ->orWhere('website', 'like', "%$keywords%");
         });
 
         return $this;
@@ -191,9 +294,36 @@ class Provider extends Model
 
     protected function applyFilterCity(Builder $query, string $keywords): self
     {
-        $query->orWhereHas('locations', function ($query) use ($keywords) {
-            $query->where('locations.address_city', 'like', "%$keywords%");
-        });
+        /**
+         * If the keyword is numeric, assume zip code
+         * If keyword is a city then restrict on city name
+         */
+        if (is_numeric($keywords)) {
+            $include = 'ZIP';
+
+        } else {
+            $cities = Location::getCities()
+                ->map(fn($city) => strtolower($city))
+                ->toArray();
+
+            if (in_array(strtolower(trim($keywords)), $cities)) {
+                $include = 'CITY';
+            }
+        }
+
+        if (!empty($include)) {
+
+            $query->orWhereHas('locations', function ($query) use ($include, $keywords) {
+                if ($include === 'ZIP') {
+                    $query
+                        ->where('locations.address_zip', 'like', "%$keywords%");
+
+                } elseif ($include === 'CITY') {
+                    $query
+                        ->where('locations.address_city', '=', $keywords);
+                }
+            });
+        }
 
         return $this;
     }
@@ -211,6 +341,15 @@ class Provider extends Model
     {
         $query->orWhereHas('languages', function ($query) use ($keywords) {
             $query->where('languages.label', 'like', "%$keywords%");
+        });
+
+        return $this;
+    }
+
+    protected function applyFilterLocation(Builder $query, string $keywords): self
+    {
+        $query->orWhereHas('locations', function ($query) use ($keywords) {
+            $query->where('locations.label', 'like', "%$keywords%");
         });
 
         return $this;
@@ -239,12 +378,29 @@ class Provider extends Model
         $query->where('is_facility', '=', $type === 'facility');
     }
 
-    public static function findByVersionNpiAndNetworkOrFail(int $version, string $npi, Network $network)
+    public static function findByVersionNpiAndNetworkOrFail(int $version, ?string $npi, Network $network)
     {
-        return Provider::query()
+        return self::query()
             ->where('version', '=', $version)
             ->where('npi', '=', $npi)
             ->where('network_id', '=', $network->id)
             ->firstOrFail();
+    }
+
+    public function existsForVersionAndNetwork(): bool
+    {
+        try {
+
+            self::findByVersionNpiAndNetworkOrFail(
+                $this->version,
+                $this->npi,
+                Network::findOrFail($this->network_id)
+            );
+
+            return true;
+
+        } catch (\Throwable $e) {
+            return false;
+        }
     }
 }

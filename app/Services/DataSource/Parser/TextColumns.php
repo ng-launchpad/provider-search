@@ -3,11 +3,10 @@
 namespace App\Services\DataSource\Parser;
 
 use App\Services\DataSource\Interfaces\Parser;
-use Illuminate\Support\Collection;
 
 final class TextColumns implements Parser
 {
-    const MIMES = ['text/plain'];
+    const MIMES = ['text/plain', 'application/octet-stream'];
 
     private int   $offset;
     private array $columnMap;
@@ -23,7 +22,7 @@ final class TextColumns implements Parser
         $this->columnMap = $columnMap;
     }
 
-    public function parse($resource): Collection
+    public function parse($resource): \Generator
     {
         if (!$this->isValidMime($resource)) {
             throw new \InvalidArgumentException(sprintf(
@@ -33,13 +32,13 @@ final class TextColumns implements Parser
             ));
         }
 
-        $collection = new Collection();
-        $i          = 0;
+        $i = 0;
 
         rewind($resource);
 
         while (($line = fgets($resource)) !== false) {
             if ($i >= $this->offset) {
+
                 // Remove the trailing EOL character included by fgets() so we're only dealing with data
                 $line  = preg_replace('/' . PHP_EOL . '$/', '', $line);
                 $parts = [];
@@ -50,12 +49,10 @@ final class TextColumns implements Parser
                     $line    = substr($line, $length);
                 }
 
-                $collection->add($parts);
+                yield $parts;
             }
             $i++;
         }
-
-        return $collection;
     }
 
     protected function isValidMime($resource): bool

@@ -19,7 +19,7 @@ class CsvTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
 
         // act
-        $parser->parse($file);
+        $parser->parse($file)->current();
     }
 
     /** @test */
@@ -37,13 +37,20 @@ class CsvTest extends TestCase
         $parser = Csv::factory();
 
         // act
-        $collection = $parser->parse($file);
+        $generator = $parser->parse($file);
 
         // assert
-        $this->assertInstanceOf(Collection::class, $collection);
-        $this->assertCount(2, $collection);
-        $this->assertEquals($data[0], $collection->get(0));
-        $this->assertEquals($data[1], $collection->get(1));
+        $row = $generator->current();
+        $this->assertIsArray($row);
+        $this->assertCount(2, $row);
+        $this->assertEquals($data[0], $row);
+
+        $generator->next();
+
+        $row = $generator->current();
+        $this->assertIsArray($row);
+        $this->assertCount(2, $row);
+        $this->assertEquals($data[1], $row);
     }
 
     /** @test */
@@ -62,11 +69,12 @@ class CsvTest extends TestCase
         $parser = Csv::factory(2);
 
         // act
-        $collection = $parser->parse($file);
+        $generator = $parser->parse($file);
 
         // assert
-        $this->assertInstanceOf(Collection::class, $collection);
-        $this->assertCount(1, $collection);
-        $this->assertEquals($data[2], $collection->get(0));
+        $row = $generator->current();
+        $this->assertIsArray($row);
+        $this->assertCount(2, $row);
+        $this->assertEquals($data[2], $row);
     }
 }

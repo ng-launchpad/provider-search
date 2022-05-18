@@ -20,11 +20,8 @@ class CreateNetworksTable extends Migration
             $table->string('search_sublabel', 150);
             $table->string('network_label', 150);
             $table->string('browse_label', 150);
-            $table->text('legal_home')->nullable();
-            $table->text('legal_search')->nullable();
-            $table->text('legal_browse')->nullable();
-            $table->text('legal_provider')->nullable();
-            $table->text('legal_facility')->nullable();
+            $table->string('searching_label', 150);
+            $table->text('legal')->nullable();
             $table->string('config_key', 150);
             $table->timestamps();
 

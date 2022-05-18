@@ -3,7 +3,7 @@
 namespace App\Services\DataSource\Parser;
 
 use App\Services\DataSource\Interfaces\Parser;
-use Illuminate\Support\Collection;
+use Symfony\Component\Console\Output\OutputInterface;
 
 final class Csv implements Parser
 {
@@ -21,7 +21,7 @@ final class Csv implements Parser
         $this->offset = $offset;
     }
 
-    public function parse($resource): Collection
+    public function parse($resource): \Generator
     {
         if (!$this->isValidMime($resource)) {
             throw new \InvalidArgumentException(sprintf(
@@ -31,21 +31,20 @@ final class Csv implements Parser
             ));
         }
 
-        $collection = new Collection();
-        $i          = 0;
+        $i = 0;
 
         rewind($resource);
 
         while (($data = fgetcsv($resource)) !== false) {
             if ($i >= $this->offset) {
+
                 $data = array_map('utf8_encode', $data);
                 $data = array_map('trim', $data);
-                $collection->add($data);
+
+                yield $data;
             }
             $i++;
         }
-
-        return $collection;
     }
 
     protected function isValidMime($resource): bool

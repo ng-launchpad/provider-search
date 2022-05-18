@@ -55,6 +55,15 @@ final class Hch extends Mapper
     const COL_SPECIALTY_2                             = 44;
     const COL_SPECIALTY_3                             = 45;
 
+    public function skipRow(array $row): bool
+    {
+        if ($row[self::COL_SERVICE_LOCATION_STATE] !== $this->texas->code) {
+            return true;
+        }
+
+        return false;
+    }
+
     protected function getLanguageKeys(): array
     {
         return [
@@ -77,7 +86,7 @@ final class Hch extends Mapper
                 return State::findByCodeOrFail($item[self::COL_SERVICE_LOCATION_STATE])->id;
             },
             'address_zip'      => self::COL_SERVICE_LOCATION_ZIP_CODE,
-            'phone'            => self::COL_SERVICE_LOCATION_PRIMARY_PHONE_NUMBER,
+            'phone'            => $this->getProviderPhoneKey(),
         ];
     }
 
@@ -108,13 +117,21 @@ final class Hch extends Mapper
                 return $this->isFacility($item)
                     ? trim($item[self::COL_MEDICAL_GROUP_NAME])
                     : trim(sprintf(
-                        '%s %s',
+                        '%s%s%s',
                         $item[self::COL_PROVIDER_FIRST_NAME],
+                        $item[self::COL_PROVIDER_MIDDLE_INITIAL]
+                            ? ' ' . $item[self::COL_PROVIDER_MIDDLE_INITIAL] . '. '
+                            : ' ',
                         $item[self::COL_PROVIDER_LAST_NAME],
                     ));
             },
-            'type'                      => self::COL_PROVIDER_TYPE,
+            'type'                      => function ($item) {
+                return $this->isFacility($item)
+                    ? $item[self::COL_PRIMARY_PROVIDER_SPECIALTY]
+                    : Mapper\Hch\TypeMap::lookup($item[self::COL_PROVIDER_TYPE]);
+            },
             'npi'                       => (int) $this->getProviderNpiKey(),
+            'degree'                    => fn() => null,
             'gender'                    => function ($item) {
                 switch ($item[self::COL_PROVIDER_GENDER]) {
                     case 'M':
@@ -151,5 +168,10 @@ final class Hch extends Mapper
     {
         //  I for individual, N for non-individual
         return $item[self::COL_INFORMATION_TYPE_CODE] === 'N';
+    }
+
+    protected function getProviderPhoneKey(): string
+    {
+        return (string) self::COL_SERVICE_LOCATION_PRIMARY_PHONE_NUMBER;
     }
 }

@@ -25,7 +25,10 @@
                             Phone number
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    <div
+                        class="col-lg-2"
+                        v-if="showCountyColumn"
+                    >
                         <div class="provider-content__char provider-content__char--head provider-content__char--services text--bold">
                             County
                         </div>
@@ -46,15 +49,15 @@
                             <div class="provider-content__char provider-content__char--location provider-content__char--facility">
                                 <span class="provider-content__char-text text--light flex-xl-row flex-column">
                                     <span>
-                                        {{ item.address.line_1 }}, {{ item.address.line_2 ? item.address.line_2 + ',' : '' }} {{ item.address.city }}, {{ item.address.state.label }}, {{ item.address.zip }}
+                                        {{ item.address.string }}
                                     </span>
 
                                     <a
-                                        v-bind:href="`https://maps.google.com/?q=${item.address.line_1},${item.address.line_2 ? item.address.line_2 + ',' : ''}${item.address.city},${item.address.state},${item.address.zip}`"
+                                        v-bind:href="`${item.address.map}`"
                                         class="provider-content__char-location-link ml-xl-3 ml-0"
                                         target="_blank"
                                     >
-                                        <span>view on a map</span>
+                                        <br><span>view on a map</span>
                                     </a>
                                 </span>
                             </div>
@@ -73,7 +76,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    <div
+                        class="col-lg-2"
+                        v-if="showCountyColumn"
+                    >
                         <div
                             class="provider-content__item"
                         >
@@ -89,7 +95,7 @@
                         >
                             <div class="provider-content__char text--light provider-content__char--facility provider-content__char--facility-serv">
                                 <img class="d-inline-block d-lg-none" src="../../img/svg/facility.svg" alt="">
-                                {{ item.type }}
+                                {{ item.type || 'Pharmacy' }}
                             </div>
                         </div>
                     </div>
@@ -98,9 +104,45 @@
                 <hr class="mt-5 separator">
 
                 <div
-                    v-if="provider.network && provider.network.legal.facility"
-                    class="mt-5 pt-2"
-                    v-html="provider.network.legal.facility"
+                    v-if="provider.speciality_groups && provider.speciality_groups.length"
+                    class="mt-5"
+                >
+                    <h2 class="mt-0 mb-4">Service providers at this location</h2>
+
+                    <div class="row">
+                        <div
+                            v-for="(group, index) in provider.speciality_groups"
+                            v-bind:key="index"
+                            class="col-md-4 mb-4"
+                        >
+                            <div class="text--md text--bold mb-4">
+                                {{ group.label }}
+                            </div>
+                            <template v-if="group.people.length">
+                                <div
+                                    v-for="(person, index) in group.people"
+                                    v-bind:key="person.id"
+                                    class="mb-3"
+                                >
+                                    <router-link
+                                        v-bind:to="`/provider/${person.id}`"
+                                        class="text--link text--md"
+                                    >
+                                        {{ person.label }}{{ person.degree ? `, ${person.degree}` : '' }}
+                                    </router-link>
+                                </div>
+                            </template>
+                            <template v-else>
+                                No contracted {{ group.label }} at this facility
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    v-if="provider.network && provider.network.legal"
+                    class="mt-2 pt-2"
+                    v-html="provider.network.legal"
                 />
             </div>
         </div>
@@ -143,6 +185,13 @@ export default {
                 return this.provider.locations.length;
             }
             return 0;
+        },
+        showCountyColumn() {
+            //  CIGNA data does not provide county so hide the column
+            //  Sorry for the ugly hack
+            return this.provider && this.provider.network
+                ? this.provider.network.id != 4
+                : true;
         }
     }
 }

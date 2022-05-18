@@ -8,22 +8,26 @@ use App\Models\Location;
 use App\Models\Network;
 use App\Models\Provider;
 use App\Models\Speciality;
+use App\Models\State;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
 
 abstract class Mapper implements Interfaces\Mapper
 {
-    private $version;
-    private $providerLocationCache = [];
+    protected State $texas;
+    private         $version;
+    private         $providerLocationCache = [];
 
     // `final` prevents PHPStan from reporting an unsafe usage of static() in factory()
     // https://phpstan.org/blog/solving-phpstan-error-unsafe-usage-of-new-static
-    final public function __construct()
+    final public function __construct(State $texas = null)
     {
+        $this->texas = $texas ?? State::findByCodeOrFail('TX');
     }
 
-    public static function factory(): self
+    public static function factory(State $texas = null): self
     {
-        return new static();
+        return new static($texas);
     }
 
     public function setVersion(int $version): self
@@ -32,44 +36,47 @@ abstract class Mapper implements Interfaces\Mapper
         return $this;
     }
 
-    public function extractLanguages(Collection $collection): Collection
+    public function extractLanguages(array $row): Collection
     {
-        $collectionOut = new Collection();
+        $collection = new Collection();
 
-        $collection->each(function ($item) use ($collectionOut) {
-            foreach ($this->getLanguageKeys() as $key) {
+        foreach ($this->getLanguageKeys() as $key) {
 
-                $language = new Language();
+            $label = $row[$key] ?? null;
 
-                if (!empty($item[$key]) && strtolower($item[$key]) !== 'english') {
-                    $language->label = $item[$key];
-                }
+            if ($label && strtolower($label) !== 'english') {
 
-                if ($language->isDirty()) {
-                    $language->version = $this->version;
-                    $collectionOut->add($language);
+                foreach (explode(',', $label) as $datum) {
+
+                    $datum = trim($datum);
+
+                    if ($datum) {
+
+                        $language          = new Language();
+                        $language->label   = $datum;
+                        $language->version = $this->version;
+
+                        $collection->add($language);
+                    }
                 }
             }
-        });
+        }
 
-        return $collectionOut;
+        return $collection;
     }
 
-    public function extractLocations(Collection $collection): Collection
+    public function extractLocations(array $row): Collection
     {
-        $collectionOut = new Collection();
+        $collection = new Collection();
 
-        $collection->each(function ($item) use ($collectionOut) {
+        $location = $this->buildLocation($row);
 
-            $location = $this->buildLocation($item);
+        if ($location->isDirty()) {
+            $location->version = $this->version;
+            $collection->add($location);
+        }
 
-            if ($location->isDirty()) {
-                $location->version = $this->version;
-                $collectionOut->add($location);
-            }
-        });
-
-        return $collectionOut;
+        return $collection;
     }
 
     private function buildLocation($item): Location
@@ -88,179 +95,224 @@ abstract class Mapper implements Interfaces\Mapper
         return $location;
     }
 
-    public function extractSpecialities(Collection $collection): Collection
+    public function extractSpecialities(array $row): Collection
     {
-        $collectionOut = new Collection();
+        $collection = new Collection();
 
-        $collection->each(function ($item) use ($collectionOut) {
-            foreach ($this->getSpecialityKeys() as $key) {
+        foreach ($this->getSpecialityKeys() as $key) {
 
-                $speciality = new Speciality();
+            if (is_array($key)) {
+                /**
+                 * @var $key       string
+                 * @var $formatter \Closure
+                 */
+                [$key, $formatter] = $key;
+            }
 
-                if ($item[$key] ?? null) {
-                    $speciality->label = $item[$key];
-                }
+            $label = $row[$key] ?? null;
 
-                if ($speciality->isDirty()) {
-                    $speciality->version = $this->version;
-                    $collectionOut->add($speciality);
+            if (isset($formatter)) {
+                $label = $formatter($label);
+            }
+
+            if ($label) {
+
+                foreach (explode(',', $label) as $datum) {
+
+                    $datum = trim($datum);
+
+                    if ($datum) {
+
+                        $speciality          = new Speciality();
+                        $speciality->label   = $datum;
+                        $speciality->version = $this->version;
+
+                        $collection->add($speciality);
+                    }
                 }
             }
-        });
+        }
 
-        return $collectionOut;
+        return $collection;
     }
 
-    public function extractHospitals(Collection $collection): Collection
+    public function extractHospitals(array $row): Collection
     {
-        $collectionOut = new Collection();
+        $collection = new Collection();
 
-        $collection->each(function ($item) use ($collectionOut) {
-            foreach ($this->getHospitalKeys() as $key) {
+        foreach ($this->getHospitalKeys() as $key) {
 
-                $hospital = new Hospital();
+            $hospital = new Hospital();
 
-                if ($item[$key] ?? null) {
-                    $hospital->label = $item[$key];
-                }
-
-                if ($hospital->isDirty()) {
-                    $hospital->version = $this->version;
-                    $collectionOut->add($hospital);
-                }
+            if (!empty($row[$key]) && strtolower($row[$key]) !== 'information not available') {
+                $hospital->label = $row[$key];
             }
-        });
 
-        return $collectionOut;
+            if ($hospital->isDirty()) {
+                $hospital->version = $this->version;
+                $collection->add($hospital);
+            }
+        }
+
+        return $collection;
     }
 
-    public function extractProviders(Collection $collection): Collection
+    public function extractProviders(array $row, Network $network): Collection
     {
-        $collectionOut = new Collection();
+        $collection = new Collection();
 
-        $collection->each(function ($item) use ($collectionOut) {
+        $provider = new Provider();
 
-            $provider = new Provider();
+        foreach ($this->getProviderKeys() as $property => $key) {
 
-            foreach ($this->getProviderKeys() as $property => $key) {
+            $provider->{$property} = $key instanceof \Closure
+                ? $key($row)
+                : $row[$key];
+        }
 
-                $provider->{$property} = $key instanceof \Closure
-                    ? $key($item)
-                    : $item[$key];
-            }
+        if ($provider->isDirty()) {
+            $provider->network_id = $network->id;
+            $provider->version    = $this->version;
+            $collection->add($provider);
+        }
 
-            if ($provider->isDirty()) {
-                $provider->version = $this->version;
-                $collectionOut->add($provider);
-            }
-        });
-
-        return $collectionOut;
+        return $collection;
     }
 
-    public function extractProviderLocations(Collection $collection, Network $network): Collection
+    public function extractProviderLocations(array $row, Network $network): Collection
     {
-        $collectionOut = new Collection();
+        $collection = new Collection();
 
-        $collection->each(function ($item) use ($collectionOut, $network) {
+        try {
 
             $provider = Provider::findByVersionNpiAndNetworkOrFail(
                 $this->version,
-                $item[$this->getProviderNpiKey()],
+                $row[$this->getProviderNpiKey()],
                 $network
             );
-            $location = $this->buildLocation($item);
-            $location = Location::query()->where('hash', $location->generateHash())->firstOrFail();
+
+            $location = $this->buildLocation($row);
+            $location = Location::query()
+                ->where('hash', $location->generateHash())
+                ->firstOrFail();
 
             if (!array_key_exists($provider->id, $this->providerLocationCache)) {
                 $this->providerLocationCache[$provider->id] = 0;
             }
 
-            $collectionOut->add([
+            $collection->add([
                 $provider,
                 $location,
                 // If this is the Provider's first address (cache is 0) then consider it their primary address
-                !(bool) $this->providerLocationCache[$provider->id]++,
+                !(bool) $this->providerLocationCache[$provider->id]++
             ]);
 
-        });
+        } catch (ModelNotFoundException $e) {
+            // Didn't find provider or location, so continue
+        }
 
-        return $collectionOut;
+        return $collection;
     }
 
-    public function extractProviderLanguages(Collection $collection, Network $network): Collection
+    public function extractProviderLanguages(array $row, Network $network): Collection
     {
-        $collectionOut = new Collection();
+        $collection = new Collection();
 
-        $collection->each(function ($item) use ($collectionOut, $network) {
+        try {
 
             $provider  = Provider::findByVersionNpiAndNetworkOrFail(
                 $this->version,
-                $item[$this->getProviderNpiKey()],
+                $row[$this->getProviderNpiKey()],
                 $network
             );
-            $languages = $this->extractLanguages(Collection::make([$item]));
+            $languages = $this->extractLanguages($row);
 
             foreach ($languages as $language) {
-                $language = Language::where('label', $language->label)->firstOrFail();
-                $collectionOut->add([
-                    $provider,
-                    $language,
-                ]);
-            }
-        });
+                try {
 
-        return $collectionOut;
+                    $language = Language::findByVersionAndLabelOrFail($provider->version, $language->label);
+                    $collection->add([
+                        $provider,
+                        $language,
+                    ]);
+
+                } catch (ModelNotFoundException $e) {
+                    // Didn't find language, so continue
+                }
+            }
+
+        } catch (ModelNotFoundException $e) {
+            // Didn't find provider, so continue
+        }
+
+        return $collection;
     }
 
-    public function extractProviderSpecialities(Collection $collection, Network $network): Collection
+    public function extractProviderSpecialities(array $row, Network $network): Collection
     {
-        $collectionOut = new Collection();
+        $collection = new Collection();
 
-        $collection->each(function ($item) use ($collectionOut, $network) {
+        try {
 
             $provider     = Provider::findByVersionNpiAndNetworkOrFail(
                 $this->version,
-                $item[$this->getProviderNpiKey()],
+                $row[$this->getProviderNpiKey()],
                 $network
             );
-            $specialities = $this->extractSpecialities(Collection::make([$item]));
+            $specialities = $this->extractSpecialities($row);
 
             foreach ($specialities as $speciality) {
-                $speciality = Speciality::where('label', $speciality->label)->firstOrFail();
-                $collectionOut->add([
-                    $provider,
-                    $speciality,
-                ]);
-            }
-        });
+                try {
 
-        return $collectionOut;
+                    $speciality = Speciality::where('label', $speciality->label)->firstOrFail();
+                    $collection->add([
+                        $provider,
+                        $speciality,
+                    ]);
+
+                } catch (ModelNotFoundException $e) {
+                    // Didn't find speciality so continue
+                }
+            }
+
+        } catch (ModelNotFoundException $e) {
+            // Didn't find provider, so continue
+        }
+
+        return $collection;
     }
 
-    public function extractProviderHospitals(Collection $collection, Network $network): Collection
+    public function extractProviderHospitals(array $row, Network $network): Collection
     {
-        $collectionOut = new Collection();
+        $collection = new Collection();
 
-        $collection->each(function ($item) use ($collectionOut, $network) {
+        try {
 
             $provider  = Provider::findByVersionNpiAndNetworkOrFail(
                 $this->version,
-                $item[$this->getProviderNpiKey()],
+                $row[$this->getProviderNpiKey()],
                 $network
             );
-            $hospitals = $this->extractHospitals(Collection::make([$item]));
+            $hospitals = $this->extractHospitals($row);
 
             foreach ($hospitals as $hospital) {
-                $hospital = Hospital::where('label', $hospital->label)->firstOrFail();
-                $collectionOut->add([
-                    $provider,
-                    $hospital,
-                ]);
-            }
-        });
+                try {
 
-        return $collectionOut;
+                    $hospital = Hospital::where('label', $hospital->label)->firstOrFail();
+                    $collection->add([
+                        $provider,
+                        $hospital,
+                    ]);
+
+                } catch (ModelNotFoundException $e) {
+                    // Didn't find hospital, so continue
+                }
+            }
+        } catch (ModelNotFoundException $e) {
+            // Didn't find provider, so continue
+        }
+
+        return $collection;
     }
 
     protected abstract function getLanguageKeys(): array;
@@ -274,4 +326,6 @@ abstract class Mapper implements Interfaces\Mapper
     protected abstract function getProviderKeys(): array;
 
     protected abstract function getProviderNpiKey(): string;
+
+    protected abstract function getProviderPhoneKey(): string;
 }

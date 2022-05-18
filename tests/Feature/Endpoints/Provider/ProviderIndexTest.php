@@ -48,15 +48,14 @@ class ProviderIndexTest extends TestCase
         // arrange
         $state = $this->state;
 
-        // assert
-        $this->expectException(ValidationException::class);
-
         // act
-        $this
-            ->withoutExceptionHandling()
+        $response = $this
             ->getJson(route('api.providers.index', [
                 'state_id' => $state->id,
             ]));
+
+        // assert
+        $response->assertStatus(422);
     }
 
     /** @test */
@@ -65,15 +64,14 @@ class ProviderIndexTest extends TestCase
         // arrange
         $network = $this->network;
 
-        // assert
-        $this->expectException(ValidationException::class);
-
         // act
-        $this
-            ->withoutExceptionHandling()
+        $response = $this
             ->getJson(route('api.providers.index', [
                 'network_id' => $network->id,
             ]));
+
+        // assert
+        $response->assertStatus(422);
     }
 
     /** @test */

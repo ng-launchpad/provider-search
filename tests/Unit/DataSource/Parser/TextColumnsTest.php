@@ -19,7 +19,7 @@ class TextColumnsTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
 
         // act
-        $parser->parse($file);
+        $parser->parse($file)->current();
     }
 
     /** @test */
@@ -39,13 +39,20 @@ class TextColumnsTest extends TestCase
         $parser = TextColumns::factory(0, $columnMap);
 
         // act
-        $collection = $parser->parse($file);
+        $generator = $parser->parse($file);
 
         // assert
-        $this->assertInstanceOf(Collection::class, $collection);
-        $this->assertCount(2, $collection);
-        $this->assertEquals($data[0], $collection->get(0));
-        $this->assertEquals(array_map('trim', $data[1]), $collection->get(1));
+        $row = $generator->current();
+        $this->assertIsArray($row);
+        $this->assertCount(4, $row);
+        $this->assertEquals(array_map('trim', $data[0]), $row);
+
+        $generator->next();
+
+        $row = $generator->current();
+        $this->assertIsArray($row);
+        $this->assertCount(4, $row);
+        $this->assertEquals(array_map('trim', $data[1]), $row);
     }
 
     /** @test */
@@ -66,11 +73,12 @@ class TextColumnsTest extends TestCase
         $parser = TextColumns::factory(2, $columnMap);
 
         // act
-        $collection = $parser->parse($file);
+        $generator = $parser->parse($file);
 
         // assert
-        $this->assertInstanceOf(Collection::class, $collection);
-        $this->assertCount(1, $collection);
-        $this->assertEquals($data[2], $collection->get(0));
+        $row = $generator->current();
+        $this->assertIsArray($row);
+        $this->assertCount(4, $row);
+        $this->assertEquals($data[2], $row);
     }
 }

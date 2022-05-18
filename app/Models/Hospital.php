@@ -45,4 +45,20 @@ class Hospital extends Model
     {
         return $this->belongsToMany(Provider::class);
     }
+
+    public function existsForVersion(): bool
+    {
+        try {
+
+            self::query()
+                ->where('version', '=', $this->version)
+                ->where('label', '=', $this->label)
+                ->firstOrFail();
+
+            return true;
+
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
 }

@@ -5,10 +5,12 @@
                 v-bind:to="`/provider/${item.id}`"
                 class="results-item__title"
             >
-                {{ item.label }}<template v-if="item.degree">, {{ item.degree }}</template>
+                {{ item.label }}
+                <template v-if="item.degree">, {{ item.degree }}</template>
             </router-link>
 
             <div
+                v-if="item.is_accepting_new_patients !== null"
                 class="results-item__sub-title">
                 {{ item.is_accepting_new_patients ? 'Accepting new patients' : 'Not accepting new patients' }}
             </div>
@@ -45,7 +47,7 @@
                     >
                     <span>
                         <span class="text--bold">Address:</span> <br>
-                        {{ primaryAddress.address.line_1 }}, {{ primaryAddress.address.city }}, {{ primaryAddress.address.state.label }}, {{ primaryAddress.address.zip }} <br>
+                        {{ primaryAddress.address.string }}<br>
                         <router-link
                             v-if="item.locations.length > 1"
                             v-bind:to="`/provider/${item.id}`"
@@ -77,7 +79,7 @@
                     Languages spoken:
                 </div>
                 <div class="results-item__char">
-                    English, {{ languages }}
+                    English<span v-if="languages.length">,</span> {{ languages }}
                 </div>
             </div>
             <div
@@ -97,14 +99,15 @@
                 </div>
 
                 <div
-                    v-if="item.nerwork"
+                    v-if="item.network"
                 >
                     <div class="results-item__char text--bold">
                         Network:
                     </div>
-                    <div class="results-item__char">
-                        {{ item.network }}
-                    </div>
+                    <div
+                        class="results-item__char"
+                        v-html="item.network.network_label"
+                    />
                 </div>
             </div>
         </div>

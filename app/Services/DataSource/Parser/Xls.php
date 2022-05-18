@@ -3,7 +3,6 @@
 namespace App\Services\DataSource\Parser;
 
 use App\Services\DataSource\Interfaces\Parser;
-use Illuminate\Support\Collection;
 use PhpOffice\PhpSpreadsheet;
 
 final class Xls implements Parser
@@ -25,7 +24,7 @@ final class Xls implements Parser
         $this->offset = $offset;
     }
 
-    public function parse($resource): Collection
+    public function parse($resource): \Generator
     {
         if (!$this->isValidMime($resource)) {
             throw new \InvalidArgumentException(sprintf(
@@ -37,7 +36,7 @@ final class Xls implements Parser
 
         $file = stream_get_meta_data($resource)['uri'];
 
-        $reader = PhpSpreadsheet\IOFactory::createReaderForFile($file);
+        $reader = $this->getReader();
         $reader->setReadDataOnly(true);
 
         $spreadsheet = $reader->load($file);
@@ -48,10 +47,17 @@ final class Xls implements Parser
             array_shift($rows);
         }
 
-        //  @todo (Pablo 2022-02-09) - trim?
-        //  @todo (Pablo 2022-02-09) - utf8 encode?
+        foreach ($rows as $row) {
 
-        return new Collection($rows);
+            $row = array_map('trim', $row);
+            $row = array_map('utf8_encode', $row);
+            yield $row;
+        }
+    }
+
+    protected function getReader(): PhpSpreadsheet\Reader\IReader
+    {
+        return PhpSpreadsheet\IOFactory::createReader('Xlsx');
     }
 
     protected function isValidMime($resource): bool

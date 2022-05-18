@@ -2,8 +2,6 @@
 
 namespace App\Services\DataSource\Interfaces;
 
-use Illuminate\Support\Collection;
-
 interface Parser
 {
     public static function factory(int $offset = 0): self;
@@ -13,7 +11,7 @@ interface Parser
      *
      * @param $resource
      *
-     * @return Collection
+     * @return \Generator
      */
-    public function parse($resource): Collection;
+    public function parse($resource): \Generator;
 }

@@ -16,7 +16,8 @@
                             Showing {{ providersMeta.total }} {{ resultsLabel }} ‘{{ queryResultString }}’
                         </div>
                         <div class="results-container__print">
-                            <a href="javascript:if(window.print)window.print()" class="text--color-white text--line-height-fix text--styled-link">Print all results</a>
+                            <a href="javascript:if(window.print)window.print()" class="text--color-white text--line-height-fix text--styled-link">Print
+                                all results</a>
                         </div>
                     </div>
                     <div class="results-container__right">
@@ -83,24 +84,67 @@
 
                     <template v-if="!providers.length && !loading">
                         <p class="h2 align-center">
-                            We couldn't find any results for that search. Please <a href="/contact-us.php" class="text--styled-link">contact us</a> if you need further assistance.
+                            We couldn't find any results for that search. Please
+                            <a href="/contact-us.php" class="text--styled-link">contact us</a> if you need further
+                            assistance.
                         </p>
                     </template>
                 </div>
 
                 <div class="results-container__pagination">
                     <div class="pagination">
+                        <!--                        <div-->
+                        <!--                            v-for="(link, index) in providersMeta.links"-->
+                        <!--                            class="pagination__item"-->
+                        <!--                            v-bind:key="index"-->
+                        <!--                            v-bind:class="{-->
+                        <!--                                'is-active': link.active,-->
+                        <!--                                'is-disabled': !link.url-->
+                        <!--                            }"-->
+                        <!--                            v-on:click="setPage(index)"-->
+                        <!--                            v-html="link.label"-->
+                        <!--                        />-->
                         <div
-                            v-for="(link, index) in providersMeta.links"
+                            v-if="currentPage > 3 && paginationItems > 6"
                             class="pagination__item"
-                            v-bind:key="index"
+                            v-on:click="setPage(1)"
                             v-bind:class="{
-                                'is-active': link.active,
-                                'is-disabled': !link.url
+                                'is-active': currentPage === 1
                             }"
-                            v-on:click="setPage(index)"
-                            v-html="link.label"
-                        />
+                        >1
+                        </div>
+
+                        <div
+                            v-if="currentPage > 3 && paginationItems > 6"
+                            class="disabled"
+                        >
+                            ..
+                        </div>
+
+                        <div
+                            v-for="n in paginationItems"
+                            class="pagination__item"
+                            v-bind:class="{
+                                'is-active' : n == currentPage
+                            }"
+                            v-on:click="setPage(n)"
+                        >
+                            {{ n }}
+                        </div>
+
+                        <div
+                            v-if="currentPage < paginationItems - 1 && paginationItems > 6"
+                            class="disabled"
+                        >
+                            ...
+                        </div>
+
+                        <div
+                            v-if="currentPage < paginationItems - 4 && paginationItems > 6"
+                            class="pagination__item"
+                            v-on:click="setPage(providersMeta.last_page)"
+                        >{{ providersMeta.last_page }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -108,7 +152,7 @@
             <div
                 v-if="selectedNetwork"
                 class="mt-2 mb-5"
-                v-html="selectedNetwork.legal.search"
+                v-html="selectedNetwork.legal"
             />
         </div>
     </div>
@@ -153,16 +197,16 @@ export default {
                     value: 'city',
                     name: 'scope'
                 },
-                {
-                    label: 'Speciality',
-                    value: 'speciality',
-                    name: 'scope'
-                },
-                {
-                    label: 'Language',
-                    value: 'language',
-                    name: 'scope'
-                }
+                // {
+                //     label: 'Speciality',
+                //     value: 'speciality',
+                //     name: 'scope'
+                // },
+                // {
+                //     label: 'Language',
+                //     value: 'language',
+                //     name: 'scope'
+                // }
             ],
             filterValue: '',
         }
@@ -174,7 +218,7 @@ export default {
 
     watch: {
         '$route.query': {
-            handler: async function(){
+            handler: async function () {
                 if (this.$route.query.page) {
                     this.currentPage = parseInt(this.$route.query.page);
                 }
@@ -190,27 +234,57 @@ export default {
     },
 
     computed: {
-        queryResultString: function() {
+        queryResultString: function () {
             return this.$route.query.keywords;
         },
 
-        resultsLabel: function() {
+        resultsLabel: function () {
             return this.providers.length === 1 ? 'result for' : 'results for';
         },
 
-        paginationItems: function() {
+        paginationLength: function () {
             if (this.providersMeta.total) {
                 return Math.ceil(this.providersMeta.total / this.providersMeta.per_page);
             }
         },
 
-        selectedNetwork: function() {
+        pagMin: function () {
+            if (this.currentPage < 4) {
+                return 1;
+            } else if (this.currentPage > this.paginationLength - 4) {
+                return this.paginationLength - 5;
+            } else {
+                return this.currentPage - 2;
+            }
+        },
+
+        pagMax: function () {
+            if (this.paginationLength < 6) {
+                return this.paginationLength;
+            } else if (this.currentPage < 4) {
+                return 6;
+            } else if (this.currentPage > this.paginationLength - 5) {
+                return this.paginationLength;
+            } else {
+                return this.currentPage + 3;
+            }
+        },
+
+        paginationItems: function () {
+            let temp = [];
+            for (let i = this.pagMin; i < this.pagMax + 1; i++) {
+                temp.push(i);
+            }
+            return temp
+        },
+
+        selectedNetwork: function () {
             return this.networks.find(network => network.id == this.$route.query.network_id);
         }
     },
 
     methods: {
-        searchProviders: async function(query) {
+        searchProviders: async function (query) {
             this.loading = true;
             const {data} = await api.search(query);
             this.providers = data.data;
@@ -218,8 +292,9 @@ export default {
             this.loading = false;
         },
 
-        newSearch: async function() {
-            this.$router.push({query: {...this.$route.query}}).catch(()=>{});
+        newSearch: async function () {
+            this.$router.push({query: {...this.$route.query}}).catch(() => {
+            });
         },
 
         getItemTypeComponent(isFacilitiy) {
@@ -244,11 +319,13 @@ export default {
                 query[currentOption.name] = currentOption.value;
             }
 
-            this.$router.push({query: {...query}}).catch(()=>{});
+            this.$router.push({query: {...query}}).catch(() => {
+            });
         },
 
         setPage(page) {
-            this.$router.push({query: {...this.$route.query, page: page}}).catch(()=>{});
+            this.$router.push({query: {...this.$route.query, page: page}}).catch(() => {
+            });
         }
     }
 }

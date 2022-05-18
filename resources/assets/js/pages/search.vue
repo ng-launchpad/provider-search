@@ -5,9 +5,9 @@
                 <div class="hero__inner">
                     <img class="hero__img" src="images/hero-woman.png" alt="">
                     <div class="row">
-                        <div class="col-md-7">
+                        <div class="col-md-8">
                             <div class="hero__title">
-                                group health fully-insured <span>provider search</span>
+                                <span>Secure Choice</span> fully insured provider directory
                             </div>
                             <div class="hero__sub-title">
                                 Locate participating providers, facilities, and pharmacies.
@@ -26,11 +26,11 @@
         />
 
         <div
-            v-if="network && network.legal.home"
+            v-if="network && network.legal"
             class="pt-2 pb-5"
         >
             <div class="container">
-                <div v-html="network.legal.home" />
+                <div v-html="network.legal" />
             </div>
         </div>
     </div>

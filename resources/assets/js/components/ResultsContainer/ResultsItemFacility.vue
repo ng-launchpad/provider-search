@@ -8,10 +8,6 @@
                 {{ item.label }}
             </router-link>
 
-            <div class="results-item__sub-title">
-                Healthcare facility
-            </div>
-
             <router-link
                 v-bind:to="`/facility/${item.id}`"
                 class="results-item__detail results-item__detail--desktop"
@@ -69,7 +65,7 @@
                 class="results-item__info-col"
             >
                 <div class="results-item__char text--bold">
-                    Facility type
+                    Facility type:
                 </div>
                 <div class="results-item__char">
                     {{ item.type }}
@@ -80,11 +76,12 @@
                 class="results-item__info-col"
             >
                 <div class="results-item__char text--bold">
-                    Network name
+                    Network:
                 </div>
-                <div class="results-item__char">
-                    {{ item.network.search_label }}
-                </div>
+                <div
+                    class="results-item__char"
+                    v-html="item.network.network_label"
+                />
             </div>
         </div>
         <div class="align-right">

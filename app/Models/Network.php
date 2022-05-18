@@ -33,11 +33,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Network whereNetworkLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Network whereSearchLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Network whereSearchSublabel($value)
- * @property string|null $legal_home
- * @property string|null $legal_search
- * @property string|null $legal_browse
- * @property string|null $legal_provider
- * @property string|null $legal_facility
+ * @property string|null $legal
  * @method static \Illuminate\Database\Eloquent\Builder|Network whereLegalBrowse($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Network whereLegalFacility($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Network whereLegalHome($value)

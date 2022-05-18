@@ -5,6 +5,7 @@ namespace App\Console\Commands\DataSource;
 use App\Models\Network;
 use App\Models\Setting;
 use App\Services\DataSource\Connection;
+use App\Services\DataSource\Console\Output;
 use App\Services\DataSourceService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -27,6 +28,8 @@ class SyncCommand extends Command
      */
     protected $description = 'Syncs upstream data sources into the database';
 
+    private array $log = [];
+
     /**
      * Create a new command instance.
      *
@@ -35,8 +38,7 @@ class SyncCommand extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->addOption('network', 'N', InputOption::VALUE_REQUIRED, 'Specify the network to sync');
-        $this->addOption('file', 'F', InputOption::VALUE_REQUIRED, 'Specify a local file to use (overrides the remote connection)');
+        $this->addOption('network', 'N', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Specify a network to sync; <network>:<file>');
     }
 
     /**
@@ -48,11 +50,11 @@ class SyncCommand extends Command
     public function handle()
     {
         $service  = DataSourceService::factory();
-        $output   = $this->getOutput();
+        $output   = new Output();
         $jobStart = Carbon::now();
 
         $output->writeln(sprintf(
-            'Job started at %s',
+            'Job started at <comment>%s</comment>',
             $jobStart->toIso8601String()
         ));
 
@@ -60,12 +62,38 @@ class SyncCommand extends Command
 
             DB::transaction(function () use ($service, $output) {
 
-                $networks = $this->input->getOption('network')
-                    ? [Network::getByLabelOrFail($this->input->getOption('network'))]
-                    : Network::all();
+                if ($this->input->getOption('network')) {
 
-                foreach ($networks as $network) {
+                    $networks = [];
 
+                    foreach ($this->input->getOption('network') as $network) {
+
+                        preg_match('/^([a-zA-Z]+)(:(.*))?$/', $network, $matches);
+
+                        $networks[] = [
+                            Network::getByLabelOrFail($matches[1] ?? ''),
+                            $matches[3] ?? null,
+                        ];
+                    }
+
+                } else {
+                    $networks = array_map(function (Network $network) {
+                        return [
+                            $network,
+                            null,
+                        ];
+                    }, Network::all());
+                }
+
+                foreach ($networks as $networkSet) {
+
+                    /**
+                     * @var Network     $network
+                     * @var string|null $file
+                     */
+                    [$network, $file] = $networkSet;
+
+                    $output->writeln('');
                     $output->writeln(sprintf(
                         'Syncing <comment>%s</comment> data... ',
                         $network->label
@@ -73,15 +101,15 @@ class SyncCommand extends Command
 
                     $networkStart = Carbon::now();
                     $output->writeln(sprintf(
-                        'Network sync started at %s',
+                        'Network sync started at <comment>%s</comment>',
                         $networkStart->toIso8601String()
                     ));
 
                     $config = $network->getConfig();
                     $path   = $config['path'];
 
-                    $connection = $this->input->getOption('file')
-                        ? Connection\Local::factory($this->input->getOption('file'))
+                    $connection = $file
+                        ? Connection\Local::factory($file)
                         : call_user_func_array(
                             $config['connection']['class'] . '::factory',
                             $config['connection']['config']
@@ -116,7 +144,6 @@ class SyncCommand extends Command
                             $output
                         );
 
-                    $output->writeln('<info>done!</info>');
                     $output->writeln(sprintf(
                         'Network sync took <info>%s</info> seconds',
                         $this->elapsed($networkStart)
@@ -125,49 +152,54 @@ class SyncCommand extends Command
                     $output->writeln(sprintf(
                         'Network sync ended at <comment>%s</comment> (took <comment>%s</comment> seconds)',
                         $networkStart->toIso8601String(),
-                        $this->elapsed($networkStart)
+                        number_format($this->elapsed($networkStart))
                     ));
+                    $output->writeln('');
                 }
             });
 
             $truncateStart = Carbon::now();
-            $output->write('Truncating old data... ');
+            $output->writeln('Truncating old data... ');
             $service->truncate(Setting::version());
             $output->writeln(sprintf(
-                '<comment>done</comment> (took %s seconds)',
-                $this->elapsed($truncateStart)
+                '➞ <comment>done</comment> (took %s seconds)',
+                number_format($this->elapsed($truncateStart))
             ));
 
-            $output->write('Bumping version number... ');
+            $output->writeln('Bumping version number... ');
             Setting::bumpVersion();
-            $output->writeln('<comment>done</comment>');
+            $output->writeln('➞ <comment>done</comment>');
+
+            $output->writeln('Sending success notification... ');
+            $service->notifySuccess($output->getLog());
+            $output->writeln('➞ <comment>done</comment>');
 
         } catch (\Throwable $e) {
 
             $output->writeln(sprintf(
-                '<comment>Error caught: %s</comment>',
+                '<error>Error caught: %s</error>',
                 $e->getMessage()
             ));
             $truncateStart = Carbon::now();
-            $output->write('Truncating new data... ');
+            $output->writeln('Truncating new data... ');
             $service->truncate(Setting::nextVersion());
             $output->writeln(sprintf(
-                '<comment>done</comment> (took %s seconds)',
-                $this->elapsed($truncateStart)
+                '➞ <comment>done</comment> (took %s seconds)',
+                number_format($this->elapsed($truncateStart))
             ));
 
-            $output->write('Sending failure notification... ');
-            $service->notifyError($e);
-            $output->write('<comment>done</comment>');
+            $output->writeln('Sending failure notification... ');
+            $service->notifyError($e, $output->getLog());
+            $output->writeln('➞ <comment>done</comment>');
 
-            $output->write('Re-throwing exception');
+            $output->writeln('Re-throwing exception');
             throw $e;
         }
 
         $output->writeln(sprintf(
             'Job ended at <comment>%s</comment> (took <comment>%s</comment> seconds)',
             $jobStart->toIso8601String(),
-            $this->elapsed($jobStart)
+            number_format($this->elapsed($jobStart))
         ));
 
         return self::SUCCESS;

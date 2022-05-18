@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProviderIndexRequest;
 use App\Http\Resources\ProviderResource;
 use App\Models\Provider;
 use Illuminate\Http\Request;
@@ -21,22 +22,20 @@ class ProviderController extends Controller
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(Request $request)
+    public function index(ProviderIndexRequest $request)
     {
-        $request->validate([
-            'network_id' => 'required',
-            'state_id'   => 'required',
-        ]);
-
+        // get providers list
         $providers = Provider::query()
-            ->with(static::LOAD_RELATIONS)
             ->filter($request->all())
+            ->orderBy('id')
             ->withVersion()
             ->paginateFilter();
 
-        return ProviderResource::collection(
-            $providers
-        );
+        // load relations
+        $providers->load(static::LOAD_RELATIONS);
+
+        // return resource collection
+        return ProviderResource::collection($providers);
     }
 
     /**
@@ -48,8 +47,16 @@ class ProviderController extends Controller
      */
     public function single(Provider $provider)
     {
-        return new ProviderResource(
-            $provider->load(static::LOAD_RELATIONS)
-        );
+        // load relations
+        $provider->load(static::LOAD_RELATIONS);
+
+        // load speciality groups from accessor
+        // very bad approach
+        // @todo move data into the db
+        // and make an ordinary relationship
+        $provider->load_speciality_groups = true;
+
+        // return provider resource
+        return new ProviderResource($provider);
     }
 }
