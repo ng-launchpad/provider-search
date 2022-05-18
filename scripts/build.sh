@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Install composer dependencies
+composer install
+
 # Migrate database and link storage folders
 vendor/bin/sail artisan migrate
 vendor/bin/sail artisan storage:link
