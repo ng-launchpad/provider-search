@@ -14,6 +14,9 @@ class CleanProvidersTest extends TestCase
 {
     use RefreshDatabase;
 
+    /** @var Provider */
+    private $provider;
+
     public function setUp(): void
     {
         parent::setUp();

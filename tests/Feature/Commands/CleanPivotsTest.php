@@ -18,6 +18,21 @@ class CleanPivotsTest extends TestCase
 {
     use RefreshDatabase;
 
+    /** @var Provider */
+    private $provider;
+
+    /** @var Location */
+    private $location;
+
+    /** @var Hospital */
+    private $hospital;
+
+    /** @var Language */
+    private $language;
+
+    /** @var Speciality */
+    private $speciality;
+
     public function setUp(): void
     {
         parent::setUp();
