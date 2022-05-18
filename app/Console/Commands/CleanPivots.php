@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Provider;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class CleanPivots extends Command
 {
@@ -39,7 +40,7 @@ class CleanPivots extends Command
             $table = Provider::make()->$label()->getTable();
             return [
                 'label' => $label,
-                'before' => \DB::table($table)->count(),
+                'before' => DB::table($table)->count(),
             ];
         });
 
@@ -79,7 +80,7 @@ class CleanPivots extends Command
         $pivots = $pivots->map(function ($pivot) {
             $relation = $pivot['label'];
             $table = Provider::make()->$relation()->getTable();
-            $pivot['after'] = \DB::table($table)->count();
+            $pivot['after'] = DB::table($table)->count();
             $pivot['diff'] = $pivot['before'] - $pivot['after'];
             return $pivot;
         });
