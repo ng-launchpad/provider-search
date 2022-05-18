@@ -51,6 +51,7 @@ use Illuminate\Support\Facades\DB;
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereVersion($value)
  * @property string|null                                                          $address_line_2
  * @method static \Illuminate\Database\Eloquent\Builder|Location whereAddressLine2($value)
+ * @method static Builder|Location matching($item)
  */
 class Location extends Model
 {

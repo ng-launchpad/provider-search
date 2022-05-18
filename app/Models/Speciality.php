@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Speciality withVersion()
  * @property int $version
  * @method static \Illuminate\Database\Eloquent\Builder|Speciality whereVersion($value)
+ * @method static Builder|Speciality matching($item)
  */
 class Speciality extends Model
 {

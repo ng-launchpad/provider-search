@@ -77,6 +77,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static Builder|Provider facility(bool $is_facility = true)
  * @property-read mixed                                                             $speciality_groups
  * @method static Builder|Provider withHospitals(string $hospital)
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static Builder|Provider matching($provider, $mode = 'strict')
+ * @method static \Illuminate\Database\Query\Builder|Provider onlyTrashed()
+ * @method static Builder|Provider unique($item)
+ * @method static Builder|Provider whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Provider withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Provider withoutTrashed()
  */
 class Provider extends Model
 {

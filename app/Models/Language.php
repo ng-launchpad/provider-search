@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Language withVersion()
  * @property int                                                                  $version
  * @method static \Illuminate\Database\Eloquent\Builder|Language whereVersion($value)
+ * @method static Builder|Language matching($item)
  */
 class Language extends Model
 {

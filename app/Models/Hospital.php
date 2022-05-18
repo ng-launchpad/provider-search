@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Hospital withVersion()
  * @property int $version
  * @method static \Illuminate\Database\Eloquent\Builder|Hospital whereVersion($value)
+ * @method static Builder|Hospital matching($item)
  */
 class Hospital extends Model
 {
