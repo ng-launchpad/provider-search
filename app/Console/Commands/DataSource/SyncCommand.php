@@ -58,33 +58,11 @@ class SyncCommand extends Command
             $jobStart->toIso8601String()
         ));
 
+        $networks = $this->getNetworks();
+
         try {
 
-            DB::transaction(function () use ($service, $output) {
-
-                if ($this->input->getOption('network')) {
-
-                    $networks = [];
-
-                    foreach ($this->input->getOption('network') as $network) {
-
-                        preg_match('/^([a-zA-Z]+)(:(.*))?$/', $network, $matches);
-
-                        $networks[] = [
-                            Network::getByLabelOrFail($matches[1] ?? ''),
-                            $matches[3] ?? null,
-                        ];
-                    }
-
-                } else {
-                    $networks = array_map(function (Network $network) {
-                        return [
-                            $network,
-                            null,
-                        ];
-                    }, Network::all());
-                }
-
+            DB::transaction(function () use ($service, $output, $networks) {
                 foreach ($networks as $networkSet) {
 
                     /**
@@ -232,5 +210,33 @@ class SyncCommand extends Command
     private function elapsed(Carbon $start): float
     {
         return Carbon::now()->diffInSeconds($start);
+    }
+
+    private function getNetworks(): array
+    {
+        if ($this->input->getOption('network')) {
+
+            $networks = [];
+
+            foreach ($this->input->getOption('network') as $network) {
+
+                preg_match('/^([a-zA-Z]+)(:(.*))?$/', $network, $matches);
+
+                $networks[] = [
+                    Network::getByLabelOrFail($matches[1] ?? ''),
+                    $matches[3] ?? null,
+                ];
+            }
+
+        } else {
+            $networks = array_map(function (Network $network) {
+                return [
+                    $network,
+                    null,
+                ];
+            }, Network::all());
+        }
+
+        return $networks;
     }
 }
