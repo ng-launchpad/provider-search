@@ -165,7 +165,17 @@ class SyncCommand extends Command
 
             $truncateStart = Carbon::now();
             $output->writeln('Truncating old data... ');
-            $service->truncate(Setting::version());
+            foreach ($networks as $networkSet) {
+
+                /**
+                 * @var Network $network
+                 */
+                [$network] = $networkSet;
+
+                if ($network->isEnabled()) {
+                    $service->truncate(Setting::version(), $network);
+                }
+            }
             $output->writeln(sprintf(
                 '➞ <comment>done</comment> (took %s seconds)',
                 number_format($this->elapsed($truncateStart))
@@ -187,7 +197,16 @@ class SyncCommand extends Command
             ));
             $truncateStart = Carbon::now();
             $output->writeln('Truncating new data... ');
-            $service->truncate(Setting::nextVersion());
+            foreach ($networks as $networkSet) {
+
+                /**
+                 * @var Network $network
+                 */
+                [$network] = $networkSet;
+                if ($network->isEnabled()) {
+                    $service->truncate(Setting::nextVersion(), $network);
+                }
+            }
             $output->writeln(sprintf(
                 '➞ <comment>done</comment> (took %s seconds)',
                 number_format($this->elapsed($truncateStart))
