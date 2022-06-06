@@ -93,6 +93,11 @@ class SyncCommand extends Command
                      */
                     [$network, $file] = $networkSet;
 
+                    if (!$network->isEnabled()) {
+                        $output->writeln('Network is not enabled, skipping');
+                        continue;
+                    }
+
                     $output->writeln('');
                     $output->writeln(sprintf(
                         'Syncing <comment>%s</comment> data... ',
