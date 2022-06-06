@@ -66,4 +66,9 @@ class Network extends Model
     {
         return static::where('label', '=', $label)->firstOrFail();
     }
+
+    public function isEnabled(): bool
+    {
+        return $this->getConfig()['enabled'];
+    }
 }
