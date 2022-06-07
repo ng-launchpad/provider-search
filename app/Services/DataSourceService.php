@@ -34,10 +34,6 @@ final class DataSourceService
     {
         $models = [
             Provider::class,
-            Hospital::class,
-            Language::class,
-            Location::class,
-            Speciality::class,
         ];
 
         foreach ($models as $class) {
