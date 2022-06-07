@@ -42,10 +42,10 @@ class CleanDetachedLists extends Command
     public function cleanList($name)
     {
         // output to console
-        $this->info('Cleaning detached '.$name.'...');
+        $this->info('Cleaning detached ' . $name . '...');
 
         // define model class
-        $model = 'App\\Models\\'.Str::ucfirst(Str::singular($name));
+        $model = 'App\\Models\\' . Str::ucfirst(Str::singular($name));
 
         // delete list that has no providers attached
         $deleted = $model::query()
@@ -53,6 +53,6 @@ class CleanDetachedLists extends Command
             ->delete();
 
         // output to console
-        $this->info($deleted. ' '.$name.' deleted');
+        $this->info($deleted . ' ' . $name . ' deleted');
     }
 }
