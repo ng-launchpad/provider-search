@@ -58,33 +58,11 @@ class SyncCommand extends Command
             $jobStart->toIso8601String()
         ));
 
+        $networks = $this->getNetworks();
+
         try {
 
-            DB::transaction(function () use ($service, $output) {
-
-                if ($this->input->getOption('network')) {
-
-                    $networks = [];
-
-                    foreach ($this->input->getOption('network') as $network) {
-
-                        preg_match('/^([a-zA-Z]+)(:(.*))?$/', $network, $matches);
-
-                        $networks[] = [
-                            Network::getByLabelOrFail($matches[1] ?? ''),
-                            $matches[3] ?? null,
-                        ];
-                    }
-
-                } else {
-                    $networks = array_map(function (Network $network) {
-                        return [
-                            $network,
-                            null,
-                        ];
-                    }, Network::all());
-                }
-
+            DB::transaction(function () use ($service, $output, $networks) {
                 foreach ($networks as $networkSet) {
 
                     /**
@@ -98,6 +76,11 @@ class SyncCommand extends Command
                         'Syncing <comment>%s</comment> data... ',
                         $network->label
                     ));
+
+                    if (!$network->isEnabled()) {
+                        $output->writeln('Network is not enabled, skipping');
+                        continue;
+                    }
 
                     $networkStart = Carbon::now();
                     $output->writeln(sprintf(
@@ -160,11 +143,25 @@ class SyncCommand extends Command
 
             $truncateStart = Carbon::now();
             $output->writeln('Truncating old data... ');
-            $service->truncate(Setting::version());
+            foreach ($networks as $networkSet) {
+
+                /**
+                 * @var Network $network
+                 */
+                [$network] = $networkSet;
+
+                if ($network->isEnabled()) {
+                    $service->truncate(Setting::version(), $network);
+                }
+            }
             $output->writeln(sprintf(
                 '➞ <comment>done</comment> (took %s seconds)',
                 number_format($this->elapsed($truncateStart))
             ));
+
+            $output->writeln('Cleaning up detached entities... ');
+            $this->call('app:clean-detached-lists');
+            $output->writeln('➞ <comment>done</comment>');
 
             $output->writeln('Bumping version number... ');
             Setting::bumpVersion();
@@ -182,7 +179,16 @@ class SyncCommand extends Command
             ));
             $truncateStart = Carbon::now();
             $output->writeln('Truncating new data... ');
-            $service->truncate(Setting::nextVersion());
+            foreach ($networks as $networkSet) {
+
+                /**
+                 * @var Network $network
+                 */
+                [$network] = $networkSet;
+                if ($network->isEnabled()) {
+                    $service->truncate(Setting::nextVersion(), $network);
+                }
+            }
             $output->writeln(sprintf(
                 '➞ <comment>done</comment> (took %s seconds)',
                 number_format($this->elapsed($truncateStart))
@@ -208,5 +214,36 @@ class SyncCommand extends Command
     private function elapsed(Carbon $start): float
     {
         return Carbon::now()->diffInSeconds($start);
+    }
+
+    private function getNetworks(): array
+    {
+        if ($this->input->getOption('network')) {
+
+            $networks = [];
+
+            foreach ($this->input->getOption('network') as $network) {
+
+                preg_match('/^([a-zA-Z]+)(:(.*))?$/', $network, $matches);
+
+                $networks[] = [
+                    Network::getByLabelOrFail($matches[1] ?? ''),
+                    $matches[3] ?? null,
+                ];
+            }
+
+        } else {
+            $networks = array_map(
+                function (Network $network) {
+                    return [
+                        $network,
+                        null,
+                    ];
+                },
+                Network::all()->all()
+            );
+        }
+
+        return $networks;
     }
 }

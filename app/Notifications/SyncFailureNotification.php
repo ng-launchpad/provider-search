@@ -56,7 +56,7 @@ class SyncFailureNotification extends Notification
         $line    = $this->exception->getLine();
 
         $table = <<<HEREDOC
-<table style="width: 100%; border: 1px solid #ccc; margin-bottom:20px;padding:10px;">
+<table style="width: 100%; border: 1px solid #ccc; margin-bottom:20px;padding:10px;color: #fff; background: #333;">
     <tr>
         <td style="font-weight: bold; width: 100px;">Type</td>
         <td>$type</td>
@@ -81,7 +81,7 @@ class SyncFailureNotification extends Notification
 HEREDOC;
 
         $log = sprintf(
-            '<code style="display: block; width: 100%%; padding: 10px; white-space: pre-wrap;">%s</code>',
+            '<pre style="display: block; width: 100%%; padding: 10px; color: #fff; background: #333;"><code>%s</code></pre>',
             implode(PHP_EOL, array_map('strip_tags', $this->log))
         );
 

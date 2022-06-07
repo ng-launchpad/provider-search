@@ -61,6 +61,10 @@ class CleanProviders extends Command
                 $matches->each->delete();
             });
 
+        // finish progress bar
+        $bar->finish();
+        $this->newLine();
+
         return 0;
     }
 }
