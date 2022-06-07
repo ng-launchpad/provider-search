@@ -159,6 +159,10 @@ class SyncCommand extends Command
                 number_format($this->elapsed($truncateStart))
             ));
 
+            $output->writeln('Cleaning up detached entities... ');
+            $this->call('app:clean-detached-lists');
+            $output->writeln('➞ <comment>done</comment>');
+
             $output->writeln('Bumping version number... ');
             Setting::bumpVersion();
             $output->writeln('➞ <comment>done</comment>');
