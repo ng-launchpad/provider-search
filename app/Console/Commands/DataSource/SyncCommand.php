@@ -233,12 +233,15 @@ class SyncCommand extends Command
             }
 
         } else {
-            $networks = array_map(function (Network $network) {
-                return [
-                    $network,
-                    null,
-                ];
-            }, Network::all());
+            $networks = array_map(
+                function (Network $network) {
+                    return [
+                        $network,
+                        null,
+                    ];
+                },
+                Network::all()->all()
+            );
         }
 
         return $networks;
