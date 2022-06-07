@@ -71,16 +71,16 @@ class SyncCommand extends Command
                      */
                     [$network, $file] = $networkSet;
 
-                    if (!$network->isEnabled()) {
-                        $output->writeln('Network is not enabled, skipping');
-                        continue;
-                    }
-
                     $output->writeln('');
                     $output->writeln(sprintf(
                         'Syncing <comment>%s</comment> data... ',
                         $network->label
                     ));
+
+                    if (!$network->isEnabled()) {
+                        $output->writeln('Network is not enabled, skipping');
+                        continue;
+                    }
 
                     $networkStart = Carbon::now();
                     $output->writeln(sprintf(
