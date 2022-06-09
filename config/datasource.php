@@ -8,6 +8,7 @@ return [
     'contact' => env('DATASOURCE_CONTACT'),
     'source'  => [
         'aenta' => [
+            'enabled'    => false,
             'path'       => '/Provider',
             'connection' => [
                 'class'  => Connection\Sftp::class,
@@ -31,6 +32,7 @@ return [
             ],
         ],
         'hch'   => [
+            'enabled'    => true,
             'path'       => '/HCH_Providers',
             'connection' => [
                 'class'  => Connection\Sftp::class,
@@ -53,6 +55,7 @@ return [
             ],
         ],
         'vsp'   => [
+            'enabled'    => true,
             'path'       => '/vsp_providers',
             'connection' => [
                 'class'  => Connection\Sftp::class,
@@ -75,6 +78,7 @@ return [
             ],
         ],
         'cigna' => [
+            'enabled'    => true,
             'path'       => '/ExpressScripts_provider',
             'connection' => [
                 'class'  => Connection\Sftp::class,

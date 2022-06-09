@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Network;
 use App\Models\Provider;
 use App\Models\Setting;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -15,7 +16,7 @@ class ProviderFactory extends Factory
      */
     public function definition()
     {
-        $gender     = $this->faker->optional()->randomElement([Provider::GENDER_MALE, Provider::GENDER_FEMALE]);
+        $gender = $this->faker->optional()->randomElement([Provider::GENDER_MALE, Provider::GENDER_FEMALE]);
 
         return [
             'version'                   => Setting::version(),
@@ -27,6 +28,7 @@ class ProviderFactory extends Factory
             'gender'                    => $gender,
             'is_facility'               => false,
             'is_accepting_new_patients' => $this->faker->boolean(),
+            'network_id'                => Network::inRandomOrder()->first(),
         ];
     }
 

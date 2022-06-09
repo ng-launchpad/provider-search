@@ -39,6 +39,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Network whereLegalHome($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Network whereLegalProvider($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Network whereLegalSearch($value)
+ * @property string|null $legal_home
+ * @property string|null $legal_search
+ * @property string|null $legal_browse
+ * @property string|null $legal_provider
+ * @property string|null $legal_facility
  */
 class Network extends Model
 {
@@ -60,5 +65,10 @@ class Network extends Model
     public static function getByLabelOrFail(string $label)
     {
         return static::where('label', '=', $label)->firstOrFail();
+    }
+
+    public function isEnabled(): bool
+    {
+        return $this->getConfig()['enabled'];
     }
 }

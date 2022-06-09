@@ -33,36 +33,21 @@ class DataSourceServiceTest extends TestCase
     {
         // arrange
         //  non-versioned items
-        $state   = State::factory()->create();
         $network = Network::factory()->create();
 
         // versioned items
         Provider::factory()->for($network)->create();
-        Hospital::factory()->create();
-        Language::factory()->create();
-        Location::factory()->for($state)->create();
-        Speciality::factory()->create();
 
         // versioned items but in a different version
         Provider::factory()->for($network)->create(['version' => Setting::nextVersion()]);
-        Hospital::factory()->create(['version' => Setting::nextVersion()]);
-        Language::factory()->create(['version' => Setting::nextVersion()]);
-        Location::factory()->for($state)->create(['version' => Setting::nextVersion()]);
-        Speciality::factory()->create(['version' => Setting::nextVersion()]);
 
         $service = DataSourceService::factory();
 
         // act
-        $service->truncate(Setting::version());
+        $service->truncate(Setting::version(), $network);
 
         // assert
-        $this->assertcount(1, State::all());
-        $this->assertcount(1, Network::all());
         $this->assertcount(1, Provider::all());
-        $this->assertcount(1, Hospital::all());
-        $this->assertcount(1, Language::all());
-        $this->assertcount(1, Location::all());
-        $this->assertcount(1, Speciality::all());
     }
 
     /** @test */
