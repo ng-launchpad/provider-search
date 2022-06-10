@@ -87,7 +87,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Provider extends Model
 {
-    use HasFactory, Filterable, HasGetTableName, HasVersionScope, SoftDeletes;
+    use HasFactory, Filterable, HasGetTableName, SoftDeletes;
 
     const GENDER_MALE   = 'MALE';
     const GENDER_FEMALE = 'FEMALE';
@@ -306,6 +306,21 @@ class Provider extends Model
                 });
                 break;
         }
+    }
+
+    /**
+     * Filter by latest available version
+     */
+    public function scopeWithVersion(Builder $query, $request)
+    {
+        // define latest version for current network
+        $version = self::select('version as value')
+            ->where('network_id', '=', $request->network_id)
+            ->orderByDesc('version')
+            ->first();
+
+        // add query constrain
+        $query->where('version', $version->value);
     }
 
     protected function applyFilterProvider(Builder $query, string $keywords): self
