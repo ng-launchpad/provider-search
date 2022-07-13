@@ -13,7 +13,7 @@ class SyncFailureNotification extends Notification
     use Queueable;
 
     private \Throwable $exception;
-    private array $log;
+    private array      $log;
 
     /**
      * Create a new notification instance.
@@ -23,7 +23,7 @@ class SyncFailureNotification extends Notification
     public function __construct(\Throwable $exception, array $log)
     {
         $this->exception = $exception;
-        $this->log = $log;
+        $this->log       = $log;
     }
 
     /**
@@ -88,8 +88,8 @@ HEREDOC;
         return (new MailMessage)
             ->error()
             //  @todo (Pablo 2022-01-26) - customise sender
-            ->subject('Sync Failed')
-            ->greeting('Sync Failed')
+            ->subject(sprintf('Sync Failed [%s]', config('app.env')))
+            ->greeting(sprintf('Sync Failed [%s]', config('app.env')))
             ->line('This email is to advise you that the most recent sync failed.')
             ->line('The error caught was:')
             ->line(new HtmlString($table))
