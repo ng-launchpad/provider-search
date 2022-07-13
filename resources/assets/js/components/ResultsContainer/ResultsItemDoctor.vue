@@ -5,8 +5,8 @@
                 v-bind:to="`/provider/${item.id}`"
                 class="results-item__title"
             >
-                {{ item.label }}
-                <template v-if="item.degree">, {{ item.degree }}</template>
+                <template v-if="item.degree">{{ item.label }}, {{ item.degree }}</template>
+                <template v-else>{{ item.label }}</template>
             </router-link>
 
             <div
