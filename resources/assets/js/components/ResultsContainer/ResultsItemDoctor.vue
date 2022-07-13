@@ -155,7 +155,14 @@ export default {
 
     computed: {
         primaryAddress() {
-            return this.item.locations.find(location => location.is_primary);
+
+            if (!this.item.locations) {
+                return null;
+            }
+
+            return this.item.locations.find(location => location.is_primary)
+                ?? this.item.locations[0]
+                ?? null;
         },
 
         specialities() {

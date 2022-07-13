@@ -239,10 +239,13 @@ export default {
 
     computed: {
         primaryAddress() {
-            if (this.provider.locations) {
-                return this.provider.locations.find(location => location.is_primary);
+            if (!this.provider.locations) {
+                return null;
             }
-            return '';
+
+            return this.provider.locations.find(location => location.is_primary)
+                ?? this.provider.locations[0]
+                ?? null;
         },
 
         specialities() {
