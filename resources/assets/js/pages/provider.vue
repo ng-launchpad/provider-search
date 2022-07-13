@@ -12,17 +12,14 @@
                 </p>
                 <div class="row mt-4">
                     <div
-                        v-if="provider.locations"
+                        v-if="primaryAddress"
                         class="col-md-4 mb-4 mb-md-0"
                     >
                         <div
                             class="page-header__char"
                         >
                             <img v-bind:src="'/images/map-pin-white.svg'" alt="">
-                            <div
-                                v-if="primaryAddress"
-                                class="page-header__char-title"
-                            >
+                            <div class="page-header__char-title">
                                 <strong>Address</strong>
                                 <br>
                                 {{ primaryAddress.address.string }}
@@ -42,7 +39,7 @@
                         </div>
                     </div>
                     <div
-                        v-if="primaryAddress.phone"
+                        v-if="primaryAddress && primaryAddress.phone"
                         class="col-md-4 mb-4 mb-md-0"
                     >
                         <div class="page-header__char">
@@ -150,7 +147,7 @@
                             </div>
                         </div>
                         <div
-                            v-if="provider.hospitals.length"
+                            v-if="provider.hospitals && provider.hospitals.length"
                             class="provider-content__item"
                         >
                             <div class="provider-content__char text--bold">

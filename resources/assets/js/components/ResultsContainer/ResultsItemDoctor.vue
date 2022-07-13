@@ -33,7 +33,9 @@
             </router-link>
         </div>
         <div class="results-item__info">
-            <div class="results-item__info-col">
+            <div
+                v-if="primaryAddress"
+                class="results-item__info-col">
                 <div class="results-item__char results-item__char--location">
                     <img
                         v-if="!isEven"
@@ -45,7 +47,9 @@
                         src="images/map-pin-white.svg"
                         alt=""
                     >
-                    <span>
+                    <span
+                        v-if="primaryAddress.address"
+                    >
                         <span class="text--bold">Address:</span> <br>
                         {{ primaryAddress.address.string }}<br>
                         <router-link
