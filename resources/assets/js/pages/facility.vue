@@ -140,9 +140,9 @@
                 </div>
 
                 <div
-                    v-if="provider.network && provider.network.legal"
+                    v-if="provider.network && provider.network.legal && provider.network.legal.facility"
                     class="mt-2 pt-2"
-                    v-html="provider.network.legal"
+                    v-html="provider.network.legal.facility"
                 />
             </div>
         </div>

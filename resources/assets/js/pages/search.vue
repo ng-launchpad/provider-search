@@ -26,11 +26,11 @@
         />
 
         <div
-            v-if="network && network.legal"
+            v-if="network && network.legal && network.legal.home"
             class="pt-2 pb-5"
         >
             <div class="container">
-                <div v-html="network.legal" />
+                <div v-html="network.legal.home" />
             </div>
         </div>
     </div>

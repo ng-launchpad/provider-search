@@ -23,7 +23,13 @@ class NetworkResource extends JsonResource
             'network_label'   => $this->network_label,
             'browse_label'    => $this->browse_label,
             'searching_label' => $this->searching_label,
-            'legal'           => $this->legal,
+            'legal'           => LegalResource::make((object) [
+                'home'     => $this->legal_home,
+                'search'   => $this->legal_search,
+                'browse'   => $this->legal_browse,
+                'provider' => $this->legal_provider,
+                'facility' => $this->legal_facility,
+            ]),
         ];
     }
 }

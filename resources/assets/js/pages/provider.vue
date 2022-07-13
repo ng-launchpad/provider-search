@@ -12,17 +12,14 @@
                 </p>
                 <div class="row mt-4">
                     <div
-                        v-if="provider.locations"
+                        v-if="primaryAddress"
                         class="col-md-4 mb-4 mb-md-0"
                     >
                         <div
                             class="page-header__char"
                         >
                             <img v-bind:src="'/images/map-pin-white.svg'" alt="">
-                            <div
-                                v-if="primaryAddress"
-                                class="page-header__char-title"
-                            >
+                            <div class="page-header__char-title">
                                 <strong>Address</strong>
                                 <br>
                                 {{ primaryAddress.address.string }}
@@ -42,7 +39,7 @@
                         </div>
                     </div>
                     <div
-                        v-if="primaryAddress.phone"
+                        v-if="primaryAddress && primaryAddress.phone"
                         class="col-md-4 mb-4 mb-md-0"
                     >
                         <div class="page-header__char">
@@ -150,7 +147,7 @@
                             </div>
                         </div>
                         <div
-                            v-if="provider.hospitals.length"
+                            v-if="provider.hospitals && provider.hospitals.length"
                             class="provider-content__item"
                         >
                             <div class="provider-content__char text--bold">
@@ -201,9 +198,9 @@
                 </template>
 
                 <div
-                    v-if="provider.network &&  provider.network.legal"
+                    v-if="provider.network && provider.network.legal && provider.network.legal.provider"
                     class="mt-5 pt-5"
-                    v-html="provider.network.legal"
+                    v-html="provider.network.legal.provider"
                 />
             </div>
         </div>
@@ -242,10 +239,13 @@ export default {
 
     computed: {
         primaryAddress() {
-            if (this.provider.locations) {
-                return this.provider.locations.find(location => location.is_primary);
+            if (!this.provider.locations) {
+                return null;
             }
-            return '';
+
+            return this.provider.locations.find(location => location.is_primary)
+                ?? this.provider.locations[0]
+                ?? null;
         },
 
         specialities() {

@@ -150,9 +150,9 @@
             </div>
 
             <div
-                v-if="selectedNetwork"
+                v-if="selectedNetwork && selectedNetwork.legal && selectedNetwork.legal.search"
                 class="mt-2 mb-5"
-                v-html="selectedNetwork.legal"
+                v-html="selectedNetwork.legal.search"
             />
         </div>
     </div>
