@@ -51,8 +51,8 @@ class SyncSuccessNotification extends Notification
         );
 
         return (new MailMessage)
-            ->subject('Sync Success')
-            ->greeting('Sync Success')
+            ->subject(sprintf('Sync Success [%s]', config('app.env')))
+            ->greeting(sprintf('Sync Success [%s]', config('app.env')))
             ->line('This email is to advise you that the most recent sync completed successfully.')
             ->line('The following logs were collected.')
             ->line(new HtmlString($log));
