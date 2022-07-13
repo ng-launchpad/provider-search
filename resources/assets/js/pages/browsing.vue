@@ -88,11 +88,11 @@
             </div>
 
             <div
-                v-if="networks[networks.indexOf(selectedNetwork)].legal"
+                v-if="networks[networks.indexOf(selectedNetwork)].legal.browse"
                 class="mt-5 pt-4"
             >
                 <div class="container">
-                    <div v-html="networks[networks.indexOf(selectedNetwork)].legal" />
+                    <div v-html="networks[networks.indexOf(selectedNetwork)].legal.browse" />
                 </div>
             </div>
         </div>
