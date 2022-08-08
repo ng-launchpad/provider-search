@@ -25,7 +25,6 @@ class CityController extends Controller
             ->from('location_provider')
             ->leftJoin('locations', 'location_provider.location_id', '=', 'locations.id')
             ->leftJoin('providers', 'location_provider.provider_id', '=', 'providers.id')
-            ->where('locations.version', '=', Setting::version())
             ->where('locations.address_state_id', '=', $request->get('state_id'))
             ->where('providers.network_id', '=', $request->get('network_id'))
             ->orderBy('locations.address_city')
