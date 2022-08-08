@@ -27,7 +27,6 @@ class SpecialityController extends Controller
             ->leftJoin('providers', 'location_provider.provider_id', '=', 'providers.id')
             ->leftJoin('provider_speciality', 'location_provider.provider_id', '=', 'provider_speciality.provider_id')
             ->leftJoin('specialities', 'provider_speciality.speciality_id', '=', 'specialities.id')
-            ->where('locations.version', '=', Setting::version())
             ->where('locations.address_state_id', '=', $request->get('state_id'))
             ->where('providers.network_id', '=', $request->get('network_id'))
             ->whereNotNull('specialities.label')
