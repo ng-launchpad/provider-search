@@ -21,18 +21,21 @@ class SpecialityController extends Controller
 
         //  @todo (Pablo 2022-01-26) - This could probably be refactored to use model filters
 
-        $result = DB::query()
-            ->from('location_provider')
-            ->leftJoin('locations', 'location_provider.location_id', '=', 'locations.id')
-            ->leftJoin('providers', 'location_provider.provider_id', '=', 'providers.id')
-            ->leftJoin('provider_speciality', 'location_provider.provider_id', '=', 'provider_speciality.provider_id')
-            ->leftJoin('specialities', 'provider_speciality.speciality_id', '=', 'specialities.id')
-            ->where('locations.address_state_id', '=', $request->get('state_id'))
-            ->where('providers.network_id', '=', $request->get('network_id'))
-            ->whereNotNull('specialities.label')
-            ->orderBy('specialities.label')
-            ->distinct()
-            ->get(['specialities.label']);
+        $seconds = 60;
+        $result = cache()->remember('specialities', $seconds, function () use ($request) {
+            return DB::query()
+                ->from('location_provider')
+                ->leftJoin('locations', 'location_provider.location_id', '=', 'locations.id')
+                ->leftJoin('providers', 'location_provider.provider_id', '=', 'providers.id')
+                ->leftJoin('provider_speciality', 'location_provider.provider_id', '=', 'provider_speciality.provider_id')
+                ->leftJoin('specialities', 'provider_speciality.speciality_id', '=', 'specialities.id')
+                ->where('locations.address_state_id', '=', $request->get('state_id'))
+                ->where('providers.network_id', '=', $request->get('network_id'))
+                ->whereNotNull('specialities.label')
+                ->orderBy('specialities.label')
+                ->distinct()
+                ->get(['specialities.label']);
+        });
 
         return SpecialityResource::collection($result);
     }
