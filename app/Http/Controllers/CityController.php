@@ -21,15 +21,18 @@ class CityController extends Controller
 
         //  @todo (Pablo 2022-01-26) - This could probably be refactored to use model filters
 
-        $result = DB::query()
-            ->from('location_provider')
-            ->leftJoin('locations', 'location_provider.location_id', '=', 'locations.id')
-            ->leftJoin('providers', 'location_provider.provider_id', '=', 'providers.id')
-            ->where('locations.address_state_id', '=', $request->get('state_id'))
-            ->where('providers.network_id', '=', $request->get('network_id'))
-            ->orderBy('locations.address_city')
-            ->distinct()
-            ->get(['locations.address_city']);
+        $seconds = 60;
+        $result = cache()->remember('cities', $seconds, function () use ($request) {
+            return DB::query()
+                ->from('location_provider')
+                ->leftJoin('locations', 'location_provider.location_id', '=', 'locations.id')
+                ->leftJoin('providers', 'location_provider.provider_id', '=', 'providers.id')
+                ->where('locations.address_state_id', '=', $request->get('state_id'))
+                ->where('providers.network_id', '=', $request->get('network_id'))
+                ->orderBy('locations.address_city')
+                ->distinct()
+                ->get(['locations.address_city']);
+        });
 
         return CityResource::collection($result);
     }
