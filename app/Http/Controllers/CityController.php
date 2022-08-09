@@ -21,7 +21,7 @@ class CityController extends Controller
 
         //  @todo (Pablo 2022-01-26) - This could probably be refactored to use model filters
 
-        $seconds = 60;
+        $seconds = 60 * 60 * 12; // 12 hours
         $result = cache()->remember('cities', $seconds, function () use ($request) {
             return DB::query()
                 ->from('location_provider')
