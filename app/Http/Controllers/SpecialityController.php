@@ -24,6 +24,8 @@ class SpecialityController extends Controller
         $seconds = 60 * 60 * 12; // 12 hours
         $result = cache()->remember('specialities', $seconds, function () use ($request) {
             return DB::query()
+                ->select('specialities.label')
+                ->distinct()
                 ->from('location_provider')
                 ->leftJoin('locations', 'location_provider.location_id', '=', 'locations.id')
                 ->leftJoin('providers', 'location_provider.provider_id', '=', 'providers.id')
@@ -33,7 +35,6 @@ class SpecialityController extends Controller
                 ->where('providers.network_id', '=', $request->get('network_id'))
                 ->whereNotNull('specialities.label')
                 ->orderBy('specialities.label')
-                ->distinct()
                 ->get(['specialities.label']);
         });
 

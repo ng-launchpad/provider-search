@@ -24,13 +24,14 @@ class CityController extends Controller
         $seconds = 60 * 60 * 12; // 12 hours
         $result = cache()->remember('cities', $seconds, function () use ($request) {
             return DB::query()
+                ->select('locations.address_city')
+                ->distinct()
                 ->from('location_provider')
                 ->leftJoin('locations', 'location_provider.location_id', '=', 'locations.id')
                 ->leftJoin('providers', 'location_provider.provider_id', '=', 'providers.id')
                 ->where('locations.address_state_id', '=', $request->get('state_id'))
                 ->where('providers.network_id', '=', $request->get('network_id'))
                 ->orderBy('locations.address_city')
-                ->distinct()
                 ->get(['locations.address_city']);
         });
 
