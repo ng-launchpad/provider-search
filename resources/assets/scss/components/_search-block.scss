@@ -238,3 +238,36 @@
         }
     }
 }
+
+.special-terms {
+    margin-bottom: 48px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.special-terms__container {
+    background-color: #fff;
+    border: 3px solid #fff;
+    padding: 16px 21px;
+    width: 100%;
+    margin: 10px 0;
+}
+.list-item {
+    margin-bottom: 15px;
+}
+
+@media (min-width: 768px) {
+    .special-terms__container {
+        width: calc(50% - 15px);
+        margin: 15px
+    }
+
+    .special-terms__container:first-child,
+    .special-terms__container:nth-child(3) {
+        margin-left: 0;
+    }
+
+    .special-terms__container:nth-child(2),
+    .special-terms__container:last-child {
+        margin-right: 0;
+    }
+}
