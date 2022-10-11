@@ -89,18 +89,6 @@
                         <strong class="special-terms__title">
                             For plans issued in Texas, please use the directory below.
                         </strong>
-                        <ul class="special-terms__list">
-                            <li class="list-item">
-                                <a class="list-item__link" href="https://www.healthlink.com/ipf" target="_blank">
-                                    https://www.healthlink.com/ipf
-                                </a>
-                            </li>
-                            <li class="list-item">
-                                <a class="list-item__link" href="https://www.vsp.com/choiceonly" target="_blank">
-                                    https://www.vsp.com/choiceonly
-                                </a>
-                            </li>
-                        </ul>
                     </div>
 
                 </div>
