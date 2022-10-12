@@ -7,6 +7,92 @@
     >
         <div class="container">
             <div class="search-block__inner">
+
+                <div class="special-terms">
+                    <div class="special-terms__container">
+                        <strong class="special-terms__title">
+                            For plans issued in Missiouri:
+                        </strong>
+                        <i>(Search within the Health Link Open Access III directory first. If the desired provider is not located there, search within the Freedom Network Select directory).</i>
+                        <ul class="special-terms__list">
+                            <li class="list-item">
+                                <strong class="list-item__heading">HealthLink Open Access III:</strong>
+                                <a class="list-item__link" href="https://www.healthlink.com/ipf" target="_blank">
+                                    https://www.healthlink.com/ipf
+                                </a>
+                            </li>
+                            <li class="list-item">
+                                <strong class="list-item__heading">Freedom Network Select:</strong>
+                                <a class="list-item__link" href="https://phpkc.com/provider-search/" target="_blank">
+                                    https://phpkc.com/provider-search/
+                                </a>
+                            </li>
+                            <li class="list-item">
+                                <strong class="list-item__heading">Pediatric Vision Providers:</strong>
+                                <a class="list-item__link" href="https://www.vsp.com/choiceonly" target="_blank">
+                                    https://www.vsp.com/choiceonly
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="special-terms__container">
+                        <strong class="special-terms__title">
+                            For plans issued in Indiana:
+                        </strong>
+                        <ul class="special-terms__list">
+                            <li class="list-item">
+                                <strong class="list-item__heading">EncoreCombined:</strong>
+                                <a class="list-item__link" href="https://encoreconnect.com/encbgnrc/" target="_blank">
+                                    https://encoreconnect.com/encbgnrc/
+                                </a>
+                            </li>
+                            <li class="list-item">
+                                <strong class="list-item__heading">First Health:</strong>
+                                <a class="list-item__link" href="https://www.myfirsthealth.com/" target="_blank">
+                                    https://www.myfirsthealth.com/
+                                </a>
+                            </li>
+                            <li class="list-item">
+                                <strong class="list-item__heading">Pediatric Vision Providers:</strong>
+                                <a class="list-item__link" href="https://www.vsp.com/choiceonly" target="_blank">
+                                    https://www.vsp.com/choiceonly
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="special-terms__container">
+                        <strong class="special-terms__title">
+                            For plans issued in Florida:
+                        </strong>
+                        <ul class="special-terms__list">
+                            <li class="list-item">
+                                <strong class="list-item__heading">Centivo:</strong>
+                                <a class="list-item__link" href="https://allstatebenefits.centivo.com/" target="_blank">
+                                    https://allstatebenefits.centivo.com/
+                                </a>
+                            </li>
+                            <li class="list-item">
+                                <strong class="list-item__heading">First Health:</strong>
+                                <a class="list-item__link" href="https://www.myfirsthealth.com/" target="_blank">
+                                    https://www.myfirsthealth.com/
+                                </a>
+                            </li>
+                            <li class="list-item">
+                                <strong class="list-item__heading">Pediatric Vision Providers:</strong>
+                                <a class="list-item__link" href="https://www.vsp.com/choiceonly" target="_blank">
+                                    https://www.vsp.com/choiceonly
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="special-terms__container">
+                        <strong class="special-terms__title">
+                            For plans issued in Texas, please use the directory below.
+                        </strong>
+                    </div>
+
+                </div>
+
                 <div class="search-block__title">
                     {{ title }}
                 </div>
