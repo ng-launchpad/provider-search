@@ -4,7 +4,7 @@ if [ ! -f ./.env ]; then
     cp ./.env.example ./.env
 fi
 
-echo "Building project for the first time"
+echo "Building project for deployment"
 
 # install composer dependencies
 docker run --rm \
