@@ -19,7 +19,10 @@ steps:
   displayName: 'copy env file'
 - script: ls -a 
   displayName: 'show files'
+- script: make up
+  workingDirectory: $(System.DefaultWorkingDirectory)
 - script: make build
+  workingDirectory: $(System.DefaultWorkingDirectory)
 - task: ArchiveFiles@2
   displayName: Package
   inputs:
