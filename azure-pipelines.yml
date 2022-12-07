@@ -68,7 +68,8 @@ steps:
     cleanTargetFolder: true
 - task: SSH@0
   displayName: Update file owner
-  sshEndpoint: ProviderSearchVm
-  runOptions: 'inline'
-  inline: sudo chown -R www-data:www-data $(deployPath)
+  inputs:
+    sshEndpoint: ProviderSearchVm
+    runOptions: 'inline'
+    inline: sudo chown -R www-data:www-data $(deployPath)
 
