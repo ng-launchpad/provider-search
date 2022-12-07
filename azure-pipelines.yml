@@ -20,10 +20,13 @@ steps:
 - script: ls -a 
   displayName: 'show files'
 - script: make up
+  displayName: 'Make up (setup)'
   workingDirectory: $(System.DefaultWorkingDirectory)
 - script: make build
+  displayName: 'Make build (build)'
   workingDirectory: $(System.DefaultWorkingDirectory)
 - script: make down
+  displayName: 'Make down (tear down)'
   workingDirectory: $(System.DefaultWorkingDirectory)
 - task: ArchiveFiles@2
   displayName: Package
