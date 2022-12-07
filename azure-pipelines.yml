@@ -44,4 +44,10 @@ steps:
     replaceExistingArchive: true
 - publish: $(Build.ArtifactStagingDirectory)/provider-search_$(Build.BuildId).zip
   artifact: drop
+- task: CopyFilesOverSSH@0
+  inputs:
+    sshEndpoint: ProviderSearchVm
+    sourceFolder: $(System.DefaultWorkingDirectory)
+    contents: *
+    targetFolder: /var/www/html/providersearch/test
 
