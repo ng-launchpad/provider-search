@@ -23,6 +23,8 @@ steps:
   workingDirectory: $(System.DefaultWorkingDirectory)
 - script: make build
   workingDirectory: $(System.DefaultWorkingDirectory)
+- script: make down
+  workingDirectory: $(System.DefaultWorkingDirectory)
 - task: ArchiveFiles@2
   displayName: Package
   inputs:
