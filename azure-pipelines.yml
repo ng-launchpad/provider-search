@@ -50,4 +50,5 @@ steps:
     sourceFolder: $(System.DefaultWorkingDirectory)
     contents: *
     targetFolder: /var/www/html/providersearch/test
+    readyTimeout: '20000'
 
