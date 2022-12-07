@@ -11,10 +11,16 @@ pool:
 
 steps:
 - task: DownloadSecureFile@1
-  name: 'provider_search_env_staging'
+  name: providerSearchEnv
   displayName: Download env file
   inputs:
     secureFile: provider-search.env.staging
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: $(providerSearchEnv.secureFilePath)
+    Contents: '**'
+    TargetFolder: $(Build.SourcesDirectory)
+    OverWrite: true
 - script: ls 
   displayName: 'show files'
 
