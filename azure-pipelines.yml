@@ -15,18 +15,7 @@ steps:
   displayName: Download env file
   inputs:
     secureFile: provider-search.env.staging
-- script: ls $(providerSearchEnv)
-  displayName: 'show secure files'
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: $(providerSearchEnv)
-    Contents: $(providerSearchEnv.secureFilePath)
-    TargetFolder: $(Build.SourcesDirectory)
-    OverWrite: true
+- script: cp $(providerSearchEnv.secureFilePath) $(Build.SourcesDirectory)/.env
+  displayName: 'copy env file'
 - script: ls 
   displayName: 'show files'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
