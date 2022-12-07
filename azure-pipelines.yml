@@ -16,9 +16,9 @@ steps:
   inputs:
     secureFile: provider-search.env.staging
 - script: cp $(providerSearchEnv.secureFilePath) $(Build.SourcesDirectory)/.env
-  displayName: 'copy env file'
+  displayName: 'Copy env file'
 - script: chmod +x ./scripts/devops.sh
-  displayName: 'update devops script permissions'
+  displayName: 'Update permissions'
 - script: make devops
   displayName: 'Build project for deployment'
   workingDirectory: $(System.DefaultWorkingDirectory)
