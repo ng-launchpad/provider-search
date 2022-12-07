@@ -20,6 +20,9 @@ steps:
 - script: composer install --ignore-platform-reqs
   displayName: 'Composer install'
   workingDirectory: $(System.DefaultWorkingDirectory)
+- script: php artisan storage:link
+  displayName: 'Setup file storage'
+  workingDirectory: $(System.DefaultWorkingDirectory)
 - task: Npm@1
   displayName: 'Npm Install'
   inputs:
