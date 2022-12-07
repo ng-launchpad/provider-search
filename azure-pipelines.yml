@@ -48,7 +48,7 @@ steps:
   inputs:
     sshEndpoint: ProviderSearchVm
     sourceFolder: $(System.DefaultWorkingDirectory)
-    contents: *
+    contents: '**'
     targetFolder: /var/www/html/providersearch/test
     readyTimeout: '20000'
 
