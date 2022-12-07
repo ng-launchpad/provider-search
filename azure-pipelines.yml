@@ -57,6 +57,7 @@ steps:
 - publish: $(Build.ArtifactStagingDirectory)/provider-search_$(Build.BuildId).zip
   artifact: drop
 - task: CopyFilesOverSSH@0
+  displayName: Deploye
   inputs:
     sshEndpoint: ProviderSearchVm
     sourceFolder: $(System.DefaultWorkingDirectory)
@@ -65,4 +66,9 @@ steps:
     readyTimeout: '20000'
     overwrite: true
     cleanTargetFolder: true
+- task: SSH@0
+  displayName: Update file owner
+  sshEndpoint: ProviderSearchVm
+  runOptions: 'inline'
+  inline: sudo chown -R www-data:www-data $(deployPath)
 
