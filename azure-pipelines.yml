@@ -5,16 +5,29 @@
 
 trigger:
 - develop
+- main
 
 pool:
   vmImage: ubuntu-latest
+
+variables:
+  - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
+      - name: envFile
+        value: provider-search.env.staging
+      - name: deployPath
+        value: /var/www/html/providersearch/staging
+  - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+      - name: envFile
+        value: provider-search.env.production
+      - name: deployPath
+        value: /var/www/html/providersearch/production
 
 steps:
 - task: DownloadSecureFile@1
   name: providerSearchEnv
   displayName: Download env file
   inputs:
-    secureFile: provider-search.env.staging
+    secureFile: $(envFile)
 - script: cp $(providerSearchEnv.secureFilePath) $(System.DefaultWorkingDirectory)/.env
   displayName: 'Copy env file'
 - script: composer install --ignore-platform-reqs
@@ -49,6 +62,7 @@ steps:
     sshEndpoint: ProviderSearchVm
     sourceFolder: $(System.DefaultWorkingDirectory)
     contents: '**'
-    targetFolder: /var/www/html/providersearch/test
+    targetFolder: $(deployPath)
     readyTimeout: '20000'
+    overwrite: true
 
