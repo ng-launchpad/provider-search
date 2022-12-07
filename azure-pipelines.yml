@@ -18,7 +18,7 @@ steps:
 - script: cp $(providerSearchEnv.secureFilePath) $(Build.SourcesDirectory)/.env
   displayName: 'copy env file'
 - script: chmod +x ./scripts/devops.sh
-   displayName: 'update devops script permissions'
+  displayName: 'update devops script permissions'
 - script: make devops
   displayName: 'Build project for deployment'
   workingDirectory: $(System.DefaultWorkingDirectory)
