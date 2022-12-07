@@ -15,7 +15,6 @@ steps:
   displayName: Download env file
   inputs:
     secureFile: provider-search.env.staging
-- script: mv provider-search.env.staging .env
 - script: ls 
   displayName: 'show files'
 
