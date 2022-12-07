@@ -5,7 +5,6 @@
 
 trigger:
 - develop
-- main
 
 pool:
   vmImage: ubuntu-latest
@@ -65,4 +64,5 @@ steps:
     targetFolder: $(deployPath)
     readyTimeout: '20000'
     overwrite: true
+    cleanTargetFolder: true
 
