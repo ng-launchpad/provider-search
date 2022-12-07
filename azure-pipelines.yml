@@ -17,5 +17,17 @@ steps:
     secureFile: provider-search.env.staging
 - script: cp $(providerSearchEnv.secureFilePath) $(Build.SourcesDirectory)/.env
   displayName: 'copy env file'
-- script: ls 
+- script: ls -a 
   displayName: 'show files'
+- script: make build
+- task: ArchiveFiles@2
+  displayName: Package
+  inputs:
+    rootFolderOrFile: $(System.DefaultWorkingDirectory)/dist
+    includeRootFolder: false
+    archiveType: zip
+    archiveFile: $(Build.ArtifactStagingDirectory)/provider-search_$(Build.BuildId).zip
+    replaceExistingArchive: true
+- publish: $(Build.ArtifactStagingDirectory)/provider-search_$(Build.BuildId).zip
+  artifact: drop
+
