@@ -29,6 +29,9 @@ steps:
     secureFile: $(envFile)
 - script: cp $(providerSearchEnv.secureFilePath) $(System.DefaultWorkingDirectory)/.env
   displayName: 'Copy env file'
+- script: composer update
+  displayName: 'Composer update'
+  workingDirectory: $(System.DefaultWorkingDirectory)
 - script: composer install --ignore-platform-reqs
   displayName: 'Composer install'
   workingDirectory: $(System.DefaultWorkingDirectory)
