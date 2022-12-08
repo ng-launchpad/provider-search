@@ -56,6 +56,12 @@ steps:
     replaceExistingArchive: true
 - publish: $(Build.ArtifactStagingDirectory)/provider-search_$(Build.BuildId).zip
   artifact: drop
+- task: SSH@0
+  displayName: Delete cache
+  inputs:
+    sshEndpoint: ProviderSearchVm
+    runOptions: 'inline'
+    inline: sudo rm -rf $(deployPath)/storage
 - task: CopyFilesOverSSH@0
   displayName: Deploye
   inputs:
