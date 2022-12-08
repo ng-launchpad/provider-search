@@ -11,7 +11,7 @@
                 <div class="special-terms">
                     <div class="special-terms__container">
                         <strong class="special-terms__title">
-                            For plans issued in Missiouri:
+                            For plans issued in Missouri:
                         </strong>
                         <i>(Search within the Health Link Open Access III directory first. If the desired provider is not located there, search within the Freedom Network Select directory).</i>
                         <ul class="special-terms__list">
