@@ -72,4 +72,10 @@ steps:
     sshEndpoint: ProviderSearchVm
     runOptions: 'inline'
     inline: sudo chown -R www-data:www-data $(deployPath)
+- task: SSH@0
+  displayName: Sentry test
+  inputs:
+    sshEndpoint: ProviderSearchVm
+    runOptions: 'inline'
+    inline: (cd $(deployPath); sudo php artisan sentry:test)
 
