@@ -13,7 +13,7 @@ variables:
   - name: srcPath
     value: /home/providersearch/src
   - name: deployPath
-        value: /var/www/html/providersearch
+    value: /var/www/html/providersearch
   - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
       - name: envFile
         value: provider-search.env.staging
