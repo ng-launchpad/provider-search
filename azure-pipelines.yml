@@ -13,11 +13,15 @@ variables:
   - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
       - name: envFile
         value: provider-search.env.staging
+      - name: srcPath
+        value: /home/providersearch/src/staging
       - name: deployPath
         value: /var/www/html/providersearch/staging
   - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
       - name: envFile
         value: provider-search.env.production
+      - name: srcPath
+        value: /home/providersearch/src/prod
       - name: deployPath
         value: /var/www/html/providersearch/production
 
@@ -29,26 +33,6 @@ steps:
     secureFile: $(envFile)
 - script: cp $(providerSearchEnv.secureFilePath) $(System.DefaultWorkingDirectory)/.env
   displayName: 'Copy env file'
-- script: composer update
-  displayName: 'Composer update'
-  workingDirectory: $(System.DefaultWorkingDirectory)
-- script: composer install --ignore-platform-reqs
-  displayName: 'Composer install'
-  workingDirectory: $(System.DefaultWorkingDirectory)
-- script: php artisan storage:link
-  displayName: 'Setup file storage'
-  workingDirectory: $(System.DefaultWorkingDirectory)
-- task: Npm@1
-  displayName: 'Npm Install'
-  inputs:
-    command: install
-    workingDir: $(System.DefaultWorkingDirectory)
-- task: Npm@1
-  displayName: 'Npm build'
-  inputs:
-    command: custom
-    customCommand: run prod
-    workingDir: $(System.DefaultWorkingDirectory)
 - task: ArchiveFiles@2
   displayName: Package
   inputs:
@@ -59,32 +43,40 @@ steps:
     replaceExistingArchive: true
 - publish: $(Build.ArtifactStagingDirectory)/provider-search_$(Build.BuildId).zip
   artifact: drop
-- task: SSH@0
-  displayName: Delete cache
-  inputs:
-    sshEndpoint: ProviderSearchVm
-    runOptions: 'inline'
-    inline: sudo rm -rf $(deployPath)/storage
 - task: CopyFilesOverSSH@0
   displayName: Deploye
   inputs:
     sshEndpoint: ProviderSearchVm
-    sourceFolder: $(System.DefaultWorkingDirectory)
-    contents: '**'
-    targetFolder: $(deployPath)
+    sourceFolder: $(Build.ArtifactStagingDirectory)
+    contents: '**/*.zip'
+    targetFolder: $(srcPath)
     readyTimeout: '20000'
     overwrite: true
     cleanTargetFolder: true
+- task: SSH@0
+  displayName: Clear cache
+  inputs:
+    sshEndpoint: ProviderSearchVm
+    runOptions: 'inline'
+    inline: sudo rm -rf $(deployPath)/storage
+- task: SSH@0
+  displayName: Unzip files
+  inputs:
+    sshEndpoint: ProviderSearchVm
+    runOptions: 'inline'
+    inline: sudo unzip -of $(srcPath)/provider-search_$(Build.BuildId).zip -d $(deployPath)
+- task: SSH@0
+  displayName: Build
+  inputs:
+    sshEndpoint: ProviderSearchVm
+    runOptions: 'script'
+    scriptPath: $(deployPath)/.devops.sh
 - task: SSH@0
   displayName: Update file owner
   inputs:
     sshEndpoint: ProviderSearchVm
     runOptions: 'inline'
     inline: sudo chown -R www-data:www-data $(deployPath)
-- task: SSH@0
-  displayName: Sentry test
-  inputs:
-    sshEndpoint: ProviderSearchVm
-    runOptions: 'inline'
-    inline: (cd $(deployPath); sudo php artisan sentry:test)
+
+
 
