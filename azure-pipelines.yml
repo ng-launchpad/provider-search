@@ -11,7 +11,7 @@ pool:
 
 variables:
   - name: srcPath
-    value: value: /home/providersearch/src
+    value: /home/providersearch/src
   - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
       - name: envFile
         value: provider-search.env.staging
