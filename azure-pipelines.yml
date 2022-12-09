@@ -65,15 +65,8 @@ steps:
   displayName: PHP setup
   inputs:
     sshEndpoint: ProviderSearchVm
-    runOptions: 'inline'
-    inline: |
-      (cd $(srcPath)/$(environment); \
-        composer update               \
-        composer install --ignore-platform-reqs \
-        php artisan storage:link \
-        php artisan migrate \
-        php artisan sentry:test \
-      )
+    runOptions: 'commands'
+    commands: "cd $(srcPath)/$(environment);composer update;composer install --ignore-platform-reqs;sudo php artisan storage:link;php artisan migrate;php artisan sentry:test"
 - task: SSH@0
   displayName: Clear cache
   inputs:
