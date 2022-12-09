@@ -76,8 +76,8 @@ steps:
     runOptions: 'inline'
     inline: |
       cd $(srcPath)/$(environment) && \
-      npm install && \
-      npm run prod
+      ~/.nvm/versions/node/v17.6.0/bin/npm install && \
+      ~/.nvm/versions/node/v17.6.0/bin/npm run prod
 - task: SSH@0
   displayName: Clear cache
   inputs:
