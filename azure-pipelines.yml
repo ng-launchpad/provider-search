@@ -36,15 +36,6 @@ steps:
 - script: cp $(providerSearchEnv.secureFilePath) $(System.DefaultWorkingDirectory)/.env
   displayName: 'Copy env file'
   workingDirectory: $(System.DefaultWorkingDirectory)
-- script: composer install --ignore-platform-reqs
-  displayName: 'Composer install'
-  workingDirectory: $(System.DefaultWorkingDirectory)
-- script: composer update
-  displayName: 'Composer update'
-  workingDirectory: $(System.DefaultWorkingDirectory)
-- script: php artisan storage:link
-  displayName: 'Setup file storage'
-  workingDirectory: $(System.DefaultWorkingDirectory)
 - task: Npm@1
   displayName: 'Npm Install'
   inputs:
@@ -89,6 +80,9 @@ steps:
     runOptions: 'inline'
     inline: |
       cd $(srcPath)/$(environment) && \
+      composer install --ignore-platform-reqs 2>&1 && \
+      composer update 2>&1 && \
+      php artisan storage:link && \
       php artisan migrate && \
       php artisan sentry:test
 - task: SSH@0
