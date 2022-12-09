@@ -10,18 +10,20 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
+  - name: srcPath
+    value: value: /home/providersearch/src
   - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
       - name: envFile
         value: provider-search.env.staging
-      - name: srcPath
-        value: /home/providersearch/src/staging
+      - name: environment
+        value: staging
       - name: deployPath
         value: /var/www/html/providersearch/staging
   - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
       - name: envFile
         value: provider-search.env.production
-      - name: srcPath
-        value: /home/providersearch/src/prod
+      - name: environment
+        value: prod
       - name: deployPath
         value: /var/www/html/providersearch/production
 
@@ -44,7 +46,7 @@ steps:
 - publish: $(Build.ArtifactStagingDirectory)/provider-search_$(Build.BuildId).zip
   artifact: drop
 - task: CopyFilesOverSSH@0
-  displayName: Deploye
+  displayName: Deploy
   inputs:
     sshEndpoint: ProviderSearchVm
     sourceFolder: $(Build.ArtifactStagingDirectory)
@@ -54,23 +56,29 @@ steps:
     overwrite: true
     cleanTargetFolder: true
 - task: SSH@0
+  displayName: Unzip files
+  inputs:
+    sshEndpoint: ProviderSearchVm
+    runOptions: 'inline'
+    inline: unzip -o $(srcPath)/provider-search_$(Build.BuildId).zip -d $(srcPath)/$(environment)
+- task: SSH@0
+  displayName: Build
+  inputs:
+    sshEndpoint: ProviderSearchVm
+    runOptions: 'script'
+    scriptPath: $(srcPath)/.devops.sh
+- task: SSH@0
   displayName: Clear cache
   inputs:
     sshEndpoint: ProviderSearchVm
     runOptions: 'inline'
     inline: sudo rm -rf $(deployPath)/storage
 - task: SSH@0
-  displayName: Unzip files
+  displayName: Clear cache
   inputs:
     sshEndpoint: ProviderSearchVm
     runOptions: 'inline'
-    inline: sudo unzip -of $(srcPath)/provider-search_$(Build.BuildId).zip -d $(deployPath)
-- task: SSH@0
-  displayName: Build
-  inputs:
-    sshEndpoint: ProviderSearchVm
-    runOptions: 'script'
-    scriptPath: $(deployPath)/.devops.sh
+    inline: sudo cp -rf $(srcPath)/$(environment) $(deployPath)
 - task: SSH@0
   displayName: Update file owner
   inputs:
