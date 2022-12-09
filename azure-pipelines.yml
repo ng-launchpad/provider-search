@@ -68,11 +68,7 @@ steps:
     runOptions: 'inline'
     inline: |
       cd $(srcPath)/$(environment) && \
-      composer update && \
-      composer install --ignore-platform-reqs && \
-      php artisan storage:link && \
-      php artisan migrate && \
-      php artisan sentry:test
+      bash devops.sh 2>&1
 - task: SSH@0
   displayName: Clear cache
   inputs:
