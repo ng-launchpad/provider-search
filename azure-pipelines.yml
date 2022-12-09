@@ -96,6 +96,12 @@ steps:
     runOptions: 'inline'
     inline: sudo cp -rf $(srcPath)/$(environment) $(deployPath)
 - task: SSH@0
+  displayName: Copy storage to environment
+  inputs:
+    sshEndpoint: ProviderSearchVm
+    runOptions: 'inline'
+    inline: sudo cp -rf $(srcPath)/$(environment)/storage $(deployPath)/$(environment)
+- task: SSH@0
   displayName: Update file owner
   inputs:
     sshEndpoint: ProviderSearchVm
