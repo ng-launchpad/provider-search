@@ -66,7 +66,7 @@ steps:
   inputs:
     sshEndpoint: ProviderSearchVm
     runOptions: 'script'
-    scriptPath: $(srcPath)/.devops.sh
+    scriptPath: $(srcPath)/$(environment)/.devops.sh
 - task: SSH@0
   displayName: Clear cache
   inputs:
