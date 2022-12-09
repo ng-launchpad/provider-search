@@ -68,7 +68,16 @@ steps:
     runOptions: 'inline'
     inline: |
       cd $(srcPath)/$(environment) && \
-      bash devops.sh 2>&1
+      bash devops.sh
+- task: SSH@0
+  displayName: NPM setup
+  inputs:
+    sshEndpoint: ProviderSearchVm
+    runOptions: 'inline'
+    inline: |
+      cd $(srcPath)/$(environment) && \
+      npm install && \
+      npm run prod
 - task: SSH@0
   displayName: Clear cache
   inputs:
@@ -76,7 +85,7 @@ steps:
     runOptions: 'inline'
     inline: sudo rm -rf $(deployPath)/storage
 - task: SSH@0
-  displayName: Clear cache
+  displayName: Copy files to environment
   inputs:
     sshEndpoint: ProviderSearchVm
     runOptions: 'inline'
