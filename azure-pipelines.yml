@@ -62,11 +62,18 @@ steps:
     runOptions: 'inline'
     inline: unzip -o $(srcPath)/provider-search_$(Build.BuildId).zip -d $(srcPath)/$(environment)
 - task: SSH@0
-  displayName: Build
+  displayName: PHP setup
   inputs:
     sshEndpoint: ProviderSearchVm
-    runOptions: 'commands'
-    commands: bash $(srcPath)/$(environment)/devops.sh
+    runOptions: 'inline'
+    inline: |
+      (cd $(srcPath)/$(environment); \
+        composer update               \
+        composer install --ignore-platform-reqs \
+        php artisan storage:link \
+        php artisan migrate \
+        php artisan sentry:test \
+      )
 - task: SSH@0
   displayName: Clear cache
   inputs:
