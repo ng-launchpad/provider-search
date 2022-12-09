@@ -65,7 +65,7 @@ steps:
   displayName: Build
   inputs:
     sshEndpoint: ProviderSearchVm
-    runOptions: 'command'
+    runOptions: 'commands'
     commands: bash $(srcPath)/$(environment)/devops.sh
 - task: SSH@0
   displayName: Clear cache
