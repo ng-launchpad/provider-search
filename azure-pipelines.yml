@@ -1,0 +1,112 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- develop
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - name: srcPath
+    value: /home/providersearch/src
+  - name: deployPath
+    value: /var/www/html/providersearch
+  - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
+      - name: envFile
+        value: provider-search.env.staging
+      - name: environment
+        value: staging
+  - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+      - name: envFile
+        value: provider-search.env.production
+      - name: environment
+        value: production
+
+steps:
+- task: DownloadSecureFile@1
+  name: providerSearchEnv
+  displayName: Download env file
+  inputs:
+    secureFile: $(envFile)
+- script: cp $(providerSearchEnv.secureFilePath) $(System.DefaultWorkingDirectory)/.env
+  displayName: 'Copy env file'
+  workingDirectory: $(System.DefaultWorkingDirectory)
+- task: Npm@1
+  displayName: 'Npm Install'
+  inputs:
+    command: install
+    workingDir: $(System.DefaultWorkingDirectory)
+- task: Npm@1
+  displayName: 'Npm build'
+  inputs:
+    command: custom
+    customCommand: run prod
+    workingDir: $(System.DefaultWorkingDirectory)
+- task: ArchiveFiles@2
+  displayName: Package
+  inputs:
+    rootFolderOrFile: $(System.DefaultWorkingDirectory)
+    includeRootFolder: false
+    archiveType: zip
+    archiveFile: $(Build.ArtifactStagingDirectory)/provider-search_$(Build.BuildId).zip
+    replaceExistingArchive: true
+- publish: $(Build.ArtifactStagingDirectory)/provider-search_$(Build.BuildId).zip
+  artifact: drop
+- task: CopyFilesOverSSH@0
+  displayName: Deploy
+  inputs:
+    sshEndpoint: ProviderSearchVm
+    sourceFolder: $(Build.ArtifactStagingDirectory)
+    contents: '**/*.zip'
+    targetFolder: $(srcPath)
+    readyTimeout: '20000'
+    overwrite: true
+    cleanTargetFolder: true
+- task: SSH@0
+  displayName: Unzip files
+  inputs:
+    sshEndpoint: ProviderSearchVm
+    runOptions: 'inline'
+    inline: unzip -o $(srcPath)/provider-search_$(Build.BuildId).zip -d $(srcPath)/$(environment)
+- task: SSH@0
+  displayName: PHP setup
+  inputs:
+    sshEndpoint: ProviderSearchVm
+    runOptions: 'inline'
+    inline: |
+      cd $(srcPath)/$(environment) && \
+      composer install --ignore-platform-reqs 2>&1 && \
+      composer update 2>&1 && \
+      php artisan storage:link && \
+      php artisan migrate && \
+      php artisan sentry:test
+- task: SSH@0
+  displayName: Clear cache
+  inputs:
+    sshEndpoint: ProviderSearchVm
+    runOptions: 'inline'
+    inline: sudo rm -rf $(deployPath)/$(environment)/*
+- task: SSH@0
+  displayName: Copy files to environment
+  inputs:
+    sshEndpoint: ProviderSearchVm
+    runOptions: 'inline'
+    inline: sudo cp -rf $(srcPath)/$(environment) $(deployPath)
+- task: SSH@0
+  displayName: Copy storage to environment
+  inputs:
+    sshEndpoint: ProviderSearchVm
+    runOptions: 'inline'
+    inline: sudo cp -rf $(srcPath)/$(environment)/storage $(deployPath)/$(environment)
+- task: SSH@0
+  displayName: Update file owner
+  inputs:
+    sshEndpoint: ProviderSearchVm
+    runOptions: 'inline'
+    inline: sudo chown -R www-data:www-data $(deployPath)
+
+
+
