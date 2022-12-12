@@ -187,7 +187,7 @@ class Provider extends Model
         $people = self::query()
             ->facility(false)
             ->withHospitals($this->label)
-            ->with('hospitals')
+            ->whereHas('specialities')
             ->with('specialities')
             ->get();
 
@@ -247,17 +247,20 @@ class Provider extends Model
     /**
      * Scope providers with affiliated hospital of same name
      */
-    public function scopeWithHospitals(Builder $query, string $hospital)
+    public function scopeWithHospitals(Builder $query, string $label)
     {
-        // return nothing on empty $hospital
-        if (!$hospital) {
+        // return nothing on empty $label
+        if (!$label) {
             return;
         }
 
-        // try to find people within the same hospital name
+        // try to find people within the same label name
         try {
 
-            $hospital = Hospital::where('label', '=', $hospital)->firstOrFail();
+            $hospital = Hospital::query()
+                ->where('label', '=', $label)
+                ->latest('version')
+                ->firstOrFail();
 
             // find providers that have connection to $hospital
             $query->whereHas('hospitals', function (Builder $query) use ($hospital) {
