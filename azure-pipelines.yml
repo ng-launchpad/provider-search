@@ -112,7 +112,7 @@ steps:
   inputs:
     sshEndpoint: ProviderSearchVm
     runOptions: 'inline'
-    inline: sudo chmod -R 755 $(deployPath)/$(environment)/storage
+    inline: sudo chmod -R 775 $(deployPath)/$(environment)/storage
 
 
 
