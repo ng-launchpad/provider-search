@@ -257,14 +257,14 @@ class Provider extends Model
         // try to find people within the same label name
         try {
 
-            $hospital = Hospital::query()
+            $hospitals = Hospital::query()
                 ->where('label', '=', $label)
                 ->latest('version')
-                ->firstOrFail();
+                ->get();
 
             // find providers that have connection to $hospital
-            $query->whereHas('hospitals', function (Builder $query) use ($hospital) {
-                $query->where('hospital_id', $hospital->id);
+            $query->whereHas('hospitals', function (Builder $query) use ($hospitals) {
+                $query->whereIn('hospital_id', $hospitals->pluck('id'));
             });
 
         // if hospital not found - add emptying where clause
