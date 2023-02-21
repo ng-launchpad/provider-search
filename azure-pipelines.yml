@@ -107,6 +107,12 @@ steps:
     sshEndpoint: ProviderSearchVm
     runOptions: 'inline'
     inline: sudo chown -R www-data:www-data $(deployPath)
+- task: SSH@0
+  displayName: Update storage permissions
+  inputs:
+    sshEndpoint: ProviderSearchVm
+    runOptions: 'inline'
+    inline: sudo chmod -R 775 $(deployPath)/$(environment)/storage
 
 
 

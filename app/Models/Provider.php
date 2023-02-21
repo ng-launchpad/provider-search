@@ -200,6 +200,14 @@ class Provider extends Model
             ];
         }
 
+        // create group for people whose specialities
+        // don't fit into any mapped group
+        $unmapped_label = 'Other specialists';
+        $groups[$unmapped_label] = [
+            'label' => $unmapped_label,
+            'people' => collect()
+        ];
+
         foreach ($people as $human) {
 
             // iterate human specialities
@@ -207,6 +215,7 @@ class Provider extends Model
 
                 // skip when speciality is not present in the mapping
                 if (!isset(PeopleMap::MAP[$speciality->label])) {
+                    $groups[$unmapped_label]['people']->add($human->withoutRelations());
                     continue;
                 }
 
@@ -217,6 +226,17 @@ class Provider extends Model
                 $groups[$group_label]['people']->add($human->withoutRelations());
             }
         }
+
+        // add people without any specialities
+        // $non_specialists = self::query()
+        //     ->facility(false)
+        //     ->withHospitals($this->label)
+        //     ->doesntHave('specialities')
+        //     ->get();
+        // $groups['Other people'] = [
+        //     'label' => 'Other people',
+        //     'people' => $non_specialists
+        // ];
 
         // return groups as collection
         return collect(array_values($groups))
@@ -257,14 +277,14 @@ class Provider extends Model
         // try to find people within the same label name
         try {
 
-            $hospital = Hospital::query()
+            $hospitals = Hospital::query()
                 ->where('label', '=', $label)
                 ->latest('version')
-                ->firstOrFail();
+                ->get();
 
             // find providers that have connection to $hospital
-            $query->whereHas('hospitals', function (Builder $query) use ($hospital) {
-                $query->where('hospital_id', $hospital->id);
+            $query->whereHas('hospitals', function (Builder $query) use ($hospitals) {
+                $query->whereIn('hospital_id', $hospitals->pluck('id'));
             });
 
         // if hospital not found - add emptying where clause
