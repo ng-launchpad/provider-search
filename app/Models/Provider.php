@@ -200,6 +200,14 @@ class Provider extends Model
             ];
         }
 
+        // create group for people whose specialities
+        // don't fit into any mapped group
+        $unmapped_label = 'Other specialists';
+        $groups[$unmapped_label] = [
+            'label' => $unmapped_label,
+            'people' => collect()
+        ];
+
         foreach ($people as $human) {
 
             // iterate human specialities
@@ -207,6 +215,7 @@ class Provider extends Model
 
                 // skip when speciality is not present in the mapping
                 if (!isset(PeopleMap::MAP[$speciality->label])) {
+                    $groups[$unmapped_label]['people']->add($human->withoutRelations());
                     continue;
                 }
 
