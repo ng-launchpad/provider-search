@@ -227,6 +227,17 @@ class Provider extends Model
             }
         }
 
+        // add people without any specialities
+        // $non_specialists = self::query()
+        //     ->facility(false)
+        //     ->withHospitals($this->label)
+        //     ->doesntHave('specialities')
+        //     ->get();
+        // $groups['Other people'] = [
+        //     'label' => 'Other people',
+        //     'people' => $non_specialists
+        // ];
+
         // return groups as collection
         return collect(array_values($groups))
 
